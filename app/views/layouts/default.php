@@ -14,44 +14,67 @@
 </head>
 
 <body>
-    <header>
-        <nav class="container d-flex justify-content-between align-items-center">
-            <a href="">Logo</a>
-            <ul class="d-flex align-items-center">
-                <li class="p-2">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Danh mục sản phẩm
-                        </a>
+    <header class="shadow-sm">
+        <nav class="container d-flex justify-content-between align-items-center py-2">
+            <a href="#">
+                <img src="./../public/img/logo.png" alt="Logo" width="150px">
+            </a>
 
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="p-2">
-                    <div class="dropdown">
-                        <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Thương hiệu
-                        </a>
+            <button class="navbar-toggler d-lg-none border-0" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </div>
+            <ul class="d-none d-lg-flex align-items-center gap-3 mb-0">
+                <li class="nav-item dropdown">
+                    <a class="  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Danh mục
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
                 </li>
-                <li class="p-2"><a href="">Giới thiệu</a></li>
-                <li class="p-2"><a href="">Liên hệ</a></li>
+
+                <li class="nav-item dropdown">
+                    <a class="  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Thương hiệu
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item"><a class=" " href="#">Giới thiệu</a></li>
+                <li class="nav-item"><a class=" " href="#">Liên hệ</a></li>
             </ul>
 
+            <div class="collapse navbar-collapse d-lg-none" id="navbarNav">
+                <ul class="navbar-nav bg-white shadow rounded p-3">
+                    <li class="nav-item"><a class=" " href="#">Danh mục</a></li>
+                    <li class="nav-item"><a class=" " href="#">Thương hiệu</a></li>
+                    <li class="nav-item"><a class=" " href="#">Giới thiệu</a></li>
+                    <li class="nav-item"><a class=" " href="#">Liên hệ</a></li>
+                </ul>
+            </div>
+
+            <div class="d-flex gap-3">
+                <a href="#"><img src="./../public/img/search.svg" width="20"></a>
+                <a href="#"><img src="./../public/img/heart.svg" width="20"></a>
+                <a href="#"><img src="./../public/img/user.svg" width="20"></a>
+                <a class="position-relative" href="#">
+                    <img src="./../public/img/cart.svg" width="20">
+                    <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill ">3</span> -->
+                </a>
+            </div>
         </nav>
     </header>
+
     <?php include_once $content ?>
     <footer>footer</footer>
     <!-- BS5 -->
@@ -64,11 +87,3 @@
 </body>
 
 </html>
-
-<!-- dcm -->
-<!-- dcm -->
-<!-- dcm -->
-<!-- dcm -->
-<!-- dcm -->
-<!-- dcm -->
-<!-- dcm -->
