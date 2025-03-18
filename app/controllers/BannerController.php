@@ -8,5 +8,9 @@
             $content = '../app/views/pages/admin/banner.php';
             include_once "../app/views/layouts/admin.php";
         }
+        public function create() {
+            $content = '../app/views/pages/admin/add_banner.php';
+            include_once "../app/views/layouts/admin.php";
+        }
     }
 ?>

@@ -1,7 +1,7 @@
 <?php
     $arr = [
         'Thống kê' => [
-            ['label' => 'Doanh thu', 'url' => '#'],
+            ['label' => 'Doanh thu', 'url' => ''],
             ['label' => 'Sản phẩm bán chạy', 'url' => '#']
         ],
         'Quản lý danh mục' => [
@@ -35,8 +35,8 @@
             ['label' => 'Bình luận bị xóa', 'url' => '#']
         ],
         'Quản lý banner' => [
-            ['label' => 'Danh sách banner', 'url' => '#'],
-            ['label' => 'Thêm banner', 'url' => '#']
+            ['label' => 'Danh sách banner', 'url' => '?controller=banner'],
+            ['label' => 'Thêm banner', 'url' => '?controller=banner&action=create']
         ],
         
     ];
@@ -57,7 +57,7 @@
                     <div id="' . $collapseId . '" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <ul class="list-group">';
         foreach ($value as $item) {
-            $sidebar .= '<li class="list-group-item p-3"><a href="' . $item['url'] . '">' . $item['label'] . '</a></li>';
+            $sidebar .= '<li class="list-group-item p-3"><a class="d-block w-100" href="' . $item['url'] . '">' . $item['label'] . '</a></li>';
         }
         $sidebar .= '</ul>
                     </div>
@@ -91,8 +91,7 @@ $sidebar .= '</ul>';
             <?php echo $sidebar; ?>
         </article>
         <div class="flex-grow-1">
-            <div class="w-100 border-bottom p-3 d-flex justify-content-between align-items-center">
-                <h6 class="m-0">Trang thống kê</h6>
+            <div class="w-100 border-bottom p-3 d-flex justify-content-end align-items-center">
                 <div class="dropdown">
                     <span class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Minh Quân
