@@ -1,5 +1,5 @@
 <?php
-    class UserController {
+    class CategoryController {
         // private $productModel;
         // public function __construct() {
         //     $this->productModel = new Products();
