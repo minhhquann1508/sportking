@@ -17,6 +17,3 @@ if (file_exists($controllerFile)) {
 } else {
     echo "Không tìm thấy file: $controllerFile";
 }
-?>
-
-<!-- Tao ne -->
