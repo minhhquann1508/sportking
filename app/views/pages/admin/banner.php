@@ -1,48 +1,47 @@
-<div class="w-100">
-    <div class="row">
-        <div class="col-4">
-            <h5 class="mb-3">Form nhập banner</h5>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Đường dẫn URL</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1"
-                    placeholder="Nhập đường dẫn tại đây">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Chọn phương thức nhập ảnh</label>
-                <div>
-                    <input type="radio" id="urlOption" name="imageOption" checked>
-                    <label for="urlOption">Nhập URL</label>
-                    <input type="radio" id="fileOption" name="imageOption">
-                    <label for="fileOption">Tải lên tệp</label>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label for="imageUrl" class="form-label">Đường dẫn URL</label>
-                <input type="text" class="form-control" id="imageUrl" placeholder="Nhập URL hình ảnh">
-            </div>
-
-            <div class="mb-3">
-                <label for="imageFile" class="form-label">Hình ảnh</label>
-                <input class="form-control" type="file" id="imageFile" disabled>
-            </div>
-            <div class="mb-3 text-end">
-                <button type="button" class="btn btn-primary">Thêm ngay</button>
+<div class="w-100"></div>
+<div class="row">
+    <div class="col-4">
+        <h5 class="mb-3">Form nhập banner</h5>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Đường dẫn URL</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nhập đường dẫn tại đây">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Chọn phương thức nhập ảnh</label>
+            <div>
+                <input type="radio" id="urlOption" name="imageOption" checked>
+                <label for="urlOption">Nhập URL</label>
+                <input type="radio" id="fileOption" name="imageOption">
+                <label for="fileOption">Tải lên tệp</label>
             </div>
         </div>
 
-        <div class="col-8">
-            <table class="table">
-                <thead>
-                    <tr class="text-center">
-                        <th scope="col">Id</th>
-                        <th scope="col">Hình ảnh</th>
-                        <th scope="col">Đường dẫn</th>
-                        <th scope="col">Tùy chọn</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
+        <div class="mb-3">
+            <label for="imageUrl" class="form-label">Đường dẫn URL</label>
+            <input type="text" class="form-control" id="imageUrl" placeholder="Nhập URL hình ảnh">
+        </div>
+
+        <div class="mb-3">
+            <label for="imageFile" class="form-label">Hình ảnh</label>
+            <input class="form-control" type="file" id="imageFile" disabled>
+        </div>
+        <div class="mb-3 text-end">
+            <button type="button" class="btn btn-primary">Thêm ngay</button>
+        </div>
+    </div>
+
+    <div class="col-8">
+        <table class="table">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col">Id</th>
+                    <th scope="col">Hình ảnh</th>
+                    <th scope="col">Đường dẫn</th>
+                    <th scope="col">Tùy chọn</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
                         $content = '';
                         foreach ($banners as $key => $banner) {
                             $content .= '
@@ -62,11 +61,11 @@
                             ';
                         }
                     ?>
-                    <?php echo $content ?>
-                </tbody>
-            </table>
-        </div>
+                <?php echo $content ?>
+            </tbody>
+        </table>
     </div>
+</div>
 </div>
 
 <script>
