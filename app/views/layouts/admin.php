@@ -1,71 +1,112 @@
 <?php
-    $arr = [
-        'Thống kê' => [
-            ['label' => 'Doanh thu', 'url' => ''],
-            ['label' => 'Sản phẩm bán chạy', 'url' => '#']
+    $items = [
+        [
+            'label' => 'Thống kê',
+            'url' => '',
+            'children' => [
+                ['label' => 'Doanh thu', 'url' => ''],
+                ['label' => 'Sản phẩm bán chạy', 'url' => '#']
+            ]
         ],
-        'Quản lý danh mục' => [
-            ['label' => 'Danh sách danh mục', 'url' => '#'],
-            ['label' => 'Thêm danh mục', 'url' => '#']
+        [
+            'label' => 'Quản lý danh mục',
+            'url' => '',
+            'children' => [
+                ['label' => 'Danh sách danh mục', 'url' => '#'],
+                ['label' => 'Thêm danh mục', 'url' => '#']
+            ]
         ],
-        'Quản lý thương hiệu' => [
-            ['label' => 'Danh sách danh mục', 'url' => '#'],
-            ['label' => 'Thêm danh mục', 'url' => '#']
+        [
+            'label' => 'Quản lý thương hiệu',
+            'url' => '',
+            'children' => [
+                ['label' => 'Danh sách danh mục', 'url' => '#'],
+                ['label' => 'Thêm danh mục', 'url' => '#']
+            ]
         ],
-        'Quản lý sản phẩm' => [
-            ['label' => 'Danh sách sản phẩm', 'url' => '#'],
-            ['label' => 'Thêm sản phẩm', 'url' => '#'],
-            ['label' => 'Biến thể sản phẩm', 'url' => '#']
+        [
+            'label' => 'Quản lý sản phẩm',
+            'url' => '',
+            'children' => [
+                ['label' => 'Danh sách sản phẩm', 'url' => '#'],
+                ['label' => 'Thêm sản phẩm', 'url' => '#'],
+                ['label' => 'Biến thể sản phẩm', 'url' => '#']
+            ]
         ],
-        'Quản lý người dùng' => [
-            ['label' => 'Danh sách sản phẩm', 'url' => '#'],
-            ['label' => 'Thêm sản phẩm', 'url' => '#'],
-            ['label' => 'Biến thể sản phẩm', 'url' => '#']
+        [
+            'label' => 'Quản lý người dùng',
+            'url' => '',
+            'children' => [
+                ['label' => 'Danh sách sản phẩm', 'url' => '#'],
+                ['label' => 'Thêm sản phẩm', 'url' => '#'],
+                ['label' => 'Biến thể sản phẩm', 'url' => '#']
+            ]
         ],
-        'Quản lý đơn hàng' => [
-            ['label' => 'Danh sách đơn hàng', 'url' => '#'],
-            ['label' => 'Thống kê đơn hàng', 'url' => '#']
+        [
+            'label' => 'Quản lý đơn hàng',
+            'url' => '',
+            'children' => [
+                ['label' => 'Danh sách đơn hàng', 'url' => '#'],
+                ['label' => 'Thống kê đơn hàng', 'url' => '#']
+            ]
         ],
-        'Quản lý bài viết' => [
-            ['label' => 'Danh sách bài viết', 'url' => '#'],
-            ['label' => 'Thêm bài viết', 'url' => '#']
+        [
+            'label' => 'Quản lý bài viết',
+            'url' => '',
+            'children' => [
+                ['label' => 'Danh sách bài viết', 'url' => '#'],
+                ['label' => 'Thêm bài viết', 'url' => '#']
+            ]
         ],
-        'Quản lý bình luận' => [
-            ['label' => 'Danh sách bình luận', 'url' => '#'],
-            ['label' => 'Bình luận bị xóa', 'url' => '#']
+        [
+            'label' => 'Quản lý bình luận',
+            'url' => '',
+            'children' => [
+                ['label' => 'Danh sách bình luận', 'url' => '#'],
+                ['label' => 'Bình luận bị xóa', 'url' => '#']
+            ]
         ],
-        'Quản lý banner' => [
-            ['label' => 'Danh sách banner', 'url' => '?controller=banner'],
-            ['label' => 'Thêm banner', 'url' => '?controller=banner&action=create']
-        ],
-        
+        [
+            'label' => 'Quản lý banner',
+            'url' => '',
+            'children' => [
+                ['label' => 'Danh sách banner', 'url' => '?controller=banner'],
+            ]
+        ]
     ];
     
     $sidebar = '<ul class="accordion" id="accordionExample">';
     $index = 0;
-    foreach ($arr as $key => $value) {
-        $collapseId = "collapse" . $index; // Tạo ID duy nhất cho mỗi accordion
+
+    foreach ($items as $menu) {
+        $collapseId = "collapse" . $index; 
         $sidebar .= '
             <li class="my-1">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#' . $collapseId . '" aria-expanded="false" aria-controls="' . $collapseId . '">
-                            ' . $key . '
+                            ' . $menu['label'] . '
                         </button>
                     </h2>
                     <div id="' . $collapseId . '" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <ul class="list-group">';
-        foreach ($value as $item) {
-            $sidebar .= '<li class="list-group-item p-3"><a class="d-block w-100" href="' . $item['url'] . '">' . $item['label'] . '</a></li>';
+        
+        if (!empty($menu['children'])) {
+            foreach ($menu['children'] as $item) {
+                $sidebar .= '<li class="list-group-item p-3">
+                                <a class="d-block w-100" href="' . $item['url'] . '">' . $item['label'] . '</a>
+                            </li>';
+            }
         }
+
         $sidebar .= '</ul>
                     </div>
                 </div>
             </li>';
         $index++;
-}
-$sidebar .= '</ul>';
+    }
+    $sidebar .= '</ul>';
 ?>
 
 <!DOCTYPE html>
