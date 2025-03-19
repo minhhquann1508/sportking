@@ -6,6 +6,8 @@
         // }
         public function index() {
             echo '<div>Đây là trang danh sách địa chỉ</div>';
+            echo '<div>Thằng  lol QUân</div>';
+
         }
     }
 ?>
