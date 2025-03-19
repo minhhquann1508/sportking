@@ -1,1 +1,3 @@
-<div>Đây là add banner</div>
+<div>
+    Add banner
+</div>
