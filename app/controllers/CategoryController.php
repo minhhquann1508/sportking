@@ -1,12 +1,14 @@
 <?php
+    require_once '../app/models/Category.php';
     class CategoryController {
-        // private $productModel;
-        // public function __construct() {
-        //     $this->productModel = new Products();
-        // }
+        private $categoryModel;
+        public function __construct() {
+            $this->categoryModel = new Category();
+        }
         public function index() {
-            echo '<div>Đây là trang danh sách địa chỉ</div>';
-            echo '<div>Thằng  lol QUân</div>';
+            $category = $this->categoryModel->get_all_category();
+            $content = '../app/views/pages/admin/category.php';
+            include_once "../app/views/layouts/admin.php";
 
         }
     }
