@@ -44,7 +44,7 @@
         <div class="toast-body" id="toast-mesage">
         </div>
     </div>
-    <header class="shadow-sm">
+    <header class="">
         <nav class="container d-flex justify-content-between align-items-center py-2">
             <a href="#">
                 <img src="./img/logo.png" alt="Logo" width="150px">
