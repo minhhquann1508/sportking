@@ -3,7 +3,7 @@
         protected $conn;
 
         public function __construct() {
-            $host = "localhost";
+            $host = "127.0.0.1:3307";
             $dbname = "sportking";
             $username = "root";
             $password = "";
