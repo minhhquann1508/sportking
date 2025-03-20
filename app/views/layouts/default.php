@@ -32,7 +32,7 @@
     <header class="shadow-sm">
         <nav class="container d-flex justify-content-between align-items-center py-2">
             <a href="#">
-                <img src="./../public/img/logo.png" alt="Logo" width="150px">
+                <img src="./img/logo.png" alt="Logo" width="150px">
             </a>
 
             <button class="navbar-toggler d-lg-none border-0" type="button" data-bs-toggle="collapse"
@@ -78,11 +78,11 @@
             </div>
 
             <div class="d-flex gap-3">
-                <a href="#"><img src="./../public/img/search.svg" width="20"></a>
-                <a href="#"><img src="./../public/img/heart.svg" width="20"></a>
-                <a href="#"><img src="./../public/img/user.svg" width="20"></a>
+                <a href="#"><img src="./img/search.svg" width="20"></a>
+                <a href="#"><img src="./img/heart.svg" width="20"></a>
+                <a href="#"><img src="./img/user.svg" width="20"></a>
                 <a class="position-relative" href="#">
-                    <img src="./../public/img/cart.svg" width="20">
+                    <img src="./img/cart.svg" width="20">
                     <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill ">3</span> -->
                 </a>
             </div>
