@@ -5,7 +5,8 @@
         //     $this->productModel = new Products();
         // }
         public function index() {
-            echo '<div>Đây là trang login</div>';
+            $content = '../app/views/pages/user/auth.php';
+            include_once "../app/views/layouts/default.php";
         }
     }
 ?>

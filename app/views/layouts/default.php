@@ -7,6 +7,10 @@
     <!-- BS5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Style.css -->
     <link rel="stylesheet" href="./css/style.css">
     <title>Document</title>
@@ -21,14 +25,14 @@
             </a>
 
             <button class="navbar-toggler d-lg-none border-0" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <ul class="d-none d-lg-flex align-items-center gap-3 mb-0">
                 <li class="nav-item dropdown">
-                    <a class="  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <a class="  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Danh mục
                     </a>
                     <ul class="dropdown-menu">
@@ -39,8 +43,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <a class="  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Thương hiệu
                     </a>
                     <ul class="dropdown-menu">
@@ -87,3 +90,31 @@
 </body>
 
 </html>
+
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
+<!-- Tao sua default -->
