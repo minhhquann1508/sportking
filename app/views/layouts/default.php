@@ -18,6 +18,21 @@
     <title>Document</title>
     <title>Document</title>
 </head>
+<style>
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        transition: transform 0.3s ease-in-out;
+        z-index: 1000;
+    }
+
+    .header-hidden {
+        transform: translateY(-100%);
+    }
+</style>
 
 <body>
     <div id="toast" class="toast bg-white" style="position: fixed; top: 32px; right: 20px; z-index: 50;" role="alert"
@@ -100,6 +115,19 @@
     </script>
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let lastScrollY = window.scrollY;
+        const header = document.querySelector("header");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > lastScrollY) {
+                header.classList.add("header-hidden");
+            } else {
+                header.classList.remove("header-hidden");
+            }
+            lastScrollY = window.scrollY;
+        });
+    </script>
 </body>
 
 </html>
