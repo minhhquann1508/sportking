@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Style.css -->
     <link rel="stylesheet" href="./css/style.css">
     <title>Document</title>
@@ -18,6 +20,15 @@
 </head>
 
 <body>
+    <div id="toast" class="toast bg-white" style="position: fixed; top: 32px; right: 20px; z-index: 50;" role="alert"
+        aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">SportKing</strong>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button> -->
+        </div>
+        <div class="toast-body" id="toast-mesage">
+        </div>
+    </div>
     <header class="shadow-sm">
         <nav class="container d-flex justify-content-between align-items-center py-2">
             <a href="#">
@@ -87,34 +98,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
     </script>
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 </html>
-
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
