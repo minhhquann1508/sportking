@@ -19,7 +19,19 @@ class Database {
     // Thực hiện truy vấn select
     public function select($query, $params = []) {
         $stmt = $this->conn->prepare($query);
-        $stmt->execute($params);
+        foreach ($params as $key => $value) {
+            if (is_int($value)) {
+                $stmt->bindValue($key + 1, $value, PDO::PARAM_INT); 
+            } elseif (is_bool($value)) {
+                $stmt->bindValue($key + 1, $value, PDO::PARAM_BOOL); 
+            } elseif ($value === null) {
+                $stmt->bindValue($key + 1, $value, PDO::PARAM_NULL);
+            } else {
+                $stmt->bindValue($key + 1, $value, PDO::PARAM_STR); 
+            }
+        }
+
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 

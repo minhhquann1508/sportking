@@ -1,11 +1,18 @@
 <?php
+    require_once '../app/models/Users.php';
     class UserController {
-        // private $productModel;
-        // public function __construct() {
-        //     $this->productModel = new Products();
-        // }
+        private $userModel;
+        public function __construct() {
+            $this->userModel = new User();
+        }
         public function index() {
-            echo '<div>Đây là trang danh sách địa chỉ</div>';
+            $data = $this->userModel->get_all_users();
+            if(isset($_GET['ajax']) && $_GET['ajax'] == 'true') {
+                echo json_encode($data);
+                exit; 
+            }
+            $content = '../app/views/pages/admin/user/user.php';
+            include_once "../app/views/layouts/admin.php";
         }
     }
 ?>

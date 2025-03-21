@@ -19,19 +19,19 @@
     <title>Document</title>
 </head>
 <style>
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: white;
-        transition: transform 0.3s ease-in-out;
-        z-index: 1000;
-    }
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
 
-    .header-hidden {
-        transform: translateY(-100%);
-    }
+.header-hidden {
+    transform: translateY(-100%);
+}
 </style>
 
 <body>
@@ -44,7 +44,7 @@
         <div class="toast-body" id="toast-mesage">
         </div>
     </div>
-    <header class="">
+    <header>
         <nav class="container d-flex justify-content-between align-items-center py-2">
             <a href="#">
                 <img src="./img/logo.png" alt="Logo" width="150px">
@@ -103,8 +103,9 @@
             </div>
         </nav>
     </header>
-
-    <?php include_once $content ?>
+    <div style="margin-top: 76px;">
+        <?php include_once $content ?>
+    </div>
     <footer>footer</footer>
     <!-- JS -->
     <script src="./js/main.js"></script>
@@ -118,17 +119,17 @@
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        let lastScrollY = window.scrollY;
-        const header = document.querySelector("header");
+    let lastScrollY = window.scrollY;
+    const header = document.querySelector("header");
 
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > lastScrollY) {
-                header.classList.add("header-hidden");
-            } else {
-                header.classList.remove("header-hidden");
-            }
-            lastScrollY = window.scrollY;
-        });
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > lastScrollY) {
+            header.classList.add("header-hidden");
+        } else {
+            header.classList.remove("header-hidden");
+        }
+        lastScrollY = window.scrollY;
+    });
     </script>
 </body>
 

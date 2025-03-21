@@ -23,8 +23,9 @@
         }
 
         public function get_all_users($limit = 20, $offset = 0) {
-            $sql = "SELECT * FROM $this->table LIMIT ? OFFSET ?";
-            return $this->select($sql, [$limit, $offset]);
+            $sql = "SELECT user_id, email, fullname, phone, role, created_at, updated_at FROM $this->table LIMIT ? OFFSET ?";
+            $users = $this->select($sql, [$limit, $offset]);
+            return ['success' => true, 'message' => 'Lấy dữ liệu thành công', 'data' => $users];
         }
 
         public function get_user_by_id($id) {
