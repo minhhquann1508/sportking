@@ -14,5 +14,13 @@
             $content = '../app/views/pages/admin/user/user.php';
             include_once "../app/views/layouts/admin.php";
         }
+        public function add_user_by_admin() {
+            $email = $_POST['email'];
+            $fullname = $_POST['fullname'];
+            $password = $_POST['password'];
+            $phone = $_POST['phone'];
+            $response = $this->userModel->add_user_by_admin($email, $fullname, $password, $phone);
+            echo json_encode($response);
+        }
     }
 ?>

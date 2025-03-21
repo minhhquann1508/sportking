@@ -42,5 +42,21 @@
             $sql = "UPDATE $this->table SET $setClause WHERE id = ?";
             return $this->execute($sql, $values);
         }
+        public function add_user_by_admin($email, $fullname, $password, $phone) {
+            $check_email_sql = "SELECT COUNT(*) FROM $this->table WHERE email = ?";
+            $check_email_result = $this->select($check_email_sql, [$email]);
+            if($check_email_result && $check_email_result[0]['COUNT(*)'] > 0) {
+                return ['success' => false, 'message' => 'Email này đã tồn tại', 'data' => null];
+            }
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO users(email, fullname, password, phone, role)
+                    VALUES (?, ?, ?, ?, ?)";
+            $response = $this->execute($sql, [$email, $fullname, $hashed_password, $phone, 1]);
+            if($response) {
+                return ['success' => true, 'message' => 'Thêm mới thành công', 'data' => null];
+            } else {
+                return ['success' => false, 'message' => 'Thêm mới thất bại', 'data' => null];
+            }
+        }
     }
 ?>

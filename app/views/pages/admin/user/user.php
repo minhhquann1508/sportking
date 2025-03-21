@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="mb-3">Thông tin người dùng</h5>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-user-modal">
             Thêm quản trị viên
         </button>
     </div>
@@ -20,7 +20,7 @@
     </table>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="add-user-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -28,7 +28,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="post" id="user-form">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tên người dùng</label>
                         <input type="text" class="form-control" id="fullname" placeholder="Nhập tên người dùng">
@@ -74,18 +74,67 @@ function renderUsers(users) {
     });
 }
 $(document).ready(function() {
-    $.ajax({
-        url: "/?controller=user&ajax=true",
-        method: "GET",
-        dataType: "json",
-        success: function(response) {
-            if (response.success) {
-                renderUsers(response.data)
+    function loadUsers() {
+        $.ajax({
+            url: "?controller=user&ajax=true",
+            method: "GET",
+            dataType: "json",
+            success: function(response) {
+                let content = "";
+                $.each(response.data, function(key, user) {
+                    content += `
+                        <tr>
+                            <td>${user.user_id}</td>
+                            <td>${user.email}</td>
+                            <td>${user.fullname ? user.fullname : "Chưa có"}</td>
+                            <td>${user.phone ? user.phone : "Chưa có"}</td>
+                            <td class="text-center">${user.role == 1 ? "Admin" : "Người dùng"}</td>
+                            <td class="text-center">
+                                <i style="font-size: 20px" class="fa-solid fa-circle-info"></i>
+                            </td>
+                        </tr>`;
+                });
+                $("#table-body").html(content);
+            },
+        });
+    }
+    loadUsers();
+    $('#user-form').submit(function(e) {
+        e.preventDefault();
+        const emailInput = $('#email');
+        const fullnameInput = $('#fullname');
+        const passwordInput = $('#password');
+        const phoneInput = $('#phone');
+
+        $.ajax({
+            url: '?controller=user&action=add_user_by_admin',
+            method: "POST",
+            data: {
+                email: emailInput.val(),
+                fullname: fullnameInput.val(),
+                password: passwordInput.val(),
+                phone: phoneInput.val()
+            },
+            dataType: "json",
+            success: function(response) {
+                if (response.success) {
+                    emailInput.val('');
+                    fullnameInput.val('');
+                    passwordInput.val('');
+                    phoneInput.val('');
+                    loadUsers();
+                    $('#add-user-modal').modal('hide');
+                    showToast(response.message);
+                } else {
+                    alert("Thêm danh mục thất bại");
+                    $('#add-user-modal').modal('hide');
+                    showToast(response.message);
+                }
+            },
+            error: function(error) {
+                showToast(response.responseText);
             }
-        },
-        error: function(error) {
-            console.error(error);
-        }
-    });
+        })
+    })
 });
 </script>
