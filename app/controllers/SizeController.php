@@ -1,11 +1,14 @@
 <?php
+    require_once '../app/models/Size.php';
     class SizeController {
-        // private $productModel;
-        // public function __construct() {
-        //     $this->productModel = new Products();
-        // }
+        private $sizeModel;
+        public function __construct() {
+            $this->sizeModel = new Size();
+        }
         public function index() {
-            echo '<div>Đây là trang danh sách địa chỉ</div>';
+            $size = $this->sizeModel->get_all_size();
+            $content = '../app/views/pages/admin/size/size.php';
+            include_once "../app/views/layouts/admin.php";
         }
     }
 ?>
