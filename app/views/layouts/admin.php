@@ -12,7 +12,7 @@
             'label' => 'Quản lý danh mục',
             'url' => '',
             'children' => [
-                ['label' => 'Danh sách danh mục', 'url' => '#'],
+                ['label' => 'Danh sách danh mục', 'url' => '?controller=category'],
                 ['label' => 'Thêm danh mục', 'url' => '#']
             ]
         ],
@@ -131,6 +131,15 @@
 </head>
 
 <body>
+    <div id="toast" class="toast bg-white" style="position: fixed; top: 32px; right: 20px; z-index: 50;" role="alert"
+        aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">SportKing</strong>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button> -->
+        </div>
+        <div class="toast-body" id="toast-mesage">
+        </div>
+    </div>
     <div class="d-flex">
         <article class="border-end p-2" style=" width: 250px; height: 100vh">
             <a href="" class="d-flex justify-content-center">
@@ -158,6 +167,7 @@
     </div>
     <!-- JS -->
     <script src="./js/main.js"></script>
+    <script src="./js/category.js"></script>
     <!-- BS5 -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
         integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous">

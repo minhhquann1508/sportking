@@ -1,7 +1,7 @@
 <div class="w-100">
     <div class="row">
         <div class="col-4">
-            <h5 class="mb-3">Form nhập danh mục</h5>
+            <h5 class="mb-3">FORM NHẬP DANH MỤC</h5>
             <form id="category-form" method="post">
                 <div class="mb-3">
                     <label for="category_name" class="form-label">Tên danh mục</label>
@@ -9,7 +9,7 @@
                         placeholder="Nhập tên danh mục tại đây">
                 </div>
                 <div class="mb-3 text-end">
-                    <button type="submit" class="btn btn-primary">Thêm ngay</button>
+                    <button type="submit" class="btn btn-outline-primary">Thêm ngay</button>
                 </div>
             </form>
         </div>
@@ -67,9 +67,6 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="../app/views/pages/admin/category/category.js"></script>
-<script src="../app/views/pages/admin/category/fill.js"></script>
 <script>
 $(document).on("click", ".update-category", function() {
     let category_id = $(this).data("id");
