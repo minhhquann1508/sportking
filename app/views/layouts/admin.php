@@ -1,5 +1,4 @@
 <?php
-ob_start(); 
     $items = [
         [
             'label' => 'Thống kê',
@@ -153,11 +152,12 @@ ob_start();
                 </div>
             </div>
             <main class="p-3">
-                <?php include_once $content ?>
+                <?php include_once $content; ?>
             </main>
         </div>
     </div>
-
+    <!-- JS -->
+    <script src="./js/main.js"></script>
     <!-- BS5 -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
         integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous">
