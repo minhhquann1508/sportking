@@ -23,8 +23,9 @@
         }
 
         public function get_all_users($limit = 20, $offset = 0) {
-            $sql = "SELECT * FROM $this->table LIMIT ? OFFSET ?";
-            return $this->select($sql, [$limit, $offset]);
+            $sql = "SELECT user_id, email, fullname, phone, role, created_at, updated_at FROM $this->table LIMIT ? OFFSET ?";
+            $users = $this->select($sql, [$limit, $offset]);
+            return ['success' => true, 'message' => 'Lấy dữ liệu thành công', 'data' => $users];
         }
 
         public function get_user_by_id($id) {
@@ -40,6 +41,22 @@
             $values[] = $id; 
             $sql = "UPDATE $this->table SET $setClause WHERE id = ?";
             return $this->execute($sql, $values);
+        }
+        public function add_user_by_admin($email, $fullname, $password, $phone) {
+            $check_email_sql = "SELECT COUNT(*) FROM $this->table WHERE email = ?";
+            $check_email_result = $this->select($check_email_sql, [$email]);
+            if($check_email_result && $check_email_result[0]['COUNT(*)'] > 0) {
+                return ['success' => false, 'message' => 'Email này đã tồn tại', 'data' => null];
+            }
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO users(email, fullname, password, phone, role)
+                    VALUES (?, ?, ?, ?, ?)";
+            $response = $this->execute($sql, [$email, $fullname, $hashed_password, $phone, 1]);
+            if($response) {
+                return ['success' => true, 'message' => 'Thêm mới thành công', 'data' => null];
+            } else {
+                return ['success' => false, 'message' => 'Thêm mới thất bại', 'data' => null];
+            }
         }
     }
 ?>
