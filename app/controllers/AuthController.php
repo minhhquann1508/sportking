@@ -7,13 +7,22 @@
             $this->userModel = new User();
         }
         public function index() {
+            if(isset($_POST['login']) && $_POST['login']) {
+                $email = $_POST['email'];
+                $password = $_POST['password'];
+                $data = $this->userModel->login($email, $password);
+                if($data['success'] && is_array($data['data'])) {
+                    $_SESSION['email'] = $data['data']['email'];
+                }
+                echo json_encode($data);
+                exit;
+            }
             $content = '../app/views/pages/user/login.php';
             include_once "../app/views/layouts/default.php";
         }
 
         public function register() {
             if(isset($_POST['register']) && $_POST['register']) {
-                header('Content-Type: application/json');
                 $email = $_POST['email'];
                 $password = $_POST['password'];
                 $confirm_password = $_POST['confirm_password'];
