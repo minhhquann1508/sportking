@@ -11,17 +11,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Style.css -->
     <link rel="stylesheet" href="./css/style.css">
     <title>Document</title>
     <title>Document</title>
 </head>
+<style>
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        transition: transform 0.3s ease-in-out;
+        z-index: 1000;
+    }
+
+    .header-hidden {
+        transform: translateY(-100%);
+    }
+</style>
 
 <body>
-    <header class="shadow-sm">
+    <div id="toast" class="toast bg-white" style="position: fixed; top: 32px; right: 20px; z-index: 50;" role="alert"
+        aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">SportKing</strong>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button> -->
+        </div>
+        <div class="toast-body" id="toast-mesage">
+        </div>
+    </div>
+    <header class="">
         <nav class="container d-flex justify-content-between align-items-center py-2">
             <a href="#">
-                <img src="./../public/img/logo.png" alt="Logo" width="150px">
+                <img src="./img/logo.png" alt="Logo" width="150px">
             </a>
 
             <button class="navbar-toggler d-lg-none border-0" type="button" data-bs-toggle="collapse"
@@ -67,11 +93,11 @@
             </div>
 
             <div class="d-flex gap-3">
-                <a href="#"><img src="./../public/img/search.svg" width="20"></a>
-                <a href="#"><img src="./../public/img/heart.svg" width="20"></a>
-                <a href="#"><img src="./../public/img/user.svg" width="20"></a>
+                <a href="#"><img src="./img/search.svg" width="20"></a>
+                <a href="#"><img src="./img/heart.svg" width="20"></a>
+                <a href="#"><img src="./img/user.svg" width="20"></a>
                 <a class="position-relative" href="#">
-                    <img src="./../public/img/cart.svg" width="20">
+                    <img src="./img/cart.svg" width="20">
                     <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill ">3</span> -->
                 </a>
             </div>
@@ -80,6 +106,8 @@
 
     <?php include_once $content ?>
     <footer>footer</footer>
+    <!-- JS -->
+    <script src="./js/main.js"></script>
     <!-- BS5 -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
         integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous">
@@ -87,34 +115,21 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
     </script>
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let lastScrollY = window.scrollY;
+        const header = document.querySelector("header");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > lastScrollY) {
+                header.classList.add("header-hidden");
+            } else {
+                header.classList.remove("header-hidden");
+            }
+            lastScrollY = window.scrollY;
+        });
+    </script>
 </body>
 
 </html>
-
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
-<!-- Tao sua default -->
