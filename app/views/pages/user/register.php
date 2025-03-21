@@ -50,21 +50,19 @@
 
 <script>
 $(document).ready(function() {
-    var toast = $('#toast');
-    toast.hide();
     $("#register-btn").click(function() {
         var email = $("#email").val();
         var password = $("#password").val();
         var confirmPassword = $("#confirm_password").val();
-        var toastMess = $('#toast-mesage');
+        // var toastMess = $('#toast-mesage');
         if (password !== confirmPassword) {
-            toast.show();
-            toastMess.text('Mật khẩu không trùng khớp');
+            showToast('Mật khẩu không trùng khớp');
             return;
         }
         $.ajax({
             url: "?controller=auth&action=register",
             type: "POST",
+            dataType: 'json',
             data: {
                 email: email,
                 password: password,
@@ -75,20 +73,17 @@ $(document).ready(function() {
                 if (response.success === true) {
                     $("#email").val('');
                     $("#password").val('');
-                    $("#confirm_password").val('')
-                    toast.show();
-                    toastMess.text(response.message);
+                    $("#confirm_password").val('');
+                    showToast(response.message);
                     setTimeout(() => {
                         window.location.href = "?controller=auth";
                     }, 1000);
                 } else {
-                    toast.show();
-                    toastMess.text(response.responseText);
+                    showToast(response.message);
                 }
             },
             error: function(response) {
-                toast.show();
-                toastMess.text(response.responseText);
+                showToast(response.responseText);
             }
         });
     });

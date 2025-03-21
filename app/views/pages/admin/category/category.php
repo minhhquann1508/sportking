@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-4">
             <h5 class="mb-3">Form nhập danh mục</h5>
-            <form id="category-form">
+            <form id="category-form" method="post">
                 <div class="mb-3">
                     <label for="category_name" class="form-label">Tên danh mục</label>
                     <input type="text" class="form-control" id="category_name" name="category_name"
