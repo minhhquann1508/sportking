@@ -27,9 +27,11 @@
             <table class="table">
                 <thead>
                     <tr class="text-center">
+                        <th scope="col">STT</th>
                         <th scope="col">Id size</th>
                         <th scope="col">Tên size</th>
                         <th scope="col">Tên danh mục</th>
+                        <th scope="col">Tuỳ chọn</th>
                     </tr>
                 </thead>
                 <tbody id="size-table">
