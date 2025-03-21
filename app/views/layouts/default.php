@@ -33,6 +33,10 @@
         background: white;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
+
+.header-hidden {
+    transform: translateY(-100%);
+}
 </style>
 
 <body>
@@ -45,7 +49,7 @@
         <div class="toast-body" id="toast-mesage">
         </div>
     </div>
-    <header class="">
+    <header>
         <nav class="container d-flex justify-content-between align-items-center py-2">
             <a href="#">
                 <img src="./img/logo.png" alt="Logo" width="150px">
@@ -133,8 +137,9 @@
 
         </nav>
     </header>
-
-    <?php include_once $content ?>
+    <div style="margin-top: 76px;">
+        <?php include_once $content ?>
+    </div>
     <footer>footer</footer>
     <!-- JS -->
     <script src="./js/main.js"></script>
@@ -165,6 +170,7 @@
             }
             lastScrollY = window.scrollY;
         });
+
     </script>
 </body>
 

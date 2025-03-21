@@ -2,7 +2,7 @@
 .form-content {
     width: 850px;
     height: 550px;
-    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 2px 0.5px rgba(0, 0, 0, 0.3);
     border-radius: 24px;
     overflow: hidden;
 }
