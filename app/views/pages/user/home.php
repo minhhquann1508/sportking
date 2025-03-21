@@ -1,21 +1,49 @@
 <?php
 $carouselItems = [
     [
-        'img' => './img/banner.jpg',
+        'img' => './img/banner7.jpg',
         'title' => 'Welcome to Our Store',
         'subtitle' => 'Find the best products here',
         'btn_url' => 'shop.php',
         'btn_text' => 'Shop Now'
     ],
     [
-        'img' => './img/banner.jpg',
+        'img' => './img/banner4.jpg',
+        'title' => 'Welcome to Our Store',
+        'subtitle' => 'Find the best products here',
+        'btn_url' => 'shop.php',
+        'btn_text' => 'Shop Now'
+    ],
+    [
+        'img' => './img/banner3.jpg',
+        'title' => 'Welcome to Our Store',
+        'subtitle' => 'Find the best products here',
+        'btn_url' => 'shop.php',
+        'btn_text' => 'Shop Now'
+    ],
+    [
+        'img' => './img/banner8.jpg',
+        'title' => 'Welcome to Our Store',
+        'subtitle' => 'Find the best products here',
+        'btn_url' => 'shop.php',
+        'btn_text' => 'Shop Now'
+    ],
+    [
+        'img' => './img/banner2.jpg',
         'title' => 'Big Sale 50% Off',
         'subtitle' => 'Limited time offer, grab it now!',
         'btn_url' => 'sale.php',
         'btn_text' => 'Check Deals'
     ],
     [
-        'img' => './img/banner.jpg',
+        'img' => './img/banner6.jpg',
+        'title' => 'Welcome to Our Store',
+        'subtitle' => 'Find the best products here',
+        'btn_url' => 'shop.php',
+        'btn_text' => 'Shop Now'
+    ],
+    [
+        'img' => './img/banner3.jpg',
         'title' => 'New Arrivals',
         'subtitle' => 'Explore our latest collections',
         'btn_url' => 'new.php',
@@ -39,19 +67,19 @@ $categories = [
 
 <style>
     @media (max-width: 1200px) {
-        .hero-slider {
+        #heroCarousel {
             height: 70vh;
         }
 
-        .hero-slider .carousel-item {
+        #heroCarousel .carousel-item {
             height: 70vh;
         }
     }
 </style>
 
 <!-- Hero Slider -->
-<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" style="height: 100vh; position: relative;">
-    <div class="carousel-indicators">
+<div id="heroCarousel" class="hero-slider carousel slide" data-bs-ride="carousel" style="height: 100vh; position: relative;">
+    <div class="carousel-indicators" style="z-index:200;">
         <?php foreach ($carouselItems as $index => $item): ?>
             <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?= $index ?>"
                 class="<?= $index === 0 ? 'active' : '' ?>" aria-label="Slide <?= $index + 1 ?>"></button>
@@ -63,39 +91,38 @@ $categories = [
             <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>"
                 style="height: 100vh; background-image: url('<?= $item['img'] ?>'); background-size: cover; background-position: center; position: relative; overflow: hidden;">
 
-                <!-- Gradient Overlay -->
                 <div style="content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                    background: linear-gradient(to bottom, #fff 10.87%, rgba(255, 255, 255, 0.91) 40.72%, rgba(255, 255, 255, 0.6) 67.14%, rgba(255, 255, 255, 0) 92.12%); pointer-events: none;">
+                    background: linear-gradient(to bottom, #fff 5%, rgba(255, 255, 255, 0.91) 10.72%, rgba(255, 255, 255, 0.6) 20.14%, rgba(255, 255, 255, 0) 92.12%); pointer-events: none;">
                 </div>
 
                 <div class="d-flex align-items-center justify-content-center text-center"
                     style="position: relative; z-index: 200; height: 100%; color: #000;">
                     <div>
-                        <h1><?= $item['title'] ?></h1>
+                        <p class="" style="color: #05472a;font-size:40px"><?= $item['title'] ?></p>
                         <p><?= $item['subtitle'] ?></p>
-                        <a href="<?= $item['btn_url'] ?>" class="btn btn-primary mt-3"><?= $item['btn_text'] ?></a>
+                        <a href="<?= $item['btn_url'] ?>" class="btn border mt-3"><?= $item['btn_text'] ?></a>
                     </div>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
 
-    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index:200;">
         <span class="carousel-control-prev-icon"></span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="z-index:200;">
         <span class="carousel-control-next-icon"></span>
     </button>
 </div>
 
 <!-- Category Section -->
 <div class="container mt-5">
-    <p style="font-size: 60px; font-weight: bold; width: 360px; line-height: 1.3; color: #292929;">Mọi nhu cầu cho giấc mơ của bạn</p>
+    <p style="font-size: 60px; font-weight: 400; width: 360px; line-height: 1.3; color: #05472a;">Mọi nhu cầu cho giấc mơ của bạn</p>
 
     <ul class="nav nav-pills mb-5">
         <li class="nav-item">
             <button class="nav-link active" data-bs-toggle="pill" data-bs-target="#nam"
-                style="border-radius: 50px; padding: 10px 25px; font-weight: bold; transition: all 0.3s ease-in-out; color: black;">
+                style="background:black;border-radius: 50px; padding: 10px 25px; font-weight: bold; transition: all 0.3s ease-in-out; color: white;">
                 Nam
             </button>
         </li>

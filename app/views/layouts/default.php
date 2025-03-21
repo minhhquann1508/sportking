@@ -19,15 +19,20 @@
     <title>Document</title>
 </head>
 <style>
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: white;
-    transition: transform 0.3s ease-in-out;
-    z-index: 1000;
-}
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: transparent;
+        transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+        z-index: 1000;
+    }
+
+    .header-scroll {
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
 
 .header-hidden {
     transform: translateY(-100%);
@@ -93,14 +98,43 @@ header {
             </div>
 
             <div class="d-flex gap-3">
-                <a href="#"><img src="./img/search.svg" width="20"></a>
-                <a href="#"><img src="./img/heart.svg" width="20"></a>
-                <a href="#"><img src="./img/user.svg" width="20"></a>
-                <a class="position-relative" href="#">
-                    <img src="./img/cart.svg" width="20">
-                    <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill ">3</span> -->
-                </a>
+                <div class="">
+                    <a href="#"><img src="./img/search.svg" width="20"></a>
+                </div>
+
+                <div class="">
+                    <a href="#"><img src="./img/heart.svg" width="20"></a>
+                </div>
+
+                <div class="dropdown">
+                    <a href="#" data-bs-toggle="dropdown"><img src="./img/user.svg" width="20"></a>
+                    <ul class="dropdown-menu text-center" style="left: 50%; transform: translateX(-50%); width: max-content;">
+                        <?php
+                        if (isset($_SESSION['email'])) {
+                        ?>
+                            <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
+                            <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
+                            <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
+                        <?php
+                        } else {
+                        ?>
+                            <li><a class="dropdown-item" href="login.php">Đăng nhập</a></li>
+                            <li><a class="dropdown-item" href="register.php">Đăng kí</a></li>
+                        <?php
+                        }
+                        ?>
+                    </ul>
+                </div>
+
+
+                <div class=" position-relative">
+                    <a href="#">
+                        <img src="./img/cart.svg" width="20">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                    </a>
+                </div>
             </div>
+
         </nav>
     </header>
     <div style="margin-top: 76px;">
@@ -119,17 +153,24 @@ header {
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    let lastScrollY = window.scrollY;
-    const header = document.querySelector("header");
+        let lastScrollY = window.scrollY;
+        const header = document.querySelector("header");
 
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > lastScrollY) {
-            header.classList.add("header-hidden");
-        } else {
-            header.classList.remove("header-hidden");
-        }
-        lastScrollY = window.scrollY;
-    });
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 50) {
+                header.classList.add("header-scroll");
+            } else {
+                header.classList.remove("header-scroll");
+            }
+
+            if (window.scrollY > lastScrollY) {
+                header.classList.add("header-hidden"); // Ẩn header khi cuộn xuống
+            } else {
+                header.classList.remove("header-hidden");
+            }
+            lastScrollY = window.scrollY;
+        });
+
     </script>
 </body>
 
