@@ -6,12 +6,15 @@
             $sql = "SELECT * FROM $this->table";
             return $this->select($sql);
         }
-
+        public function check_name($category_name) {
+            $sql = "SELECT COUNT(*) FROM category WHERE category_name =?";
+            return $this->select($sql, [$category_name]);
+        }
         public function add_category($category_name) {
             $check_sql = "SELECT COUNT(*) FROM category WHERE category_name = ?";
             $check_result = $this->select($check_sql, [$category_name]);
             if ($check_result && $check_result[0]['COUNT(*)'] > 0) {
-                return "Danh mục đã tồn tại!";
+                return ['success' => false, 'message' => 'Danh mục đã tồn tại', 'data' => null];
             }
             $sql = "INSERT INTO category (category_name, created_at, updated_at) 
                     VALUES (?, NOW(), NOW())";
@@ -37,7 +40,7 @@
             $duplicate_sql = "SELECT COUNT(*) FROM category WHERE category_name = ? AND category_id != ?";
             $duplicate_result = $this->select($duplicate_sql, [$new_category_name, $category_id]);
             if ($duplicate_result && $duplicate_result[0]['COUNT(*)'] > 0) {
-                return "Tên danh mục đã tồn tại!";
+                return ['success' => false, 'message' => 'Danh mục đã tồn tại', 'data' => null];
             }
             $sql = "UPDATE category SET category_name = ?, updated_at = NOW() WHERE category_id = ?";
             return $this->execute($sql, [$new_category_name, $category_id]);

@@ -131,6 +131,15 @@
 </head>
 
 <body>
+    <div id="toast" class="toast bg-white" style="position: fixed; top: 32px; right: 20px; z-index: 50;" role="alert"
+        aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">SportKing</strong>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button> -->
+        </div>
+        <div class="toast-body" id="toast-mesage">
+        </div>
+    </div>
     <div class="d-flex">
         <article class="border-end p-2" style=" width: 250px; height: 100vh">
             <a href="" class="d-flex justify-content-center">

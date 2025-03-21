@@ -41,7 +41,6 @@ $(document).ready(function () {
       alert("Vui lòng nhập tên danh mục");
       return;
     }
-
     $.ajax({
       url: "?controller=category&action=addCategory",
       method: "POST",
@@ -49,18 +48,20 @@ $(document).ready(function () {
         category_name: categoryName,
       },
       dataType: "json",
-      success: function (response) {
-        console.log(response);
-        if (response.status === "success") {
+      success: function(response) {
+        if (response.success === true) {
           $("#category_name").val("");
-          loadCategories();
+            showToast(response.message);
+            setTimeout(() => {
+              loadCategories();
+            }, 1000);
         } else {
-          alert("Thêm danh mục thất bại");
+            showToast(response.message);
         }
-      },
-      error: function (xhr, status, error) {
-        console.log(xhr.responseText);
-      },
+    },
+    error: function(response) {
+        showToast(response.responseText);
+    }
     });
   });
   $(document).on("click", ".delete-category", function () {
@@ -74,8 +75,8 @@ $(document).ready(function () {
         },
         dataType: "json",
         success: function (response) {
-          alert(response.message);
-          if (response.status === "success") {
+          if (response.success == true) {
+            showToast(response.message);
             loadCategories();
           }
         },
@@ -97,8 +98,9 @@ $(document).ready(function () {
       dataType: "json",
       success: function (response) {
         alert("Cập nhật thành công");
-        if (response.status === "success") {
+        if (response.success == true) {
           $("#updateCategoryModal").modal("hide");
+          showToast(response.message);
           loadCategories();
         }
       },
