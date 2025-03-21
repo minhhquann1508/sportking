@@ -11,14 +11,14 @@
         public function login($email, $password) {
             $sql = "SELECT * FROM $this->table WHERE email = ?";
             $data= $this->select($sql, [$email]);
-            if(!$data || count($data) === 0) {
-                return false;
+            if (!is_array($data) || empty($data)) {
+                return ['success' => false, 'message' => 'Email này không tồn tại', 'data' => null];
             }
             $user = $data[0];
-            if (password_verify($password, $user['password'])) {
-                return $user;
+            if(password_verify($password, $user['password'])) {
+                return ['success' => true, 'message' => 'Đăng nhập thành công', 'data' => $user];
             } else {
-                return false; 
+                return ['success' => false, 'message' => 'Mật khẩu hoặc email không đúng', 'data' => null];
             }
         }
 
