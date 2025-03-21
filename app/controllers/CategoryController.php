@@ -14,7 +14,7 @@ class CategoryController {
             echo json_encode($category);
             exit;
         }
-        $content = '../app/views/pages/admin/category/category.php';
+        $content = '../app/views/pages/admin/category.php';
         include_once "../app/views/layouts/admin.php";
     }
 

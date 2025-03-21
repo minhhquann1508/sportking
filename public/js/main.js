@@ -7,3 +7,4 @@ function showToast(message, status = "success") {
     toast.hide();
   }, 1500);
 }
+

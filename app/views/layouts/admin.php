@@ -12,7 +12,7 @@
             'label' => 'Quản lý danh mục',
             'url' => '',
             'children' => [
-                ['label' => 'Danh sách danh mục', 'url' => '#'],
+                ['label' => 'Danh sách danh mục', 'url' => '?controller=category'],
                 ['label' => 'Thêm danh mục', 'url' => '#']
             ]
         ],
@@ -167,6 +167,7 @@
     </div>
     <!-- JS -->
     <script src="./js/main.js"></script>
+    <script src="./js/category.js"></script>
     <!-- BS5 -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
         integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous">
