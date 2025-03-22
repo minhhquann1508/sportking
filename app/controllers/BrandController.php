@@ -1,57 +1,53 @@
 <?php
-   require_once '../app/models/Brand.php';
+require_once __DIR__ . '/../models/Brand.php';
 
-    class BrandController {
-        // public function __construct() {
-        //     $this->productModel = new Products();
-        private $brandModel;
-        public function __construct() {
-            $this->brandModel = new Brand();
-        }
-        // }
-        public function index() {
-            // Lấy tất cả thương hiệu
-            $brands = $this->brandModel->get_all_brands();
-            $content = '../app/views/pages/admin/brand.php';
-            include_once "../app/views/layouts/admin.php";
-        }
+class BrandController {
+    private $brandModel;
 
-        public function add_brand(){
-            if(isset ($_POST["add_brand"]) ){
-                $name_brand = $_POST['name_brand'];
-                $hinh_anh = $_POST['hinh_anh'];
-                if($name_brand === "" || $hinh_anh === ""){
-                    echo ` <script>
-                                aler('vui lòng điền đủ từ ')
-                            </script>`;
-                }else{
-                    $brandModel->$this->brandModel->add_brand( $name_brand, $hinh_anh);
-                }
-            }
-            
-            // Thêm một thương hiệu mới
-            
-            $content = '../app/views/pages/admin/brand.php';
-            include_once "../app/views/layouts/admin.php";
-        }
-
-        public function update_brand(){
-            // Cập nhật thương hiệu
-            $brandModel->$this->brandModel->update_brand(1, "Nike", "nike_updated.jpg");
-            $content = '../app/views/pages/admin/brand.php';
-            include_once "../app/views/layouts/admin.php";
-        }
-
-        public function delete_brand($id){
-            // Xóa thương hiệu
-            $brandModel->$this->brandModel->delete_brand(3);
-            $content = '../app/views/pages/admin/brand.php';
-            include_once "../app/views/layouts/admin.php";
-        }       
-
+    public function __construct() {
+        $this->brandModel = new Brand();
     }
 
-?>
+    public function index() {
+        if (isset($_GET['ajax'])) {
+            $brands = $this->brandModel->getAllBrands();
+            echo json_encode($brands);
+        }
+    }
 
- 
+    public function addBrand() {
+        $name = $_POST['brand_name'] ?? null;
+        $thumbnail = $_POST['thumbnail'] ?? null;
 
+        if ($name && $thumbnail) {
+            $this->brandModel->addBrand($name, $thumbnail);
+            echo json_encode(["success" => true, "message" => "Thêm thương hiệu thành công"]);
+        } else {
+            echo json_encode(["success" => false, "message" => "Thiếu dữ liệu"]);
+        }
+    }
+
+    public function deleteBrand() {
+        $id = $_GET['brand_id'] ?? null;
+
+        if ($id) {
+            $this->brandModel->deleteBrand($id);
+            echo json_encode(["success" => true, "message" => "Xóa thương hiệu thành công"]);
+        } else {
+            echo json_encode(["success" => false, "message" => "Không tìm thấy ID"]);
+        }
+    }
+
+    public function updateBrand() {
+        $id = $_POST['brand_id'] ?? null;
+        $name = $_POST['brand_name'] ?? null;
+        $thumbnail = $_POST['thumbnail'] ?? null;
+
+        if ($id && $name && $thumbnail) {
+            $this->brandModel->updateBrand($id, $name, $thumbnail);
+            echo json_encode(["success" => true, "message" => "Cập nhật thương hiệu thành công"]);
+        } else {
+            echo json_encode(["success" => false, "message" => "Thiếu dữ liệu"]);
+        }
+    }
+}
