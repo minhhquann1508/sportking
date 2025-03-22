@@ -22,10 +22,22 @@
             }
         }
 
-        public function get_all_users($limit = 20, $offset = 0) {
-            $sql = "SELECT user_id, email, fullname, phone, role, created_at, updated_at FROM $this->table LIMIT ? OFFSET ?";
-            $users = $this->select($sql, [$limit, $offset]);
-            return ['success' => true, 'message' => 'Lấy dữ liệu thành công', 'data' => $users];
+        public function get_all_users($page, $queries) {
+            print_r($queries);
+            $limit = 10;
+            $offset = ($page - 1) * $limit;
+
+            $sqlTotal = "SELECT COUNT(*) as total FROM $this->table";
+            $totalUsers = $this->select($sqlTotal)[0]['total'];
+
+            $sqlUsers = "SELECT user_id, email, fullname, phone, role, created_at, updated_at FROM $this->table LIMIT ? OFFSET ?";
+            $users = $this->select($sqlUsers, [$limit, $offset]);
+            return [
+                'success' => true,
+                'message' => 'Lấy dữ liệu thành công',
+                'data' => $users,
+                'total' => $totalUsers
+            ];
         }
 
         public function get_user_by_id($id) {

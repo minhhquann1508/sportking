@@ -1,9 +1,40 @@
 <div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="mb-3">Thông tin người dùng</h5>
+    <div class="d-flex justify-content-between align-items-end mb-3">
+        <h5>Thông tin người dùng</h5>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-user-modal">
             Thêm quản trị viên
         </button>
+    </div>
+    <div class="mb-3">
+        <form action="" method="post" id="search-box" class="row">
+            <div class="col-11 d-flex gap-2">
+                <div class="flex-grow-1">
+                    <label for="fullname">Họ tên</label>
+                    <input type="text" class="form-control" id="fullname-search" name="fullname"
+                        placeholder="Nhập họ tên">
+                </div>
+                <div class="flex-grow-1">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email-search" name="email" placeholder="Nhập email">
+                </div>
+                <div class="flex-grow-1">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="text" class="form-control" id="phone-search" name="phone"
+                        placeholder="Nhập số điện thoại">
+                </div>
+                <div class="flex-grow-1">
+                    <label for="phone">Ngày tạo</label>
+                    <input type="date" class="form-control" name="created_at" id="created_at">
+                </div>
+                <div class="flex-grow-1">
+                    <label for="phone">Lần cuối chỉnh sửa</label>
+                    <input type="date" class="form-control" name="phone" id="updated_at">
+                </div>
+            </div>
+            <div class="col ps-0 text-end d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100"><span class="fw-bold">Tìm</span> <i
+                        class="fa-solid fa-magnifying-glass" style="font-size: 12px;"></i></button>
+            </div>
     </div>
     <table class="table table-bordered border-dark">
         <thead>
@@ -18,6 +49,7 @@
         </thead>
         <tbody id="table-body"></tbody>
     </table>
+    <div id="pagination" class="d-flex justify-content-center align-items-center"></div>
 </div>
 
 <div class="modal fade" id="add-user-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -75,8 +107,9 @@ function renderUsers(users) {
 }
 $(document).ready(function() {
     function loadUsers() {
+        const page = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
         $.ajax({
-            url: "?controller=user&ajax=true",
+            url: `?controller=user&ajax=true&page=${page}`,
             method: "GET",
             dataType: "json",
             success: function(response) {
@@ -88,13 +121,14 @@ $(document).ready(function() {
                             <td>${user.email}</td>
                             <td>${user.fullname ? user.fullname : "Chưa có"}</td>
                             <td>${user.phone ? user.phone : "Chưa có"}</td>
-                            <td class="text-center">${user.role == 1 ? "Admin" : "Người dùng"}</td>
+                            <td class="text-center">${user.role == 1 ? "Quản trị viên" : "Người dùng"}</td>
                             <td class="text-center">
                                 <i style="font-size: 20px" class="fa-solid fa-circle-info"></i>
                             </td>
                         </tr>`;
                 });
                 $("#table-body").html(content);
+                renderPagination(page, response.total);
             },
         });
     }
@@ -126,7 +160,6 @@ $(document).ready(function() {
                     $('#add-user-modal').modal('hide');
                     showToast(response.message);
                 } else {
-                    alert("Thêm danh mục thất bại");
                     $('#add-user-modal').modal('hide');
                     showToast(response.message);
                 }
@@ -135,6 +168,26 @@ $(document).ready(function() {
                 showToast(response.responseText);
             }
         })
+    })
+    $('#search-box').submit(function(e) {
+        e.preventDefault();
+        const fullname = $('#fullname-search').val().trim();
+        const email = $('#email-search').val().trim();
+        const phone = $('#phone-search').val().trim();
+        const createdAt = $('#created_at').val().trim();
+        const updatedAt = $('#updated_at').val().trim();
+
+        // Tạo query string
+        let params = new URLSearchParams();
+        params.append('controller', 'user');
+
+        if (fullname) params.append('fullname', fullname);
+        if (email) params.append('email', email);
+        if (phone) params.append('phone', phone);
+        if (createdAt) params.append('created_at', createdAt);
+        if (updatedAt) params.append('updated_at', updatedAt);
+
+        window.location.href = '?' + params.toString();
     })
 });
 </script>
