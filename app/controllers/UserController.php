@@ -6,11 +6,16 @@
             $this->userModel = new User();
         }
         public function index() {
-            $queries = [
-                'fullname' => $_GET['fullname'] ?? '',
-                'email' => $_GET['email'] ?? '',
-                'phone' => $_GET['phone'] ?? ''
-            ];
+            $queries = [];
+            if (isset($_POST['email']) && $_POST['email']) {
+                $queries['email'] = $_POST['email']; 
+            }
+            if (isset($_POST['fullname']) && $_POST['fullname']) {
+                $queries['fullname'] = $_POST['fullname']; 
+            }
+            if (isset($_POST['phone']) && $_POST['phone']) {
+                $queries['phone'] = $_POST['phone']; 
+            }
             $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
             $data = $this->userModel->get_all_users($page, $queries);
             if (isset($_GET['ajax']) && $_GET['ajax'] == 'true') {

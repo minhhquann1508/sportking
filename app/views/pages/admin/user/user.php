@@ -171,23 +171,30 @@ $(document).ready(function() {
     })
     $('#search-box').submit(function(e) {
         e.preventDefault();
+
         const fullname = $('#fullname-search').val().trim();
         const email = $('#email-search').val().trim();
         const phone = $('#phone-search').val().trim();
         const createdAt = $('#created_at').val().trim();
         const updatedAt = $('#updated_at').val().trim();
 
-        // Tạo query string
-        let params = new URLSearchParams();
-        params.append('controller', 'user');
+        let searchParams = {};
+        if (fullname) searchParams.fullname = fullname;
+        if (email) searchParams.email = email;
+        if (phone) searchParams.phone = phone;
+        if (createdAt) searchParams.created_at = createdAt;
+        if (updatedAt) searchParams.updated_at = updatedAt;
 
-        if (fullname) params.append('fullname', fullname);
-        if (email) params.append('email', email);
-        if (phone) params.append('phone', phone);
-        if (createdAt) params.append('created_at', createdAt);
-        if (updatedAt) params.append('updated_at', updatedAt);
-
-        window.location.href = '?' + params.toString();
-    })
+        $.ajax({
+            url: '?controller=user&ajax=true',
+            method: 'POST',
+            data: searchParams,
+            dataType: 'json',
+            success: function(response) {
+                renderUsers(response.data);
+                renderPagination(1, response.total);
+            }
+        });
+    });
 });
 </script>
