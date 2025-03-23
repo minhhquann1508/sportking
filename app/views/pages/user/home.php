@@ -1,20 +1,6 @@
 <?php
 $carouselItems = [
     [
-        'img' => './img/banner7.jpg',
-        'title' => 'Welcome to Our Store',
-        'subtitle' => 'Find the best products here',
-        'btn_url' => 'shop.php',
-        'btn_text' => 'Shop Now'
-    ],
-    [
-        'img' => './img/banner4.jpg',
-        'title' => 'Welcome to Our Store',
-        'subtitle' => 'Find the best products here',
-        'btn_url' => 'shop.php',
-        'btn_text' => 'Shop Now'
-    ],
-    [
         'img' => './img/banner3.jpg',
         'title' => 'Welcome to Our Store',
         'subtitle' => 'Find the best products here',
@@ -22,21 +8,7 @@ $carouselItems = [
         'btn_text' => 'Shop Now'
     ],
     [
-        'img' => './img/banner8.jpg',
-        'title' => 'Welcome to Our Store',
-        'subtitle' => 'Find the best products here',
-        'btn_url' => 'shop.php',
-        'btn_text' => 'Shop Now'
-    ],
-    [
-        'img' => './img/banner2.jpg',
-        'title' => 'Big Sale 50% Off',
-        'subtitle' => 'Limited time offer, grab it now!',
-        'btn_url' => 'sale.php',
-        'btn_text' => 'Check Deals'
-    ],
-    [
-        'img' => './img/banner6.jpg',
+        'img' => './img/banner4.jpg',
         'title' => 'Welcome to Our Store',
         'subtitle' => 'Find the best products here',
         'btn_url' => 'shop.php',
@@ -75,7 +47,33 @@ $categories = [
             height: 70vh;
         }
     }
+
+    .hero-content {
+        opacity: 0;
+        transition: all 1s ease-in-out;
+    }
+
+    .hero-content:first-child {
+        transform: translateY(30px);
+    }
+
+    .hero-content.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(() => {
+            document.querySelectorAll(".hero-content").forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add("show");
+                }, index * 100);
+            });
+        }, 300);
+    });
+</script>
 
 <!-- Hero Slider -->
 <div id="heroCarousel" class="hero-slider carousel slide" data-bs-ride="carousel" style="height: 100vh; position: relative;">
@@ -98,9 +96,9 @@ $categories = [
                 <div class="d-flex align-items-center justify-content-center text-center"
                     style="position: relative; z-index: 200; height: 100%; color: #000;">
                     <div>
-                        <p class="" style="color: #05472a;font-size:40px"><?= $item['title'] ?></p>
-                        <p><?= $item['subtitle'] ?></p>
-                        <a href="<?= $item['btn_url'] ?>" class="btn border mt-3"><?= $item['btn_text'] ?></a>
+                        <p class="hero-content hidden" style="color: #05472a; font-size: 40px;"><?= $item['title'] ?></p>
+                        <p class="hero-content "><?= $item['subtitle'] ?> </p>
+                        <a href="<?= $item['btn_url'] ?>" class="btn border mt-3 hero-content "><?= $item['btn_text'] ?></a>
                     </div>
                 </div>
             </div>
