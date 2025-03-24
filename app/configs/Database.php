@@ -1,7 +1,7 @@
 <?php
-class Database {
+class Database
+{
     protected $conn;
-  
     public function __construct() {
         $host = "localhost";
         $dbname = "sportking";
@@ -17,17 +17,18 @@ class Database {
     }
 
     // Thực hiện truy vấn select
-    public function select($query, $params = []) {
+    public function select($query, $params = [])
+    {
         $stmt = $this->conn->prepare($query);
         foreach ($params as $key => $value) {
             if (is_int($value)) {
-                $stmt->bindValue($key + 1, $value, PDO::PARAM_INT); 
+                $stmt->bindValue($key + 1, $value, PDO::PARAM_INT);
             } elseif (is_bool($value)) {
-                $stmt->bindValue($key + 1, $value, PDO::PARAM_BOOL); 
+                $stmt->bindValue($key + 1, $value, PDO::PARAM_BOOL);
             } elseif ($value === null) {
                 $stmt->bindValue($key + 1, $value, PDO::PARAM_NULL);
             } else {
-                $stmt->bindValue($key + 1, $value, PDO::PARAM_STR); 
+                $stmt->bindValue($key + 1, $value, PDO::PARAM_STR);
             }
         }
 
@@ -36,14 +37,15 @@ class Database {
     }
 
     // Thực hiện truy vấn thêm, xoá, sửa
-    public function execute($query, $params = []) {
+    public function execute($query, $params = [])
+    {
         $stmt = $this->conn->prepare($query);
         return $stmt->execute($params);
     }
 
     // Lấy id của bản ghi mới được thêm vào
-    public function lastInsertId() {
+    public function lastInsertId()
+    {
         return $this->conn->lastInsertId();
     }
 }
-?>

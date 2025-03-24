@@ -1,12 +1,26 @@
-<?php 
-    class HomeController {
-        public function index() {
-            $content = '../app/views/pages/user/home.php';
-            include_once "../app/views/layouts/default.php";
-        }
-        public function about() {
-            $content = '../app/views/pages/user/about.php';
-            include_once "../app/views/layouts/default.php";
-        }
+<?php
+class HomeController
+{
+    public function index()
+    {
+        $content = '../app/views/pages/user/home2.php';
+        include_once "../app/views/layouts/default.php";
     }
-?>
+
+    public function home1()
+    {
+        $content = '../app/views/pages/user/home.php';
+        include_once "../app/views/layouts/default.php";
+    }
+
+    public function home2()
+    {
+        $content = '../app/views/pages/user/home2.php';
+        include_once "../app/views/layouts/default.php";
+    }
+    public function about()
+    {
+        $content = '../app/views/pages/user/about.php';
+        include_once "../app/views/layouts/default.php";
+    }
+}
