@@ -21,7 +21,8 @@
             if (isset($_GET['ajax']) && $_GET['ajax'] == 'true') {
                 echo json_encode($data);
                 exit;
-            } else {
+            } 
+            else {
                 $content = '../app/views/pages/admin/user/user.php';
                 include_once "../app/views/layouts/admin.php";
             }

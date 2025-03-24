@@ -6,7 +6,7 @@
         </button>
     </div>
     <div class="mb-3">
-        <form action="" method="post" id="search-box" class="row">
+        <form method="post" id="search-box" class="row">
             <div class="col-11 d-flex gap-2">
                 <div class="flex-grow-1">
                     <label for="fullname">Họ tên</label>
@@ -60,7 +60,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" id="user-form">
+                <form method="post">
                     <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Tên người dùng</label>
                         <input type="text" class="form-control" id="fullname" placeholder="Nhập tên người dùng">
@@ -79,7 +79,7 @@
                         <input type="text" class="form-control" id="phone" placeholder="(84+) 123346645">
                     </div>
                     <div class="mb-3 text-end">
-                        <button type="submit" class="btn btn-primary">Thêm ngay</button>
+                        <button id="add-user-btn" type="submit" class="btn btn-primary">Thêm ngay</button>
                     </div>
                 </form>
             </div>
@@ -133,13 +133,14 @@ $(document).ready(function() {
         });
     }
     loadUsers();
-    $('#user-form').submit(function(e) {
+    $('#add-user-btn').click(function(e) {
         e.preventDefault();
         const emailInput = $('#email');
+
+
         const fullnameInput = $('#fullname');
         const passwordInput = $('#password');
         const phoneInput = $('#phone');
-
         $.ajax({
             url: '?controller=user&action=add_user_by_admin',
             method: "POST",
@@ -171,7 +172,6 @@ $(document).ready(function() {
     })
     $('#search-box').submit(function(e) {
         e.preventDefault();
-
         const fullname = $('#fullname-search').val().trim();
         const email = $('#email-search').val().trim();
         const phone = $('#phone-search').val().trim();
