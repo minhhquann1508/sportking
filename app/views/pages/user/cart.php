@@ -1,11 +1,117 @@
 <div class="container">
     <div class="row py-3">
-        <div class="col-8">
-            <h5 class="text-uppercase">Giỏ hàng</h5>
-            <div>sss</div>
+        <div class="col-8 pe-5">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                <h5 class="text-uppercase">Giỏ hàng</h5>
+                <button class="btn"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+            <ul>
+                <li class="border-bottom">
+                    <div class="row py-3 h-100 align-items-stretch">
+                        <div class="col-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value=""
+                                    aria-label="...">
+                            </div>
+                            <img width="120" height="120" style="object-fit: cover;"
+                                src="https://image.msscdn.net/thumbnails/images/goods_img/20240820/4350233/4350233_17246475812360_big.png"
+                                alt="">
+                        </div>
+                        <div class="col-9 d-flex flex-column justify-content-between" style="height: 120px;">
+                            <div class="d-flex justify-content-between flex-grow-1">
+                                <div>
+                                    <h6>Áo thun GenG 2023. Tuyển thủ Chovy</h6>
+                                    <div class="d-flex gap-2">
+                                        <select class="form-select form-select-sm">
+                                            <option selected>Màu sắc</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                        <select class="form-select form-select-sm">
+                                            <option selected>Size</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                        <div class="d-flex align-items-center border rounded">
+                                            <button class="btn btn-sm border-end">-</button>
+                                            <span id="quantity" class="mx-3">1</span>
+                                            <button class="btn btn-sm border-start">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span>
+                                    <h6 class="mb-1" style="font-size: 14px;">2.099.000 vnđ</h6>
+                                    <h6 class="text-decoration-line-through text-black-50" style="font-size: 14px;">
+                                        2.099.000 vnđ
+                                    </h6>
+                                </span>
+                            </div>
+
+                            <div class="mt-auto d-flex justify-content-between align-items-end">
+                                <button class="btn btn-sm border">Yêu thích<i
+                                        class="ms-1 fa-regular fa-heart"></i></button>
+                                <button class="btn btn-sm border"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="border-bottom">
+                    <div class="row py-3 h-100 align-items-stretch">
+                        <div class="col-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value=""
+                                    aria-label="...">
+                            </div>
+                            <img width="120" height="120" style="object-fit: cover;"
+                                src="https://image.msscdn.net/thumbnails/images/goods_img/20240820/4350233/4350233_17246475812360_big.png"
+                                alt="">
+                        </div>
+                        <div class="col-9 d-flex flex-column justify-content-between" style="height: 120px;">
+                            <div class="d-flex justify-content-between flex-grow-1">
+                                <div>
+                                    <h6>Áo thun GenG 2023. Tuyển thủ Chovy</h6>
+                                    <div class="d-flex gap-2">
+                                        <select class="form-select form-select-sm">
+                                            <option selected>Màu sắc</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                        <select class="form-select form-select-sm">
+                                            <option selected>Size</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                        <div class="d-flex align-items-center border rounded">
+                                            <button class="btn btn-sm border-end">-</button>
+                                            <span id="quantity" class="mx-3">1</span>
+                                            <button class="btn btn-sm border-start">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span>
+                                    <h6 class="mb-1" style="font-size: 14px;">2.099.000 vnđ</h6>
+                                    <h6 class="text-decoration-line-through text-black-50" style="font-size: 14px;">
+                                        2.099.000 vnđ
+                                    </h6>
+                                </span>
+                            </div>
+
+                            <div class="mt-auto d-flex justify-content-between align-items-end">
+                                <button class="btn btn-sm border">Yêu thích<i
+                                        class="ms-1 fa-regular fa-heart"></i></button>
+                                <button class="btn btn-sm border"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
         <div class="col-4">
-            <h5 class="text-uppercase text-center">tóm tắt đơn hàng</h5>
+            <h5 class="text-uppercase text-center mt-1">tóm tắt đơn hàng</h5>
             <div class="mt-4">
                 <ul>
                     <li class="d-flex justify-content-between mb-2">
