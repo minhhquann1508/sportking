@@ -19,24 +19,24 @@
     <title>Document</title>
 </head>
 <style>
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: transparent;
-        transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
-        z-index: 1000;
-    }
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 1000;
+}
 
-    .header-scroll {
-        background: white;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+.header-scroll {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-    .header-hidden {
-        transform: translateY(-100%);
-    }
+.header-hidden {
+    transform: translateY(-100%);
+}
 </style>
 
 <body>
@@ -108,18 +108,19 @@
 
                 <div class="dropdown">
                     <a href="#" data-bs-toggle="dropdown"><img src="./img/user.svg" width="20"></a>
-                    <ul class="dropdown-menu text-center" style="left: 50%; transform: translateX(-50%); width: max-content;">
+                    <ul class="dropdown-menu text-center"
+                        style="left: 50%; transform: translateX(-50%); width: max-content;">
                         <?php
                         if (isset($_SESSION['email'])) {
                         ?>
-                            <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
-                            <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
-                            <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
+                        <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
+                        <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
                         <?php
                         } else {
                         ?>
-                            <li><a class="dropdown-item" href="login.php">Đăng nhập</a></li>
-                            <li><a class="dropdown-item" href="register.php">Đăng kí</a></li>
+                        <li><a class="dropdown-item" href="login.php">Đăng nhập</a></li>
+                        <li><a class="dropdown-item" href="register.php">Đăng kí</a></li>
                         <?php
                         }
                         ?>
@@ -130,14 +131,15 @@
                 <div class=" position-relative">
                     <a href="#">
                         <img src="./img/cart.svg" width="20">
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
                     </a>
                 </div>
             </div>
 
         </nav>
     </header>
-    <div>
+    <div style="padding-top: 76px;">
         <?php include_once $content ?>
     </div>
 
@@ -148,7 +150,8 @@
                 <div class="col-md-3">
                     <h6 style="border-bottom: 1px solid white; padding-bottom: 10px;">THÔNG TIN</h6>
                     <p><strong>CÔNG TY CỔ PHẦN NHÀ THÁI</strong></p>
-                    <p>Địa chỉ: Tầng 6 Golden House, Tòa nhà Sunwah Pearl, số 90 Nguyễn Hữu Cảnh, Phường 22, Quận Bình Thạnh, TP Hồ Chí Minh, Việt Nam.</p>
+                    <p>Địa chỉ: Tầng 6 Golden House, Tòa nhà Sunwah Pearl, số 90 Nguyễn Hữu Cảnh, Phường 22, Quận Bình
+                        Thạnh, TP Hồ Chí Minh, Việt Nam.</p>
                     <p>Mã số thuế: 0309456285</p>
                     <p>Ngày cấp: 4/11/2009 Nơi cấp: Thành phố Hồ Chí Minh</p>
                 </div>
@@ -195,7 +198,8 @@
                         <img src="./img/logo.png" alt="Logo" width="100px">
                     </a> &copy; Copyright SPORTKING Vietnam. All rights reserved
                 </p>
-                <p style="margin: 0;"><a href="#" style="font-weight:500">Điều khoản</a> | <a href="#" style="font-weight:500">Chính sách bảo mật</a></p>
+                <p style="margin: 0;"><a href="#" style="font-weight:500">Điều khoản</a> | <a href="#"
+                        style="font-weight:500">Chính sách bảo mật</a></p>
             </div>
         </div>
 
@@ -212,23 +216,23 @@
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        let lastScrollY = window.scrollY;
-        const header = document.querySelector("header");
+    let lastScrollY = window.scrollY;
+    const header = document.querySelector("header");
 
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 50) {
-                header.classList.add("header-scroll");
-            } else {
-                header.classList.remove("header-scroll");
-            }
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+            header.classList.add("header-scroll");
+        } else {
+            header.classList.remove("header-scroll");
+        }
 
-            if (window.scrollY > lastScrollY) {
-                header.classList.add("header-hidden");
-            } else {
-                header.classList.remove("header-hidden");
-            }
-            lastScrollY = window.scrollY;
-        });
+        if (window.scrollY > lastScrollY) {
+            header.classList.add("header-hidden");
+        } else {
+            header.classList.remove("header-hidden");
+        }
+        lastScrollY = window.scrollY;
+    });
     </script>
 </body>
 
