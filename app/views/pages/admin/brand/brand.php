@@ -1,8 +1,3 @@
-<?php
-require_once __DIR__ . '/../../../controller/BrandController.php';
-$brandController = new BrandController();
-$brands = $brandController->index();
-?>
 
 <div class="container mt-5">
     <div class="row">
@@ -36,31 +31,7 @@ $brands = $brandController->index();
                     </tr>
                 </thead>
                 <tbody id="brand-table">
-                    <?php
-                        $content = '';
-                        foreach ($brands as $key => $brand) {
-                            $content .= '
-                                <tr class="text-center">
-                                    <th scope="row">'.($key + 1).'</th>
-                                    <td>'.$brand['brand_name'].'</td>
-                                    <td><img src="'.$brand['thumbnail'].'" width="100"></td>
-                                    <td>
-                                        <button class="btn btn-info update-brand" 
-                                            data-id="'.$brand['brand_id'].'" 
-                                            data-name="'.$brand['brand_name'].'" 
-                                            data-thumbnail="'.$brand['thumbnail'].'">
-                                            Sửa
-                                        </button>
-                                        <button class="btn btn-danger delete-brand" 
-                                            data-id="'.$brand['brand_id'].'">
-                                            Xóa
-                                        </button>
-                                    </td>
-                                </tr>
-                            ';
-                        }
-                    ?>
-                    <?php echo $content; ?>
+                   
                 </tbody>
 
             </table>
@@ -96,34 +67,105 @@ $brands = $brandController->index();
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../../js/brand.js"></script>
 
+<script>
+    console.log(123);
+$(document).ready(function() {
+    function loadBrands() {
+        $.ajax({
+            url: "?controller=brand&ajax=true",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                
+                let content = "";
+                $.each(data, function(key, brand) {
+                    content += `
+                        <tr>
+                            <td>${brand.brand_id}</td>
+                            <td>${brand.brand_name}</td>
+                            <td><img src="${brand.thumbnail}" width="100"></td>
+                            <td>
+                                <button class="btn btn-info update-brand" 
+                                    data-id="${brand.brand_id}" 
+                                    data-name="${brand.brand_name}" 
+                                    data-thumbnail="${brand.thumbnail}">Sửa</button>
+                                <button class="btn btn-danger delete-brand" data-id="${brand.brand_id}">Xóa</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                $("#brand-table").html(content);
+            }
+        });
+    }
+    loadBrands();
 
+    // Thêm thương hiệu
+    $('#brand-form').submit(function(e) {
+        e.preventDefault();
+        let name = $('#brand_name').val();
+        let thumbnail = $('#brand_thumbnail').val();
 
+        $.ajax({
+            url:"?controller=brand&action=add_brand",
+            method: "POST",
+            data: {
+                brand_name: name,
+                thumbnail: thumbnail
+            },
+            dataType: "json",
+            success: function(response){
+                if (response.success){
+                    loadBrands();
+                    showToast(response.message);               
+                } else{
+                    showToast(response.message);
+                }
+            },
+            error: function(response){
+                showToast(response.responseText);
+            } 
+        })
+    });
 
+    // Xóa thương hiệu
+    $(document).on('click', '.delete-brand', function() {
+        let brandId = $(this).data('id');
 
-<tbody id="brand-table">
-                <?php
-                        $content = '';
-                        foreach ($brands as $key => $brand) {
-                            $content .= '
-                                <tr class="text-center">
-                                    <th scope="row">'.($key + 1).'</th>
-                                    <td>
-                                        <img class="mx-auto" width="200" height="100"
-                                            src="'.$brand['img_url'].'"
-                                            alt="">
-                                    </td>
-                                    <td><a target="_blank" href="'.$brand['url'].'">Link</a></td>
-                                    <td>
-                                        <button class="btn btn-danger">Xóa</button>
-                                        <button class="btn btn-primary">Sửa</button>
-                                    </td>
-                                </tr>
-                            ';
-                        }
-                    ?>
-                <?php echo $content ?>
-            </tbody>
+        $.get("?controller=brand&action=deleteBrand", { brand_id: brandId }, function(response) {
+            alert("Xóa thành công!");
+            loadBrands();
+        });
+    });
+
+    // Mở Modal cập nhật thương hiệu
+    $(document).on('click', '.update-brand', function() {
+        let brandId = $(this).data('id');
+        let brandName = $(this).data('name');
+        let brandThumbnail = $(this).data('thumbnail');
+
+        $('#update_brand_id').val(brandId);
+        $('#update_brand_name').val(brandName);
+        $('#update_brand_thumbnail').val(brandThumbnail);
+
+        $('#updateBrandModal').modal('show');
+    });
+
+    // Cập nhật thương hiệu
+    $('#update-brand-form').submit(function(e) {
+        e.preventDefault();
+
+        let id = $('#update_brand_id').val();
+        let name = $('#update_brand_name').val();
+        let thumbnail = $('#update_brand_thumbnail').val();
+
+        $.post("?controller=brand&action=updateBrand", { brand_id: id, brand_name: name, thumbnail: thumbnail }, function(response) {
+            alert("Cập nhật thành công!");
+            $('#updateBrandModal').modal('hide');
+            loadBrands();
+        });
+    });
+});
+
+</script>
