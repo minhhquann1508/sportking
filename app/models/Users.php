@@ -37,11 +37,9 @@
                 $sql_where = " WHERE " . implode(" AND ", $conditions);
             }
         
-            // Lấy tổng số người dùng (áp dụng điều kiện tìm kiếm nếu có)
             $sqlTotal = "SELECT COUNT(*) as total FROM $this->table $sql_where";
             $totalUsers = $this->select($sqlTotal, $params)[0]['total'];
         
-            // Lấy danh sách người dùng (thêm LIMIT, OFFSET vào params)
             $sqlUsers = "SELECT user_id, email, fullname, phone, role, created_at, updated_at 
                          FROM $this->table $sql_where LIMIT ? OFFSET ?";
             

@@ -144,7 +144,7 @@ header {
     </div>
 
 
-    <footer style="background-color: black; color: white; margin-top:100px">
+    <footer style="background-color: black; color: white;">
         <div class="container p-4">
             <div class="row">
                 <div class="col-md-3">
