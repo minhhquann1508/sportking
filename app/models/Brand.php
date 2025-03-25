@@ -12,19 +12,49 @@
         // Thêm thương hiệu mới
         public function add_brand($name_brand , $hinh_anh) {
             $query = "INSERT INTO  $this->table (brand_name, thumbnail) VALUES (?, ?)";
-            $this->execute($query, [$name_brand , $hinh_anh]);
+
+            $result =  $this->execute($query, [$name_brand , $hinh_anh]);
+
+            if($result){
+                return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => null];
+            }else{
+                return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
+            }
+        }
+
+        public function check_name($name_brand,$hinh_anh = null) {
+            $sql = "SELECT COUNT(*) AS count FROM category WHERE category_name = ?";
+            $params = [$category_name];
+    
+            if ($exclude_id !== null) {
+                $sql .= " AND category_id != ?";
+                $params[] = $exclude_id;
+            }
+    
+            $result = $this->select($sql, $params);
+            return $result && $result[0]['count'] > 0;
         }
 
         // Cập nhật thương hiệu
         public function update_brand($brand_id, $name_brand , $hinh_anh) {
             $query = "UPDATE  $this->table SET brand_name = ?, thumbnail = ? WHERE brand_id = ?";
-            $this->execute($query, [$name_brand , $hinh_anh, $brand_id]);
+            $result = $this->execute($query, [$name_brand , $hinh_anh, $brand_id]);
+            if($result){
+                return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => null];
+            }else{
+                return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
+            }
         }
 
         // Xóa thương hiệu
         public function delete_brand($brand_id) {
             $query = "DELETE FROM  $this->table WHERE brand_id = ?";
-            $this->execute($query, [$brand_id]);
+            $result = $this->execute($query, [$brand_id]);
+            if($result){
+                return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => null];
+            }else{
+                return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
+            }
         }
     }
 

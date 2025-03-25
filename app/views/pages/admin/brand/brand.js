@@ -1,3 +1,4 @@
+console.log(123);
 $(document).ready(function() {
     function loadBrands() {
         $.ajax({
@@ -5,6 +6,7 @@ $(document).ready(function() {
             method: "GET",
             dataType: "json",
             success: function(data) {
+                
                 let content = "";
                 $.each(data, function(key, brand) {
                     content += `
@@ -36,6 +38,7 @@ $(document).ready(function() {
 
         $.post("?controller=brand&action=addBrand", { brand_name: name, thumbnail: thumbnail }, function(response) {
             alert("Thêm thành công!");
+
             loadBrands();
         });
     });
