@@ -21,23 +21,44 @@
 
         <!-- Bảng hiển thị thương hiệu -->
         <div class="col-8">
+             <div class="mb-3 row">
+                <div class="col-4">
+                    <label for="filter_category_name" class="form-label">Tên danh mục</label>
+                    <input type="text" class="form-control" id="filter_brand_name" placeholder="Nhập tên danh mục">
+                </div>
+                <div class="col-4">
+                    <label for="filter_created_date" class="form-label">Ngày tạo</label>
+                    <input type="date" class="form-control" id="filter_created_date">
+                </div>
+                <div class="col-4">
+                    <label for="filter_updated_date" class="form-label">Cập nhật lần cuối</label>
+                    <input type="date" class="form-control" id="filter_updated_date">
+                </div>
+                <button id="filter_btn" class="btn btn-primary mb-3 mt-3">
+                    tìm
+                </button>
+            </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Tên thương hiệu</th>
-                        <th>Hình ảnh</th>
-                        <th>Hành động</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên thương hiệu</th>
+                        <th scope="col">Hình ảnh</th>
+                        <th scope="col">Ngày tạo</th>
+                        <th scope="col">Cập nhật lần cuối</th>
+                        <th scope="col">Tùy chọn</th>
                     </tr>
                 </thead>
                 <tbody id="brand-table">
                    
                 </tbody>
 
+                <div id="pagination" class="d-flex justify-content-center align-items-center"></div>
             </table>
         </div>
     </div>
 </div>
+
 
 <!-- Modal chỉnh sửa thương hiệu -->
 <div class="modal fade" id="updateBrandModal" tabindex="-1" aria-labelledby="updateBrandModalLabel" aria-hidden="true">
@@ -69,7 +90,40 @@
 
 
 <script>
-    console.log(123);
+    const renderBrand = (brands) => {
+        let content = "";
+                brands.forEach(brand => {
+                    content += `
+                        <tr>
+                            <td>${brand.brand_id}</td>
+                            <td>${brand.brand_name}</td>
+                            <td><img src="${brand.thumbnail}" width="100"></td>
+                            <td>${formatDate(brand.created_at)}</td>
+                            <td>${formatDate(brand.updated_at)}</td>
+                            <td>
+                                <button class="btn btn-info update-brand" 
+                                    data-id="${brand.brand_id}" 
+                                    data-name="${brand.brand_name}" 
+                                    data-thumbnail="${brand.thumbnail}">Sửa</button>
+                                <button class="btn btn-danger delete-brand" data-id="${brand.brand_id}">Xóa</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                document.getElementById("brand-table").innerHTML = content;
+    }
+    function formatDate(dateString) {
+        if (!dateString) return "N/A";
+        const date = new Date(dateString);
+        return date.toLocaleDateString("vi-VN",{
+            year: "numeric", 
+            month: "2-digit", 
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+    }
 $(document).ready(function() {
     function loadBrands() {
         $.ajax({
@@ -85,6 +139,8 @@ $(document).ready(function() {
                             <td>${brand.brand_id}</td>
                             <td>${brand.brand_name}</td>
                             <td><img src="${brand.thumbnail}" width="100"></td>
+                            <td>${formatDate(brand.created_at)}</td>
+                            <td>${formatDate(brand.updated_at)}</td>
                             <td>
                                 <button class="btn btn-info update-brand" 
                                     data-id="${brand.brand_id}" 
@@ -99,6 +155,7 @@ $(document).ready(function() {
             }
         });
     }
+    
     loadBrands();
 
     // Thêm thương hiệu
@@ -166,6 +223,25 @@ $(document).ready(function() {
             loadBrands();
         });
     });
+    $('#filter_btn').click(function(e){
+       let brandName = $('#filter_brand_name').val();
+        $.ajax({
+            url: "?controller=brand&ajax=true",
+            method: "POST",
+            dataType: "json",
+            data: {
+                brand_name: brandName,
+                filter: true
+            },
+            success:function(res){
+                console.log(res.data)
+                renderBrand(res.data);
+            },
+            error: function() {
+                
+            }
+        })
+    })
 });
 
 </script>

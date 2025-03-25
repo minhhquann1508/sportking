@@ -56,6 +56,19 @@
                 return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
             }
         }
+
+        public function filter_brand($brand_name){
+            if($brand_name != ""){
+                $query = "SELECT * FROM $this->table WHERE brand_name LIKE ?";
+                $params = "%$brand_name%";
+                $result = $this->select($query, [$params]);
+                if($result){
+                    return ['success' => true, 'message' => 'Success', 'data' => $result];
+                }else{
+                    return ['success' => false, 'message' => 'Not found', 'data' => null];
+                }
+            }
+        }
     }
 
 ?>
