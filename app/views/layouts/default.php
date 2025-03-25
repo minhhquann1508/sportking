@@ -19,20 +19,20 @@
     <title>Document</title>
 </head>
 <style>
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: transparent;
-        transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
-        z-index: 1000;
-    }
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 1000;
+}
 
-    .header-scroll {
-        background: white;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+.header-scroll {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
 .header-hidden {
     transform: translateY(-100%);
@@ -108,18 +108,19 @@
 
                 <div class="dropdown">
                     <a href="#" data-bs-toggle="dropdown"><img src="./img/user.svg" width="20"></a>
-                    <ul class="dropdown-menu text-center" style="left: 50%; transform: translateX(-50%); width: max-content;">
+                    <ul class="dropdown-menu text-center"
+                        style="left: 50%; transform: translateX(-50%); width: max-content;">
                         <?php
                         if (isset($_SESSION['email'])) {
                         ?>
-                            <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
-                            <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
-                            <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
+                        <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
+                        <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
                         <?php
                         } else {
                         ?>
-                            <li><a class="dropdown-item" href="login.php">Đăng nhập</a></li>
-                            <li><a class="dropdown-item" href="register.php">Đăng kí</a></li>
+                        <li><a class="dropdown-item" href="login.php">Đăng nhập</a></li>
+                        <li><a class="dropdown-item" href="register.php">Đăng kí</a></li>
                         <?php
                         }
                         ?>
@@ -130,19 +131,81 @@
                 <div class=" position-relative">
                     <a href="#">
                         <img src="./img/cart.svg" width="20">
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">3</span>
                     </a>
                 </div>
             </div>
 
         </nav>
     </header>
-    <div style="margin-top: 76px;">
+    <div style="padding-top: 76px;">
         <?php include_once $content ?>
     </div>
-    <footer>footer</footer>
+
+
+    <footer style="background-color: black; color: white; margin-top:100px">
+        <div class="container p-4">
+            <div class="row">
+                <div class="col-md-3">
+                    <h6 style="border-bottom: 1px solid white; padding-bottom: 10px;">THÔNG TIN</h6>
+                    <p><strong>CÔNG TY CỔ PHẦN NHÀ THÁI</strong></p>
+                    <p>Địa chỉ: Tầng 6 Golden House, Tòa nhà Sunwah Pearl, số 90 Nguyễn Hữu Cảnh, Phường 22, Quận Bình
+                        Thạnh, TP Hồ Chí Minh, Việt Nam.</p>
+                    <p>Mã số thuế: 0309456285</p>
+                    <p>Ngày cấp: 4/11/2009 Nơi cấp: Thành phố Hồ Chí Minh</p>
+                </div>
+                <div class="col-md-2">
+                    <h6 style="border-bottom: 1px solid white; padding-bottom: 10px;">HỖ TRỢ KHÁCH HÀNG</h6>
+                    <ul>
+                        <li><a href="#" style="color: white;font-weight:500">Câu hỏi hướng dẫn</a></li>
+                        <li><a href="#" style="color: white;font-weight:500">Chính sách đổi trả</a></li>
+                        <li><a href="#" style="color: white;font-weight:500">Chính sách giao hàng</a></li>
+                        <li><a href="#" style="color: white;font-weight:500">Theo dõi đơn hàng</a></li>
+                        <li><a href="#" style="color: white;font-weight:500">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h6 style="border-bottom: 1px solid white; padding-bottom: 10px;">THÔNG TIN</h6>
+                    <ul>
+                        <li><a href="#" style="color: white;font-weight:500">Hệ thống cửa hàng</a></li>
+                        <li><a href="#" style="color: white;font-weight:500">Chương trình khách hàng thành viên</a></li>
+                        <li><a href="#" style="color: white;font-weight:500">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h6 style="border-bottom: 1px solid white; padding-bottom: 10px;">CHÍNH SÁCH</h6>
+                    <ul>
+                        <li><a href="#" style="color: white;font-weight:500">Giới thiệu SPORTKING</a></li>
+                        <li><a href="#" style="color: white;font-weight:500">Cơ hội việc làm</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6 style="border-bottom: 1px solid white; padding-bottom: 10px;">KẾT NỐI VỚI CHÚNG TÔI</h6>
+                    <ul>
+                        <li><a href="#" style="color: white;font-weight:500">Instagram</a></li>
+                        <li><a href="#" style="color: white;font-weight:500">Facebook</a></li>
+                        <li><a href="#" style="color: white;font-weight:500">Tiktok</a></li>
+                        <li><a href="#" style="color: white;font-weight:500">Zalo</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="p-2" style="background-color: white;color:black">
+            <div class="container d-flex justify-content-between align-items-center">
+                <p style="margin: 0;">
+                    <a href="#">
+                        <img src="./img/logo.png" alt="Logo" width="100px">
+                    </a> &copy; Copyright SPORTKING Vietnam. All rights reserved
+                </p>
+                <p style="margin: 0;"><a href="#" style="font-weight:500">Điều khoản</a> | <a href="#"
+                        style="font-weight:500">Chính sách bảo mật</a></p>
+            </div>
+        </div>
+
+    </footer>
     <!-- JS -->
-    <script src="./js/main.js"></script>
+    <script src=" ./js/main.js"></script>
     <!-- BS5 -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
         integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous">
@@ -153,24 +216,23 @@
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        let lastScrollY = window.scrollY;
-        const header = document.querySelector("header");
+    let lastScrollY = window.scrollY;
+    const header = document.querySelector("header");
 
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 50) {
-                header.classList.add("header-scroll");
-            } else {
-                header.classList.remove("header-scroll");
-            }
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+            header.classList.add("header-scroll");
+        } else {
+            header.classList.remove("header-scroll");
+        }
 
-            if (window.scrollY > lastScrollY) {
-                header.classList.add("header-hidden"); // Ẩn header khi cuộn xuống
-            } else {
-                header.classList.remove("header-hidden");
-            }
-            lastScrollY = window.scrollY;
-        });
-
+        if (window.scrollY > lastScrollY) {
+            header.classList.add("header-hidden");
+        } else {
+            header.classList.remove("header-hidden");
+        }
+        lastScrollY = window.scrollY;
+    });
     </script>
 </body>
 

@@ -9,14 +9,21 @@ class CategoryController {
     }
 
     public function index() {
-        $category = $this->categoryModel->get_all_category();
+        $filterName = isset($_GET['filterName']) ? trim($_GET['filterName']) : "";
+        $filterCreated = isset($_GET['filterCreated']) ? trim($_GET['filterCreated']) : "";
+        $filterUpdated = isset($_GET['filterUpdated']) ? trim($_GET['filterUpdated']) : "";
+    
+        $categories = $this->categoryModel->get_all_category($filterName, $filterCreated, $filterUpdated);
+    
         if (isset($_GET['ajax']) && $_GET['ajax']) {
-            echo json_encode($category);
+            echo json_encode($categories);
             exit;
         }
+    
         $content = '../app/views/pages/admin/category.php';
         include_once "../app/views/layouts/admin.php";
     }
+    
 
     public function addCategory() {
         if (isset($_POST['category_name'])) {

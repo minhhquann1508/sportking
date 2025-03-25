@@ -37,9 +37,7 @@
             'label' => 'Quản lý người dùng',
             'url' => '',
             'children' => [
-                ['label' => 'Danh sách sản phẩm', 'url' => '#'],
-                ['label' => 'Thêm sản phẩm', 'url' => '#'],
-                ['label' => 'Biến thể sản phẩm', 'url' => '#']
+                ['label' => 'Danh sách người dùng', 'url' => '/?controller=user'],
             ]
         ],
         [
