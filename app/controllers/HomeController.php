@@ -3,11 +3,13 @@ class HomeController
 {
     public function index()
     {
-        $content = '../app/views/pages/user/home2.php';
-        include_once "../app/views/layouts/default.php";
+        $header = '../app/views/layouts/_header.php';
+        $content = '../app/views/pages/user/home.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
     }
 
-    public function home1()
+    public function home()
     {
         $content = '../app/views/pages/user/home.php';
         include_once "../app/views/layouts/default.php";
@@ -15,8 +17,10 @@ class HomeController
 
     public function home2()
     {
-        $content = '../app/views/pages/user/home2.php';
-        include_once "../app/views/layouts/default.php";
+        $header = '../app/views/layouts/_header.php';
+        $content = '../app/views/pages/user/home.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
     }
     public function about()
     {
