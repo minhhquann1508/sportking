@@ -4,10 +4,28 @@ require_once '../app/configs/Database.php';
 class Category extends Database {
     private $table = "category";
 
-    public function get_all_category() {
-        $sql = "SELECT * FROM $this->table";
-        return $this->select($sql);
+    public function get_all_category($filterName = "", $filterCreated = "", $filterUpdated = "") {
+        $sql = "SELECT * FROM category WHERE 1=1";
+        $params = [];
+    
+        if (!empty($filterName)) {
+            $sql .= " AND category_name LIKE ?";
+            $params[] = "%" . $filterName . "%";
+        }
+    
+        if (!empty($filterCreated)) {
+            $sql .= " AND DATE(created_at) = ?";
+            $params[] = $filterCreated;
+        }
+    
+        if (!empty($filterUpdated)) {
+            $sql .= " AND DATE(updated_at) = ?";
+            $params[] = $filterUpdated;
+        }
+    
+        return $this->select($sql, $params);
     }
+    
 
     public function check_name($category_name, $exclude_id = null) {
         $sql = "SELECT COUNT(*) AS count FROM category WHERE category_name = ?";

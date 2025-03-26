@@ -1,8 +1,3 @@
-<?php
-require_once __DIR__ . '/../../../controller/BrandController.php';
-$brandController = new BrandController();
-$brands = $brandController->index();
-?>
 
 <div class="container mt-5">
     <div class="row">
@@ -26,47 +21,44 @@ $brands = $brandController->index();
 
         <!-- Bảng hiển thị thương hiệu -->
         <div class="col-8">
+             <div class="mb-3 row">
+                <div class="col-4">
+                    <label for="filter_category_name" class="form-label">Tên danh mục</label>
+                    <input type="text" class="form-control" id="filter_brand_name" placeholder="Nhập tên danh mục">
+                </div>
+                <div class="col-4">
+                    <label for="filter_created_date" class="form-label">Ngày tạo</label>
+                    <input type="date" class="form-control" id="filter_created_date">
+                </div>
+                <div class="col-4">
+                    <label for="filter_updated_date" class="form-label">Cập nhật lần cuối</label>
+                    <input type="date" class="form-control" id="filter_updated_date">
+                </div>
+                <button id="filter_btn" class="btn btn-primary mb-3 mt-3">
+                    tìm
+                </button>
+            </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Tên thương hiệu</th>
-                        <th>Hình ảnh</th>
-                        <th>Hành động</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Tên thương hiệu</th>
+                        <th scope="col">Hình ảnh</th>
+                        <th scope="col">Ngày tạo</th>
+                        <th scope="col">Cập nhật lần cuối</th>
+                        <th scope="col">Tùy chọn</th>
                     </tr>
                 </thead>
                 <tbody id="brand-table">
-                    <?php
-                        $content = '';
-                        foreach ($brands as $key => $brand) {
-                            $content .= '
-                                <tr class="text-center">
-                                    <th scope="row">'.($key + 1).'</th>
-                                    <td>'.$brand['brand_name'].'</td>
-                                    <td><img src="'.$brand['thumbnail'].'" width="100"></td>
-                                    <td>
-                                        <button class="btn btn-info update-brand" 
-                                            data-id="'.$brand['brand_id'].'" 
-                                            data-name="'.$brand['brand_name'].'" 
-                                            data-thumbnail="'.$brand['thumbnail'].'">
-                                            Sửa
-                                        </button>
-                                        <button class="btn btn-danger delete-brand" 
-                                            data-id="'.$brand['brand_id'].'">
-                                            Xóa
-                                        </button>
-                                    </td>
-                                </tr>
-                            ';
-                        }
-                    ?>
-                    <?php echo $content; ?>
+                   
                 </tbody>
 
+                <div id="pagination" class="d-flex justify-content-center align-items-center"></div>
             </table>
         </div>
     </div>
 </div>
+
 
 <!-- Modal chỉnh sửa thương hiệu -->
 <div class="modal fade" id="updateBrandModal" tabindex="-1" aria-labelledby="updateBrandModalLabel" aria-hidden="true">
@@ -96,34 +88,160 @@ $brands = $brandController->index();
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../../js/brand.js"></script>
 
+<script>
+    const renderBrand = (brands) => {
+        let content = "";
+                brands.forEach(brand => {
+                    content += `
+                        <tr>
+                            <td>${brand.brand_id}</td>
+                            <td>${brand.brand_name}</td>
+                            <td><img src="${brand.thumbnail}" width="100"></td>
+                            <td>${formatDate(brand.created_at)}</td>
+                            <td>${formatDate(brand.updated_at)}</td>
+                            <td>
+                                <button class="btn btn-info update-brand" 
+                                    data-id="${brand.brand_id}" 
+                                    data-name="${brand.brand_name}" 
+                                    data-thumbnail="${brand.thumbnail}">Sửa</button>
+                                <button class="btn btn-danger delete-brand" data-id="${brand.brand_id}">Xóa</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                
+                document.getElementById("brand-table").innerHTML = content;
+    }
+    function formatDate(dateString) {
+        if (!dateString) return "N/A";
+        const date = new Date(dateString);
+        return date.toLocaleDateString("vi-VN",{
+            year: "numeric", 
+            month: "2-digit", 
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+    }
+$(document).ready(function() {
+    function loadBrands() {
+        $.ajax({
+            url: "?controller=brand&ajax=true",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                
+                let content = "";
+                $.each(data, function(key, brand) {
+                    content += `
+                        <tr>
+                            <td>${brand.brand_id}</td>
+                            <td>${brand.brand_name}</td>
+                            <td><img src="${brand.thumbnail}" width="100"></td>
+                            <td>${formatDate(brand.created_at)}</td>
+                            <td>${formatDate(brand.updated_at)}</td>
+                            <td>
+                                <button class="btn btn-info update-brand" 
+                                    data-id="${brand.brand_id}" 
+                                    data-name="${brand.brand_name}" 
+                                    data-thumbnail="${brand.thumbnail}">Sửa</button>
+                                <button class="btn btn-danger delete-brand" data-id="${brand.brand_id}">Xóa</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                $("#brand-table").html(content);
+            }
+        });
+    }
+    
+    loadBrands();
 
+    // Thêm thương hiệu
+    $('#brand-form').submit(function(e) {
+        e.preventDefault();
+        let name = $('#brand_name').val();
+        let thumbnail = $('#brand_thumbnail').val();
 
+        $.ajax({
+            url:"?controller=brand&action=add_brand",
+            method: "POST",
+            data: {
+                brand_name: name,
+                thumbnail: thumbnail
+            },
+            dataType: "json",
+            success: function(response){
+                if (response.success){
+                    loadBrands();
+                    showToast(response.message);               
+                } else{
+                    showToast(response.message);
+                }
+            },
+            error: function(response){
+                showToast(response.responseText);
+            } 
+        })
+    });
 
+    // Xóa thương hiệu
+    $(document).on('click', '.delete-brand', function() {
+        let brandId = $(this).data('id');
 
-<tbody id="brand-table">
-                <?php
-                        $content = '';
-                        foreach ($brands as $key => $brand) {
-                            $content .= '
-                                <tr class="text-center">
-                                    <th scope="row">'.($key + 1).'</th>
-                                    <td>
-                                        <img class="mx-auto" width="200" height="100"
-                                            src="'.$brand['img_url'].'"
-                                            alt="">
-                                    </td>
-                                    <td><a target="_blank" href="'.$brand['url'].'">Link</a></td>
-                                    <td>
-                                        <button class="btn btn-danger">Xóa</button>
-                                        <button class="btn btn-primary">Sửa</button>
-                                    </td>
-                                </tr>
-                            ';
-                        }
-                    ?>
-                <?php echo $content ?>
-            </tbody>
+        $.get("?controller=brand&action=deleteBrand", { brand_id: brandId }, function(response) {
+            alert("Xóa thành công!");
+            loadBrands();
+        });
+    });
+
+    // Mở Modal cập nhật thương hiệu
+    $(document).on('click', '.update-brand', function() {
+        let brandId = $(this).data('id');
+        let brandName = $(this).data('name');
+        let brandThumbnail = $(this).data('thumbnail');
+
+        $('#update_brand_id').val(brandId);
+        $('#update_brand_name').val(brandName);
+        $('#update_brand_thumbnail').val(brandThumbnail);
+
+        $('#updateBrandModal').modal('show');
+    });
+
+    // Cập nhật thương hiệu
+    $('#update-brand-form').submit(function(e) {
+        e.preventDefault();
+
+        let id = $('#update_brand_id').val();
+        let name = $('#update_brand_name').val();
+        let thumbnail = $('#update_brand_thumbnail').val();
+
+        $.post("?controller=brand&action=updateBrand", { brand_id: id, brand_name: name, thumbnail: thumbnail }, function(response) {
+            alert("Cập nhật thành công!");
+            $('#updateBrandModal').modal('hide');
+            loadBrands();
+        });
+    });
+    $('#filter_btn').click(function(e){
+       let brandName = $('#filter_brand_name').val();
+        $.ajax({
+            url: "?controller=brand&ajax=true",
+            method: "POST",
+            dataType: "json",
+            data: {
+                brand_name: brandName,
+                filter: true
+            },
+            success:function(res){
+                console.log(res.data)
+                renderBrand(res.data);
+            },
+            error: function() {
+                
+            }
+        })
+    })
+});
+
+</script>

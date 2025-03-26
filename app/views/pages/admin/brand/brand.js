@@ -1,10 +1,13 @@
+console.log(123);
 $(document).ready(function() {
     function loadBrands() {
+        
         $.ajax({
             url: "?controller=brand&ajax=true",
             method: "GET",
             dataType: "json",
             success: function(data) {
+                
                 let content = "";
                 $.each(data, function(key, brand) {
                     content += `
@@ -12,6 +15,8 @@ $(document).ready(function() {
                             <td>${brand.brand_id}</td>
                             <td>${brand.brand_name}</td>
                             <td><img src="${brand.thumbnail}" width="100"></td>
+                            <td>${categoryCreatedDate}</td>
+                            <td>${categoryUpdatedDate}</td>
                             <td>
                                 <button class="btn btn-info update-brand" 
                                     data-id="${brand.brand_id}" 
@@ -36,6 +41,7 @@ $(document).ready(function() {
 
         $.post("?controller=brand&action=addBrand", { brand_name: name, thumbnail: thumbnail }, function(response) {
             alert("Thêm thành công!");
+
             loadBrands();
         });
     });
@@ -77,4 +83,9 @@ $(document).ready(function() {
             loadBrands();
         });
     });
+
+   
+
 });
+
+
