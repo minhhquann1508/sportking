@@ -22,6 +22,7 @@ class HomeController
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+    // public function
     public function about()
     {
         $content = '../app/views/pages/user/about.php';
