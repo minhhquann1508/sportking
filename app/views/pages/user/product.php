@@ -56,96 +56,100 @@ $products = [
     pointer-events: none;
 }
 </style>
-<div class="container-lg mt-5 py-5">
-    <div class="row mb-3">
-        <div class="col-md-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
-                </ol>
-            </nav>
-        </div>
-    </div>
 
-    <div class="row mb-4 align-items-center">
-        <div class="col-md-6">
-            <div class="d-flex align-items-center filter">
-                <div class="d-flex align-items-center action-filter me-3">
-                    <i class="fas fa-arrow-down-wide-short me-2"></i>
-                    <span class="fw-bold me-2">BỘ LỌC</span>
-                    <span class="text-muted">| 130 sản phẩm</span>
+<main style="padding-top: 76px;">
+    <div class="container-lg mt-5 py-5">
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+        <div class="row mb-4 align-items-center">
+            <div class="col-md-6">
+                <div class="d-flex align-items-center filter">
+                    <div class="d-flex align-items-center action-filter me-3">
+                        <i class="fas fa-arrow-down-wide-short me-2"></i>
+                        <span class="fw-bold me-2">BỘ LỌC</span>
+                        <span class="text-muted">| 130 sản phẩm</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="d-flex align-items-center justify-content-md-end sort">
+                    <span class="me-2 text-secondary fw-semibold">Sắp xếp theo:</span>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle rounded-pill px-3" type="button"
+                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            Phổ biến
+                        </button>
+                        <ul class="dropdown-menu shadow" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" href="#">Tên A-Z</a></li>
+                            <li><a class="dropdown-item" href="#">Tên Z-A</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Giá thấp đến cao</a></li>
+                            <li><a class="dropdown-item" href="#">Giá cao đến thấp</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Mới nhất</a></li>
+                            <li><a class="dropdown-item" href="#">Bán chạy nhất</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="d-flex align-items-center justify-content-md-end sort">
-                <span class="me-2 text-secondary fw-semibold">Sắp xếp theo:</span>
-                <div class="dropdown">
-                    <button class="btn btn-outline-primary dropdown-toggle rounded-pill px-3" type="button"
-                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        Phổ biến
-                    </button>
-                    <ul class="dropdown-menu shadow" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="#">Tên A-Z</a></li>
-                        <li><a class="dropdown-item" href="#">Tên Z-A</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Giá thấp đến cao</a></li>
-                        <li><a class="dropdown-item" href="#">Giá cao đến thấp</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Mới nhất</a></li>
-                        <li><a class="dropdown-item" href="#">Bán chạy nhất</a></li>
-                    </ul>
-                </div>
+        <div class="row py-2">
+            <?php foreach ($products as $product): ?>
+            <div class="col-6 col-md-4 col-lg-3 mb-4">
+                <a href="?controller=product&action=detail&id=<?= $product['id'] ?>"
+                    class="text-decoration-none text-dark">
+                    <div class="card h-100 border-0 d-grid gap-2">
+                        <img src="<?= $product['image'] ?>" class="card-img-top object-fit-cover"
+                            alt="<?= $product['name'] ?>" style="height: 350px;">
+                        <div class="card-body p-2">
+                            <p class="card-title fs-6 mb-1"><?= $product['name'] ?></p>
+                            <p class="card-text fw-semibold">đ<?= $product['price'] ?></p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-auto p-2">
+                            <div class="d-flex justify-content-center align-items-center"
+                                style="background-color: #E6B31E; border-radius:50%; padding:8px;">
+                                <img src="./img/cart.svg" width="20">
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center"
+                                style="border-radius:50%; padding:8px;">
+                                <img src="./img/heart.svg" width="20">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="row pagination pb-3">
+            <div class="col-md-12">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
-
-    <div class="row py-2">
-        <?php foreach ($products as $product): ?>
-        <div class="col-6 col-md-4 col-lg-3 mb-4">
-            <a href="?controller=product&action=detail&id=<?= $product['id'] ?>" class="text-decoration-none text-dark">
-                <div class="card h-100 border-0 d-grid gap-2">
-                    <img src="<?= $product['image'] ?>" class="card-img-top object-fit-cover"
-                        alt="<?= $product['name'] ?>" style="height: 350px;">
-                    <div class="card-body p-2">
-                        <p class="card-title fs-6 mb-1"><?= $product['name'] ?></p>
-                        <p class="card-text fw-semibold">đ<?= $product['price'] ?></p>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mt-auto p-2">
-                        <div class="d-flex justify-content-center align-items-center"
-                            style="background-color: #E6B31E; border-radius:50%; padding:8px;">
-                            <img src="./img/cart.svg" width="20">
-                        </div>
-                        <div class="d-flex justify-content-center align-items-center"
-                            style="border-radius:50%; padding:8px;">
-                            <img src="./img/heart.svg" width="20">
-                        </div>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <?php endforeach; ?>
-    </div>
-
-    <div class="row pagination pb-3">
-        <div class="col-md-12">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1"><i class="fa-solid fa-angle-left"></i></a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#"><i class="fa-solid fa-angle-right"></i></a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+</main>
