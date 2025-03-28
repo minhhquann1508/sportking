@@ -139,7 +139,7 @@
 
         </nav>
     </header>
-    <div>
+    <div style="padding-top: 76px">
         <?php include_once $content ?>
     </div>
 
