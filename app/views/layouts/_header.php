@@ -7,6 +7,7 @@
         background: transparent;
         transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
         z-index: 1000;
+        background-color: #f2f2f2;
     }
 
     .header-scroll {
