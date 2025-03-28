@@ -24,6 +24,12 @@ class HomeController
         $content = '../app/views/pages/user/about.php';
         include_once "../app/views/layouts/default.php";
     }
+    public function product()
+    {
+        $content = '../app/views/pages/user/product.php';
+        include_once "../app/views/layouts/default.php";
+    }
+}
     public function order()
     {
         $content = '../app/views/pages/user/order.php';
