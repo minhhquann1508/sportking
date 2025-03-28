@@ -42,7 +42,11 @@
             </div>
             <div class="col-7">
                 <h3 class="text-uppercase" style="font-weight: 500;">Áo thể thao chống thấm hút mồ hôi</h3>
-                <h4 style="font-weight: 200;">2.000.000đ</h4>
+                <h6 style="font-weight: 200;" class="text-decoration-line-through text-black-50">2.500.000đ</h6>
+                <h4 style="font-weight: 200;" class="d-flex align-items-center gap-3">
+                    2.000.000đ
+                    <span class="bg-primary fw-bold fs-6 px-2 py-1 rounded text-white">-20%</span>
+                </h4>
                 <div class="d-flex gap-3 mb-2">
                     <span><strong>Danh mục: </strong><span>Áo thể thao</span></span>
                     <span><strong>Thương hiệu: </strong><span>Khuyến Dương</span></span>
@@ -86,6 +90,31 @@
                 <div>
                     <button class="btn btn-outline-primary">Thêm vào giỏ hàng</button>
                     <button class="btn btn-primary">Mua ngay</button>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-6 mb-3 d-flex gap-2 align-items-center">
+                        <img width="32" height="32" src="https://www.coolmate.me/images/product-detail/return.svg"
+                            alt="">
+                        <small class="fw-bold">Đổi trả cực dễ chỉ cần số
+                            điện thoại</small>
+                    </div>
+                    <div class="col-6 mb-3 d-flex gap-2 align-items-center">
+                        <img width="32" height="32" src="https://www.coolmate.me/images/product-detail/phone.svg"
+                            alt="">
+                        <small class="fw-bold">Hotline 1900.27.27.37 hỗ
+                            trợ từ 8h30 - 22h mỗi ngày</small>
+                    </div>
+                    <div class="col-6 mb-3 d-flex gap-2 align-items-center">
+                        <img width="32" height="32" src="https://www.coolmate.me/images/product-detail/return-60.svg"
+                            alt="">
+                        <small class="fw-bold">60 ngày đổi trả vì bất kỳ lý do gì</small>
+                    </div>
+                    <div class="col-6 mb-3 d-flex gap-2 align-items-center">
+                        <img width="32" height="32" src="https://www.coolmate.me/images/product-detail/location.svg"
+                            alt="">
+                        <small class="fw-bold">Đến tận nơi nhận hàng trả,
+                            hoàn tiền trong 24h</small>
+                    </div>
                 </div>
             </div>
         </div>
