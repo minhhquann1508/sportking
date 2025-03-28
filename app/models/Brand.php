@@ -23,7 +23,7 @@
         }
 
         public function check_name($name_brand,$hinh_anh = null) {
-            $sql = "SELECT COUNT(*) AS count FROM category WHERE category_name = ?";
+            $query = "SELECT COUNT(*) AS count FROM category WHERE category_name = ?";
             $params = [$category_name];
     
             if ($exclude_id !== null) {

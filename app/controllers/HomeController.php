@@ -31,4 +31,10 @@ class HomeController
         $content = '../app/views/pages/user/about.php';
         include_once "../app/views/layouts/default.php";
     }
+    public function order()
+    {
+        $content = '../app/views/pages/user/order.php';
+        include_once "../app/views/layouts/default.php";
+    }
 }
+

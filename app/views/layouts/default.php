@@ -139,6 +139,7 @@ header {
 
         </nav>
     </header>
+
     <div style="margin-top: 76px;">
         <?php include_once $content ?>
     </div>
