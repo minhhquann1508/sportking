@@ -1,28 +1,4 @@
 <?php
-$carouselItems = [
-    [
-        'img' => './img/banner.jpg',
-        'title' => 'Chào mừng đến với cửa hàng của chúng tôi',
-        'subtitle' => 'Tìm kiếm những sản phẩm tốt nhất tại đây',
-        'btn_url' => 'shop.php',
-        'btn_text' => 'Mua ngay'
-    ],
-    [
-        'img' => './img/banner2.jpg',
-        'title' => 'Chào mừng đến với cửa hàng của chúng tôi',
-        'subtitle' => 'Tìm kiếm những sản phẩm tốt nhất tại đây',
-        'btn_url' => 'shop.php',
-        'btn_text' => 'Mua ngay'
-    ],
-    [
-        'img' => './img/banner3.jpg',
-        'title' => 'Hàng mới về',
-        'subtitle' => 'Khám phá bộ sưu tập mới nhất',
-        'btn_url' => 'new.php',
-        'btn_text' => 'Khám phá ngay'
-    ]
-];
-
 $brands = [
     "https://media.loveitopcdn.com/3807/logo-coca-cola-vector-dongphucsongphu4.png",
     "https://upload.wikimedia.org/wikipedia/commons/2/24/Adidas_logo.png",
@@ -33,21 +9,21 @@ $brands = [
 ];
 
 $flashSale = [
-    ["brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "./img/product6.png"],
-    ["brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "./img/product6.png"],
-    ["brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "./img/product6.png"],
-    ["brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "./img/product6.png"]
+    ["brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-14.jpg"],
+    ["brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
+    ["brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
+    ["brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://icdn.psgtalk.com/wp-content/uploads/2021/04/Kylian-Mbappe-warming-up-Strasbourg-vs-PSG-Ligue-1-2021.jpg"]
 ];
 
 $products = [
-    ["id" => 1, "name" => "Dino Explorer Sweatshirt", "price" => 35, "image" => "./img/product1.png"],
-    ["id" => 2, "name" => "Dino Explorer Sweatshirt", "price" => 35, "image" => "./img/product2.png"],
-    ["id" => 3, "name" => "Blue Ruffle Dress", "price" => 42, "image" => "./img/product3.png"],
-    ["id" => 4, "name" => "Classic Black Tee", "price" => 50, "image" => "./img/product4.png"],
-    ["id" => 5, "name" => "Classic Black Tee", "price" => 50, "image" => "./img/product5.png"],
-    ["id" => 6, "name" => "Classic Black Tee", "price" => 50, "image" => "./img/product3.png"],
-    ["id" => 7, "name" => "Classic Black Tee", "price" => 50, "image" => "./img/product3.png"],
-    ["id" => 8, "name" => "Mint Green Floral Dress", "price" => 38, "image" => "./img/product3.png"]
+    ["id" => 1, "name" => "Dino Explorer Sweatshirt", "price" => 35, "image" => "https://cdn.giaoducthoidai.vn/images/87a7b2442062a13f399c8570bdaf2565a8f969d40e98698a410f920061ed3556e3eda6ef7e4fd2b79a00356c76e89d88/051-1386.png"],
+    ["id" => 2, "name" => "Dino Explorer Sweatshirt", "price" => 35, "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
+    ["id" => 3, "name" => "Blue Ruffle Dress", "price" => 42, "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-12.jpg"],
+    ["id" => 4, "name" => "Classic Black Tee", "price" => 50, "image" => "https://cmu-cdn.vinfast.vn/2022/12/6ae187b4-doi-tuyen-nhat-ban.jpg"],
+    ["id" => 5, "name" => "Classic Black Tee", "price" => 50, "image" => "https://i.guim.co.uk/img/media/5cb3a70c251f02a715fc299117472b7a7179e62a/60_184_1301_1587/master/1301.jpg?width=445&dpr=1&s=none&crop=none"],
+    ["id" => 6, "name" => "Classic Black Tee", "price" => 50, "image" => "https://media-cdn-v2.laodong.vn/storage/newsportal/2024/7/4/1361447/Ronaldo-Tt2-01.jpeg"],
+    ["id" => 7, "name" => "Classic Black Tee", "price" => 50, "image" => "https://pbs.twimg.com/media/EE7HIPPXoAEcpkt.jpg"],
+    ["id" => 8, "name" => "Mint Green Floral Dress", "price" => 38, "image" => "https://kenh14cdn.com/2019/1/26/hi-1548504545798711409173.jpg"]
 ];
 
 $category = [
@@ -85,56 +61,52 @@ $blog = [
 ];
 ?>
 
-<section class="hero d-flex justify-content-center align-items-center" style="background-color: #f2f2f2;margin-top:76px;overflow:hidden">
-    <div class="container row" style="height:calc(100vh - 76px)">
-        <div class="col-6 d-flex flex-column justify-content-center">
-            <div class="mb-3">
-                <p style="font-size: 70px; font-weight:700">Áo cho nữ</p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi eveniet quam laudantium asperiores dolorem,
-                    odio dolores? Obcaecati molestias quis tenetur.</p>
-            </div>
-            <div class="row mb-5">
-                <div class="col-4">
-                    <p>Giá: </p>
-                    <p>đ300.000</p>
-                </div>
-                <div class="col-4">
-                    <p>Màu: </p>
-                    <div class="d-flex gap-2 align-items-center">
-                        <div style="border-radius:50%; background-color:white;width:20px;height:20px;"></div>
-                        <div style="border-radius:50%; background-color:#cccccc;width:20px;height:20px;"></div>
-                        <div style="border-radius:50%; background-color:#f0cce6;width:20px;height:20px;"></div>
-                        <div style="border-radius:50%; background-color:#cdbfed;width:20px;height:20px;"></div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <p>Cỡ: </p>
-                    <div class="d-flex gap-2" style="color: #888888;">
-                        <div class="d-flex align-items-center justify-content-center" style="border-radius:3px; background-color:white;width:25px;height:25px;">
-                            <span style="font-size:15px;font-weight:600">9</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center" style="border-radius:3px; background-color:white;width:25px;height:25px;">
-                            <span style="font-size:15px;font-weight:600">10</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center" style="border-radius:3px; background-color:white;width:25px;height:25px;">
-                            <span style="font-size:15px;font-weight:600">11</span>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-center" style="border-radius:3px; background-color:white;width:25px;height:25px;">
-                            <span style="font-size:15px;font-weight:600">12</span>
-                        </div>
+<?php include_once '_hero.php' ?>
 
-                    </div>
+<!-- Feature -->
+<section class="my-5 pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-4 d-flex flex-column align-items-center px-5 border-end">
+                <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/delivery.svg?v=1738722805">
+                <div>
+                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Home and collection point delivery
+                        from £50</p>
                 </div>
             </div>
-            <div class="d-flex gap-1">
-                <button class="btn" style="border: 1px solid black;border-radius:8px;font-weight:700;padding:8px 15px">Giảm 40%</button>
-                <button class="btn" style="background:#e5b220;color:white ;border-radius:8px;font-weight:700;padding:8px 15px">Mua Ngay</button>
+            <div class="col-4 d-flex flex-column align-items-center px-5 border-end">
+                <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/money.svg?v=1738723055">
+                <div>
+                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Money Guarantee. Within 30 days
+                        for an exchange.</p>
+                </div>
+            </div>
+            <div class="col-4 d-flex flex-column align-items-center px-5">
+                <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/payment.svg?v=1738723102">
+                <div>
+                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Flexible Payment. Pay with Multiple
+                        Credit Cards</p>
+                </div>
             </div>
         </div>
-        <div class="hero_img col-6 d-flex justify-content-center align-items-center position-relative">
-            <div class="bg-shape" style="outline: 2px solid #e5b220;outline-offset: 20px;position: absolute;
-            width: 500px;height: 500px;border-radius: 50%;background: #FFF9F9;z-index: 10;left:130px;"></div>
-            <img src="./img/heroimg.png" style="transform:translate(-30px, -30px);z-index:11" alt="" width="120%" height="auto">
+    </div>
+</section>
+
+<!-- Category -->
+<section class="my-5 pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-4 ">
+                <p style="font-size:20px; font-weight:600">Enhance your living space</p>
+                <p style="font-size: 60px; font-weight:700;line-height:1.1">Explore our collection</p>
+                <button class="btn border rounded-pill p-1" style="font-weight:600">Shop Now</button>
+            </div>
+            <div class="col-4 d-flex flex-column align-items-center px-5">
+                <img src="" alt="" width="100%" height="auto">
+            </div>
+            <div class="col-4 d-flex flex-column align-items-center px-5">
+
+            </div>
         </div>
     </div>
 </section>
@@ -169,7 +141,7 @@ $blog = [
                 <a href="">
                     <div>
                         <img src="<?= $product['image'] ?>"
-                            style="width: 300px; height: 100%; object-fit: cover">
+                            style="width: 300px; height: 400px; object-fit: cover">
                         <div class="pt-2">
                             <p style="font-size: 16px"><?= $product['name'] ?></p>
                             <p style="font-size: 14px;font-weight:600">đ<?= $product['price'] ?></p>
@@ -189,28 +161,29 @@ $blog = [
 
     <p class="mt-4">Hàng mới về</p>
     <div class="container" style="padding: 40px 0;">
-        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
             <?php foreach ($products as $product): ?>
-                <a href="?controller=product&action=detail&id=<?= $product['id'] ?>">
+                <a href="?controller=product&action=detail&id=<?= $product['id'] ?>" style="text-decoration: none; color: inherit;">
                     <div>
                         <img src="<?= $product['image'] ?>"
-                            style="width: auto; height: 100%; object-fit: cover">
+                            style="width: 100%; height: 400px; object-fit: cover;">
                         <div class="pt-2">
                             <p style="font-size: 16px"><?= $product['name'] ?></p>
-                            <p style="font-size: 14px;font-weight:600">đ<?= $product['price'] ?></p>
+                            <p style="font-size: 14px; font-weight: 600;">đ<?= $product['price'] ?></p>
                         </div>
                         <div class="d-flex gap-3">
-                            <div class="d-flex justify-content-center align-items-center" style="background-color: #E6B31E; border-radius:50px;padding:5px 7px">
+                            <div class="d-flex justify-content-center align-items-center"
+                                style="background-color: #E6B31E; border-radius: 50px; padding: 5px 7px;">
                                 <img src="./img/cart.svg" width="20">
                             </div>
                             <img src="./img/heart.svg" width="20">
                         </div>
-
                     </div>
                 </a>
             <?php endforeach; ?>
         </div>
     </div>
+
 </div>
 
 <div class="container my-5 text-center">
