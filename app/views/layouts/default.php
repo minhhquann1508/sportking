@@ -19,24 +19,24 @@
     <title>Document</title>
 </head>
 <style>
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background: transparent;
-        transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
-        z-index: 1000;
-    }
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 1000;
+}
 
-    .header-scroll {
-        background: white;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+.header-scroll {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-    .header-hidden {
-        transform: translateY(-100%);
-    }
+.header-hidden {
+    transform: translateY(-100%);
+}
 </style>
 
 <body>
@@ -113,14 +113,14 @@
                         <?php
                         if (isset($_SESSION['email'])) {
                         ?>
-                            <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
-                            <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
-                            <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
+                        <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
+                        <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
                         <?php
                         } else {
                         ?>
-                            <li><a class="dropdown-item" href="login.php">Đăng nhập</a></li>
-                            <li><a class="dropdown-item" href="register.php">Đăng kí</a></li>
+                        <li><a class="dropdown-item" href="login.php">Đăng nhập</a></li>
+                        <li><a class="dropdown-item" href="register.php">Đăng kí</a></li>
                         <?php
                         }
                         ?>
@@ -139,7 +139,8 @@
 
         </nav>
     </header>
-    <div>
+
+    <div style="margin-top: 76px;">
         <?php include_once $content ?>
     </div>
 
@@ -216,23 +217,23 @@
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        let lastScrollY = window.scrollY;
-        const header = document.querySelector("header");
+    let lastScrollY = window.scrollY;
+    const header = document.querySelector("header");
 
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 50) {
-                header.classList.add("header-scroll");
-            } else {
-                header.classList.remove("header-scroll");
-            }
+    window.addEventListener("scroll", () => {
+        if (window.scrollY > 50) {
+            header.classList.add("header-scroll");
+        } else {
+            header.classList.remove("header-scroll");
+        }
 
-            if (window.scrollY > lastScrollY) {
-                header.classList.add("header-hidden");
-            } else {
-                header.classList.remove("header-hidden");
-            }
-            lastScrollY = window.scrollY;
-        });
+        if (window.scrollY > lastScrollY) {
+            header.classList.add("header-hidden");
+        } else {
+            header.classList.remove("header-hidden");
+        }
+        lastScrollY = window.scrollY;
+    });
     </script>
 </body>
 
