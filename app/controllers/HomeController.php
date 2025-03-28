@@ -27,4 +27,12 @@ class HomeController
         $content = '../app/views/pages/user/about.php';
         include_once "../app/views/layouts/default.php";
     }
+    
+    // ĐÂY LÀ PHẦN SẢN PHẨM
+    public function product()
+    {
+        
+        $content = '../app/views/pages/user/product.php';
+        include_once "../app/views/layouts/default.php";
+    }
 }
