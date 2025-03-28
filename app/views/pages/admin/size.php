@@ -7,7 +7,7 @@
     </div>
 
     <!-- filter -->
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <form method="post" id="search-box" class="row">
             <div class="col-11 d-flex gap-2">
                 <div class="flex-grow-1">
@@ -17,12 +17,6 @@
                 </div>
                 <div class="flex-grow-1">
                     <label>Danh Mục</label>
-                    <select class="form-select" id="category_id" required>
-                        <option value="" disabled selected>Chọn danh mục</option>
-                        <?php foreach ($categories as $category): ?>
-                            <option value="<?= $category['category_id']; ?>"><?= $category['category_name']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
                 </div>
                 <div class="flex-grow-1">
                     <label for="phone">Ngày tạo</label>
@@ -37,7 +31,7 @@
                 <button type="submit" class="btn btn-primary w-100"><span class="fw-bold">Tìm</span> <i
                         class="fa-solid fa-magnifying-glass" style="font-size: 12px;"></i></button>
             </div>
-    </div>
+    </div> -->
 
     <div class="table-responsive">
         <table class="table table-bordered table-hover text-center align-middle">
@@ -160,12 +154,12 @@
         const size_name = $('#size_name');
         const category_id = $('#category_id');
         $.ajax({
-            url: "?controller=size&action=add_size",
-            method: "POST",
-            data: {
-                size_name: size_name.val(),
-                category_id: category_id.val(),
-            },
+        url: "?controller=size&action=add_size_action",
+        method: "POST",
+        data: {
+            size_name: size_name.val(),
+            category_id: category_id.val(),
+        },
             dataType: "json",
             success: function(response){
                 if (response.success){
@@ -176,8 +170,7 @@
                     showToast(response.message);
                 }
                 else {
-                    alert("Thêm size thất bại");
-                    $('#add-size-modal').modal('hide');
+                    $("#add-size-modal").modal('hide');
                     showToast(response.message);
                 }
             },
@@ -200,30 +193,28 @@
     // sửa
     // mở modal
     $(document).on('click', '.update-size', function() {
-        let size_id = $(this).data('id');
-        let size_name = $(this).data('name');
+        let size_id = $(this).data('size_id');
+        let size_name = $(this).data('size_name');
         let category_id = $(this).data('category_id');
-
         $('#update_size_id').val(size_id);
         $('#update_size_name').val(size_name);
         $('#update_category_id').val(category_id);
-
         $('#update-size-modal').modal('show');
     });
     // sửa
     $('#update-size-form').submit(function(e) {
     e.preventDefault();
-    const size_id = $('#update_size_id').val();
-    const size_name = $('#update_size_name').val();
-    const category_id = $('#update_category_id').val();
+    const size_id = $('#update_size_id');
+    const size_name = $('#update_size_name');
+    const category_id = $('#update_category_id');
 
     $.ajax({
-        url: "?controller=size&action=update_size",
+        url: "?controller=size&action=update_size_action",
         method: "POST",
         data: {
-            size_id: size_id,
-            size_name: size_name,
-            category_id: category_id,
+            size_id: size_id.val(),
+            size_name: size_name.val(),
+            category_id: category_id.val(),
         },
         dataType: "json",
         success: function(response) {
@@ -241,6 +232,20 @@
         }
     });
 });
+
+    // $('#update-size-form').submit(function(e) {
+    //         e.preventDefault();
+    //         let size_id = $('#update_size_id').val();
+    //         let size_name = $('#update_size_name').val();
+    //         let category_id = $('#update_category_id').val();
+
+    //         $.post("?controller=size&action=update_size_action", { size_id: size_id, size_name: size_name, category_id: category_id },
+    //         function(response) {
+    //             alert("Cập nhật thành công!");
+    //             $('#update-size-modal').modal('hide');
+    //             loadSizes();
+    //         });
+    //     });
 
 });
 </script>

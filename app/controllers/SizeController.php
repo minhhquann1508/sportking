@@ -22,14 +22,14 @@
         }
 
         
-        public function add_size(){
+        public function add_size_action(){
             $size_name = $_POST['size_name'];
             $category_id = $_POST['category_id'];
             $response = $this->sizeModel->add_size($size_name, $category_id);
             echo json_encode($response);
         }
 
-        public function update_size(){
+        public function update_size_action(){
             $size_id= $_POST['size_id'] ;
             $size_name = $_POST['size_name'] ;
             $category_id = $_POST['category_id'] ;
