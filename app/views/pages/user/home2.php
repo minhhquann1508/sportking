@@ -1,28 +1,4 @@
 <?php
-$carouselItems = [
-    [
-        'img' => './img/banner.jpg',
-        'title' => 'Chào mừng đến với cửa hàng của chúng tôi',
-        'subtitle' => 'Tìm kiếm những sản phẩm tốt nhất tại đây',
-        'btn_url' => 'shop.php',
-        'btn_text' => 'Mua ngay'
-    ],
-    [
-        'img' => './img/banner2.jpg',
-        'title' => 'Chào mừng đến với cửa hàng của chúng tôi',
-        'subtitle' => 'Tìm kiếm những sản phẩm tốt nhất tại đây',
-        'btn_url' => 'shop.php',
-        'btn_text' => 'Mua ngay'
-    ],
-    [
-        'img' => './img/banner3.jpg',
-        'title' => 'Hàng mới về',
-        'subtitle' => 'Khám phá bộ sưu tập mới nhất',
-        'btn_url' => 'new.php',
-        'btn_text' => 'Khám phá ngay'
-    ]
-];
-
 $brands = [
     "https://media.loveitopcdn.com/3807/logo-coca-cola-vector-dongphucsongphu4.png",
     "https://upload.wikimedia.org/wikipedia/commons/2/24/Adidas_logo.png",
@@ -33,21 +9,21 @@ $brands = [
 ];
 
 $flashSale = [
-    ["brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "./img/product6.png"],
-    ["brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "./img/product6.png"],
-    ["brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "./img/product6.png"],
-    ["brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "./img/product6.png"]
+    ["brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-14.jpg"],
+    ["brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
+    ["brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
+    ["brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://icdn.psgtalk.com/wp-content/uploads/2021/04/Kylian-Mbappe-warming-up-Strasbourg-vs-PSG-Ligue-1-2021.jpg"]
 ];
 
 $products = [
-    ["id" => 1, "name" => "Dino Explorer Sweatshirt", "price" => 35, "image" => "./img/product1.png"],
-    ["id" => 2, "name" => "Dino Explorer Sweatshirt", "price" => 35, "image" => "./img/product2.png"],
-    ["id" => 3, "name" => "Blue Ruffle Dress", "price" => 42, "image" => "./img/product3.png"],
-    ["id" => 4, "name" => "Classic Black Tee", "price" => 50, "image" => "./img/product4.png"],
-    ["id" => 5, "name" => "Classic Black Tee", "price" => 50, "image" => "./img/product5.png"],
-    ["id" => 6, "name" => "Classic Black Tee", "price" => 50, "image" => "./img/product3.png"],
-    ["id" => 7, "name" => "Classic Black Tee", "price" => 50, "image" => "./img/product3.png"],
-    ["id" => 8, "name" => "Mint Green Floral Dress", "price" => 38, "image" => "./img/product3.png"]
+    ["id" => 1, "name" => "Dino Explorer Sweatshirt", "price" => 35, "image" => "https://cdn.giaoducthoidai.vn/images/87a7b2442062a13f399c8570bdaf2565a8f969d40e98698a410f920061ed3556e3eda6ef7e4fd2b79a00356c76e89d88/051-1386.png"],
+    ["id" => 2, "name" => "Dino Explorer Sweatshirt", "price" => 35, "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
+    ["id" => 3, "name" => "Blue Ruffle Dress", "price" => 42, "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-12.jpg"],
+    ["id" => 4, "name" => "Classic Black Tee", "price" => 50, "image" => "https://cmu-cdn.vinfast.vn/2022/12/6ae187b4-doi-tuyen-nhat-ban.jpg"],
+    ["id" => 5, "name" => "Classic Black Tee", "price" => 50, "image" => "https://i.guim.co.uk/img/media/5cb3a70c251f02a715fc299117472b7a7179e62a/60_184_1301_1587/master/1301.jpg?width=445&dpr=1&s=none&crop=none"],
+    ["id" => 6, "name" => "Classic Black Tee", "price" => 50, "image" => "https://media-cdn-v2.laodong.vn/storage/newsportal/2024/7/4/1361447/Ronaldo-Tt2-01.jpeg"],
+    ["id" => 7, "name" => "Classic Black Tee", "price" => 50, "image" => "https://pbs.twimg.com/media/EE7HIPPXoAEcpkt.jpg"],
+    ["id" => 8, "name" => "Mint Green Floral Dress", "price" => 38, "image" => "https://kenh14cdn.com/2019/1/26/hi-1548504545798711409173.jpg"]
 ];
 
 $category = [
@@ -85,81 +61,56 @@ $blog = [
 ];
 ?>
 
-<style>
-    @media (max-width: 1200px) {
-        #heroCarousel {
-            height: 70vh;
-        }
+<?php include_once '_hero.php' ?>
 
-        #heroCarousel .carousel-item {
-            height: 70vh;
-        }
-    }
-
-    .hero-content {
-        opacity: 0;
-        transition: all 1s ease-in-out;
-    }
-
-    .hero-content:first-child {
-        transform: translateY(30px);
-    }
-
-    .hero-content.show {
-        opacity: 1;
-        transform: translateY(0);
-    }
-</style>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        setTimeout(() => {
-            document.querySelectorAll(".hero-content").forEach((el, index) => {
-                setTimeout(() => {
-                    el.classList.add("show");
-                }, index * 100);
-            });
-        }, 300);
-    });
-</script>
-
-<!-- Hero -->
-<div id="heroCarousel" class="hero-slider carousel slide" data-bs-ride="carousel" style="height: 100vh; position: relative;">
-    <div class="carousel-indicators" style="z-index:200;">
-        <?php foreach ($carouselItems as $index => $item): ?>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?= $index ?>"
-                class="<?= $index === 0 ? 'active' : '' ?>" aria-label="Slide <?= $index + 1 ?>"></button>
-        <?php endforeach; ?>
-    </div>
-
-    <div class="carousel-inner">
-        <?php foreach ($carouselItems as $index => $item): ?>
-            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>"
-                style="height: 100vh; background-image: url('<?= $item['img'] ?>'); background-size: cover; background-position: center; position: relative; overflow: hidden;">
-
-                <div style="content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                    background: linear-gradient(to bottom, #fff 5%, rgba(255, 255, 255, 0.91) 10.72%, rgba(255, 255, 255, 0.6) 20.14%, rgba(255, 255, 255, 0) 92.12%); pointer-events: none;">
-                </div>
-
-                <div class="d-flex align-items-center justify-content-center text-center"
-                    style="position: relative; z-index: 200; height: 100%; color: #000;">
-                    <div>
-                        <p class="hero-content hidden" style="color: #05472a; font-size: 40px;"><?= $item['title'] ?></p>
-                        <p class="hero-content "><?= $item['subtitle'] ?> </p>
-                        <a href="<?= $item['btn_url'] ?>" class="btn border mt-3 hero-content "><?= $item['btn_text'] ?></a>
-                    </div>
+<!-- Feature -->
+<section class="my-5 pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-4 d-flex flex-column align-items-center px-5 border-end">
+                <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/delivery.svg?v=1738722805">
+                <div>
+                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Home and collection point delivery
+                        from £50</p>
                 </div>
             </div>
-        <?php endforeach; ?>
+            <div class="col-4 d-flex flex-column align-items-center px-5 border-end">
+                <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/money.svg?v=1738723055">
+                <div>
+                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Money Guarantee. Within 30 days
+                        for an exchange.</p>
+                </div>
+            </div>
+            <div class="col-4 d-flex flex-column align-items-center px-5">
+                <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/payment.svg?v=1738723102">
+                <div>
+                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Flexible Payment. Pay with Multiple
+                        Credit Cards</p>
+                </div>
+            </div>
+        </div>
     </div>
+</section>
 
-    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index:200;">
-        <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="z-index:200;">
-        <span class="carousel-control-next-icon"></span>
-    </button>
-</div>
+<!-- Category -->
+<section class="my-5 pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-4 ">
+                <p style="font-size:20px; font-weight:600">Enhance your living space</p>
+                <p style="font-size: 60px; font-weight:700;line-height:1.1">Explore our collection</p>
+                <button class="btn border rounded-pill p-1" style="font-weight:600">Shop Now</button>
+            </div>
+            <div class="col-4 d-flex flex-column align-items-center px-5">
+                <img src="" alt="" width="100%" height="auto">
+            </div>
+            <div class="col-4 d-flex flex-column align-items-center px-5">
+
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <!-- Brands -->
 <div class="mt-5">
@@ -190,7 +141,7 @@ $blog = [
                 <a href="">
                     <div>
                         <img src="<?= $product['image'] ?>"
-                            style="width: 300px; height: 100%; object-fit: cover">
+                            style="width: 300px; height: 400px; object-fit: cover">
                         <div class="pt-2">
                             <p style="font-size: 16px"><?= $product['name'] ?></p>
                             <p style="font-size: 14px;font-weight:600">đ<?= $product['price'] ?></p>
@@ -210,28 +161,29 @@ $blog = [
 
     <p class="mt-4">Hàng mới về</p>
     <div class="container" style="padding: 40px 0;">
-        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
             <?php foreach ($products as $product): ?>
-                <a href="?controller=product&action=detail&id=<?= $product['id'] ?>">
+                <a href="?controller=product&action=detail&id=<?= $product['id'] ?>" style="text-decoration: none; color: inherit;">
                     <div>
                         <img src="<?= $product['image'] ?>"
-                            style="width: auto; height: 100%; object-fit: cover">
+                            style="width: 100%; height: 400px; object-fit: cover;">
                         <div class="pt-2">
                             <p style="font-size: 16px"><?= $product['name'] ?></p>
-                            <p style="font-size: 14px;font-weight:600">đ<?= $product['price'] ?></p>
+                            <p style="font-size: 14px; font-weight: 600;">đ<?= $product['price'] ?></p>
                         </div>
                         <div class="d-flex gap-3">
-                            <div class="d-flex justify-content-center align-items-center" style="background-color: #E6B31E; border-radius:50px;padding:5px 7px">
+                            <div class="d-flex justify-content-center align-items-center"
+                                style="background-color: #E6B31E; border-radius: 50px; padding: 5px 7px;">
                                 <img src="./img/cart.svg" width="20">
                             </div>
                             <img src="./img/heart.svg" width="20">
                         </div>
-
                     </div>
                 </a>
             <?php endforeach; ?>
         </div>
     </div>
+
 </div>
 
 <div class="container my-5 text-center">
@@ -278,6 +230,3 @@ $blog = [
         <a href="#" class="text-dark" style="text-decoration: none; font-size: 1rem;">Xem tất cả →</a>
     </div>
 </div>
-
-
-<!-- 123 -->

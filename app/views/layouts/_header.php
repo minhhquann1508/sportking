@@ -22,7 +22,7 @@
 <header>
     <nav class="container d-flex justify-content-between align-items-center py-2">
         <a href="#">
-            <img src="./img/logo.png" alt="Logo" width="150px">
+            <img src="./img/sportking-logo.png" alt="Logo" width="150px">
         </a>
 
         <button class="navbar-toggler d-lg-none border-0" type="button" data-bs-toggle="collapse"
