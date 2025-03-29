@@ -63,79 +63,92 @@ $blog = [
 
 <?php include_once '_hero.php' ?>
 
-<!-- Feature -->
+<style>
+    .zoom-img {
+        transition: transform 0.5s ease;
+        height: 600px;
+        object-fit: cover;
+        border-radius: 12px;
+        width: 100%;
+    }
+
+    .zoom-img:hover {
+        transform: scale(1.05);
+    }
+</style>
+
 <section class="my-5 pt-5">
     <div class="container">
         <div class="row">
-            <div class="col-4 d-flex flex-column align-items-center px-5 border-end">
+            <div class="col-md-4 col-12 d-flex flex-column align-items-center px-5 border-end py-4">
                 <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/delivery.svg?v=1738722805">
                 <div>
-                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Home and collection point delivery
-                        from £50</p>
+                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Giao hàng toàn quốc tới tận nhà với phí ship 0đ</p>
                 </div>
             </div>
-            <div class="col-4 d-flex flex-column align-items-center px-5 border-end">
+            <div class="col-md-4 col-12 d-flex flex-column align-items-center px-5 border-end py-4">
                 <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/money.svg?v=1738723055">
                 <div>
-                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Money Guarantee. Within 30 days
-                        for an exchange.</p>
+                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Chính sách bảo hành, đổi trả trong 30 ngày.</p>
                 </div>
             </div>
-            <div class="col-4 d-flex flex-column align-items-center px-5">
+            <div class="col-md-4 col-12 d-flex flex-column align-items-center px-5 py-4">
                 <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/payment.svg?v=1738723102">
                 <div>
-                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Flexible Payment. Pay with Multiple
-                        Credit Cards</p>
+                    <p class="text-center px-4" style="font-size: 15px; font-weight:600">Thanh toán đa phương tiện. Thẻ tín dụng dễ dàng</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Category -->
-<section class="my-5 pt-5">
-    <div class="container">
+
+
+
+<section class="my-5 py-5 border-bottom">
+    <div class="container py-5">
         <div class="row">
-            <div class="col-4 ">
-                <p style="font-size:20px; font-weight:600">Enhance your living space</p>
-                <p style="font-size: 60px; font-weight:700;line-height:1.1">Explore our collection</p>
-                <button class="btn border rounded-pill p-1" style="font-weight:600">Shop Now</button>
+            <div class="col-lg-4 col-md-12 mb-5  mb-lg-0 d-flex flex-column justify-content-center">
+                <p class="mb-4" style="font-size:20px; font-weight:600">Nâng cao gu thẩm mỹ</p>
+                <p class="mb-4" style="font-size: 50px; font-weight:700;line-height:1.1">Trang phục bạn tìm kiếm</p>
+                <button class="btn border rounded-pill" style="font-weight:600;width:130px;height:50px">Mua Ngay</button>
             </div>
-            <div class="col-4 d-flex flex-column align-items-center px-5">
-                <img src="" alt="" width="100%" height="auto">
-            </div>
-            <div class="col-4 d-flex flex-column align-items-center px-5">
 
+            <div class="col-lg-4 col-md-6 col-12 mb-5 mb-lg-0">
+                <div class="bg-light rounded-3 overflow-hidden">
+                    <img class="zoom-img img-fluid"
+                        src="https://www.transparentpng.com/download/man/M8cqJS-handsome-man-png-transparent-handsome-man-png-images.png"
+                        alt="Nam">
+                </div>
+                <div class="mt-3 d-flex justify-content-between align-items-center">
+                    <p class="m-0 fw-bold fs-5">Nam</p>
+                    <button class="btn btn-outline-dark rounded-circle">→</button>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="bg-light rounded-3 overflow-hidden">
+                    <img class="zoom-img img-fluid"
+                        src="https://wpbingo-aktive.myshopify.com/cdn/shop/files/banner-5.jpg?v=1738723920%20470w"
+                        alt="Nữ">
+                </div>
+                <div class="mt-3 d-flex justify-content-between align-items-center">
+                    <p class="m-0 fw-bold fs-5">Nữ</p>
+                    <button class="btn btn-outline-dark rounded-circle">→</button>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
 
-<!-- Brands -->
-<div class="mt-5">
-    <div class="container text-center my-4">
-        <p>Chúng tôi hợp tác với hơn 50+ thương hiệu nổi tiếng</p>
+
+<div class="container my-5">
+    <div class="d-flex gap-5 align-items-center">
+        <p class="" style="font-size: 40px;font-weight:550">Được lựa chọn cho bạn</p>
+        <p class="" style="font-weight:550; border-bottom:1px solid black">Xem thêm</p>
     </div>
-
-    <div class="container">
-        <div class="row justify-content-center align-items-center">
-            <?php foreach ($brands as $brand): ?>
-                <div class="col-6 col-sm-4 col-md-2 text-center">
-                    <img src="<?= $brand ?>" alt="Brand Logo" style="width: 100px; height: auto;">
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</div>
-
-
-<div class="container my-4">
-    <p>
-        Nhanh tay mua sắm với ưu đãi chớp nhoáng
-        <span class="badge bg-secondary">35h 56m 32s</span>
-    </p>
-    <div class="container" style="padding: 40px 0;">
+    <div class="container" style="padding: 20px 0;">
         <div class="d-flex justify-content-between align-items-center">
             <?php foreach ($flashSale as $product): ?>
                 <a href="">
@@ -228,5 +241,22 @@ $blog = [
 
     <div class="text-center mt-4">
         <a href="#" class="text-dark" style="text-decoration: none; font-size: 1rem;">Xem tất cả →</a>
+    </div>
+</div>
+
+<!-- Brands -->
+<div class="mt-5">
+    <div class="container text-center my-4">
+        <p>Chúng tôi hợp tác với hơn 50+ thương hiệu nổi tiếng</p>
+    </div>
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <?php foreach ($brands as $brand): ?>
+                <div class="col-6 col-sm-4 col-md-2 text-center">
+                    <img src="<?= $brand ?>" alt="Brand Logo" style="width: 100px; height: auto;">
+                </div>
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>
