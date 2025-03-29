@@ -1,3 +1,5 @@
+<?php include '../app/views/layouts/_list_product.php' ?>
+
 <?php
 $brands = [
     "https://media.loveitopcdn.com/3807/logo-coca-cola-vector-dongphucsongphu4.png",
@@ -149,30 +151,12 @@ $blog = [
         <p class="" style="font-weight:550; border-bottom:1px solid black">Xem thêm</p>
     </div>
     <div class="container" style="padding: 20px 0;">
-        <div class="d-flex justify-content-between align-items-center">
-            <?php foreach ($flashSale as $product): ?>
-                <a href="">
-                    <div>
-                        <img src="<?= $product['image'] ?>"
-                            style="width: 300px; height: 400px; object-fit: cover">
-                        <div class="pt-2">
-                            <p style="font-size: 16px"><?= $product['name'] ?></p>
-                            <p style="font-size: 14px;font-weight:600">đ<?= $product['price'] ?></p>
-                        </div>
-                        <div class="d-flex gap-3">
-                            <div class="d-flex justify-content-center align-items-center" style="background-color: #E6B31E; border-radius:50px;padding:5px 7px">
-                                <img src="./img/cart.svg" width="20">
-                            </div>
-                            <img src="./img/heart.svg" width="20">
-                        </div>
-
-                    </div>
-                </a>
-            <?php endforeach; ?>
+        <div class="tf-grid-layout tf-col-2 lg-col-3 xl-col-4">
+            <?php render_list_product($flashSale); ?>
         </div>
     </div>
 
-    <p class="mt-4">Hàng mới về</p>
+    <p class="mt-4" style="font-size: 40px;font-weight:550">Hàng mới về</p>
     <div class="container" style="padding: 40px 0;">
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
             <?php foreach ($products as $product): ?>
