@@ -18,7 +18,9 @@
                 exit;
             }
             $content = '../app/views/pages/user/login.php';
-            include_once "../app/views/layouts/default.php";
+            $header = '../app/views/layouts/_header.php';
+            $footer = '../app/views/layouts/_footer.php';
+            include_once "../app/views/layouts/default2.php";
         }
 
         public function register() {
@@ -41,7 +43,9 @@
                 }
             }
             $content = '../app/views/pages/user/register.php';
-            include_once "../app/views/layouts/default.php";
+            $header = '../app/views/layouts/_header.php';
+            $footer = '../app/views/layouts/_footer.php';
+            include_once "../app/views/layouts/default2.php";
         }
     }
 ?>

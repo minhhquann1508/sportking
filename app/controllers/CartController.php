@@ -6,7 +6,9 @@
         // }
         public function index() {
             $content = '../app/views/pages/user/cart.php';
-            include_once "../app/views/layouts/default.php";
+            $header = '../app/views/layouts/_header.php';
+            $footer = '../app/views/layouts/_footer.php';
+            include_once "../app/views/layouts/default2.php";
         }
         public function add() {
             if (!isset($_POST['variant'], $_POST['product_id'])) return;
