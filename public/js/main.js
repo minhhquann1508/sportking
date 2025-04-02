@@ -47,3 +47,43 @@ function renderPagination(currentPage = 1, totalItems = 10, itemsPerPage = 10) {
   ul.innerHTML = content;
   paginationDiv.appendChild(ul);
 }
+
+//
+let lastScrollY = window.scrollY;
+const header = document.querySelector("header");
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 50) {
+    header.classList.add("header-scroll");
+  } else {
+    header.classList.remove("header-scroll");
+  }
+
+  if (window.scrollY > lastScrollY) {
+    header.classList.add("header-hidden");
+  } else {
+    header.classList.remove("header-hidden");
+  }
+  lastScrollY = window.scrollY;
+});
+const swiper = new Swiper(".mySwiper", {
+  slidesPerView: 5,
+  spaceBetween: 20,
+  breakpoints: {
+    1200: {
+      slidesPerView: 5,
+    },
+    992: {
+      slidesPerView: 4,
+    },
+    768: {
+      slidesPerView: 3,
+    },
+    576: {
+      slidesPerView: 2,
+    },
+    0: {
+      slidesPerView: 1,
+    },
+  },
+});

@@ -41,41 +41,8 @@
     .dodgeImage:hover {
         transform: scale(1.5);
     }
-
-    .cursor-dot {
-        position: fixed;
-        width: 5px;
-        height: 5px;
-        background: #b57a43;
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9999;
-        transform: translate(-50%, -50%) scale(1);
-        transition: transform 0.4s ease, background 0.4s ease;
-    }
-
-    .cursor-ring {
-        position: fixed;
-        width: 30px;
-        height: 30px;
-        border: 1px solid #b57a43;
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translate(-50%, -50%);
-    }
-
-    body.hovered .cursor-dot {
-        transform: translate(-50%, -50%) scale(13);
-        background: rgba(185, 123, 66, 0.2);
-    }
-
-    body.hovered .cursor-ring {
-        opacity: 0;
-    }
 </style>
-<div class="cursor-dot"></div>
-<div class="cursor-ring"></div>
+
 <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"
@@ -123,10 +90,10 @@
                             </div>
                             <div class="d-flex gap-1">
                                 <button class="btn"
-                                    style="border: 1px solid black;border-radius:8px;font-weight:700;padding:8px 15px">Giảm
+                                    style="border: 1px solid black;border-radius:0;font-weight:700;padding:8px 15px">Giảm
                                     40%</button>
                                 <button class="btn"
-                                    style="background:#e5b220;color:white ;border-radius:8px;font-weight:700;padding:8px 15px">Mua
+                                    style="background:#BD844C;color:white ;border-radius:0;font-weight:700;padding:8px 15px">Mua
                                     Ngay</button>
                             </div>
                         </div>
@@ -134,7 +101,7 @@
                     <div class="hero-img">
                         <div class="shape-wrapper position-relative" style="width: 100%; max-width: 700px;">
                             <div class="bg-shape position-absolute" style="
-                                    outline: 2px solid #e5b220;
+                                    outline: 2px solid #BD844C;
                                     outline-offset: 10px;
                                     width: 80%;
                                     aspect-ratio: 1/1;
@@ -297,39 +264,4 @@
             dodgeImage.style.transform = `translate(0, 0)`;
         });
     });
-
-    const dot = document.querySelector('.cursor-dot');
-    const ring = document.querySelector('.cursor-ring');
-
-    let mouseX = 0,
-        mouseY = 0;
-    let ringX = 0,
-        ringY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        dot.style.left = `${mouseX}px`;
-        dot.style.top = `${mouseY}px`;
-    });
-
-    function animate() {
-        ringX += (mouseX - ringX) * 0.3;
-        ringY += (mouseY - ringY) * 0.3;
-        ring.style.left = `${ringX}px`;
-        ring.style.top = `${ringY}px`;
-        requestAnimationFrame(animate);
-    }
-
-    const hoverElements = document.querySelectorAll('a, button');
-
-    hoverElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            document.body.classList.add('hovered');
-        });
-        el.addEventListener('mouseleave', () => {
-            document.body.classList.remove('hovered');
-        });
-    });
-    animate();
 </script>

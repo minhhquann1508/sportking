@@ -1,4 +1,7 @@
 <?php include '../app/views/layouts/_list_product.php' ?>
+<?php include '../app/views/layouts/_list_product_cssfile.php' ?>
+<?php include '../app/views/layouts/_home_btn.php' ?>
+<?php include 'home.php' ?>
 
 <?php
 $brands = [
@@ -11,21 +14,27 @@ $brands = [
 ];
 
 $flashSale = [
-    ["brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-14.jpg"],
-    ["brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
-    ["brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
-    ["brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://icdn.psgtalk.com/wp-content/uploads/2021/04/Kylian-Mbappe-warming-up-Strasbourg-vs-PSG-Ligue-1-2021.jpg"]
+    ["id" => 1, "brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-14.jpg"],
+    ["id" => 2, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
+    ["id" => 3, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
+    ["id" => 4, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://icdn.psgtalk.com/wp-content/uploads/2021/04/Kylian-Mbappe-warming-up-Strasbourg-vs-PSG-Ligue-1-2021.jpg"]
+];
+$newArrivals = [
+    ["id" => 5, "brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://cdn.giaoducthoidai.vn/images/87a7b2442062a13f399c8570bdaf2565a8f969d40e98698a410f920061ed3556e3eda6ef7e4fd2b79a00356c76e89d88/051-1386.png"],
+    ["id" => 6, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
+    ["id" => 7, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://kenh14cdn.com/2019/1/26/hi-1548504545798711409173.jpg"],
+    ["id" => 8, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
+    ["id" => 9, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://media-cdn-v2.laodong.vn/storage/newsportal/2024/7/4/1361447/Ronaldo-Tt2-01.jpeg"],
+    ["id" => 10, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
+    ["id" => 11, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://cmu-cdn.vinfast.vn/2022/12/6ae187b4-doi-tuyen-nhat-ban.jpg"],
+    ["id" => 12, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://icdn.psgtalk.com/wp-content/uploads/2021/04/Kylian-Mbappe-warming-up-Strasbourg-vs-PSG-Ligue-1-2021.jpg"]
 ];
 
-$products = [
-    ["id" => 1, "name" => "Dino Explorer Sweatshirt", "price" => 35, "image" => "https://cdn.giaoducthoidai.vn/images/87a7b2442062a13f399c8570bdaf2565a8f969d40e98698a410f920061ed3556e3eda6ef7e4fd2b79a00356c76e89d88/051-1386.png"],
-    ["id" => 2, "name" => "Dino Explorer Sweatshirt", "price" => 35, "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
-    ["id" => 3, "name" => "Blue Ruffle Dress", "price" => 42, "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-12.jpg"],
-    ["id" => 4, "name" => "Classic Black Tee", "price" => 50, "image" => "https://cmu-cdn.vinfast.vn/2022/12/6ae187b4-doi-tuyen-nhat-ban.jpg"],
-    ["id" => 5, "name" => "Classic Black Tee", "price" => 50, "image" => "https://i.guim.co.uk/img/media/5cb3a70c251f02a715fc299117472b7a7179e62a/60_184_1301_1587/master/1301.jpg?width=445&dpr=1&s=none&crop=none"],
-    ["id" => 6, "name" => "Classic Black Tee", "price" => 50, "image" => "https://media-cdn-v2.laodong.vn/storage/newsportal/2024/7/4/1361447/Ronaldo-Tt2-01.jpeg"],
-    ["id" => 7, "name" => "Classic Black Tee", "price" => 50, "image" => "https://pbs.twimg.com/media/EE7HIPPXoAEcpkt.jpg"],
-    ["id" => 8, "name" => "Mint Green Floral Dress", "price" => 38, "image" => "https://kenh14cdn.com/2019/1/26/hi-1548504545798711409173.jpg"]
+$bestSellers = [
+    ["id" => 13, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://icdn.psgtalk.com/wp-content/uploads/2021/04/Kylian-Mbappe-warming-up-Strasbourg-vs-PSG-Ligue-1-2021.jpg"],
+    ["id" => 14, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
+    ["id" => 15, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
+    ["id" => 16, "brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-14.jpg"]
 ];
 
 $category = [
@@ -66,36 +75,33 @@ $blog = [
 <?php include_once '_hero.php' ?>
 
 <style>
-    .zoom-img {
-        transition: transform 0.5s ease;
-        height: 600px;
-        object-fit: cover;
-        border-radius: 12px;
-        width: 100%;
-    }
 
-    .zoom-img:hover {
-        transform: scale(1.05);
-    }
 </style>
-
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
 <section class="my-5 pt-5">
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-12 d-flex flex-column align-items-center px-5 border-end py-4">
-                <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/delivery.svg?v=1738722805">
+                <a href="">
+                    <img class="mylogo mb-3" src="./img/delivery.svg">
+                </a>
                 <div>
                     <p class="text-center px-4" style="font-size: 15px; font-weight:600">Giao hàng toàn quốc tới tận nhà với phí ship 0đ</p>
                 </div>
             </div>
             <div class="col-md-4 col-12 d-flex flex-column align-items-center px-5 border-end py-4">
-                <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/money.svg?v=1738723055">
+                <a href="">
+                    <img class="mb-3" src="./img/money.svg">
+                </a>
                 <div>
                     <p class="text-center px-4" style="font-size: 15px; font-weight:600">Chính sách bảo hành, đổi trả trong 30 ngày.</p>
                 </div>
             </div>
             <div class="col-md-4 col-12 d-flex flex-column align-items-center px-5 py-4">
-                <img class="mb-3" src="//wpbingo-aktive.myshopify.com/cdn/shop/files/payment.svg?v=1738723102">
+                <a href="">
+                    <img class="mb-3" src="./img/payment.svg">
+                </a>
                 <div>
                     <p class="text-center px-4" style="font-size: 15px; font-weight:600">Thanh toán đa phương tiện. Thẻ tín dụng dễ dàng</p>
                 </div>
@@ -106,39 +112,61 @@ $blog = [
 
 
 
-
-<section class="my-5 py-5 border-bottom">
+<section class="my-5 py-5">
     <div class="container py-5">
         <div class="row">
             <div class="col-lg-4 col-md-12 mb-5  mb-lg-0 d-flex flex-column justify-content-center">
-                <p class="mb-4" style="font-size:20px; font-weight:600">Nâng cao gu thẩm mỹ</p>
-                <p class="mb-4" style="font-size: 50px; font-weight:700;line-height:1.1">Trang phục bạn tìm kiếm</p>
-                <button class="btn border rounded-pill" style="font-weight:600;width:130px;height:50px">Mua Ngay</button>
+                <p class="mb-4" style="font-size:18px; font-weight:550;color:#BD844C">Tìm kiếm gu trang phục</p>
+                <p class="mb-4" style="font-size: 50px; font-weight:700;line-height:1.1">Thời trang cho mọi nhà</p>
+                <button class="home_btn btn border d-flex justify-content-center gap-2" style="font-weight:600;width:150px;height:40px;border-radius:0">Mua Ngay <span><i class="fa-solid fa-arrow-right"></i></span></button>
             </div>
 
             <div class="col-lg-4 col-md-6 col-12 mb-5 mb-lg-0">
-                <div class="bg-light rounded-3 overflow-hidden">
+                <div class="bg-light overflow-hidden">
                     <img class="zoom-img img-fluid"
-                        src="https://www.transparentpng.com/download/man/M8cqJS-handsome-man-png-transparent-handsome-man-png-images.png"
+                        src="./img/male.png"
                         alt="Nam">
                 </div>
-                <div class="mt-3 d-flex justify-content-between align-items-center">
+                <div class="mt-4 d-flex gap-5 align-items-center">
                     <p class="m-0 fw-bold fs-5">Nam</p>
-                    <button class="btn btn-outline-dark rounded-circle">→</button>
+                    <button class="btn btn-outline-dark rounded-circle"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
 
             <div class="col-lg-4 col-md-6 col-12">
-                <div class="bg-light rounded-3 overflow-hidden">
+                <div class="bg-light overflow-hidden">
                     <img class="zoom-img img-fluid"
-                        src="https://wpbingo-aktive.myshopify.com/cdn/shop/files/banner-5.jpg?v=1738723920%20470w"
+                        src="./img/female.png"
                         alt="Nữ">
                 </div>
-                <div class="mt-3 d-flex justify-content-between align-items-center">
+                <div class="mt-4 d-flex gap-5 align-items-center">
                     <p class="m-0 fw-bold fs-5">Nữ</p>
-                    <button class="btn btn-outline-dark rounded-circle">→</button>
+                    <button class="btn btn-outline-dark rounded-circle"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="p-5" style="background-color: #f7f7f7;">
+    <div class="category-swiper" style="max-width: 1300px; margin: 0 auto;">
+        <p style="font-size: 20px; font-weight: bold; text-align: center;">Chọn danh mục sản phẩm</p>
+        <p style="font-size: 16px; color: #555; text-align: center;">Chọn danh mục sản phẩm</p>
+
+        <div style="margin:0 auto">
+            <swiper-container class="mySwiper" slidesPerView: auto ,
+                spaceBetween: 16,
+                watchSlidesVisibility: true,>
+                <swiper-slide>Slide 1</swiper-slide>
+                <swiper-slide>Slide 2</swiper-slide>
+                <swiper-slide>Slide 3</swiper-slide>
+                <swiper-slide>Slide 4</swiper-slide>
+                <swiper-slide>Slide 5</swiper-slide>
+                <swiper-slide>Slide 6</swiper-slide>
+                <swiper-slide>Slide 7</swiper-slide>
+                <swiper-slide>Slide 8</swiper-slide>
+                <swiper-slide>Slide 9</swiper-slide>
+            </swiper-container>
         </div>
     </div>
 </section>
@@ -146,41 +174,44 @@ $blog = [
 
 
 <div class="container my-5">
-    <div class="d-flex gap-5 align-items-center">
-        <p class="" style="font-size: 40px;font-weight:550">Được lựa chọn cho bạn</p>
-        <p class="" style="font-weight:550; border-bottom:1px solid black">Xem thêm</p>
-    </div>
-    <div class="container" style="padding: 20px 0;">
-        <div class="tf-grid-layout tf-col-2 lg-col-3 xl-col-4">
-            <?php render_list_product($flashSale); ?>
-        </div>
+    <p class="mb-1" style="font-size:18px; font-weight:550;color:#BD844C">Sản phẩm của chúng tôi</p>
+    <div class="d-flex justify-content-between align-items-center">
+        <p class="mr-5" style="font-size: 40px;font-weight:550">Được lựa chọn cho bạn</p>
+
+        <!-- Tabs -->
+        <ul class="nav custom-tabs" id="productTabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-bs-toggle="tab" href="#flashSale">Flash Sale</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#newArrivals">Hàng Mới</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-bs-toggle="tab" href="#bestSellers">Bán Chạy</a>
+            </li>
+        </ul>
     </div>
 
-    <p class="mt-4" style="font-size: 40px;font-weight:550">Hàng mới về</p>
-    <div class="container" style="padding: 40px 0;">
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
-            <?php foreach ($products as $product): ?>
-                <a href="?controller=product&action=detail&id=<?= $product['id'] ?>" style="text-decoration: none; color: inherit;">
-                    <div>
-                        <img src="<?= $product['image'] ?>"
-                            style="width: 100%; height: 400px; object-fit: cover;">
-                        <div class="pt-2">
-                            <p style="font-size: 16px"><?= $product['name'] ?></p>
-                            <p style="font-size: 14px; font-weight: 600;">đ<?= $product['price'] ?></p>
-                        </div>
-                        <div class="d-flex gap-3">
-                            <div class="d-flex justify-content-center align-items-center"
-                                style="background-color: #E6B31E; border-radius: 50px; padding: 5px 7px;">
-                                <img src="./img/cart.svg" width="20">
-                            </div>
-                            <img src="./img/heart.svg" width="20">
-                        </div>
-                    </div>
-                </a>
-            <?php endforeach; ?>
+    <!-- Tab Content -->
+    <div class="tab-content mt-3">
+        <div class="tab-pane fade show active" id="flashSale">
+            <div class="container" style="padding: 20px 0;">
+                <?php render_list_product($flashSale); ?>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="newArrivals">
+            <div class="container" style="padding: 20px 0;">
+                <?php render_list_product($newArrivals); ?>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="bestSellers">
+            <div class="container" style="padding: 20px 0;">
+                <?php render_list_product($bestSellers); ?>
+            </div>
         </div>
     </div>
-
 </div>
 
 <div class="container my-5 text-center">
@@ -244,3 +275,40 @@ $blog = [
         </div>
     </div>
 </div>
+
+<script>
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+
+    let mouseX = 0,
+        mouseY = 0;
+    let ringX = 0,
+        ringY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.left = `${mouseX}px`;
+        dot.style.top = `${mouseY}px`;
+    });
+
+    function animate() {
+        ringX += (mouseX - ringX) * 0.3;
+        ringY += (mouseY - ringY) * 0.3;
+        ring.style.left = `${ringX}px`;
+        ring.style.top = `${ringY}px`;
+        requestAnimationFrame(animate);
+    }
+
+    const hoverElements = document.querySelectorAll('a, button,img');
+
+    hoverElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            document.body.classList.add('hovered');
+        });
+        el.addEventListener('mouseleave', () => {
+            document.body.classList.remove('hovered');
+        });
+    });
+    animate();
+</script>
