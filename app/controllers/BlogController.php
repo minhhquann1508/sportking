@@ -5,7 +5,8 @@
         //     $this->productModel = new Products();
         // }
         public function index() {
-            echo '<div>Đây là trang danh sách địa chỉ</div>';
+            $content = '../app/views/pages/user/blog.php';
+            include_once "../app/views/layouts/default.php";
         }
     }
 ?>
