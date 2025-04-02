@@ -171,6 +171,7 @@
     <!-- CKEDITOR -->
     <script>
     new FroalaEditor('#editor');
+    new FroalaEditor('#updated_editor');
     </script>
     <!-- BS5 -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"

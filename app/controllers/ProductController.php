@@ -17,6 +17,12 @@
             $content = '../app/views/pages/admin/product/product.php';
             include_once "../app/views/layouts/admin.php";
         }
+
+        public function get_list_products() {
+            $response = $this->productModel->get_all_products();
+            echo json_encode($response);
+        }
+
         public function detail() {
             echo '<div>Đây là trang chi tiết sản phẩm</div>';
         }
@@ -28,6 +34,25 @@
                 echo json_encode($response);
                 exit;   
             } 
+        }
+
+        public function get_product_by_id() {
+            if(isset($_GET['id']) && $_GET['id']) {
+                $product_id =  (int) $_GET['id'];
+                $response = $this->productModel->get_product_by_id($product_id);
+                echo json_encode($response);
+                exit;
+            }
+        }
+
+
+        public function delete_product() {
+            if(isset($_GET['id']) && $_GET['id']) {
+                $product_id =  (int) $_GET['id'];
+                $response = $this->productModel->delete_product($product_id);
+                echo json_encode($response);
+                exit;
+            }
         }
     }
 ?>
