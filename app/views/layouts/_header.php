@@ -1,23 +1,23 @@
 <style>
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 76px;
-        width: 100%;
-        background: transparent;
-        transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
-        z-index: 1000;
-    }
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 76px;
+    width: 100%;
+    background: transparent;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 1000;
+}
 
-    .header-scroll {
-        background: white;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+.header-scroll {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-    .header-hidden {
-        transform: translateY(-100%);
-    }
+.header-hidden {
+    transform: translateY(-100%);
+}
 </style>
 
 <header class="d-flex align-items-center">
@@ -27,8 +27,7 @@
         </a>
 
         <button class="navbar-toggler d-lg-none border-0" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-            aria-label="Toggle navigation">
+            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -84,14 +83,14 @@
                     <?php
                     if (isset($_SESSION['email'])) {
                     ?>
-                        <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
-                        <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
-                        <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
+                    <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
+                    <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
+                    <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
                     <?php
                     } else {
                     ?>
-                        <li><a class="dropdown-item" href="login.php">Đăng nhập</a></li>
-                        <li><a class="dropdown-item" href="register.php">Đăng kí</a></li>
+                    <li><a class="dropdown-item" href="?controller=auth">Đăng nhập</a></li>
+                    <li><a class="dropdown-item" href="?controller=auth&action=register">Đăng kí</a></li>
                     <?php
                     }
                     ?>
@@ -100,7 +99,7 @@
 
 
             <div class=" position-relative">
-                <a href="#">
+                <a href="/?controller=cart">
                     <img src="./img/cart.svg" width="20">
                     <span
                         class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background: #bd844c;">3</span>
