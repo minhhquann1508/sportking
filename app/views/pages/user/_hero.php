@@ -1,26 +1,3 @@
-<?php
-$hero = [
-    [
-        "title" => "Áo thể thao nam",
-        "description" => "Thời trang nữ cao cấp, thiết kế trẻ trung.",
-        "price" => "300.000",
-        "colors" => ["white", "#cccccc", "#f0cce6"],
-        "sizes" => ["S", "M"],
-        "discount" => "Giảm 40%",
-        "image" => "./img/neymar.png"
-    ],
-    [
-        "title" => "Áo thể thao nữ",
-        "description" => "BST mới nhất 2025.",
-        "price" => "350.000",
-        "colors" => ["white", "#cccccc"],
-        "sizes" => ["S", "L"],
-        "discount" => "Sale 30%",
-        "image" => "https://www.freeiconspng.com/uploads/zlatan-ibrahimovic-png-12.png"
-    ]
-];
-?>
-
 <style>
     .hero-content-wrapper {
         opacity: 0;
@@ -60,64 +37,142 @@ $hero = [
         align-items: center;
         position: relative;
     }
+
+    .dodgeImage:hover {
+        transform: scale(1.5);
+    }
 </style>
 
 <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
-        <?php foreach ($hero as $index => $item): ?>
-            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?= $index ?>"
-                class="<?= $index === 0 ? 'active' : '' ?>" aria-current="<?= $index === 0 ? 'true' : 'false' ?>"
-                aria-label="Slide <?= $index + 1 ?>"></button>
-        <?php endforeach; ?>
-        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?= count($hero) ?>"
-            aria-label="Slide <?= count($hero) + 1 ?>"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"
+            aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"
+            aria-label="Slide 2"></button>
     </div>
 
     <div class="carousel-inner">
-        <?php foreach ($hero as $index => $item): ?>
-            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
-                <section class="hero-section d-flex justify-content-center align-items-center">
-                    <div class="container hero-container">
-                        <div class="hero-info">
-                            <div class="hero-content-wrapper">
-                                <div class="mb-3">
-                                    <p style="font-size: 70px; font-weight:700"><?= $item['title'] ?></p>
-                                    <p><?= $item['description'] ?></p>
+        <div class="carousel-item active">
+            <section class="hero-section d-flex justify-content-center align-items-center">
+                <div class="container hero-container">
+                    <div class="hero-info">
+                        <div class="hero-content-wrapper">
+                            <div class="mb-3">
+                                <p style="font-size: 70px; font-weight:700">Áo thể thao nam</p>
+                                <p>Thời trang nữ cao cấp, thiết kế trẻ trung.</p>
+                            </div>
+                            <div class="d-flex mb-5">
+                                <div style="width: 33%;">
+                                    <p>Giá:</p>
+                                    <p>đ300.000</p>
                                 </div>
-                                <div class="d-flex mb-5">
-                                    <div style="width: 33%;">
-                                        <p>Giá:</p>
-                                        <p>đ<?= $item['price'] ?></p>
-                                    </div>
-                                    <div style="width: 33%;">
-                                        <p>Màu:</p>
-                                        <div class="d-flex gap-2 align-items-center">
-                                            <?php foreach ($item['colors'] as $color): ?>
-                                                <div style="border-radius:50%; background-color:<?= $color ?>;width:20px;height:20px;"></div>
-                                            <?php endforeach; ?>
-                                        </div>
-                                    </div>
-                                    <div style="width: 33%;">
-                                        <p>Cỡ:</p>
-                                        <div class="d-flex gap-2" style="color: #888888;">
-                                            <?php foreach ($item['sizes'] as $size): ?>
-                                                <div class="d-flex align-items-center justify-content-center"
-                                                    style="border-radius:3px; background-color:white;width:25px;height:25px;">
-                                                    <span style="font-size:15px;font-weight:600"><?= $size ?></span>
-                                                </div>
-                                            <?php endforeach; ?>
-                                        </div>
+                                <div style="width: 33%;">
+                                    <p>Màu:</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <div style="border-radius:50%; background-color:white;width:20px;height:20px;"></div>
+                                        <div style="border-radius:50%; background-color:#cccccc;width:20px;height:20px;"></div>
+                                        <div style="border-radius:50%; background-color:#f0cce6;width:20px;height:20px;"></div>
                                     </div>
                                 </div>
-                                <div class="d-flex gap-1">
-                                    <button class="btn" style="border: 1px solid black;border-radius:8px;font-weight:700;padding:8px 15px"><?= $item['discount'] ?></button>
-                                    <button class="btn" style="background:#e5b220;color:white ;border-radius:8px;font-weight:700;padding:8px 15px">Mua Ngay</button>
+                                <div style="width: 33%;">
+                                    <p>Cỡ:</p>
+                                    <div class="d-flex gap-2" style="color: #888888;">
+                                        <div class="d-flex align-items-center justify-content-center"
+                                            style="border-radius:3px; background-color:white;width:25px;height:25px;">
+                                            <span style="font-size:15px;font-weight:600">S</span>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-center"
+                                            style="border-radius:3px; background-color:white;width:25px;height:25px;">
+                                            <span style="font-size:15px;font-weight:600">M</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="d-flex gap-1">
+                                <button class="btn"
+                                    style="border: 1px solid black;border-radius:0;font-weight:700;padding:8px 15px">Giảm
+                                    40%</button>
+                                <button class="btn"
+                                    style="background:#BD844C;color:white ;border-radius:0;font-weight:700;padding:8px 15px">Mua
+                                    Ngay</button>
+                            </div>
                         </div>
-                        <div class="hero-img">
-                            <div class="shape-wrapper position-relative" style="width: 100%; max-width: 700px;">
-                                <div class="bg-shape position-absolute" style="
+                    </div>
+                    <div class="hero-img">
+                        <div class="shape-wrapper position-relative" style="width: 100%; max-width: 700px;">
+                            <div class="bg-shape position-absolute" style="
+                                    outline: 2px solid #BD844C;
+                                    outline-offset: 10px;
+                                    width: 80%;
+                                    aspect-ratio: 1/1;
+                                    border-radius: 50%;
+                                    background: #FFF9F9;
+                                    z-index: 10;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                  "></div>
+                            <img class="dodgeImage" src="./img/neymar.png" alt="" style="
+                                    width: 100%;
+                                    height: auto;
+                                    position: relative;
+                                    z-index: 11;
+                                    transition: transform 0.3s ease;    
+                                  ">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="carousel-item">
+            <section class="hero-section d-flex justify-content-center align-items-center">
+                <div class="container hero-container">
+                    <div class="hero-info">
+                        <div class="hero-content-wrapper">
+                            <div class="mb-3">
+                                <p style="font-size: 70px; font-weight:700">Áo thể thao nữ</p>
+                                <p>BST mới nhất 2025.</p>
+                            </div>
+                            <div class="d-flex mb-5">
+                                <div style="width: 33%;">
+                                    <p>Giá:</p>
+                                    <p>đ350.000</p>
+                                </div>
+                                <div style="width: 33%;">
+                                    <p>Màu:</p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <div style="border-radius:50%; background-color:white;width:20px;height:20px;"></div>
+                                        <div style="border-radius:50%; background-color:#cccccc;width:20px;height:20px;"></div>
+                                    </div>
+                                </div>
+                                <div style="width: 33%;">
+                                    <p>Cỡ:</p>
+                                    <div class="d-flex gap-2" style="color: #888888;">
+                                        <div class="d-flex align-items-center justify-content-center"
+                                            style="border-radius:3px; background-color:white;width:25px;height:25px;">
+                                            <span style="font-size:15px;font-weight:600">S</span>
+                                        </div>
+                                        <div class="d-flex align-items-center justify-content-center"
+                                            style="border-radius:3px; background-color:white;width:25px;height:25px;">
+                                            <span style="font-size:15px;font-weight:600">L</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-1">
+                                <button class="btn"
+                                    style="border: 1px solid black;border-radius:8px;font-weight:700;padding:8px 15px">Sale
+                                    30%</button>
+                                <button class="btn"
+                                    style="background:#e5b220;color:white ;border-radius:8px;font-weight:700;padding:8px 15px">Mua
+                                    Ngay</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-img">
+                        <div class="shape-wrapper position-relative" style="width: 100%; max-width: 700px;">
+                            <div class="bg-shape position-absolute" style="
                                     outline: 2px solid #e5b220;
                                     outline-offset: 10px;
                                     width: 80%;
@@ -129,47 +184,34 @@ $hero = [
                                     left: 50%;
                                     transform: translate(-50%, -50%);
                                   "></div>
-                                <img class="dodgeImage" src="<?= $item['image'] ?>" alt="" style="
+                            <img class="dodgeImage"
+                                src="https://www.freeiconspng.com/uploads/zlatan-ibrahimovic-png-12.png" alt="" style="
                                     width: 100%;
                                     height: auto;
                                     position: relative;
                                     z-index: 11;
                                     transition: transform 0.3s ease;    
                                   ">
-                            </div>
                         </div>
                     </div>
-                </section>
-            </div>
-        <?php endforeach; ?>
-
-        <!-- Static Slide -->
-        <div class="carousel-item"
-            style="height: 100vh; background-image: url('./img/banner.jpg'); background-size: cover; background-position: center; position: relative;">
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                    background: linear-gradient(to bottom, #fff 5%, rgba(255, 255, 255, 0.91) 10.72%, rgba(255, 255, 255, 0.6) 20.14%, rgba(255, 255, 255, 0) 92.12%); pointer-events: none;">
-            </div>
-            <div class="d-flex align-items-center justify-content-center text-center"
-                style="position: relative; z-index: 200; height: 100%; color: #000;">
-                <div class="hero-content-wrapper">
-                    <p style="color: #05472a; font-size: 40px;">hello</p>
-                    <p>sdfcjksdljakj</p>
-                    <a href="#" class="btn border mt-3">Shop now</a>
                 </div>
-            </div>
+            </section>
         </div>
-
     </div>
 
-    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" style="z-index: 999;">
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev"
+        style="z-index: 999;">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" style="z-index: 999;">
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next"
+        style="z-index: 999;">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
 </div>
+
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
