@@ -7,12 +7,16 @@ require_once '../app/models/Comment.php';
         }
 
         public function index() {
+            // Xử lý AJAX request
             if (isset($_GET['ajax'])) {
+                $comments = $this->commentModel->get_all_comments();
                 header('Content-Type: application/json');
-                $comments = $this->commentModel->get_all_comments();  // Đúng tên hàm trong Model
-                echo json_encode($comments);
+                echo json_encode($comments['data']);
                 exit;
             }
+            
+            // Xử lý normal request
+            $comments = $this->commentModel->get_all_comments();
             $content = '../app/views/pages/admin/comment/comment.php';
             include_once "../app/views/layouts/admin.php";
         }
