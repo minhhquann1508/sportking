@@ -175,7 +175,7 @@
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Hình ảnh sản phẩm</label>
                         <input class="form-control" type="file" id="updated_thumbnail">
-                        <div class="mt-1" style="width: 150px;">
+                        <div class="mt-1" style="width: 150px; display: none;">
                             <img class="w-100" height="150" style="object-fit: cover;" id="preview" src="" alt="">
                         </div>
                     </div>
@@ -187,7 +187,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
-                <button type="button" id="add_btn" class="btn btn-primary">Chỉnh sửa</button>
+                <button type="button" id="update_btn" class="btn btn-primary">Chỉnh sửa</button>
             </div>
         </div>
     </div>
@@ -214,10 +214,8 @@
 
 <script>
 const submitBtn = $('#add_btn');
-const deleteBtn = $('#delete_btn')
-
-//update form input
-
+const deleteBtn = $('#delete_btn');
+const updateBtn = $('#update_btn');
 
 //add form input
 const nameInput = $('#product_name');
@@ -263,7 +261,6 @@ const setUpdatedProduct = (id) => {
             viewsInputUpdate.val(product.views);
             descriptionInputUpdate[0]['data-froala.editor'].html.set(product.description);
             publicInputUpdate.prop('checked', product.is_public == 1);
-            console.log(product.thumbnail);
             updatedThumbnail.attr('src', product.thumbnail);
         },
         error: (error) => {
@@ -381,6 +378,58 @@ $(document).ready(() => {
             },
             error: (error) => {
                 showToast(error.responseText);
+            }
+        })
+    })
+    // Update product
+    updateBtn.click(async () => {
+        const file = fileInputUpdate[0].files[0];
+        const product = {
+            product_name: nameInputUpdate.val(),
+            sub_desc: subDescInputUpdate.val(),
+            solds: soldsInputUpdate.val(),
+            views: viewsInputUpdate.val(),
+            category_id: categoryInputUpdate.val(),
+            brand_id: brandInputUpdate.val(),
+            description: descriptionInputUpdate.val(),
+            is_public: publicInputUpdate.is(':checked') ? 1 : 0,
+        }
+        if (file) {
+            // Nếu có file thì upload
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", "chovybe_present");
+            formData.append("cloud_name", "dtdkm7cjl");
+            const cloudinaryResponse = await $.ajax({
+                url: 'https://api.cloudinary.com/v1_1/dtdkm7cjl/image/upload',
+                method: "POST",
+                data: formData,
+                processData: false,
+                contentType: false
+            });
+            product.thumbnail = cloudinaryResponse.secure_url;
+        } else {
+            // Nếu không có file thì cập nhật thường
+            product.thumbnail = updatedThumbnail.attr('src') || null;
+        }
+
+        const id = idInput.val();
+
+        $.ajax({
+            url: '?controller=product&action=update_product_by_id',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                product_id: id,
+                product
+            },
+            success: (response) => {
+                $('#updateModal').modal('hide');
+                fetchListProducts();
+                showToast(response.message)
+            },
+            error: (error) => {
+                showToast(error.responseText)
             }
         })
     })
