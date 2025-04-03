@@ -12,15 +12,18 @@
                     <label for="fullname">Họ tên</label>
                     <input type="text" class="form-control" id="fullname-search" name="fullname"
                         placeholder="Nhập họ tên">
+                    <div class="invalid-feedback">Vui lòng nhập họ và tên.</div>    
                 </div>
                 <div class="flex-grow-1">
                     <label for="email">Email</label>
                     <input type="text" class="form-control" id="email-search" name="email" placeholder="Nhập email">
+                    <div class="invalid-feedback">Vui lòng nhập email hợp lệ.</div>
                 </div>
                 <div class="flex-grow-1">
                     <label for="phone">Số điện thoại</label>
                     <input type="text" class="form-control" id="phone-search" name="phone"
                         placeholder="Nhập số điện thoại">
+                    <div class="invalid-feedback">Vui lòng nhập số điện thoại.</div>    
                 </div>
                 <div class="flex-grow-1">
                     <label for="phone">Ngày tạo</label>
