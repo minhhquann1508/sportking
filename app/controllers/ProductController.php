@@ -45,6 +45,15 @@
             }
         }
 
+        public function update_product_by_id() {
+            if(isset($_POST['product_id']) && $_POST['product_id']) {
+                $product_id = $_POST['product_id'];
+                $product = $_POST['product'];
+                $response = $this->productModel->update_product_by_id($product_id, $product);
+                echo json_encode($response);
+                exit;
+            }
+        }
 
         public function delete_product() {
             if(isset($_GET['id']) && $_GET['id']) {

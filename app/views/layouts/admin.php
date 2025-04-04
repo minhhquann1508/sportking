@@ -142,8 +142,8 @@
     </div>
     <div class="d-flex">
         <article class="border-end p-2" style=" width: 250px; height: 100vh">
-            <a href="" class="d-flex justify-content-center">
-                <img width="150" src="./img/sportking-logo.png" alt="">
+            <a href="" class="d-flex justify-content-center mt-3 mb-3">
+                <img width="150" src="./img/logo.png" alt="">
             </a>
             <?php echo $sidebar; ?>
         </article>
