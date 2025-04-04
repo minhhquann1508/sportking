@@ -66,24 +66,24 @@ window.addEventListener("scroll", () => {
   }
   lastScrollY = window.scrollY;
 });
-const swiper = new Swiper(".mySwiper", {
-  slidesPerView: 5,
-  spaceBetween: 20,
-  breakpoints: {
-    1200: {
-      slidesPerView: 5,
-    },
-    992: {
-      slidesPerView: 4,
-    },
-    768: {
-      slidesPerView: 3,
-    },
-    576: {
-      slidesPerView: 2,
-    },
-    0: {
-      slidesPerView: 1,
-    },
-  },
-});
+// const swiper = new Swiper(".mySwiper", {
+//   slidesPerView: 5,
+//   spaceBetween: 20,
+//   breakpoints: {
+//     1200: {
+//       slidesPerView: 5,
+//     },
+//     992: {
+//       slidesPerView: 4,
+//     },
+//     768: {
+//       slidesPerView: 3,
+//     },
+//     576: {
+//       slidesPerView: 2,
+//     },
+//     0: {
+//       slidesPerView: 1,
+//     },
+//   },
+// });

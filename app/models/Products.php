@@ -51,6 +51,29 @@ require_once '../app/configs/Database.php';
             }
         }
 
+        public function update_product_by_id($id, $product) {
+            $index = 0;
+            $params = [];
+            $key_string = "SET ";
+            foreach ($product as $key => $value) {
+                if($index < (count($product) - 1)) {
+                    $key_string .= $key. '= ?,';
+                } else {
+                    $key_string .= $key.'= ?';
+                }
+                $index++;
+                $params[] = $value;
+            }
+            $params[] = $id;
+            $sql = "UPDATE $this->table $key_string WHERE product_id = ?";
+            $result = $this->execute($sql, $params);
+            if($result) {
+                return ['success' => true, 'message' => 'Cập nhật sản phẩm thành công', 'data' => null];
+            } else {
+                return ['success' => false, 'message' => 'Cập nhật sản phẩm thất bại', 'data' => null];
+            }
+        }
+
         public function delete_product($id) {
             $sql = "DELETE FROM $this->table WHERE product_id = ?";
             $result = $this->execute($sql, [$id]);
