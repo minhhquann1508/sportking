@@ -4,20 +4,35 @@
     class Comment extends Database{
         private $table = "comments";
 
-        // c là bảng comment có comment_id ,,, c là bảng user có user_id 
-        public function get_all_comments(){
-                $query = "SELECT c.*, u.fullname FROM $this->table c 
-                JOIN users u ON u.user_id = c.user_id
-                ORDER BY comment_id DESC";
-                $result = $this->select($query);
-                if($result){
-                    return ['success' => true, 'message' => 'Lấy comment thành công', 'data' => $result];
-                }else{
-                    return ['success' => false, 'message' => 'Lấy comment thất baị', 'data' => null];
-                }
-            }
+        public function get_all_comments() {
+            // Sử dụng alias để tránh xung đột tên cột
+            $query = "SELECT 
+                        c.comment_id,
+                        c.content,
+                        c.status,
+                        u.fullname
+                      FROM $this->table c
+                      LEFT JOIN users u ON c.user_id = u.user_id
+                      LEFT JOIN product p ON c.product_id = p.product_id
+                      ORDER BY c.comment_id DESC";
         
-
+            $result = $this->select($query);
+        
+            // Kiểm tra kết quả trả về
+            if ($result !== false && is_array($result) && !empty($result)) {
+                return [
+                    'success' => true,
+                    'message' => 'Lấy danh sách bình luận thành công',
+                    'data' => $result
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => 'Không có bình luận nào',
+                    'data' => []
+                ];
+        }
+        
         public function delete_comment($comment_id) {
             $query = "DELETE FROM $this->table WHERE comment_id = ?";
             return $this->execute($query, [$comment_id]);

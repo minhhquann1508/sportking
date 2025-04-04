@@ -9,16 +9,16 @@ require_once '../app/models/Comment.php';
         
 
         public function index() {
-            $comments = $this->commentModel->get_all_comments(); 
-            if (isset($_GET['ajax']) && $_GET['ajax'] == 'true') {
-                $comments = $this->commentModel->get_all_comments(); 
-                // echo json_encode($comments['data']);
-            } else {
-                
-                $content = '../app/views/pages/admin/comment/comment.php';
-                include_once "../app/views/layouts/admin.php";
+            // Xử lý AJAX request
+            if (isset($_GET['ajax'])) {
+                $comments = $this->commentModel->get_all_comments();
+                header('Content-Type: application/json');
+                echo json_encode($comments['data']);
                 exit;
             }
+            
+            // Xử lý normal request
+            $comments = $this->commentModel->get_all_comments();
             $content = '../app/views/pages/admin/comment/comment.php';
             include_once "../app/views/layouts/admin.php";
             // $comments = $this->commentModel->get_all_comments(); 
