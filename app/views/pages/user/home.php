@@ -1,9 +1,4 @@
 <style>
-    body {
-        overflow-x: hidden;
-
-    }
-
     .container {
         max-width: 1250px;
     }

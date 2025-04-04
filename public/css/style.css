@@ -33,7 +33,6 @@
   font-style: normal;
 }
 
-/* quoc sua style.css */
 *,
 body {
   padding: 0;
@@ -41,7 +40,6 @@ body {
   box-sizing: border-box;
   font-family: "font-normal", sans-serif;
   font-weight: 400;
-  overflow-x: hidden;
 }
 
 h1,
