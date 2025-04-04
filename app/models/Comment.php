@@ -31,7 +31,6 @@
                     'message' => 'Không có bình luận nào',
                     'data' => []
                 ];
-            }
         }
         
         public function delete_comment($comment_id) {
@@ -39,23 +38,7 @@
             return $this->execute($query, [$comment_id]);
         }
 
-        public function filter_comments($user_id = null, $product_id = null) {
-            $query = "SELECT c.*, u.username FROM $this->table c
-                      JOIN users u ON c.user_id = u.user_id WHERE 1=1";
-            $params = [];
-    
-            if ($user_id) {
-                $query .= " AND c.user_id = ?";
-                $params[] = $user_id;
-            }
-    
-            if ($product_id) {
-                $query .= " AND c.product_id = ?";
-                $params[] = $product_id;
-            }
-    
-            return $this->select($query, $params);
-        }
+       
 
 
 
@@ -120,6 +103,25 @@
         //     }else{
         //         return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
         //     }
+        // }
+
+
+        // public function filter_comments($user_id = null, $product_id = null) {
+        //     $query = "SELECT c.*, u.username FROM $this->table c
+        //               JOIN users u ON c.user_id = u.user_id WHERE 1=1";
+        //     $params = [];
+    
+        //     if ($user_id) {
+        //         $query .= " AND c.user_id = ?";
+        //         $params[] = $user_id;
+        //     }
+    
+        //     if ($product_id) {
+        //         $query .= " AND c.product_id = ?";
+        //         $params[] = $product_id;
+        //     }
+    
+        //     return $this->select($query, $params);
         // }
     }
 
