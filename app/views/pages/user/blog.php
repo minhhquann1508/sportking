@@ -19,7 +19,6 @@
 <body>
     <div class="container-lg mt-4 py-5">
         <div class="row">
-            <!-- Bài viết chính -->
             <div class="col-lg-8 col-md-12">
                 <div class="card mb-4">
                     <img src="https://bizweb.dktcdn.net/100/534/571/articles/t8-1.jpg?v=1733128015250" class="card-img-top w-100 h-auto" alt="...">
@@ -27,6 +26,7 @@
                         <div class="d-flex align-items-center">
                             <p class="me-2"><i class="fa-regular fa-calendar-minus"></i> 02/04/2005</p>
                             <p class="me-2"><i class="fa-regular fa-circle-user"></i> Nguyễn Minh Quân</p>
+                            <p class="me-2"><i class="fa-solid fa-eye"></i> 100</p>
                         </div>
                         <h5 class="card-title">4 món đồ họa tiết đáng sắm để phong cách trẻ trung hơn</h5>
                         <p class="card-text">Thời trang mùa lạnh không hề giới hạn với những món đồ trơn màu...</p>
