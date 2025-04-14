@@ -101,6 +101,42 @@
             },
         },
     });
+        let lastScrollY = window.scrollY;
+        const header = document.querySelector("header");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 50) {
+                header.classList.add("header-scroll");
+            } else {
+                header.classList.remove("header-scroll");
+            }
+
+            if (window.scrollY > lastScrollY) {
+                header.classList.add("header-hidden");
+            } else {
+                header.classList.remove("header-hidden");
+            }
+            lastScrollY = window.scrollY;
+        });
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 'auto',
+            spaceBetween: 16,
+            watchSlidesVisibility: true,
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 15,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                },
+            },
+        });
     </script> -->
     <!-- JS -->
     <script src=" ./js/main.js"></script>

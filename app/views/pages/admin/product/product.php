@@ -282,7 +282,7 @@ const renderListProduct = (products) => {
             <td class="text-center">${product.brand_name}</td>
             <td class="text-center">${product.category_name}</td>
             <td class="text-center">
-                <button type="button" class="btn-sm btn-border"><i class="fa-regular fa-object-group"></i></button>
+                <button type="button" class="btn-sm btn-border"><a href="?controller=variant&product_id=${product.product_id}"><i class="fa-regular fa-object-group"></a></i></button>
                 <button type="button" onclick="setUpdatedProduct('${product.product_id}')" class="btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"><i class="fa-regular fa-pen-to-square"></i></button>
                 <button type="button" onclick="setIdProduct('${product.product_id}')" class="btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                     <i class="fa-regular fa-trash-can"></i>
