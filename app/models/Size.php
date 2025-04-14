@@ -47,6 +47,16 @@
                 return ['success' => false, 'message' => 'xoá thất bại', 'data' => null];
             } 
         } 
+
+        public function get_size_by_category($category_id) {
+            $sql = "SELECT * FROM $this->table WHERE category_id = ?";
+            $data = $this->select($sql, [$category_id]);
+            if($data) {
+                return ['success' => true, 'message' => 'Lấy dữ liệu thành công', 'data' => $data];
+            } else {
+                return ['success' => false, 'message' => 'Lấy dữ liệu thất bại', 'data' => null];
+            }
+        }
     }
 
 

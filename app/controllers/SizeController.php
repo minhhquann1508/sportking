@@ -43,15 +43,22 @@
             exit;
         }
 
-        public function delete_size(){
-                $size_id = $_GET['size_id'];
-                $result = $this->sizeModel->delete_size($size_id);
-                if ($size_id) {
-                    echo json_encode($result);
-                } else {
-                    echo json_encode($result);
-                }
-                exit;
-            }
+        public function get_size_by_category() {
+            $category_id = $_GET['category_id'];
+            $response = $this->sizeModel->get_size_by_category($category_id );
+            echo json_encode($response);
+            exit;
         }
+
+        public function delete_size(){
+            $size_id = $_GET['size_id'];
+            $result = $this->sizeModel->delete_size($size_id);
+            if ($size_id) {
+                echo json_encode($result);
+            } else {
+                echo json_encode($result);
+            }
+            exit;
+        }
+    }
 ?>
