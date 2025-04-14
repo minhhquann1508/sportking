@@ -64,7 +64,7 @@
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
+    <!-- <script>
         let lastScrollY = window.scrollY;
         const header = document.querySelector("header");
 
@@ -101,7 +101,7 @@
                 },
             },
         });
-    </script>
+    </script> -->
     <!-- JS -->
     <script src=" ./js/main.js"></script>
 </body>
