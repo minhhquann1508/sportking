@@ -29,18 +29,31 @@
             echo json_encode($response);
         }
 
-        public function update_size_action(){
-            $size_id= $_POST['size_id'] ;
-            $size_name = $_POST['size_name'] ;
-            $category_id = $_POST['category_id'] ;
-            $response = $this->sizeModel->update_size($size_id, $size_name, $category_id);
-            if ($size_id && $size_name && $category_id) {
-               
+        public function get_list_sizes() {
+            $response = $this->sizeModel->get_all_sizes();
+            echo json_encode($response);
+        }
+
+        public function get_size_by_id() {
+            if (isset($_GET['id']) && $_GET['id']) {
+                $size_id = (int) $_GET['id'];
+                $response = $this->sizeModel->get_size_by_id($size_id);
                 echo json_encode($response);
-            } else {
-                echo json_encode($response);
+                exit;
             }
-            exit;
+        }
+    
+        public function update_size_by_id() {
+            if (isset($_POST['size_id']) && $_POST['size_id']) {
+                $size_id = $_POST['size_id'];
+        
+                // Lấy dữ liệu từng trường
+                $size = $_POST['size'];
+        
+                $response = $this->sizeModel->update_size_by_id($size_id, $size);
+                echo json_encode($response);
+                exit;
+            }
         }
 
         public function get_size_by_category() {
