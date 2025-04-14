@@ -19,6 +19,13 @@ class HomeController
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+
+    public function blogdetail() {
+        $content = '../app/views/pages/user/blogdetail.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
+    }
     public function about()
     {
         $content = '../app/views/pages/user/about.php';
@@ -52,6 +59,22 @@ class HomeController
     public function checkout()
     {
         $content = '../app/views/pages/user/checkout.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
+    }
+
+    public function blog()
+    {
+        $content = '../app/views/pages/user/blog.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
+    }
+
+    public function contact()
+    {
+        $content = '../app/views/pages/user/contact.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";

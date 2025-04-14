@@ -56,12 +56,7 @@ require_once '../app/models/Blog.php';
             $blog_id = $_POST['blog_id'];
     
             // Lấy dữ liệu từng trường
-            $blog = [
-                'title' => $_POST['title'] ?? '',
-                'content' => $_POST['content'] ?? '',
-                'thumbnail' => $_POST['thumbnail'] ?? '',
-                'is_public' => $_POST['is_public'] ?? 0
-            ];
+            $blog = $_POST['blog'];
     
             $response = $this->blogModel->update_blog_by_id($blog_id, $blog);
             echo json_encode($response);

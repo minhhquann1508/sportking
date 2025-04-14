@@ -113,7 +113,6 @@
                         </div>
                     </div>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="updated_is_public">
                         <label class="form-check-label" for="flexSwitchCheckChecked">Xem trước hình ảnh</label>
                     </div>
                     </form>
@@ -165,7 +164,7 @@
                         </tr>`;
                     });
                     $("#table-body").html(content);
-                    renderPagination(page, response.total);
+                    // renderPagination(page, response.total);
                 }
             }
         })
@@ -245,7 +244,6 @@
                 $('#update_title').val(blog.title);
                 $('#update_editor').val(blog.content);
                 $('#preview_thumbnail').attr('src', blog.thumbnail).parent().show();
-                $('#updated_is_public').prop('checked', blog.is_public == 1);
             } else {
                 alert("Không lấy được dữ liệu bài viết");
             }
@@ -253,7 +251,6 @@
     });
 });
 
-    // img preview
     $('#updated_thumbnail').on('change', function () {
     const file = this.files[0];
     if (file) {
@@ -271,7 +268,6 @@ const updateTitle = $('#update_title');
 const updateContent = $('#update_editor');
 const updatedThumbnail = $('#preview_thumbnail');
 const updateThumbnailInput = $('#updated_thumbnail');
-const updateIsPublic = $('#updated_is_public');
 
 
     //cập nhật bài viết
@@ -282,7 +278,7 @@ const updateIsPublic = $('#updated_is_public');
         blog_id: updateBlogId.val(),
         title: updateTitle.val(),
         content: content,
-        is_public: updateIsPublic.is(':checked') ? 1 : 0,
+        // is_public: updateIsPublic.is(':checked') ? 1 : 0,
         };
 
         if (file) {
@@ -306,11 +302,15 @@ const updateIsPublic = $('#updated_is_public');
         } else {
             blog.thumbnail = updatedThumbnail.attr('src') || null;
         }
+        const id = updateBlogId.val();
         console.log("Blog cần cập nhật:", blog);
         $.ajax({
         url: '?controller=blog&action=update_blog_by_id',
         method: 'POST',
-        data: blog,
+        data: {
+                blog_id: id,
+                blog 
+            },
         dataType: 'json',
         success: (response) => {
             $('#updateModal').modal('hide');
@@ -319,6 +319,7 @@ const updateIsPublic = $('#updated_is_public');
         },
         error: (err) => {
             showToast(err.responseText);
+            console.log(err.responseText);
         }
         });
             });
