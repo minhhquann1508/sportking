@@ -81,9 +81,9 @@ header {
                 <ul class="dropdown-menu text-center"
                     style="left: 50%; transform: translateX(-50%); width: max-content;">
                     <?php
-                    if (isset($_SESSION['email'])) {
+                    if (isset($_SESSION['user'])) {
                     ?>
-                    <li><a class="dropdown-item" href="#">Thông tin tài khoản</a></li>
+                    <li><a class="dropdown-item" href="?controller=home&action=profile">Thông tin tài khoản</a></li>
                     <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
                     <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
                     <?php
@@ -101,8 +101,8 @@ header {
             <div class=" position-relative">
                 <a href="/?controller=cart">
                     <img src="./img/cart.svg" width="20">
-                    <span
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill" style="background: #bd844c;">3</span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                        style="background: #bd844c;">3</span>
                 </a>
             </div>
         </div>

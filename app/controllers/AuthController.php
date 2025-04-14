@@ -11,8 +11,8 @@
                 $email = $_POST['email'];
                 $password = $_POST['password'];
                 $data = $this->userModel->login($email, $password);
-                if($data['success'] && is_array($data['data'])) {
-                    $_SESSION['email'] = $data['data']['email'];
+                if($data['success']) {
+                    $_SESSION['user'] = $data['data'];
                 }
                 echo json_encode($data);
                 exit;

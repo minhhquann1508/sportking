@@ -55,7 +55,9 @@
         }
 
         public function get_user_by_id($id) {
-            $sql = "SELECT * FROM $this->table WHERE id =?";
+            $sql = "SELECT u.*, a.* FROM $this->table u
+            LEFT JOIN address a ON a.user_id = u.user_id
+            WHERE u.user_id =?";
             return $this->select($sql, [$id]);
         }
 
