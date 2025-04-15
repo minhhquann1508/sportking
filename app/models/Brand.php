@@ -18,7 +18,7 @@
             if($result){
                 return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => null];
             }else{
-                return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
+                return ['error' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
             }
         }
 
@@ -42,7 +42,7 @@
             if($result){
                 return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => null];
             }else{
-                return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
+                return ['error' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
             }
         }
 
@@ -53,7 +53,7 @@
             if($result){
                 return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => null];
             }else{
-                return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
+                return ['error' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
             }
         }
 
@@ -65,7 +65,7 @@
                 if($result){
                     return ['success' => true, 'message' => 'Success', 'data' => $result];
                 }else{
-                    return ['success' => false, 'message' => 'Not found', 'data' => null];
+                    return ['error' => false, 'message' => 'Not found', 'data' => null];
                 }
             }
         }
