@@ -1,7 +1,22 @@
+<?php
+$cities = ['Hà Nội', 'TP. Hồ Chí Minh', 'Đà Nẵng', 'Cần Thơ', 'Hải Phòng', 'Huế', 'Nha Trang', 'Vũng Tàu'];
+
+$address = [
+    'city' => $user['city'],
+    'district' => $user['district'],
+    'ward' => $user['ward'],
+    'street' => $user['street'],
+];
+$missing = array_filter($address, function($value) {
+    return empty($value);
+});
+?>
 <div class="wrapper-address">
+    <?php if (!empty($missing)) {?>
     <div class="alert alert-danger" role="alert">
         Bạn vui lòng cập nhật thông tin tài khoản: <a href="#" class="alert-link">Cập nhật thông tin ngay</a>
     </div>
+    <?php } ?>
     <div class="form-address">
         <h2 class="mb-4">Dia Chi</h2>
         <form method="POST" id="form-address">
@@ -9,9 +24,12 @@
                 <label for="city" class="col-sm-2 col-form-label">Tỉnh/Thành phố</label>
                 <div class="col-sm-10">
                     <select class="form-control" id="city" name="city">
-                        <option selected><?php echo $user['city']; ?></option>
-                        <option>Hà Nội</option>
-                        <option>TP. Hồ Chí Minh</option>
+                        <option value="">-- Chọn tỉnh/thành --</option>
+                        <?php foreach ($cities as $city): ?>
+                        <option value="<?= $city ?>" <?= ($user['city'] == $city) ? 'selected' : '' ?>>
+                            <?= $city ?>
+                        </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
             </div>
@@ -51,28 +69,33 @@
 <script>
 $("#form-address").submit(function(e) {
     e.preventDefault();
+    let btn = $(this).find('button[type="submit"]');
+    btn.prop("disabled", true).text("Đang lưu...");
 
-    const data = {
-        city: $("#city").val(),
-        district: $("#district").val(),
-        ward: $("#ward").val(),
-        street: $("#street").val()
-    };
+    let city = $("#city").val().trim();
+    let district = $("#district").val().trim();
+    let ward = $("#ward").val().trim();
+    let street = $("#street").val().trim();
 
     $.ajax({
         url: "index.php?controller=home&action=updateAddress",
         method: "POST",
-        data: data,
+        data: {
+            city,
+            district,
+            ward,
+            street
+        },
         dataType: "json",
         success: function(response) {
-            if (response.success) {
-                showToast(response.message);
-            } else {
-                showToast(response.message);
-            }
+            console.log(response);
+            showToast(response.message);
+            btn.prop("disabled", false).text("Lưu địa chỉ");
         },
         error: function(xhr, status, error) {
-            showToast(error.message);
+            console.log(response);
+            showToast("Có lỗi xảy ra, vui lòng thử lại.");
+            btn.prop("disabled", false).text("Lưu địa chỉ");
         }
     });
 });

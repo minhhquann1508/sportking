@@ -20,11 +20,56 @@
     <link rel="stylesheet" href="./css/style.css">
     <title>Document</title>
     <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+        #loading {
+            height: 100vh;
+            width: 100%;
+            background-color: white;
+            z-index: 10000;
+            position: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            top: 0;
+            left: 0;
+        }
+
+        #loading img {
+            width: 200px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        #loading-text {
+            font-size: 48px;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+        }
+
+        #progress-bar {
+            width: 300px;
+            height: 4px;
+            background-color: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        #progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background-color: #b57a43;
+            transition: width 0.3s ease;
+        }
+    </style>
 </head>
 
 
 <body>
-    <div id="loading" style="display: none;"></div>
+    <!-- <div id="loading" style="display: none;"></div> -->
 
     <div id="toast" class="toast bg-white" style="position: fixed; top: 32px; right: 20px; z-index: 50;" role="alert"
         aria-live="assertive" aria-atomic="true">
@@ -60,89 +105,57 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous">
     </script>
-    <!-- SWIPER -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script> -->
-
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- <script>
-    let lastScrollY = window.scrollY;
-    const header = document.querySelector("header");
-
-    window.addEventListener("scroll", () => {
-        if (window.scrollY > 50) {
-            header.classList.add("header-scroll");
-        } else {
-            header.classList.remove("header-scroll");
-        }
-
-        if (window.scrollY > lastScrollY) {
-            header.classList.add("header-hidden");
-        } else {
-            header.classList.remove("header-hidden");
-        }
-        lastScrollY = window.scrollY;
-    });
-    var swiper = new Swiper('.swiper-container', {
-        slidesPerView: 'auto',
-        spaceBetween: 16,
-        watchSlidesVisibility: true,
-        breakpoints: {
-            640: {
-                slidesPerView: 1,
-                spaceBetween: 10,
-            },
-            768: {
-                slidesPerView: 2,
-                spaceBetween: 15,
-            },
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 20,
-            },
-        },
-    });
-        let lastScrollY = window.scrollY;
-        const header = document.querySelector("header");
-
-        window.addEventListener("scroll", () => {
-            if (window.scrollY > 50) {
-                header.classList.add("header-scroll");
-            } else {
-                header.classList.remove("header-scroll");
-            }
-
-            if (window.scrollY > lastScrollY) {
-                header.classList.add("header-hidden");
-            } else {
-                header.classList.remove("header-hidden");
-            }
-            lastScrollY = window.scrollY;
-        });
-    </script>
-        var swiper = new Swiper('.swiper-container', {
-            slidesPerView: 'auto',
-            spaceBetween: 16,
-            watchSlidesVisibility: true,
-            breakpoints: {
-                640: {
-                    slidesPerView: 1,
-                    spaceBetween: 10,
-                },
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 15,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 20,
-                },
-            },
-        });
-    </script> -->
-    <!-- JS -->
     <script src=" ./js/main.js"></script>
+    <script>
+        function showLoading(duration) {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'flex';
+
+            loading.innerHTML = `
+        <div>
+            <img src="./img/loading.gif" alt="Loading">
+            <div id="loading-text">Loading</div>
+        </div>
+        <div id="progress-bar">
+            <div id="progress-bar-fill"></div>
+        </div>
+    `;
+
+            const loadingText = loading.querySelector('#loading-text');
+            const fill = loading.querySelector('#progress-bar-fill');
+
+            let dot = 0;
+            let progress = 0;
+            const totalSteps = Math.floor(duration / 100);
+
+            const dotInterval = setInterval(() => {
+                dot = (dot + 1) % 4;
+                loadingText.textContent = 'Loading' + '.'.repeat(dot);
+            }, 500);
+
+            const progressInterval = setInterval(() => {
+                progress++;
+                fill.style.width = (progress / totalSteps * 100) + '%';
+            }, 100);
+
+            setTimeout(() => {
+                clearInterval(dotInterval);
+                clearInterval(progressInterval);
+
+                loading.classList.add('fade-out');
+
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    loading.classList.remove('fade-out');
+                }, 500);
+            }, duration);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => showLoading(500));
+    </script>
 </body>
 
 </html>

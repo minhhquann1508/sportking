@@ -2,6 +2,10 @@
 <?php include '../app/views/layouts/_list_product_cssfile.php' ?>
 
 <?php
+
+print_r($product);
+print_r($variant);
+
 $related_products = [
     ["id" => 1, "brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-14.jpg"],
     ["id" => 2, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
@@ -21,7 +25,7 @@ $related_products = [
                 </ol>
             </nav>
             <div class="row">
-                <div class="col d-flex">
+                <div class="col-5 d-flex">
                     <div class="me-2 d-flex gap-2 h-100" style="flex-direction: column; width: 80px;">
                         <?php
                         $img_arr = [
@@ -174,75 +178,46 @@ $related_products = [
         <div class="container">
             <h4>Đánh giá sản phẩm</h4>
             <hr>
+            <?php if (!empty($comments) && is_array($comments)): ?>
+            <?php foreach ($comments as $comment): ?>
             <div class="row">
                 <div class="col-2 text-start pe-0 mt-1">
                     <strong style="font-size: 14px;">
-                        Nguyễn Minh Quân
+                        <?= $comment['fullname'] ?>
                     </strong>
                     <br>
-                    <small>15/08/2025</small>
+                    <small><?= date('d/m/Y', strtotime($comment['ngay_binh_luan'])) ?></small>
                 </div>
                 <div class="col-10 ps-0">
                     <div class="flex">
-                        <i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>
-                        <i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>
-                        <i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>
-                        <i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>
-                        <i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>
+                        <?php 
+                            for ($i = 1; $i <= $comment['rating']; $i++) {
+                                echo '<i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>';
+                            }
+                        ?>
                     </div>
                     <small style="line-height: 1.6;">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, accusantium. Veritatis delectus
-                        cupiditate, corrupti laboriosam praesentium debitis architecto laudantium hic dolorum cum
-                        obcaecati
-                        aperiam neque est nisi facilis excepturi nemo consequatur animi. Accusantium, vel debitis!
-                        Dignissimos officia, quisquam placeat sequi commodi cumque dolorem laborum nam similique alias
-                        eligendi fugiat fugit, blanditiis necessitatibus quia aspernatur vitae reiciendis delectus ut,
-                        ea id
-                        Similique ullam eveniet distinctio dolor minima aliquam officiis voluptatem error exercitationem
-                        temporibus, iure enim repudiandae?
+                        <?= htmlspecialchars($comment['content'] ?? 'Không có nội dung bình luận.') ?>
                     </small>
                 </div>
             </div>
-            <div class="row mt-3">
-                <div class="col-2 text-start pe-0 mt-1">
-                    <strong style="font-size: 14px;">
-                        Nguyễn Minh Quân
-                    </strong>
-                    <br>
-                    <small>15/08/2025</small>
-                </div>
-                <div class="col-10 ps-0">
-                    <div class="flex">
-                        <i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>
-                        <i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>
-                        <i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>
-                        <i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>
-                        <i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>
-                    </div>
-                    <small style="line-height: 1.6;">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, accusantium. Veritatis delectus
-                        cupiditate, corrupti laboriosam praesentium debitis architecto laudantium hic dolorum cum
-                        obcaecati
-                        aperiam neque est nisi facilis excepturi nemo consequatur animi. Accusantium, vel debitis!
-                        Dignissimos officia, quisquam placeat sequi commodi cumque dolorem laborum nam similique alias
-                        eligendi fugiat fugit, blanditiis necessitatibus quia aspernatur vitae reiciendis delectus ut,
-                        ea id
-                        Similique ullam eveniet distinctio dolor minima aliquam officiis voluptatem error exercitationem
-                        temporibus, iure enim repudiandae?
-                    </small>
-                </div>
-            </div>
+            <?php endforeach; ?>
+            <?php else: ?>
+            <p>Chưa có bình luận nào.</p>
+            <?php endif; ?>
         </div>
     </section>
 
     <section class="py-4">
         <div class="container">
             <h4 class="text-center">Sản phẩm liên quan</h4>
-            <?php render_list_product($related_products); ?>
+            <?php render_list_product($productList); ?>
         </div>
     </section>
 </main>
-
+<?php
+print_r($variant);
+?>
 <script>
     const changeImage = (e, img) => {
         document.querySelector('.product-thumbnail').classList.remove("fade-in");

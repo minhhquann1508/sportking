@@ -5,25 +5,27 @@
             : $content;
 }
 ?>
-
 <style>
-        .list-group-item {
-            border-bottom: 1px solid #ddd;
-            border-left: none;
-            border-right: none;
-            border-top: none;
-        }
-        .card {
-            border-bottom: 1px solid #ddd;
-            border-left: none;
-            border-right: none;
-            border-top: none;
-            border-radius: 0px;
-        }
-        .card img{
-            border-radius: 10px;
-        }
-    </style>
+.list-group-item {
+    border-bottom: 1px solid #ddd;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+
+.card {
+    border-bottom: 1px solid #ddd;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-radius: 0px;
+}
+
+.card img {
+    border-radius: 10px;
+}
+</style>
+
 <body>
     <div class="container-lg mt-4 py-5">
         <div class="row">
@@ -39,6 +41,13 @@
                             <p class="me-2"><i class="fa-solid fa-eye"></i> <?= $blog['views'] ?></p>
                         </div>
                         <a class="card-title" style="font-size: 24px; font-weight: ;" href="?controller=home&action=blogdetail&id=<?= $blog['blog_id']?>" ><?= $blog['title'] ?></a>
+                            <p class="me-2"><i class="fa-regular fa-calendar-minus"></i>
+                                <?= date("H:i d/m/y", strtotime($blog['created_at'])) ?></p>
+                            <p class="me-2"><i class="fa-regular fa-circle-user"></i> <?= $blog['author_id'] ?></p>
+                            <p class="me-2"><i class="fa-solid fa-eye"></i> <?= $blog['views'] ?></p>
+                        </div>
+                        <a class="card-title" style="font-size: 24px; font-weight: ;"
+                            href="?controller=home&action=blogdetail&id=<?= $blog['blog_id']?>"><?= $blog['title'] ?></a>
                         <p class="card-text"><?= truncateContent($blog['content'], 100) ?>
                         </p>
                     </div>
@@ -71,9 +80,9 @@
                 <div class="list-category p-2">
                     <h5 class="mb-3">Danh mục</h5>
                     <ul class="list-unstyled">
-                    <?php foreach ($categories['data'] as $category): ?>
-                        <li class="py-2"><a href="#"><?php echo $category['category_name']; ?></a></li>
-                    <?php endforeach; ?>
+                      <?php foreach ($categories['data'] as $category): ?>
+                          <li class="py-2"><a href="#"><?php echo $category['category_name']; ?></a></li>
+                      <?php endforeach; ?>
                     </ul>
                 </div>
 
@@ -89,9 +98,10 @@
             </div>
         </div>  
     </div>
-                    <?php else: ?>
-                    <div class="col-12">
-                        <h3 class="text-center">Không tìm thấy bài viết</h3>
-                    </div>
-                    <?php endif; ?>
+        <?php else: ?>
+        <div class="col-12">
+            <h3 class="text-center">Không tìm thấy bài viết</h3>
+        </div>
+        <?php endif; ?>
 </body>
+

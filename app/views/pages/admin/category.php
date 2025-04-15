@@ -13,7 +13,6 @@
                 </div>
             </form>
         </div>
-
         <div class="col-8">
             <div class="mb-3 row">
                 <div class="col-4">
