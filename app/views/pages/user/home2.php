@@ -3,6 +3,7 @@
 <?php include '../app/views/layouts/_home_btn.php' ?>
 <?php include 'home.php' ?>
 
+
 <?php
 $brands = [
     "https://media.loveitopcdn.com/3807/logo-coca-cola-vector-dongphucsongphu4.png",
@@ -74,9 +75,7 @@ $blog = [
 
 <?php include_once '_hero.php' ?>
 
-<style>
 
-</style>
 <div class="cursor-dot"></div>
 <div class="cursor-ring"></div>
 <section class="my-5 pt-5">
@@ -148,28 +147,7 @@ $blog = [
     </div>
 </section>
 
-<section class="p-5" style="background-color: #f7f7f7;">
-    <div class="category-swiper" style="max-width: 1300px; margin: 0 auto;">
-        <p style="font-size: 20px; font-weight: bold; text-align: center;">Chọn danh mục sản phẩm</p>
-        <p style="font-size: 16px; color: #555; text-align: center;">Chọn danh mục sản phẩm</p>
 
-        <div style="margin:0 auto">
-            <swiper-container class="mySwiper" slidesPerView: auto ,
-                spaceBetween: 16,
-                watchSlidesVisibility: true,>
-                <swiper-slide>Slide 1</swiper-slide>
-                <swiper-slide>Slide 2</swiper-slide>
-                <swiper-slide>Slide 3</swiper-slide>
-                <swiper-slide>Slide 4</swiper-slide>
-                <swiper-slide>Slide 5</swiper-slide>
-                <swiper-slide>Slide 6</swiper-slide>
-                <swiper-slide>Slide 7</swiper-slide>
-                <swiper-slide>Slide 8</swiper-slide>
-                <swiper-slide>Slide 9</swiper-slide>
-            </swiper-container>
-        </div>
-    </div>
-</section>
 
 
 
@@ -277,38 +255,42 @@ $blog = [
 </div>
 
 <script>
-    const dot = document.querySelector('.cursor-dot');
-    const ring = document.querySelector('.cursor-ring');
+    function myCursor() {
+        const dot = document.querySelector('.cursor-dot');
+        const ring = document.querySelector('.cursor-ring');
 
-    let mouseX = 0,
-        mouseY = 0;
-    let ringX = 0,
-        ringY = 0;
+        let mouseX = 0,
+            mouseY = 0;
+        let ringX = 0,
+            ringY = 0;
 
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        dot.style.left = `${mouseX}px`;
-        dot.style.top = `${mouseY}px`;
-    });
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            dot.style.left = `${mouseX}px`;
+            dot.style.top = `${mouseY}px`;
+        });
 
-    function animate() {
-        ringX += (mouseX - ringX) * 0.3;
-        ringY += (mouseY - ringY) * 0.3;
-        ring.style.left = `${ringX}px`;
-        ring.style.top = `${ringY}px`;
-        requestAnimationFrame(animate);
+        function animate() {
+            ringX += (mouseX - ringX) * 0.3;
+            ringY += (mouseY - ringY) * 0.3;
+            ring.style.left = `${ringX}px`;
+            ring.style.top = `${ringY}px`;
+            requestAnimationFrame(animate);
+        }
+
+        const hoverElements = document.querySelectorAll('a, button, img');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovered');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovered');
+            });
+        });
+
+        animate();
     }
 
-    const hoverElements = document.querySelectorAll('a, button,img');
-
-    hoverElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            document.body.classList.add('hovered');
-        });
-        el.addEventListener('mouseleave', () => {
-            document.body.classList.remove('hovered');
-        });
-    });
-    animate();
+    document.addEventListener('DOMContentLoaded', myCursor);
 </script>

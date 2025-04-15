@@ -25,12 +25,48 @@
             return $response ? ['success' => true, 'message' => 'Thêm mới thành công'] 
                              : ['success' => false, 'message' => 'Thêm mới thất bại'];
         }
+        public function get_size_by_id($id): array {
+            $sql = "
+                SELECT size_id, size_name, category_id
+                FROM $this->table
+                WHERE size_id = ?
+            ";
+        
+            $result = $this->select(query: $sql, params: [$id]);
+        
+            if ($result) {
+                return [
+                    'success' => true,
+                    'message' => 'Lấy size thành công',
+                    'data' => $result[0]
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => 'Lấy size thất bại',
+                    'data' => null
+                ];
+            }
+        }
+        
         
 
-        public function update_size($size_id, $size_name , $category_id) {
-            $sql = "UPDATE  $this->table SET size_name = ?, category_id = ? WHERE size_id = ?";
-            $response = $this->execute($sql, [ $size_id, $size_name , $category_id]);
-            if($response){
+        public function update_size_by_id($id, $size) {
+            $index = 0;
+            $params = [];
+            $set_string = "SET ";
+            foreach ($size as $key => $value) {
+                $set_string .= $key . ' = ?';
+                $params[] = $value;
+                if ($index < count($size) - 1) {
+                    $set_string .= ', ';
+                }
+                $index++;
+            }
+            $params[] = $id;
+            $sql = "UPDATE  $this->table $set_string WHERE size_id = ?";
+            $result = $this->execute($sql, $params);
+            if($result){
                 return ['success' => true, 'message' => 'Sửa size thành công', 'data' => null];
             }else{
                 return ['success' => false, 'message' => 'Sửa size thất baị', 'data' => null];
@@ -47,6 +83,16 @@
                 return ['success' => false, 'message' => 'xoá thất bại', 'data' => null];
             } 
         } 
+
+        public function get_size_by_category($category_id) {
+            $sql = "SELECT * FROM $this->table WHERE category_id = ?";
+            $data = $this->select($sql, [$category_id]);
+            if($data) {
+                return ['success' => true, 'message' => 'Lấy dữ liệu thành công', 'data' => $data];
+            } else {
+                return ['success' => false, 'message' => 'Lấy dữ liệu thất bại', 'data' => null];
+            }
+        }
     }
 
 

@@ -40,8 +40,8 @@ class HomeController
         $productDetail = $producResult['data'];
         $commentResult = $this->homeModel->get_all_comment_by_product_id($product_id);
         $comments = $commentResult['data'];
-        $content = '../app/views/pages/user/detail.php';
         $header = '../app/views/layouts/_header.php';
+        $content = '../app/views/pages/user/detail.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
@@ -210,6 +210,10 @@ class HomeController
         include_once "../app/views/layouts/default2.php";
     }
 
+    public function test()
+    {
+        $content = '../app/views/pages/user/test.php';
+    }
 
     public function logout() {
         session_unset();
@@ -221,5 +225,12 @@ class HomeController
         header("Location: ?controller=auth");
         exit;
     }
-    
+
+    public function contact()
+    {
+        $content = '../app/views/pages/user/contact.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
+    }
 }

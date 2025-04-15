@@ -24,6 +24,8 @@
 
 
 <body>
+    <div id="loading" style="display: none;"></div>
+
     <div id="toast" class="toast bg-white" style="position: fixed; top: 32px; right: 20px; z-index: 50;" role="alert"
         aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
@@ -101,6 +103,43 @@
             },
         },
     });
+        let lastScrollY = window.scrollY;
+        const header = document.querySelector("header");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 50) {
+                header.classList.add("header-scroll");
+            } else {
+                header.classList.remove("header-scroll");
+            }
+
+            if (window.scrollY > lastScrollY) {
+                header.classList.add("header-hidden");
+            } else {
+                header.classList.remove("header-hidden");
+            }
+            lastScrollY = window.scrollY;
+        });
+    </script>
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 'auto',
+            spaceBetween: 16,
+            watchSlidesVisibility: true,
+            breakpoints: {
+                640: {
+                    slidesPerView: 1,
+                    spaceBetween: 10,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 15,
+                },
+                1024: {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                },
+            },
+        });
     </script> -->
     <!-- JS -->
     <script src=" ./js/main.js"></script>

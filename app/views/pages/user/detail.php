@@ -1,3 +1,15 @@
+<?php include '../app/views/layouts/_list_product.php' ?>
+<?php include '../app/views/layouts/_list_product_cssfile.php' ?>
+
+<?php
+$related_products = [
+    ["id" => 1, "brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-14.jpg"],
+    ["id" => 2, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
+    ["id" => 3, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
+    ["id" => 4, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://icdn.psgtalk.com/wp-content/uploads/2021/04/Kylian-Mbappe-warming-up-Strasbourg-vs-PSG-Ligue-1-2021.jpg"]
+];
+?>
+
 <main style="padding-top: 76px;">
     <section class="py-4">
         <div class="container">
@@ -5,24 +17,24 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
                     <li class="breadcrumb-item fw-bold">Chi tiết sản phẩm</li>
-                    <li class="breadcrumb-item text-primary fw-bold">Áo thể thao chống thấm hút mồ hôi</li>
+                    <li class="breadcrumb-item  fw-bold">Áo thể thao chống thấm hút mồ hôi</li>
                 </ol>
             </nav>
             <div class="row">
                 <div class="col d-flex">
                     <div class="me-2 d-flex gap-2 h-100" style="flex-direction: column; width: 80px;">
                         <?php
-                    $img_arr = [
-                        'https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2024/quan-dai-kaki-ecc-pants-xam_(5).jpg',
-                        'https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2024/quan-dai-kaki-ecc-pants-xam_(1).jpg',
-                        'https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2024/quan-dai-kaki-ecc-pants-xam_(2).jpg',
-                        'https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2024/quan-dai-kaki-ecc-pants-xam_(9).jpg',
-                        'https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2024/quan-dai-kaki-ecc-pants-xam_(11).jpg'
-                    ];
+                        $img_arr = [
+                            'https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2024/quan-dai-kaki-ecc-pants-xam_(5).jpg',
+                            'https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2024/quan-dai-kaki-ecc-pants-xam_(1).jpg',
+                            'https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2024/quan-dai-kaki-ecc-pants-xam_(2).jpg',
+                            'https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2024/quan-dai-kaki-ecc-pants-xam_(9).jpg',
+                            'https://media3.coolmate.me/cdn-cgi/image/quality=80,format=auto/uploads/December2024/quan-dai-kaki-ecc-pants-xam_(11).jpg'
+                        ];
 
-                    $content = '';
-                    foreach ($img_arr as $img) {
-                        $content .= "
+                        $content = '';
+                        foreach ($img_arr as $img) {
+                            $content .= "
                         <div class='position-relative flex-grow-1' onclick='changeImage(this, \"$img\")'>
                             <div class='overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50'
                                 style='cursor: pointer;'></div>
@@ -30,8 +42,8 @@
                                 src='$img'
                                 alt=''>
                         </div>";
-                    }
-                ?>
+                        }
+                        ?>
                         <?php echo $content ?>
 
                     </div>
@@ -195,20 +207,21 @@
     <section class="py-4">
         <div class="container">
             <h4 class="text-center">Sản phẩm liên quan</h4>
+            <?php render_list_product($related_products); ?>
         </div>
     </section>
 </main>
 
 <script>
-const changeImage = (e, img) => {
-    document.querySelector('.product-thumbnail').classList.remove("fade-in");
-    const overPlays = document.querySelectorAll('.overplay');
-    overPlays.forEach(overPlay => overPlay.style.display = 'block');
-    const overPlay = e.querySelector('.overplay');
-    overPlay.style.display = 'none';
-    document.querySelector('.product-thumbnail').src = img;
-    setTimeout(() => {
-        document.querySelector('.product-thumbnail').classList.add("fade-in");
-    }, 10);
-}
+    const changeImage = (e, img) => {
+        document.querySelector('.product-thumbnail').classList.remove("fade-in");
+        const overPlays = document.querySelectorAll('.overplay');
+        overPlays.forEach(overPlay => overPlay.style.display = 'block');
+        const overPlay = e.querySelector('.overplay');
+        overPlay.style.display = 'none';
+        document.querySelector('.product-thumbnail').src = img;
+        setTimeout(() => {
+            document.querySelector('.product-thumbnail').classList.add("fade-in");
+        }, 10);
+    }
 </script>
