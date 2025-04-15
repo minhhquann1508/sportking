@@ -75,6 +75,24 @@
             }else{
                 return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
             }
+            // Kiểm tra kết quả trả về
+            if ($result !== false && is_array($result) && !empty($result)) {
+                return [
+                    'success' => true,
+                    'message' => 'Lấy danh sách bình luận thành công',
+                    'data' => $result
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => 'Không có bình luận nào',
+                    'data' => []
+                ];
+            }
+        }
+        public function delete_comment($comment_id) {
+            $query = "DELETE FROM $this->table WHERE comment_id = ?";
+            return $this->execute($query, [$comment_id]);
         }
 
 

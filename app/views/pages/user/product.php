@@ -85,6 +85,39 @@
     background-color: #007bff;
     color: #fff;
 }
+
+/* Media query cho mobile */
+@media (max-width: 768px) {
+    .filter {
+        padding: 15px;
+    }
+
+    .filter select,
+    .filter button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .filter h5 {
+        font-size: 1rem;
+    }
+
+    .filter .btn-outline-secondary {
+        width: 100%;
+    }
+
+    .filter label {
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 768px) {
+
+    .filter select,
+    .filter button {
+        width: 100%;
+    }
+}
 </style>
 
 <main>

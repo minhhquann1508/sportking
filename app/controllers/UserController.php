@@ -35,5 +35,7 @@
             $response = $this->userModel->add_user_by_admin($email, $fullname, $password, $phone);
             echo json_encode($response);
         }
+
+        // 
     }
 ?>
