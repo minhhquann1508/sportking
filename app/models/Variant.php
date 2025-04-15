@@ -1,13 +1,15 @@
 <?php
     require_once '../app/configs/Database.php';
-    class Variant extends Database{
+    class Variant extends Database
+    {
         private $table = "product_variant";
 
-        public function add($price, $stock, $product_id, $size_id, $color_id) {
+        public function add($price, $stock, $product_id, $size_id, $color_id)
+        {
             $sql = "INSERT INTO $this->table (price, stock, product_id, size_id, color_id)
-                    VALUES (?, ?, ?, ?, ?)";
+                        VALUES (?, ?, ?, ?, ?)";
             $response = $this->execute($sql, [$price, $stock, $product_id, $size_id, $color_id]);
-            if($response) {
+            if ($response) {
                 $lastId = $this->lastInsertId();
                 return ['success' => true, 'message' => 'Thêm thành công', 'data' => $lastId];
             } else {
@@ -15,22 +17,23 @@
             }
         }
 
-        public function add_img($id, $imgs) {
+        public function add_img($id, $imgs)
+        {
             $values_string = '';
-            $params = [];
-        
+            $params = [];   
+
             foreach ($imgs as $img) {
                 $values_string .= '(?, ?),';
                 $params[] = $img;
                 $params[] = $id;
             }
-        
+
             $values_string = rtrim($values_string, ',');
-        
+
             $sql = "INSERT INTO variant_image (image_url, variant_id) VALUES $values_string";
-        
+
             $response = $this->execute($sql, $params);
-        
+
             if ($response) {
                 return ['success' => true, 'message' => 'Thêm thành công', 'data' => null];
             } else {
@@ -38,26 +41,37 @@
             }
         }
 
-        public function get_all() {
+        public function get_all($page = 1, $limit = 10)
+        {
+            $offset = ($page - 1) * $limit;
+
+            // Lấy tổng số bản ghi trước
+            $countSql = "SELECT COUNT(DISTINCT v.variant_id) as total FROM $this->table v";
+            $countResult = $this->select($countSql);
+            $total = $countResult ? (int) $countResult[0]['total'] : 0;
+
             $sql = "SELECT 
-                v.variant_id,
-                v.price,
-                v.stock,
-                p.product_name,
-                c.category_name,
-                b.brand_name,
-                co.color_name,
-                co.color_hex,
-                s.size_name,
-                i.image_url
-            FROM $this->table v
-            INNER JOIN product p ON p.product_id = v.product_id
-            INNER JOIN category c ON c.category_id = p.category_id
-            INNER JOIN brands b ON b.brand_id = p.brand_id
-            INNER JOIN color co ON co.color_id = v.color_id
-            INNER JOIN size s ON s.size_id = v.size_id
-            LEFT JOIN variant_image i ON i.variant_id = v.variant_id";
+                            v.variant_id,
+                            v.price,
+                            v.stock,
+                            p.product_name,
+                            c.category_name,
+                            b.brand_name,
+                            co.color_name,
+                            co.color_hex,
+                            s.size_name,
+                            i.image_url
+                        FROM $this->table v
+                        INNER JOIN product p ON p.product_id = v.product_id
+                        INNER JOIN category c ON c.category_id = p.category_id
+                        INNER JOIN brands b ON b.brand_id = p.brand_id
+                        INNER JOIN color co ON co.color_id = v.color_id
+                        INNER JOIN size s ON s.size_id = v.size_id
+                        LEFT JOIN variant_image i ON i.variant_id = v.variant_id
+                        LIMIT $limit OFFSET $offset";
+
             $response = $this->select($sql);
+
             if ($response) {
                 $variants = [];
                 foreach ($response as $row) {
@@ -80,9 +94,24 @@
                         $variants[$id]['images'][] = $row['image_url'];
                     }
                 }
-                return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => array_values($variants)];
+
+                return [
+                    'success' => true,
+                    'message' => 'Lấy danh sách thành công',
+                    'data' => array_values($variants),
+                    'pagination' => [
+                        'current_page' => $page,
+                        'limit' => $limit,
+                        'total' => $total,
+                        'total_pages' => ceil($total / $limit)
+                    ]
+                ];
             } else {
-                return ['success' => false, 'message' => 'Lấy danh sách không thành công', 'data' => null];
+                return [
+                    'success' => false,
+                    'message' => 'Lấy danh sách không thành công',
+                    'data' => null
+                ];
             }
         }
     }

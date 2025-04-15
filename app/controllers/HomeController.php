@@ -5,6 +5,7 @@ require_once '../app/models/Brand.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
 require_once '../app/models/Blog.php';
+require_once '../app/models/Variant.php';
 class HomeController
 {
     private $productModel;
@@ -13,6 +14,7 @@ class HomeController
     private $blogModel;
     private $homeModel;
     private $userModel;
+    private $variantModel;
     public function __construct()
     {
         $this->homeModel = new Home();
@@ -20,6 +22,8 @@ class HomeController
         $this->brandModel = new Brand();
         $this->blogModel = new Blog();
         $this->categoryModel = new Category();
+        $this->variantModel = new Variant();
+        $this->userModel = new User();
     }
     public function index()
     {

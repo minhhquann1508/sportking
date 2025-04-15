@@ -40,16 +40,13 @@
                     </div>
 
                     <div class="col-12">
-<<<<<<< HEAD
                         <div class="btn-group col-12" id="savedAddressSection">
                             <button type="button" class="$gray-700 form-control">Địa chỉ</button>
                             <button type="button" class="$gray-500 dropdown-toggle dropdown-toggle-split"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-=======
                         <!-- <div class="btn-group col-12" id="savedAddressSection">
                             <button type="button" class="$gray-700 form-control" id="saveAddressBtn"> Chọn địa chỉ</button>
                             <button type="button" class="$gray-500 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
->>>>>>> 3b8c65869f9268dbf511e3d48a9be54c0b28baa2
                                 <span class="visually-hidden">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" id="savedAdressList">
@@ -62,10 +59,6 @@
                                 </li>
                                 <li><a class="dropdown-item" href="#">Separated link</a></li>
                             </ul>
-<<<<<<< HEAD
-
-=======
-                            
                         </div> -->
                         <div class="form-group" id="savedAddressSection">
                             <label class="form-label">Chọn địa chỉ đã từng đặt:</label>
@@ -77,16 +70,12 @@
                                 <input class="form-check-input" type="radio" name="savedAddress" value="55c, Quang Trung, Gò Vấp , TP Hồ Chí Minh">
                                 <label class="form-check-label">55c, Quang Trung, Gò Vấp , TP Hồ Chí Minh</label>
                             </div>
->>>>>>> 3b8c65869f9268dbf511e3d48a9be54c0b28baa2
                         </div>
                     </div>
 
                     <div class="row d-flex mt-3 " id="newAddressSection">
                         <label for="addressInput" class="form-label">Địa chỉ 2</label>
                         <input type="text" class="form-control" id="addressInput" disabled>
-                    
-
-<<<<<<< HEAD
                     <div class="col-6">
                         <label for="firstName" class="form-label">Thành Phố</label>
                         <input type="text" readonly class="form-control" value="Hồ Chí Minh">
@@ -106,7 +95,10 @@
                     <div class="col-6">
                         <label for="username" class="form-label">Đường:</label>
                         <div class="input-group has-validation">
-=======
+                            <input type="text" class="form-control" id="username" required>
+
+                        </div>
+                    </div>
                         <div class="col-6">
                             <label for="firstName" class="form-label">Thành Phố</label>
                             <input type="text" readonly class="form-control" value="Hồ Chí Minh" >
@@ -132,14 +124,10 @@
                             </div>
                         </div> 
                     </div>  
->>>>>>> 3b8c65869f9268dbf511e3d48a9be54c0b28baa2
-
                             <input type="text" class="form-control" id="username" required>
 
                         </div>
                     </div>
-
-
                 </div>
             </div>
             <div class="col-5">
@@ -238,7 +226,6 @@
     </div>
 </main>
 <script>
-<<<<<<< HEAD
 $.ajax({
     url: "?controller=order",
     type: "POST",
@@ -257,9 +244,7 @@ $.ajax({
         console.error(" AJAX Error:", status, error);
     },
 });
-
 $(document).ready(function() {
-=======
     // $.ajax({
     //     url: "?controller=order", // File PHP xử lý
     //     type: "POST",
@@ -279,7 +264,6 @@ $(document).ready(function() {
     //     },
     // });
     $(document).ready(function () {
->>>>>>> 3b8c65869f9268dbf511e3d48a9be54c0b28baa2
     console.log("Trang đã tải xong - JS hoạt động!");
 
     // Ẩn phần nhập địa chỉ ban đầu
@@ -389,7 +373,6 @@ $(document).ready(function() {
         //     isValid &= validateInput("#addressInput", /.+/, "Địa chỉ không được để trống!");
         // }
         if (isValid) {
-<<<<<<< HEAD
             let orderData = {
                 fullName: $("#firstName").val(),
                 email: $("#username").val(),
@@ -405,7 +388,6 @@ $(document).ready(function() {
             // $.post("order.php", orderData, function(response) {
             //     alert("Đặt hàng thành công!");
             // });
-=======
         // Lấy dữ liệu địa chỉ
         let address = "";
         if ($("#enterNewAddress").is(":checked")) {
@@ -415,9 +397,7 @@ $(document).ready(function() {
             address = `${duong}, ${phuong}, ${quan}, Hồ Chí Minh`;
         } else {
             address = "Địa chỉ đã từng đặt";
->>>>>>> 3b8c65869f9268dbf511e3d48a9be54c0b28baa2
         }
-
         let orderData = {
             fullName: $("#firstName").val(),
             email: $("#username").val(),
