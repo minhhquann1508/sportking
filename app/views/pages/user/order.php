@@ -76,8 +76,6 @@
                     <div class="row d-flex mt-3 " id="newAddressSection">
                         <label for="addressInput" class="form-label">Địa chỉ 2</label>
                         <input type="text" class="form-control" id="addressInput" disabled>
-                    
-
                     <div class="col-6">
                         <label for="firstName" class="form-label">Thành Phố</label>
                         <input type="text" readonly class="form-control" value="Hồ Chí Minh">
@@ -97,12 +95,10 @@
                     <div class="col-6">
                         <label for="username" class="form-label">Đường:</label>
                         <div class="input-group has-validation">
-
                             <input type="text" class="form-control" id="username" required>
 
                         </div>
                     </div>
-
                         <div class="col-6">
                             <label for="firstName" class="form-label">Thành Phố</label>
                             <input type="text" readonly class="form-control" value="Hồ Chí Minh" >
@@ -128,6 +124,10 @@
                             </div>
                         </div> 
                     </div>  
+                            <input type="text" class="form-control" id="username" required>
+
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-5">
@@ -226,6 +226,24 @@
     </div>
 </main>
 <script>
+$.ajax({
+    url: "?controller=order",
+    type: "POST",
+    data: orderData,
+    dataType: "json",
+    success: function(response) {
+        if (response.status === "success") {
+            alert(" Đặt hàng thành công!");
+            console.log(" Phản hồi từ server:", response);
+        } else {
+            alert("Lỗi đặt hàng: " + response.message);
+        }
+    },
+    error: function(xhr, status, error) {
+        alert(" Lỗi kết nối đến server! Hãy thử lại.");
+        console.error(" AJAX Error:", status, error);
+    },
+});
 $(document).ready(function() {
     // $.ajax({
     //     url: "?controller=order", // File PHP xử lý
@@ -355,6 +373,21 @@ $(document).ready(function() {
         //     isValid &= validateInput("#addressInput", /.+/, "Địa chỉ không được để trống!");
         // }
         if (isValid) {
+            let orderData = {
+                fullName: $("#firstName").val(),
+                email: $("#username").val(),
+                phone: $("#phone").val(),
+                address: $("#enterNewAddress").is(":checked") ? $("#addressInput").val() :
+                    "Địa chỉ đã từng đặt",
+            };
+
+            console.log("Dữ liệu đơn hàng:", orderData);
+            alert("✅ Đơn hàng hợp lệ, dữ liệu đã được thu thập!");
+
+            // Nếu muốn gửi lên server, bạn dùng AJAX:
+            // $.post("order.php", orderData, function(response) {
+            //     alert("Đặt hàng thành công!");
+            // });
         // Lấy dữ liệu địa chỉ
         let address = "";
         if ($("#enterNewAddress").is(":checked")) {
