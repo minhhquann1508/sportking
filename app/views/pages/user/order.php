@@ -9,7 +9,7 @@
                 <div class="row g-3">
                     <div class="col-6">
                         <label for="firstName" class="form-label">Họ và tên</label>
-                        <input type="text" class="form-control" id="firstName" placeholder=""  required>
+                        <input type="text" class="form-control" id="firstName" placeholder="" required>
                         <div class="invalid-feedback">
                             Tên phải hợp lệ.
                         </div>
@@ -24,10 +24,10 @@
                             </div>
                         </div>
                     </div>
-                  
+
                     <div class="col-12 ">
                         <label for="phone" class="form-label ">Số điện thoại </label>
-                        <input type="phone" class="form-control" id="phone" >
+                        <input type="phone" class="form-control" id="phone">
                         <div class="invalid-feedback">
                             Vui lòng nhập địa chỉ email hợp lệ để cập nhật thông tin vận chuyển.
                         </div>
@@ -40,6 +40,10 @@
                     </div>
 
                     <div class="col-12">
+                        <div class="btn-group col-12" id="savedAddressSection">
+                            <button type="button" class="$gray-700 form-control">Địa chỉ</button>
+                            <button type="button" class="$gray-500 dropdown-toggle dropdown-toggle-split"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                         <!-- <div class="btn-group col-12" id="savedAddressSection">
                             <button type="button" class="$gray-700 form-control" id="saveAddressBtn"> Chọn địa chỉ</button>
                             <button type="button" class="$gray-500 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
@@ -47,12 +51,14 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" id="savedAdressList">
                                 <li><a class="dropdown-item" class="form-label" href="#">Địa chỉ từng đặt hàng</a></li>
-                                <li><a class="dropdown-item" href="#">12d, Tân kỳ tân quý, Bình Tân , TP Hồ Chí Minh</a></li>
+                                <li><a class="dropdown-item" href="#">12d, Tân kỳ tân quý, Bình Tân , TP Hồ Chí Minh</a>
+                                </li>
                                 <li><a class="dropdown-item" href="#">55c, Quang Trung, Gò Vấp , TP Hồ Chí Minh</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                                 <li><a class="dropdown-item" href="#">Separated link</a></li>
                             </ul>
-                            
                         </div> -->
                         <div class="form-group" id="savedAddressSection">
                             <label class="form-label">Chọn địa chỉ đã từng đặt:</label>
@@ -71,6 +77,31 @@
                         <label for="addressInput" class="form-label">Địa chỉ 2</label>
                         <input type="text" class="form-control" id="addressInput" disabled>
                     
+
+                    <div class="col-6">
+                        <label for="firstName" class="form-label">Thành Phố</label>
+                        <input type="text" readonly class="form-control" value="Hồ Chí Minh">
+                    </div>
+                    <div class="col-6">
+                        <label for="username" class="form-label">Phường:</label>
+                        <div class="input-group has-validation">
+
+                            <input type="text" class="form-control" id="username" required>
+
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label for="firstName" class="form-label">Quận:</label>
+                        <input type="text" class="form-control" id="username">
+                    </div>
+                    <div class="col-6">
+                        <label for="username" class="form-label">Đường:</label>
+                        <div class="input-group has-validation">
+
+                            <input type="text" class="form-control" id="username" required>
+
+                        </div>
+                    </div>
 
                         <div class="col-6">
                             <label for="firstName" class="form-label">Thành Phố</label>
@@ -97,8 +128,6 @@
                             </div>
                         </div> 
                     </div>  
-
-                 
                 </div>
             </div>
             <div class="col-5">
@@ -177,16 +206,16 @@
                     </ul>
                     <div class="mt-3">
                         <strong>CÁC PHƯƠNG THỨC THANH TOÁN</strong>
-                        <div >
+                        <div>
                             <label for="#">Thanh toán khi nhận được hàng</label>
                             <input type="radio">
                             <label for="#">Thanh toán bằng QR</label>
                             <input type="radio">
                         </div>
                     </div>
-                    
+
                     <button class="btn btn-primary mt-3 w-100" id="order-submit">Thanh toán ngay</button>
-                   
+
 
 
                 </div>
@@ -197,6 +226,7 @@
     </div>
 </main>
 <script>
+$(document).ready(function() {
     // $.ajax({
     //     url: "?controller=order", // File PHP xử lý
     //     type: "POST",
@@ -223,7 +253,7 @@
     $("#newAddressSection").hide();
 
     // Xử lý chọn địa chỉ
-    $("#chooseSavedAddress").on("change", function () {
+    $("#chooseSavedAddress").on("change", function() {
         if ($(this).is(":checked")) {
             $("#enterNewAddress").prop("checked", false);
             // $("#addressInput").prop("disabled", true).val(""); // Ẩn input nhập địa chỉ
@@ -232,7 +262,7 @@
         }
     });
 
-    $("#enterNewAddress").on("change", function () {
+    $("#enterNewAddress").on("change", function() {
         if ($(this).is(":checked")) {
             $("#chooseSavedAddress").prop("checked", false);
             // $("#addressInput").prop("disabled", false);
@@ -242,7 +272,7 @@
     });
 
     // Chặn nhập ký tự không phải số trong ô điện thoại
-    $("#phone").on("keypress", function (e) {
+    $("#phone").on("keypress", function(e) {
         let charCode = e.which ? e.which : e.keyCode;
         if (charCode < 48 || charCode > 57) {
             e.preventDefault();
@@ -311,7 +341,7 @@
 
 
     // Khi bấm nút Thanh Toán
-    $("#order-submit").on("click", function (e) {
+    $("#order-submit").on("click", function(e) {
         e.preventDefault();
         console.log("Nút thanh toán được bấm!");
 
@@ -335,7 +365,6 @@
         } else {
             address = "Địa chỉ đã từng đặt";
         }
-
         let orderData = {
             fullName: $("#firstName").val(),
             email: $("#username").val(),
@@ -359,5 +388,4 @@
        
     });
 });
-
 </script>

@@ -4,21 +4,22 @@ require_once '../app/models/Products.php';
 require_once '../app/models/Brand.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
+require_once '../app/models/Variant.php';
 class HomeController
 {
     private $productModel;
     private $brandModel;
     private $categoryModel;
     private $homeModel;
+    private $userModel;
+    private $variantModel;
     public function __construct()
     {
         $this->homeModel = new Home();
         $this->productModel = new Products();
         $this->brandModel = new Brand();
         $this->categoryModel = new Category();
-    private $userModel;
-    public function __construct() {
-        $this->homeModel = new Home();
+        $this->variantModel = new Variant();
         $this->userModel = new User();
     }
     public function index()

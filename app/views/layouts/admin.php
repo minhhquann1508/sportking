@@ -129,6 +129,21 @@
     <link rel="stylesheet" href="./css/style.css">
     <title>Document</title>
 </head>
+<style>
+.modal-dialog {
+    max-width: 900px;
+}
+
+.modal-dialog .modal-content {
+    padding: 10px 20px;
+    background-color: #f2f2f2;
+}
+
+.modal-dialog .form-label {
+    color: black;
+    font-weight: 900;
+}
+</style>
 
 <body>
     <div id="toast" class="toast bg-white" style="position: fixed; top: 32px; right: 20px; z-index: 50;" role="alert"
