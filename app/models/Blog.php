@@ -10,14 +10,6 @@
             return ['success' => true, 'message' => 'Lấy dữ liệu thành công', 'data' => $data];
             
         }
-        public function get_by_quantity($number=3){
-            $sql = "SELECT blogs.*, users.fullname 
-                    FROM $this->table 
-                    LEFT JOIN users ON blogs.author_id = users.user_id
-                    ORDER BY blog_id DESC LIMIT $number";
-            $data = $this->select($sql);
-            return ['success' => true, 'message' => 'Lấy dữ liệu therap', 'data' => $data];
-        }
         public function add_blog($blog) {
             $index = 0;
             $params = [];

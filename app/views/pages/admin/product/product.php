@@ -346,7 +346,7 @@ $(document).ready(() => {
                         subDescInput.val('');
                         soldsInput.val(0);
                         viewsInput.val(0);
-                        descriptionInput.val('');
+                        descriptionInput[0]['data-froala.editor'].html.set('');
                         publicInput.prop('checked', false);
                         fileInput.val('');
                         $('#addModal').modal('hide');
