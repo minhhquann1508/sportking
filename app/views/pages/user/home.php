@@ -14,6 +14,8 @@
         transform: scale(1.05);
     }
 
+    /* cursor css */
+
     .cursor-dot {
         position: fixed;
         width: 5px;
@@ -100,5 +102,49 @@
         background: white;
         border: 1px solid #ccc;
         text-align: center;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+    #loading {
+        height: 100vh;
+        width: 100%;
+        background-color: white;
+        z-index: 1000;
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        top: 0;
+        left: 0;
+    }
+
+    #loading img {
+        width: 200px;
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+    #loading-text {
+        font-size: 48px;
+        font-weight: bold;
+        font-family: 'Playfair Display', serif;
+    }
+
+    #progress-bar {
+        width: 300px;
+        height: 4px;
+        background-color: #eee;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-top: 20px;
+    }
+
+    #progress-bar-fill {
+        height: 100%;
+        width: 0%;
+        background-color: #b57a43;
+        transition: width 0.3s ease;
     }
 </style>
