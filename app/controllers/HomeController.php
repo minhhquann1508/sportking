@@ -1,9 +1,21 @@
 <?php
 require_once '../app/models/Home.php';
+require_once '../app/models/Products.php';
+require_once '../app/models/Brand.php';
+require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
 class HomeController
 {
+    private $productModel;
+    private $brandModel;
+    private $categoryModel;
     private $homeModel;
+    public function __construct()
+    {
+        $this->homeModel = new Home();
+        $this->productModel = new Products();
+        $this->brandModel = new Brand();
+        $this->categoryModel = new Category();
     private $userModel;
     public function __construct() {
         $this->homeModel = new Home();
@@ -11,12 +23,18 @@ class HomeController
     }
     public function index()
     {
+        $categories = $this->homeModel->get_all_categorys();
+        $brands = $this->homeModel->get_all_brands();
+        $productList = $this->homeModel->get_all_products();
+
+
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/home2.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
-    public function detail() {
+    public function detail()
+    {
         $content = '../app/views/pages/user/detail.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -184,6 +202,10 @@ class HomeController
         include_once "../app/views/layouts/default2.php";
     }
 
+    public function test()
+    {
+        $content = '../app/views/pages/user/test.php';
+    }
 
     public function logout() {
         session_unset();
@@ -211,3 +233,4 @@ class HomeController
         include_once "../app/views/layouts/default2.php";
     }
 }
+
