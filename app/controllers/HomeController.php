@@ -4,9 +4,9 @@ require_once '../app/models/Products.php';
 require_once '../app/models/Brand.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
+require_once '../app/models/Blog.php';
 require_once '../app/models/Size.php';
 require_once '../app/models/Color.php';
-require_once '../app/models/Blog.php';
 require_once '../app/models/Variant.php';
 class HomeController
 {
@@ -238,6 +238,16 @@ class HomeController
         }
         header("Location: ?controller=auth");
         exit;
+    }
+    public function blog()
+    {
+        $categories = $this->homeModel->get_all_categorys();
+        $blogList = $this->blogModel->get_all_blogs();
+        $blogRelated = $this->blogModel->get_by_quantity($number=3);
+        $content = '../app/views/pages/user/blog.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
     }
 
     public function contact()

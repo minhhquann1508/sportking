@@ -42,6 +42,14 @@
                 return ['success' => false, 'message' => 'Thêm mới thất bại', 'data' => null];
             }
         }
+        public function get_by_quantity(){
+            $sql = "SELECT blogs.*
+                    FROM $this->table 
+                    limit 4";
+            $data = $this->select($sql);
+            return ['success' => true, 'message' => 'Lấy dữ liệu thành công', 'data' => $data];
+            
+        }
         public function delete_blog($blog_id) {
             $sql = "DELETE FROM blogs WHERE blog_id = ?";
             $response = $this->execute($sql, [$blog_id]);

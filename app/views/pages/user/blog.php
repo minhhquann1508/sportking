@@ -30,12 +30,17 @@
     <div class="container-lg mt-4 py-5">
         <div class="row">
             <div class="col-lg-8 col-md-12">
-                <?php if (!empty($blogList['data'])): ?>
+            <?php if (!empty($blogList['data'])): ?>
                 <?php foreach ($blogList['data'] as $blog): ?>
                 <div class="card mb-4">
                     <img src="<?= $blog['thumbnail'] ?>" class="card-img-top w-100 h-auto" alt="...">
                     <div class="card-body">
                         <div class="d-flex align-items-center">
+                            <p class="me-2"><i class="fa-regular fa-calendar-minus"></i> <?= date("H:i d/m/y", strtotime($blog['created_at'])) ?></p>
+                            <p class="me-2"><i class="fa-regular fa-circle-user"></i> <?= $blog['author_id'] ?></p>
+                            <p class="me-2"><i class="fa-solid fa-eye"></i> <?= $blog['views'] ?></p>
+                        </div>
+                        <a class="card-title" style="font-size: 24px; font-weight: ;" href="?controller=home&action=blogdetail&id=<?= $blog['blog_id']?>" ><?= $blog['title'] ?></a>
                             <p class="me-2"><i class="fa-regular fa-calendar-minus"></i>
                                 <?= date("H:i d/m/y", strtotime($blog['created_at'])) ?></p>
                             <p class="me-2"><i class="fa-regular fa-circle-user"></i> <?= $blog['author_id'] ?></p>
@@ -54,10 +59,12 @@
 
             <div class="col-lg-4 col-md-12">
                 <div class="input-group mb-4">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm tin">
-                    <button class="btn btn-primary" type="button">
+                <form action="" method="GET" class="input-group mb-4">
+                    <input type="text" class="form-control" name="keyword" placeholder="Tìm kiếm tin" value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : '' ?>">
+                    <button class="btn btn-primary" type="submit">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
+                </form>
                 </div>
 
                 <div class="list-group mb-4">
@@ -73,9 +80,9 @@
                 <div class="list-category p-2">
                     <h5 class="mb-3">Danh mục</h5>
                     <ul class="list-unstyled">
-                        <?php foreach ($categories['data'] as $category): ?>
-                        <li class="py-2"><a href="#"><?php echo $category['category_name']; ?></a></li>
-                        <?php endforeach; ?>
+                      <?php foreach ($categories['data'] as $category): ?>
+                          <li class="py-2"><a href="#"><?php echo $category['category_name']; ?></a></li>
+                      <?php endforeach; ?>
                     </ul>
                 </div>
 
@@ -89,11 +96,12 @@
                     </div>
                 </div>
             </div>
+        </div>  
+    </div>
+        <?php else: ?>
+        <div class="col-12">
+            <h3 class="text-center">Không tìm thấy bài viết</h3>
         </div>
-    </div>
-    <?php else: ?>
-    <div class="col-12">
-        <h3 class="text-center">Không tìm thấy bài viết</h3>
-    </div>
-    <?php endif; ?>
+        <?php endif; ?>
 </body>
+
