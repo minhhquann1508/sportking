@@ -212,7 +212,7 @@
                                 <div class="card-body p-2">
                                     <p class="card-title fs-6 mb-1"><?= $product['product_name'] ?></p>
                                     <p class="card-text fw-semibold">
-                                        <?= number_format($product['price'], 0, ',', '.') ?> đ</p>
+                                        <!-- <?= number_format($product['price'], 0, ',', '.') ?> đ</p> -->
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-auto p-2">
                                     <div class="d-flex justify-content-center align-items-center"

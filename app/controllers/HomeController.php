@@ -1,13 +1,16 @@
 <?php
 require_once '../app/models/Home.php';
 require_once '../app/models/Users.php';
+require_once '../app/models/Variant.php';
 class HomeController
 {
     private $homeModel;
     private $userModel;
+    private $variantModel;
     public function __construct() {
         $this->homeModel = new Home();
         $this->userModel = new User();
+        $this->variantModel = new Variant();
     }
     public function index()
     {
@@ -17,10 +20,16 @@ class HomeController
         include_once "../app/views/layouts/default2.php";
     }
     public function detail() {
-        $content = '../app/views/pages/user/detail.php';
-        $header = '../app/views/layouts/_header.php';
-        $footer = '../app/views/layouts/_footer.php';
-        include_once "../app/views/layouts/default2.php";
+        // if (isset($_GET['product_id']) && !empty($_GET['product_id'])) {
+        //     $product_id = $_GET['product_id'];
+        //     $variant = $this->variantModel->get_detail_variant($product_id)['data'];
+            $content = '../app/views/pages/user/detail.php';
+            $header = '../app/views/layouts/_header.php';
+            $footer = '../app/views/layouts/_footer.php';
+            include_once "../app/views/layouts/default2.php";
+        // } else {
+        //     die('Không tìm thấy id');
+        // }
     }
 
     public function blogdetail() {

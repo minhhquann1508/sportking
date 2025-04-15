@@ -9,7 +9,7 @@
                 </ol>
             </nav>
             <div class="row">
-                <div class="col d-flex">
+                <div class="col-5 d-flex">
                     <div class="me-2 d-flex gap-2 h-100" style="flex-direction: column; width: 80px;">
                         <?php
                     $img_arr = [
@@ -229,7 +229,9 @@
         </div>
     </section>
 </main>
-
+<?php
+print_r($variant);
+?>
 <script>
 const changeImage = (e, img) => {
     document.querySelector('.product-thumbnail').classList.remove("fade-in");
