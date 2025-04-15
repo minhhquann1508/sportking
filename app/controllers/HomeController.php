@@ -4,6 +4,8 @@ require_once '../app/models/Products.php';
 require_once '../app/models/Brand.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
+require_once '../app/models/Size.php';
+require_once '../app/models/Color.php';
 require_once '../app/models/Blog.php';
 require_once '../app/models/Variant.php';
 class HomeController
@@ -14,6 +16,8 @@ class HomeController
     private $blogModel;
     private $homeModel;
     private $userModel;
+    private $sizeModel;
+    private $colorModel;
     private $variantModel;
     public function __construct()
     {
@@ -24,6 +28,8 @@ class HomeController
         $this->categoryModel = new Category();
         $this->variantModel = new Variant();
         $this->userModel = new User();
+        $this->sizeModel = new Size();
+        $this->colorModel = new Color();
     }
     public function index()
     {
@@ -39,11 +45,11 @@ class HomeController
     }
     public function product_detail()
     {
-        $product_id = $_GET['product_id'];
-        $producResult = $this->homeModel->get_product_by_id($product_id);
-        $productDetail = $producResult['data'];
-        $commentResult = $this->homeModel->get_all_comment_by_product_id($product_id);
-        $comments = $commentResult['data'];
+        $product_id = $_GET['product_id'] ?? null;
+        $product = $this->productModel->get_product_by_id($product_id);
+        // $sizes = $this->sizeModel->get_size_by_category($product['category_id']);
+        // $colors = $this->colorModel->get_all();
+        $variant = $this->variantModel->get_variant_by_product_id($product_id);
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/detail.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -163,7 +169,7 @@ class HomeController
             $district = $_POST['district'] ?? '';
             $ward = $_POST['ward'] ?? '';
             $street = $_POST['street'] ?? '';
-            $userId = $_SESSION['user']['user_id']; 
+            $userId = $_SESSION['user']['user_id'];
 
             $result = $this->homeModel->updateUserAddress($city, $district, $ward, $street, $userId);
 
@@ -217,9 +223,13 @@ class HomeController
     public function test()
     {
         $content = '../app/views/pages/user/test.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
     }
 
-    public function logout() {
+    public function logout()
+    {
         session_unset();
         session_destroy();
 

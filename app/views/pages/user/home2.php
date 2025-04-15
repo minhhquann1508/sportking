@@ -3,40 +3,7 @@
 <?php include '../app/views/layouts/_home_btn.php' ?>
 <?php include 'home.php' ?>
 
-
 <?php
-$brands = [
-    "https://media.loveitopcdn.com/3807/logo-coca-cola-vector-dongphucsongphu4.png",
-    "https://upload.wikimedia.org/wikipedia/commons/2/24/Adidas_logo.png",
-    "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg",
-    "https://99designs-blog.imgix.net/blog/wp-content/uploads/2016/08/hbo.png?auto=format&q=60&fit=max&w=930",
-    "https://techvietnam.com.vn/wp-content/uploads/2023/07/Apple-Logo.png",
-    "https://i.pinimg.com/474x/d8/d3/4d/d8d34d5226cc7b34d452ae860aa20907.jpg"
-];
-
-$flashSale = [
-    ["id" => 1, "brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-14.jpg"],
-    ["id" => 2, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
-    ["id" => 3, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
-    ["id" => 4, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://icdn.psgtalk.com/wp-content/uploads/2021/04/Kylian-Mbappe-warming-up-Strasbourg-vs-PSG-Ligue-1-2021.jpg"]
-];
-$newArrivals = [
-    ["id" => 5, "brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://cdn.giaoducthoidai.vn/images/87a7b2442062a13f399c8570bdaf2565a8f969d40e98698a410f920061ed3556e3eda6ef7e4fd2b79a00356c76e89d88/051-1386.png"],
-    ["id" => 6, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
-    ["id" => 7, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://kenh14cdn.com/2019/1/26/hi-1548504545798711409173.jpg"],
-    ["id" => 8, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
-    ["id" => 9, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://media-cdn-v2.laodong.vn/storage/newsportal/2024/7/4/1361447/Ronaldo-Tt2-01.jpeg"],
-    ["id" => 10, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
-    ["id" => 11, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://cmu-cdn.vinfast.vn/2022/12/6ae187b4-doi-tuyen-nhat-ban.jpg"],
-    ["id" => 12, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://icdn.psgtalk.com/wp-content/uploads/2021/04/Kylian-Mbappe-warming-up-Strasbourg-vs-PSG-Ligue-1-2021.jpg"]
-];
-
-$bestSellers = [
-    ["id" => 13, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://icdn.psgtalk.com/wp-content/uploads/2021/04/Kylian-Mbappe-warming-up-Strasbourg-vs-PSG-Ligue-1-2021.jpg"],
-    ["id" => 14, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
-    ["id" => 15, "brand" => "Adidas", "name" => "Jurassic Green Shirt", "price" => 47, "oldPrice" => 55.5, "discount" => "15%", "image" => "https://pos.nvncdn.com/b0b717-26181/art/artCT/20221003_iKz3IVMmm8OPYN9Zq0SVfmMJ.jpg"],
-    ["id" => 16, "brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-14.jpg"]
-];
 
 $category = [
     ["name" => "Jackets", "products" => 110, "image" => "https://placehold.co/200x200"],
@@ -174,19 +141,19 @@ $blog = [
     <div class="tab-content mt-3">
         <div class="tab-pane fade show active" id="flashSale">
             <div class="container" style="padding: 20px 0;">
-                <?php render_list_product($flashSale); ?>
+                <?php render_list_product($productList); ?>
             </div>
         </div>
 
         <div class="tab-pane fade" id="newArrivals">
             <div class="container" style="padding: 20px 0;">
-                <?php render_list_product($newArrivals); ?>
+                <?php render_list_product($productList); ?>
             </div>
         </div>
 
         <div class="tab-pane fade" id="bestSellers">
             <div class="container" style="padding: 20px 0;">
-                <?php render_list_product($bestSellers); ?>
+                <?php render_list_product($productList); ?>
             </div>
         </div>
     </div>

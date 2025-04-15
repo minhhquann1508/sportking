@@ -1,23 +1,23 @@
 <style>
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 76px;
-    width: 100%;
-    background: transparent;
-    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
-    z-index: 1000;
-}
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 76px;
+        width: 100%;
+        background: transparent;
+        transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+        z-index: 1000;
+    }
 
-.header-scroll {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
+    .header-scroll {
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
 
-.header-hidden {
-    transform: translateY(-100%);
-}
+    .header-hidden {
+        transform: translateY(-100%);
+    }
 </style>
 
 <header class="d-flex align-items-center">
@@ -83,14 +83,14 @@ header {
                     <?php
                     if (isset($_SESSION['user'])) {
                     ?>
-                    <li><a class="dropdown-item" href="?controller=home&action=profile">Thông tin tài khoản</a></li>
-                    <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
-                    <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
+                        <li><a class="dropdown-item" href="?controller=home&action=profile">Thông tin tài khoản</a></li>
+                        <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
+                        <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
                     <?php
                     } else {
                     ?>
-                    <li><a class="dropdown-item" href="?controller=auth">Đăng nhập</a></li>
-                    <li><a class="dropdown-item" href="?controller=auth&action=register">Đăng kí</a></li>
+                        <li><a class="dropdown-item" href="?controller=auth">Đăng nhập</a></li>
+                        <li><a class="dropdown-item" href="?controller=auth&action=register">Đăng kí</a></li>
                     <?php
                     }
                     ?>

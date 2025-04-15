@@ -2,6 +2,10 @@
 <?php include '../app/views/layouts/_list_product_cssfile.php' ?>
 
 <?php
+
+print_r($product);
+print_r($variant);
+
 $related_products = [
     ["id" => 1, "brand" => "Uniqlo", "name" => "White Casual Shirt", "price" => 80, "oldPrice" => 120, "discount" => "20%", "image" => "https://www.sporter.vn/wp-content/uploads/2022/09/Tong-hop-ao-bong-da-doi-tuyen-quoc-gia-adidas-tai-tro-world-cup-2022-14.jpg"],
     ["id" => 2, "brand" => "Uniqlo", "name" => "Cream Casual Shirt", "price" => 77, "oldPrice" => 108.5, "discount" => "15%", "image" => "https://photo.znews.vn/w660/Uploaded/pnbcuhbatgunb/2022_11_25/Fhr0q3bX0AIZjXR.jpg"],
@@ -207,7 +211,7 @@ $related_products = [
     <section class="py-4">
         <div class="container">
             <h4 class="text-center">Sản phẩm liên quan</h4>
-            <?php render_list_product($related_products); ?>
+            <?php render_list_product($productList); ?>
         </div>
     </section>
 </main>
