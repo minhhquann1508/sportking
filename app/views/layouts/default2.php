@@ -69,7 +69,7 @@
 
 
 <body>
-    <div id="loading" style="display: none;"></div>
+    <!-- <div id="loading" style="display: none;"></div> -->
 
     <div id="toast" class="toast bg-white" style="position: fixed; top: 32px; right: 20px; z-index: 50;" role="alert"
         aria-live="assertive" aria-atomic="true">
@@ -129,7 +129,7 @@
 
             let dot = 0;
             let progress = 0;
-            const totalSteps = Math.floor(duration / 100); // cập nhật mỗi 100ms
+            const totalSteps = Math.floor(duration / 100);
 
             const dotInterval = setInterval(() => {
                 dot = (dot + 1) % 4;
@@ -144,11 +144,17 @@
             setTimeout(() => {
                 clearInterval(dotInterval);
                 clearInterval(progressInterval);
-                loading.style.display = 'none';
+
+                loading.classList.add('fade-out');
+
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    loading.classList.remove('fade-out');
+                }, 500);
             }, duration);
         }
 
-        document.addEventListener('DOMContentLoaded', () => showLoading(1500));
+        document.addEventListener('DOMContentLoaded', () => showLoading(500));
     </script>
 </body>
 

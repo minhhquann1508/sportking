@@ -4,6 +4,9 @@ require_once '../app/models/Products.php';
 require_once '../app/models/Brand.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
+require_once '../app/models/Size.php';
+require_once '../app/models/Color.php';
+require_once '../app/models/Variant.php';
 class HomeController
 {
     private $productModel;
@@ -11,6 +14,9 @@ class HomeController
     private $categoryModel;
     private $homeModel;
     private $userModel;
+    private $sizeModel;
+    private $colorModel;
+    private $variantModel;
 
     public function __construct()
     {
@@ -19,6 +25,9 @@ class HomeController
         $this->brandModel = new Brand();
         $this->categoryModel = new Category();
         $this->userModel = new User();
+        $this->sizeModel = new Size();
+        $this->colorModel = new Color();
+        $this->variantModel = new Variant();
     }
     public function index()
     {
@@ -34,7 +43,11 @@ class HomeController
     }
     public function detail()
     {
-        $productList = $this->homeModel->get_all_products();
+        $product_id = $_GET['product_id'] ?? null;
+        $product = $this->productModel->get_product_by_id($product_id);
+        // $sizes = $this->sizeModel->get_size_by_category($product['category_id']);
+        // $colors = $this->colorModel->get_all();
+        $variant = $this->variantModel->get_variant_by_product_id($product_id);
 
         $content = '../app/views/pages/user/detail.php';
         $header = '../app/views/layouts/_header.php';
