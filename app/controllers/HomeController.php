@@ -4,22 +4,22 @@ require_once '../app/models/Products.php';
 require_once '../app/models/Brand.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
+require_once '../app/models/Blog.php';
 class HomeController
 {
     private $productModel;
     private $brandModel;
     private $categoryModel;
+    private $blogModel;
     private $homeModel;
+    private $userModel;
     public function __construct()
     {
         $this->homeModel = new Home();
         $this->productModel = new Products();
         $this->brandModel = new Brand();
+        $this->blogModel = new Blog();
         $this->categoryModel = new Category();
-    private $userModel;
-    public function __construct() {
-        $this->homeModel = new Home();
-        $this->userModel = new User();
     }
     public function index()
     {
@@ -42,6 +42,11 @@ class HomeController
     }
 
     public function blogdetail() {
+        $id = $_GET['id'];
+        $categories = $this->homeModel->get_all_categorys();
+        $blogResult = $this->blogModel->get_blog_by_id($id);
+        $blogDetail = $blogResult['data'];
+        $blogRelated = $this->blogModel->get_by_quantity();
         $content = '../app/views/pages/user/blogdetail.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -219,6 +224,9 @@ class HomeController
     }
     public function blog()
     {
+        $categories = $this->homeModel->get_all_categorys();
+        $blogList = $this->blogModel->get_all_blogs();
+        $blogRelated = $this->blogModel->get_by_quantity($number=3);
         $content = '../app/views/pages/user/blog.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
