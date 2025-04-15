@@ -237,8 +237,8 @@ $(document).ready(function() {
                 console.log(res.data)
                 renderBrand(res.data);
             },
-            error: function() {
-                
+            error: function(response) {
+                showToast(response.responseText);
             }
         })
     })

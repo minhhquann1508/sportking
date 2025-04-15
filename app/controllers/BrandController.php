@@ -24,6 +24,7 @@ class BrandController {
                 exit;
             }
         }
+        
         $content = '../app/views/pages/admin/brand/brand.php';
         include_once "../app/views/layouts/admin.php";
     }

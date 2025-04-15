@@ -24,6 +24,8 @@
 
 
 <body>
+    <div id="loading" style="display: none;"></div>
+
     <div id="toast" class="toast bg-white" style="position: fixed; top: 32px; right: 20px; z-index: 50;" role="alert"
         aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
@@ -118,6 +120,7 @@
             }
             lastScrollY = window.scrollY;
         });
+    </script>
         var swiper = new Swiper('.swiper-container', {
             slidesPerView: 'auto',
             spaceBetween: 16,

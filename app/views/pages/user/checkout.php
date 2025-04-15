@@ -1,27 +1,63 @@
-<div class="container">
-    <div>
-        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-        <h1 class="display-4 fw-normal">Check Out</h1>
-        <p class="fs-5 text-muted">Vui lòng thực hiện thao tác</p>
-        </div>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container py-4">
+  <div class="text-center mb-4">
+    <h1 class="display-5 fw-bold">Check Out</h1>
+    <p class="text-muted">Vui lòng thực hiện thao tác</p>
+  </div>
+
+  <div class="row gx-5">
+    <!-- Bên trái: Thông tin khách hàng -->
+    <div class="col-md-6">
+      <h5 class="mb-3 text-uppercase">Thông tin nhận hàng</h5>
+      <div class="p-3 bg-light rounded">
+        <p class="mb-1 fw-bold">Địa chỉ nhận hàng</p>
+        <p class="mb-0">Huỳnh Duy Ánh</p>
+        <p class="mb-0">(+84) 338 233 606</p>
+        <p class="mb-0">Số 1b, Bùi Thị Đồng, Thành phố Tân An, Long An</p>
+      </div>
+
+      <div class="mt-4">
+        <h5 class="text-uppercase">Phương thức thanh toán</h5>
+        <p>Thanh toán khi nhận hàng</p>
+      </div>
     </div>
-    <div>
-    <div class=" ">
-     
-      <div class=""> 
-        <div class="card mb-4 rounded-3 shadow-sm">
-          <div class="card-header py-3">
-            <h6 class="my-0 fw-normal">Nhập email của bạn để đăng nhập hoặc tham gia </h6>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">$15<small class="text-muted fw-light">/mo</small></h1>
-            <label for="" class="mb-3" style="width: 100%">EMAIL:</label>
-            <input type="text" class="form-control mb-3" id="firstName" placeholder="" value="" required>
-            <button type="button" class="w-100 btn btn-lg btn-primary mb-3">Get started</button>
+
+    <!-- Bên phải: Sản phẩm và tổng tiền -->
+    <div class="col-md-6">
+      <h5 class="mb-3 text-uppercase">Sản phẩm</h5>
+      <div class="p-3 bg-light rounded mb-3 d-flex">
+        <img src="https://image.msscdn.net/thumbnails/images/goods_img/20240820/4350233/4350233_17246475812360_big.png"
+             width="100" height="100" style="object-fit: cover;" class="me-3">
+        <div>
+          <h6 class="mb-1">Áo thun GenG 2023</h6>
+          <small class="text-muted">Màu: Đen | Size: XL | SL: 1</small>
+          <div class="d-flex justify-content-between mt-2">
+            <span class="fw-semibold">2.099.000 vnđ</span>
+            <span class="text-decoration-line-through text-muted">2.099.000 vnđ</span>
           </div>
         </div>
       </div>
-     
+
+      <!-- Tổng kết -->
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Số sản phẩm</span>
+          <span>2 sản phẩm</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Tổng tiền hàng</span>
+          <span>2.480.000 đ</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Phí vận chuyển</span>
+          <span>20.000 đ</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between fw-bold">
+          <span>Tổng thanh toán</span>
+          <span id="totalAmount">2.500.000 đ</span>
+        </li>
+      </ul>
     </div>
-    </div>
+  </div>
 </div>

@@ -1,4 +1,6 @@
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
     .hero-content-wrapper {
         opacity: 0;
         transform: translateY(30px);
@@ -11,7 +13,6 @@
     }
 
     .hero-section {
-        background-color: #f2f2f2;
         padding-top: 76px;
         overflow: hidden;
     }
@@ -43,7 +44,7 @@
     }
 </style>
 
-<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"
             aria-current="true" aria-label="Slide 1"></button>
@@ -53,41 +54,15 @@
 
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <section class="hero-section d-flex justify-content-center align-items-center">
+            <section class="hero-section d-flex justify-content-center align-items-center" style="background-color: #f2f2f2;">
                 <div class="container hero-container">
                     <div class="hero-info">
                         <div class="hero-content-wrapper">
                             <div class="mb-3">
-                                <p style="font-size: 70px; font-weight:700">Áo thể thao nam</p>
+                                <p style="font-size: 70px; font-weight:700;">Áo thể thao nam</p>
                                 <p>Thời trang nữ cao cấp, thiết kế trẻ trung.</p>
                             </div>
-                            <div class="d-flex mb-5">
-                                <div style="width: 33%;">
-                                    <p>Giá:</p>
-                                    <p>đ300.000</p>
-                                </div>
-                                <div style="width: 33%;">
-                                    <p>Màu:</p>
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div style="border-radius:50%; background-color:white;width:20px;height:20px;"></div>
-                                        <div style="border-radius:50%; background-color:#cccccc;width:20px;height:20px;"></div>
-                                        <div style="border-radius:50%; background-color:#f0cce6;width:20px;height:20px;"></div>
-                                    </div>
-                                </div>
-                                <div style="width: 33%;">
-                                    <p>Cỡ:</p>
-                                    <div class="d-flex gap-2" style="color: #888888;">
-                                        <div class="d-flex align-items-center justify-content-center"
-                                            style="border-radius:3px; background-color:white;width:25px;height:25px;">
-                                            <span style="font-size:15px;font-weight:600">S</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-center"
-                                            style="border-radius:3px; background-color:white;width:25px;height:25px;">
-                                            <span style="font-size:15px;font-weight:600">M</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="d-flex gap-1">
                                 <button class="btn"
                                     style="border: 1px solid black;border-radius:0;font-weight:700;padding:8px 15px">Giảm
@@ -128,71 +103,8 @@
         <div class="carousel-item">
             <section class="hero-section d-flex justify-content-center align-items-center">
                 <div class="container hero-container">
-                    <div class="hero-info">
-                        <div class="hero-content-wrapper">
-                            <div class="mb-3">
-                                <p style="font-size: 70px; font-weight:700">Áo thể thao nữ</p>
-                                <p>BST mới nhất 2025.</p>
-                            </div>
-                            <div class="d-flex mb-5">
-                                <div style="width: 33%;">
-                                    <p>Giá:</p>
-                                    <p>đ350.000</p>
-                                </div>
-                                <div style="width: 33%;">
-                                    <p>Màu:</p>
-                                    <div class="d-flex gap-2 align-items-center">
-                                        <div style="border-radius:50%; background-color:white;width:20px;height:20px;"></div>
-                                        <div style="border-radius:50%; background-color:#cccccc;width:20px;height:20px;"></div>
-                                    </div>
-                                </div>
-                                <div style="width: 33%;">
-                                    <p>Cỡ:</p>
-                                    <div class="d-flex gap-2" style="color: #888888;">
-                                        <div class="d-flex align-items-center justify-content-center"
-                                            style="border-radius:3px; background-color:white;width:25px;height:25px;">
-                                            <span style="font-size:15px;font-weight:600">S</span>
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-center"
-                                            style="border-radius:3px; background-color:white;width:25px;height:25px;">
-                                            <span style="font-size:15px;font-weight:600">L</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex gap-1">
-                                <button class="btn"
-                                    style="border: 1px solid black;border-radius:8px;font-weight:700;padding:8px 15px">Sale
-                                    30%</button>
-                                <button class="btn"
-                                    style="background:#e5b220;color:white ;border-radius:8px;font-weight:700;padding:8px 15px">Mua
-                                    Ngay</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="hero-img">
-                        <div class="shape-wrapper position-relative" style="width: 100%; max-width: 700px;">
-                            <div class="bg-shape position-absolute" style="
-                                    outline: 2px solid #e5b220;
-                                    outline-offset: 10px;
-                                    width: 80%;
-                                    aspect-ratio: 1/1;
-                                    border-radius: 50%;
-                                    background: #FFF9F9;
-                                    z-index: 10;
-                                    top: 50%;
-                                    left: 50%;
-                                    transform: translate(-50%, -50%);
-                                  "></div>
-                            <img class="dodgeImage"
-                                src="https://www.freeiconspng.com/uploads/zlatan-ibrahimovic-png-12.png" alt="" style="
-                                    width: 100%;
-                                    height: auto;
-                                    position: relative;
-                                    z-index: 11;
-                                    transition: transform 0.3s ease;    
-                                  ">
-                        </div>
+                    <div>
+
                     </div>
                 </div>
             </section>
