@@ -5,6 +5,7 @@
         private $tableCategory = "category";    
         private $tableBrand = "brands";
         private $tableUser = "users";
+        private $tableComment = "comments";
 
         public function getUserByEmail($email) {
             $sql = "SELECT u.*, a.* FROM $this->tableUser u 
@@ -38,16 +39,35 @@
                 return ['success' => false, 'message' => 'Cap nhat that bai', 'data' => null];
             }
         }
+        public function checkAddressExists($userId)
+        {
+            $sql = "SELECT * FROM address WHERE user_id = ?";
+            $result = $this->select($sql, [$userId]);
+            return !empty($result); 
+        }
+
         public function updateUserAddress($city, $district, $ward, $street, $userId)
         {
-            $sql = "UPDATE address SET city = ?, district = ?, ward = ?, street = ? WHERE user_id = ?";
-            $result = $this->execute($sql, [$city, $district, $ward, $street, $userId]);
-            if($result) {
-                return ['success' => true, 'message' => 'Cap nhat thanh cong', 'data' => $result];
+            $check = $this->checkAddressExists($userId);
+            if ($check) {
+                $sql = "UPDATE address 
+                        SET city = ?, district = ?, ward = ?, street = ?
+                        WHERE user_id = ?";
+                $result = $this->execute($sql, [$city, $district, $ward, $street, $userId]);
             } else {
-                return ['success' => false, 'message' => 'Cap nhat that bai', 'data' => null];
+                $sql = "INSERT INTO address (city, district, ward, street, user_id)
+                        VALUES (?, ?, ?, ?, ?)";
+                $result = $this->execute($sql, [$city, $district, $ward, $street, $userId]);
+            }
+        
+            if ($result !== false) {
+                return ['success' => true, 'message' => 'Cập nhật địa chỉ thành công', 'data' => $result];
+            } else {
+                return ['success' => false, 'message' => 'Cập nhật thất bại', 'data' => null];
             }
         }
+        
+
         public function updateUserPassword($email, $new_password)
         {
             $sql = "UPDATE users SET password = ? WHERE email = ?";
@@ -68,6 +88,30 @@
             $result = $this->select($sql, [$user_id]);
             if($result) {
                 return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
+            } else {
+                return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
+            }
+        }
+        public function get_product_by_id($product_id) {
+            $sql = "SELECT p.*, c.category_name, b.brand_name FROM $this->tableProduct p 
+                    INNER JOIN category c ON c.category_id = p.category_id
+                    INNER JOIN brands b ON b.brand_id = p.brand_id
+                    WHERE product_id = ?";
+            $result = $this->select($sql, [$product_id]);
+            if($result) {
+                return ['success' => true, 'message' => 'Lấy sản phẩm thành công', 'data' => $result];
+            } else {
+                return ['success' => false, 'message' => 'Lấy sản phẩm thất bại', 'data' => null];
+            }
+        }
+        public function get_all_comment_by_product_id($product_id) {
+            $sql = "SELECT cmt.*, cmt.create_at AS ngay_binh_luan, u.fullname, u.user_id, p.* FROM $this->tableComment cmt
+                    JOIN $this->tableUser u ON u.user_id = cmt.user_id
+                    JOIN $this->tableProduct p ON p.product_id = cmt.product_id
+                    WHERE cmt.product_id = ?";
+            $result = $this->select($sql, [$product_id]);
+            if($result) {
+                return ['success' => true, 'message' => 'Lấy danh sách thất bại', 'data' => $result];
             } else {
                 return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
             }

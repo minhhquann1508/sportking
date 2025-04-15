@@ -16,7 +16,6 @@ require_once '../app/models/Blog.php';
             $content = '../app/views/pages/admin/blog/blog.php';
             include_once "../app/views/layouts/admin.php";
         }
-
         public function get_list_blogs() {
             $response = $this->blogModel->get_all_blogs();
             echo json_encode($response);

@@ -40,6 +40,10 @@
                     </div>
 
                     <div class="col-12">
+                        <div class="btn-group col-12" id="savedAddressSection">
+                            <button type="button" class="$gray-700 form-control">Địa chỉ</button>
+                            <button type="button" class="$gray-500 dropdown-toggle dropdown-toggle-split"
+                                data-bs-toggle="dropdown" aria-expanded="false">
                         <!-- <div class="btn-group col-12" id="savedAddressSection">
                             <button type="button" class="$gray-700 form-control" id="saveAddressBtn"> Chọn địa chỉ</button>
                             <button type="button" class="$gray-500 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
@@ -47,12 +51,14 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" id="savedAdressList">
                                 <li><a class="dropdown-item" class="form-label" href="#">Địa chỉ từng đặt hàng</a></li>
-                                <li><a class="dropdown-item" href="#">12d, Tân kỳ tân quý, Bình Tân , TP Hồ Chí Minh</a></li>
+                                <li><a class="dropdown-item" href="#">12d, Tân kỳ tân quý, Bình Tân , TP Hồ Chí Minh</a>
+                                </li>
                                 <li><a class="dropdown-item" href="#">55c, Quang Trung, Gò Vấp , TP Hồ Chí Minh</a></li>
-                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
                                 <li><a class="dropdown-item" href="#">Separated link</a></li>
                             </ul>
-                            
                         </div> -->
                         <div class="form-group" id="savedAddressSection">
                             <label class="form-label">Chọn địa chỉ đã từng đặt:</label>
@@ -70,8 +76,28 @@
                     <div class="row d-flex mt-3 " id="newAddressSection">
                         <label for="addressInput" class="form-label">Địa chỉ 2</label>
                         <input type="text" class="form-control" id="addressInput" disabled>
+                    <div class="col-6">
+                        <label for="firstName" class="form-label">Thành Phố</label>
+                        <input type="text" readonly class="form-control" value="Hồ Chí Minh">
+                    </div>
+                    <div class="col-6">
+                        <label for="username" class="form-label">Phường:</label>
+                        <div class="input-group has-validation">
 
+                            <input type="text" class="form-control" id="username" required>
 
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label for="firstName" class="form-label">Quận:</label>
+                        <input type="text" class="form-control" id="username">
+                    </div>
+                    <div class="col-6">
+                        <label for="username" class="form-label">Đường:</label>
+                        <div class="input-group has-validation">
+                            <input type="text" class="form-control" id="username" required>
+                        </div>
+                    </div>
                         <div class="col-6">
                             <label for="firstName" class="form-label">Thành Phố</label>
                             <input type="text" readonly class="form-control" value="Hồ Chí Minh">
@@ -97,8 +123,12 @@
                             </div>
                         </div>
                     </div>
+                        </div> 
+                    </div>  
+                            <input type="text" class="form-control" id="username" required>
 
-
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-5">
@@ -197,6 +227,25 @@
     </div>
 </main>
 <script>
+$.ajax({
+    url: "?controller=order",
+    type: "POST",
+    data: orderData,
+    dataType: "json",
+    success: function(response) {
+        if (response.status === "success") {
+            alert(" Đặt hàng thành công!");
+            console.log(" Phản hồi từ server:", response);
+        } else {
+            alert("Lỗi đặt hàng: " + response.message);
+        }
+    },
+    error: function(xhr, status, error) {
+        alert(" Lỗi kết nối đến server! Hãy thử lại.");
+        console.error(" AJAX Error:", status, error);
+    },
+});
+$(document).ready(function() {
     // $.ajax({
     //     url: "?controller=order", // File PHP xử lý
     //     type: "POST",
@@ -215,8 +264,51 @@
     //         console.error(" AJAX Error:", status, error);
     //     },
     // });
-    $(document).ready(function() {
-        console.log("Trang đã tải xong - JS hoạt động!");
+    $(document).ready(function () {
+    console.log("Trang đã tải xong - JS hoạt động!");
+
+    // Ẩn phần nhập địa chỉ ban đầu
+    $("#savedAddressSection").hide();
+    $("#newAddressSection").hide();
+
+    // Xử lý chọn địa chỉ
+    $("#chooseSavedAddress").on("change", function() {
+        if ($(this).is(":checked")) {
+            $("#enterNewAddress").prop("checked", false);
+            // $("#addressInput").prop("disabled", true).val(""); // Ẩn input nhập địa chỉ
+            $("#savedAddressSection").show();
+            $("#newAddressSection").hide();
+        }
+    });
+
+    $("#enterNewAddress").on("change", function() {
+        if ($(this).is(":checked")) {
+            $("#chooseSavedAddress").prop("checked", false);
+            // $("#addressInput").prop("disabled", false);
+            $("#savedAddressSection").hide();
+            $("#newAddressSection").show();
+        }
+    });
+
+    // Chặn nhập ký tự không phải số trong ô điện thoại
+    $("#phone").on("keypress", function(e) {
+        let charCode = e.which ? e.which : e.keyCode;
+        if (charCode < 48 || charCode > 57) {
+            e.preventDefault();
+        }
+    });
+
+    // Hàm kiểm tra input hợp lệ
+    function validateInput(selector, pattern, errorMsg) {
+        let value = $(selector).val().trim();
+        if (!pattern.test(value)) {
+            $(selector).addClass("is-invalid");
+            alert(errorMsg);
+            return false;
+        }
+        $(selector).removeClass("is-invalid");
+        return true;
+    }
 
         // Ẩn phần nhập địa chỉ ban đầu
         $("#savedAddressSection").hide();
@@ -304,12 +396,48 @@
             price: productPrice,
             quantity: productQty
         };
+    // Khi bấm nút Thanh Toán
+    $("#order-submit").on("click", function(e) {
+        e.preventDefault();
+        console.log("Nút thanh toán được bấm!");
 
         console.log("Thông tin sản phẩm:", productData);
+        // if ($("#enterNewAddress").is(":checked")) {
+        //     isValid &= validateInput("#addressInput", /.+/, "Địa chỉ không được để trống!");
+        // }
+        if (isValid) {
+            let orderData = {
+                fullName: $("#firstName").val(),
+                email: $("#username").val(),
+                phone: $("#phone").val(),
+                address: $("#enterNewAddress").is(":checked") ? $("#addressInput").val() :
+                    "Địa chỉ đã từng đặt",
+            };
 
+            console.log("Dữ liệu đơn hàng:", orderData);
+            alert("✅ Đơn hàng hợp lệ, dữ liệu đã được thu thập!");
 
-
-
+            // Nếu muốn gửi lên server, bạn dùng AJAX:
+            // $.post("order.php", orderData, function(response) {
+            //     alert("Đặt hàng thành công!");
+            // });
+        // Lấy dữ liệu địa chỉ
+        let address = "";
+        if ($("#enterNewAddress").is(":checked")) {
+            let phuong = $("#newAddressSection input").eq(1).val().trim();
+            let quan = $("#newAddressSection input").eq(2).val().trim();
+            let duong = $("#newAddressSection input").eq(3).val().trim();
+            address = `${duong}, ${phuong}, ${quan}, Hồ Chí Minh`;
+        } else {
+            address = "Địa chỉ đã từng đặt";
+        }
+        let orderData = {
+            fullName: $("#firstName").val(),
+            email: $("#username").val(),
+            phone: $("#phone").val(),
+            address: $("#enterNewAddress").is(":checked")
+            ? `${$("#newAddressSection input").eq(3).val().trim()}, ${$("#newAddressSection input").eq(1).val().trim()}, ${$("#newAddressSection input").eq(2).val().trim()}, Hồ Chí Minh`
+            : selectedSavedAddress || "Chưa chọn địa chỉ",
         // Khi bấm nút Thanh Toán
         $("#order-submit").on("click", function(e) {
             e.preventDefault();
@@ -358,4 +486,5 @@
 
         });
     });
+});
 </script>

@@ -2,17 +2,41 @@
 require_once '../app/configs/Database.php';
     class Products extends Database{
         private $table = "product";
-        public function get_all_products() {
-            $sql = "SELECT p.*, c.category_name, b.brand_name FROM $this->table p 
+        public function get_all_products($page = 1, $limit = 10) {
+            $offset = ($page - 1) * $limit;
+            $countSql = "SELECT COUNT(*) as total FROM $this->table";
+            $countResult = $this->select($countSql);
+            $total = $countResult ? (int)$countResult[0]['total'] : 0;
+        
+            $sql = "SELECT p.*, c.category_name, b.brand_name 
+                    FROM $this->table p 
                     INNER JOIN category c ON c.category_id = p.category_id
-                    INNER JOIN brands b ON b.brand_id = p.brand_id";
+                    INNER JOIN brands b ON b.brand_id = p.brand_id
+                    LIMIT $limit OFFSET $offset";
+        
             $result = $this->select($sql);
-            if($result) {
-                return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
+        
+            if ($result) {
+                return [
+                    'success' => true,
+                    'message' => 'Lấy danh sách thành công',
+                    'data' => $result,
+                    'pagination' => [
+                        'current_page' => $page,
+                        'limit' => $limit,
+                        'total' => $total,
+                        'total_pages' => ceil($total / $limit)
+                    ]
+                ];
             } else {
-                return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
+                return [
+                    'success' => false,
+                    'message' => 'Lấy danh sách thất bại',
+                    'data' => null
+                ];
             }
         }
+        
         public function add_product($product) {
             $index = 0;
             $params = [];

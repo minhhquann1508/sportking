@@ -83,22 +83,22 @@ class Variant extends Database
                         'variant_id' => $id,
                         'price' => $row['price'],
                         'stock' => $row['stock'],
-                        'product_name' => $row['product_name'],
-                        'category_name' => $row['category_name'],
-                        'brand_name' => $row['brand_name'],
-                        'color_name' => $row['color_name'],
-                        'color_hex' => $row['color_hex'],
-                        'size_name' => $row['size_name'],
-                        'images' => [],
-                    ];
-                }
-                if (!empty($row['image_url'])) {
-                    $variants[$id]['images'][] = $row['image_url'];
-                }
-            }
-            return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => array_values($variants)];
-        } else {
-            return ['success' => false, 'message' => 'Lấy danh sách không thành công', 'data' => null];
-        }
-    }
-}
+                          'product_name' => $row['product_name'],
+                          'category_name' => $row['category_name'],
+                          'brand_name' => $row['brand_name'],
+                          'color_name' => $row['color_name'],
+                          'color_hex' => $row['color_hex'],
+                          'size_name' => $row['size_name'],
+                          'images' => [],
+                      ];
+                  }
+                  if (!empty($row['image_url'])) {
+                      $variants[$id]['images'][] = $row['image_url'];
+                  }
+              }
+              return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => array_values($variants)];
+          } else {
+              return ['success' => false, 'message' => 'Lấy danh sách không thành công', 'data' => null];
+          }
+      }
+  }

@@ -6,28 +6,30 @@ require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
 require_once '../app/models/Size.php';
 require_once '../app/models/Color.php';
+require_once '../app/models/Blog.php';
 require_once '../app/models/Variant.php';
 class HomeController
 {
     private $productModel;
     private $brandModel;
     private $categoryModel;
+    private $blogModel;
     private $homeModel;
     private $userModel;
     private $sizeModel;
     private $colorModel;
     private $variantModel;
-
     public function __construct()
     {
         $this->homeModel = new Home();
         $this->productModel = new Products();
         $this->brandModel = new Brand();
+        $this->blogModel = new Blog();
         $this->categoryModel = new Category();
+        $this->variantModel = new Variant();
         $this->userModel = new User();
         $this->sizeModel = new Size();
         $this->colorModel = new Color();
-        $this->variantModel = new Variant();
     }
     public function index()
     {
@@ -41,22 +43,35 @@ class HomeController
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
-    public function detail()
+    public function product_detail()
     {
         $product_id = $_GET['product_id'] ?? null;
         $product = $this->productModel->get_product_by_id($product_id);
         // $sizes = $this->sizeModel->get_size_by_category($product['category_id']);
         // $colors = $this->colorModel->get_all();
         $variant = $this->variantModel->get_variant_by_product_id($product_id);
-
+        $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/detail.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
+    }
+    public function blog()
+    {
+        $categories = $this->homeModel->get_all_categorys();
+        $blogList = $this->blogModel->get_all_blogs();
+        $blogRelated = $this->blogModel->get_by_quantity($number=3);
+        $content = '../app/views/pages/user/blog.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
 
-    public function blogdetail()
-    {
+    public function blogdetail() {
+        $id = $_GET['id'];
+        $categories = $this->homeModel->get_all_categorys();
+        $blogResult = $this->blogModel->get_blog_by_id($id);
+        $blogDetail = $blogResult['data'];
+        $blogRelated = $this->blogModel->get_by_quantity();
         $content = '../app/views/pages/user/blogdetail.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -71,7 +86,6 @@ class HomeController
     }
     public function product()
     {
-        // Lấy các tham số từ GET
         $category = isset($_POST['category']) ? $_POST['category'] : '';
         $brand = isset($_POST['brand']) ? $_POST['brand'] : '';
         $price = isset($_POST['price']) ? $_POST['price'] : '';
@@ -92,51 +106,39 @@ class HomeController
             exit;
         }
 
-        $email = $_GET['email'] ?? $_SESSION['user']['email'];
         $user_id = $_SESSION['user']['user_id'];
+        $email = $_GET['email'] ?? $_SESSION['user']['email'];
 
         $user = $this->homeModel->getUserByEmail($email);
         $orders = $this->homeModel->get_all_order_by_user_id($user_id);
 
         if (!$user) {
-            echo 'Không tìm thấy người dùng với email này.';
+            echo 'Không tìm thấy người dùng.';
             exit;
         }
 
-        $orders_by_status = [
-            'Chưa xác nhận' => [],
-            'Đã xác nhận' => [],
-            'Đang giao' => [],
-            'Đã giao' => [],
-            'Đã trả' => [],
-            'Đã hủy' => [],
-        ];
+        $orders_by_status = [];
 
         if ($orders['success']) {
-            $order_map = [];
+            foreach ($orders['data'] as $item) {
+                $id = $item['order_id'];
+                $status = $item['status'];
 
-            foreach ($orders['data'] as $row) {
-                $order_id = $row['order_id'];
-
-                if (!isset($order_map[$order_id])) {
-                    $order_map[$order_id] = [
-                        'order_id' => $row['order_id'],
-                        'status' => $row['status'],
-                        'order_date' => $row['order_date'],
-                        'products' => [],
+                if (!isset($orders_by_status[$status][$id])) {
+                    $orders_by_status[$status][$id] = [
+                        'order_id' => $id,
+                        'order_date' => $item['order_date'],
+                        'status' => $status,
+                        'products' => []
                     ];
                 }
 
-                $order_map[$order_id]['products'][] = [
-                    'product_name' => $row['product_name'],
-                    'price' => $row['price'],
-                    'thumbnail' => $row['thumbnail'],
-                    'quantity' => $row['quantity'],
+                $orders_by_status[$status][$id]['products'][] = [
+                    'product_name' => $item['product_name'],
+                    'price' => $item['price'],
+                    'thumbnail' => $item['thumbnail'],
+                    'quantity' => $item['quantity']
                 ];
-            }
-
-            foreach ($order_map as $order) {
-                $orders_by_status[$order['status']][] = $order;
             }
         }
 
@@ -145,6 +147,7 @@ class HomeController
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+
 
     public function updateProfile()
     {
@@ -235,13 +238,6 @@ class HomeController
         }
         header("Location: ?controller=auth");
         exit;
-    }
-    public function blog()
-    {
-        $content = '../app/views/pages/user/blog.php';
-        $header = '../app/views/layouts/_header.php';
-        $footer = '../app/views/layouts/_footer.php';
-        include_once "../app/views/layouts/default2.php";
     }
 
     public function contact()
