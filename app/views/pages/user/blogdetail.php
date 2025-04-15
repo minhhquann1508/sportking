@@ -1,5 +1,24 @@
 <style>
-        .list-group-item {
+    .article-img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+    .sticky-sidebar {
+      position: sticky;
+      top: 1rem;
+    }
+    .article-meta {
+      font-size: 0.875rem;
+      color: #6c757d;
+    }
+    .content img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+
+    .list-group-item {
             border-bottom: 1px solid #ddd;
             border-left: none;
             border-right: none;
@@ -15,50 +34,45 @@
         .card img{
             border-radius: 10px;
         }
-    </style>
+  </style>
+</head>
 <body>
-    <div class="container-lg mt-4 py-5">
-        <div class="row">
-            <div class="col-lg-8 col-md-12">
-                <div class="card mb-4">
-                    <img src="https://bizweb.dktcdn.net/100/534/571/articles/t8-1.jpg?v=1733128015250" class="card-img-top w-100 h-auto" alt="...">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <p class="me-2"><i class="fa-regular fa-calendar-minus"></i> 02/04/2005</p>
-                            <p class="me-2"><i class="fa-regular fa-circle-user"></i> Nguyễn Minh Quân</p>
-                            <p class="me-2"><i class="fa-solid fa-eye"></i> 100</p>
-                        </div>
-                        <h5 class="card-title">4 món đồ họa tiết đáng sắm để phong cách trẻ trung hơn</h5>
-                        <p class="card-text">Thời trang mùa lạnh không hề giới hạn với những món đồ trơn màu...</p>
-                    </div>
-                </div>
+  <div class="container mt-5 py-5">
+    <div class="row">
+      <!-- Nội dung chính -->
+      <div class="col-12 col-lg-8">
+        <h2 class="fw-bold">
+          4 kiểu áo tối giản được phụ nữ Nhật Bản yêu thích trong mùa thu
+        </h2>
+        <div class="article-meta mb-2">
+          <i class="bi bi-calendar-event"></i> 18/11/2024 &nbsp; | &nbsp;
+          <i class="bi bi-person"></i> Nguyễn Anh Dũng
+        </div>
 
-                <div class="card mb-4">
-                    <img src="https://bizweb.dktcdn.net/100/534/571/articles/t7-1.jpg?v=1733128007520" class="img-fluid rounded-start w-100 h-auto" alt="...">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <p class="me-2"><i class="fa-regular fa-calendar-minus"></i> 02/04/2005</p>
-                            <p class="me-2"><i class="fa-regular fa-circle-user"></i> Nguyễn Minh Quân</p>
-                            <p class="me-2"><i class="fa-solid fa-eye"></i> 100</p>
-                        </div>
-                        <h5 class="card-title">5 món thời trang tối giản được phụ nữ Pháp diện mãi không chán</h5>
-                        <p class="card-text">Thời trang tối giản nhận được sự yêu thích...</p>
-                    </div>
-                </div>
+        <!-- Mục lục -->
+        <div class="bg-light p-3 mb-4 rounded">
+          <h4>Nội dung bài viết</h4>
+          <ul class="mb-0">
+            <li><a href="#">Áo màu đen</a></li>
+            <li><a href="#">Áo kẻ ngang</a></li>
+          </ul>
+        </div>
 
-                <div class="card mb-4">
-                    <img src="https://bizweb.dktcdn.net/100/534/571/articles/t6-1.jpg?v=1733127974903" class="card-img-top w-100 h-auto" alt="...">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <p class="me-2"><i class="fa-regular fa-calendar-minus"></i> 02/04/2005</p>
-                            <p class="me-2"><i class="fa-regular fa-circle-user"></i> Nguyễn Minh Quân</p>
-                            <p class="me-2"><i class="fa-solid fa-eye"></i> 100</p>
-                        </div>
-                        <h5 class="card-title">4 kiểu áo tối giản được phụ nữ Nhật Bản yêu thích</h5>
-                        <p class="card-text">Phụ nữ Nhật Bản mặc đẹp nhưng họ không hề cầu kỳ...</p>
-                    </div>
-                </div>
-            </div>
+        <!-- Nội dung bài viết -->
+        <div class="content">
+          <h5 class="fw-semibold">Áo màu đen</h5>
+          <img src="https://afamilycdn.com/150157425591193600/2024/9/19/45849524812028895407546475582702286914268317n-17267443397561673138463.jpg" alt="Áo màu đen" class="article-img" />
+          <p>
+            Trang phục màu đen rất được ưa chuộng trong mùa lạnh. Kiểu áo này có sự trang nhã, sang trọng, dễ phối đồ. Phụ nữ Nhật thường kết hợp với quần suông hoặc chân váy dài.
+          </p>
+
+          <h5 class="fw-semibold">Áo kẻ ngang</h5>
+          <img src="https://afamilycdn.com/150157425591193600/2024/9/19/4489797054535618273850123423275637310678747n-17267443647381642863903.jpg" alt="Áo kẻ ngang" class="article-img" />
+          <p>
+            Áo kẻ ngang là món đồ phổ biến trong mùa thu. Kiểu áo này có sự trẻ trung, năng động, dễ phối với quần jean, chân váy denim...
+          </p>
+        </div>
+      </div>
 
             <!-- Sidebar -->
             <div class="col-lg-4 col-md-12">
@@ -109,3 +123,5 @@
         </div>
     </div>
 </body>
+
+

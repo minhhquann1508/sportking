@@ -31,8 +31,8 @@
                     'message' => 'Không có bình luận nào',
                     'data' => []
                 ];
+            }
         }
-        
         public function delete_comment($comment_id) {
             $query = "DELETE FROM $this->table WHERE comment_id = ?";
             return $this->execute($query, [$comment_id]);

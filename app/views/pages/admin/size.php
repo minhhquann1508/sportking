@@ -81,38 +81,39 @@
     </div>
 </div>
 <!-- sửa size -->
-<div class="modal fade" id="update-size-modal" tabindex="-1" aria-labelledby="update-size-modal-label" aria-hidden="true">
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="update-size-modal-label">Cập nhật size</h5>
+                <h1 class="modal-title fs-5">Cập nhật size</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="update-size-form">
-                    <input type="hidden" id="update_size_id">
+                <input type="hidden" id="update_size_id">
                     <div class="mb-3">
                         <label>Tên size</label>
                         <input type="text" id="update_size_name" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Danh Mục</label>
-                        <select class="form-select" id="update_category_id" required>
-                            <option value="" disabled selected>Chọn danh mục</option>
-                            <?php foreach ($categories as $category): ?>
-                                <option value="<?= $category['category_id']; ?>"><?= $category['category_name']; ?></option>
-                            <?php endforeach; ?>
+                        <label class="form-label fw-bold">Chọn danh Mục</label>
+                        <select class="form-select" aria-label="Default select example" id="updated_category">
+                                <?php 
+                                    foreach ($categories as $key => $category) {
+                                        echo '<option '.($key == 1 ?? 'selected').' value="'.$category['category_id'].'">'.$category['category_name'].'</option>';
+                                    }
+                                ?>
                         </select>
                     </div>
-                    <div class="mb-3 text-end">
-                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </form>
                     </div>
-                </form>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+                    <button type="button" id="update_btn" class="btn btn-primary">Chỉnh sửa</button>
+                    </div>
             </div>
         </div>
     </div>
-</div>
-
 <script>
     $(document).ready(function () {
     function loadSizes() {
@@ -129,14 +130,16 @@
                                 <th scope="row">${key + 1}</th>
                                 <td>${size.size_name}</td>
                                 <td>${size.category_name}</td>
-                                <td>
-                                    <a href="javascript:void(0);" class="btn btn-primary update-size"
-                                       data-id="${size.size_id}" data-name="${size.size_name}">
-                                       <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
-                                    <a href="javascript:void(0)" class="btn btn-danger delete-size" 
-                                       data-id="${size.size_id}"><i class="fa-solid fa-trash-can"></i></a>
-                                </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-primary update-size" 
+                                    data-id="${size.size_id}" data-bs-toggle="modal" data-bs-target="#updateModal">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </button>
+                                <a href="javascript:void(0)" class="btn btn-danger delete-size" 
+                                    data-id="${size.size_id}">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </td>
                             </tr>
                         `;
                     });
@@ -190,62 +193,62 @@
         });
     });
 
-    // sửa
-    // mở modal
-    $(document).on('click', '.update-size', function() {
-        let size_id = $(this).data('size_id');
-        let size_name = $(this).data('size_name');
-        let category_id = $(this).data('category_id');
-        $('#update_size_id').val(size_id);
-        $('#update_size_name').val(size_name);
-        $('#update_category_id').val(category_id);
-        $('#update-size-modal').modal('show');
-    });
-    // sửa
-    $('#update-size-form').submit(function(e) {
-    e.preventDefault();
-    const size_id = $('#update_size_id');
-    const size_name = $('#update_size_name');
-    const category_id = $('#update_category_id');
-
-    $.ajax({
-        url: "?controller=size&action=update_size_action",
-        method: "POST",
-        data: {
-            size_id: size_id.val(),
-            size_name: size_name.val(),
-            category_id: category_id.val(),
-        },
-        dataType: "json",
-        success: function(response) {
-            if (response.success) {
-                $('#update-size-modal').modal('hide');
-                loadSizes();
-                showToast(response.message);
-            } else {
-                alert("Cập nhật size thất bại");
-                showToast(response.message);
+    // cập nhật
+        // set update-blog
+        $(document).on('click', '.update-size', function () {
+        const sizeId = $(this).data('id');
+        $.ajax({
+            url: '?controller=size&action=get_size_by_id',
+            method: 'GET',
+            data: { id: sizeId },
+            dataType: 'json',
+            success: (res) => {
+                if (res.success) {
+                    const size = res.data;
+                    $('#update_size_id').val(size.size_id);
+                    $('#update_size_name').val(size.size_name);
+                    $('#update_category').val(size.category_id);
+                } else {
+                    alert("Không lấy được dữ liệu bài viết");
+                }
             }
-        },
-        error: function(error) {
-            showToast(error.responseText);
-        }
+        });
     });
-});
 
-    // $('#update-size-form').submit(function(e) {
-    //         e.preventDefault();
-    //         let size_id = $('#update_size_id').val();
-    //         let size_name = $('#update_size_name').val();
-    //         let category_id = $('#update_category_id').val();
+    const updateSizeBtn = $('#update_btn');
+    const updateSizeId = $('#update_size_id');
+    const updateSizeName = $('#update_size_name');
+    const updateCategory = $('#update_category');
 
-    //         $.post("?controller=size&action=update_size_action", { size_id: size_id, size_name: size_name, category_id: category_id },
-    //         function(response) {
-    //             alert("Cập nhật thành công!");
-    //             $('#update-size-modal').modal('hide');
-    //             loadSizes();
-    //         });
-    //     });
 
-});
+        //cập nhật size
+        updateSizeBtn.click(async () => {
+        const size = {
+        size_id: updateSizeId.val(),
+        size_name: updateSizeName.val(),
+        category_id: updateCategory.val(),
+        };
+        const id = updateSizeId.val();
+        console.log("Size cần cập nhật:", size);
+        $.ajax({
+        url: '?controller=size&action=update_size_by_id',
+        method: 'POST',
+        data: {
+                size_id: id,
+                size 
+            },
+        dataType: 'json',
+        success: (response) => {
+            $('#updateModal').modal('hide');
+            loadSizes();
+            showToast(response.message);
+        },
+        error: (err) => {
+            showToast(err.responseText);
+            console.log(err.responseText);
+        }
+        });
+            });
+        });
+
 </script>
