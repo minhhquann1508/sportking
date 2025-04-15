@@ -238,7 +238,7 @@ $related_products = [
     <section class="py-4">
         <div class="container">
             <h4 class="text-center">Sản phẩm liên quan</h4>
-            <?php render_list_product($related_products); ?>
+            <?php render_list_product($productList); ?>
         </div>
     </section>
 </main>

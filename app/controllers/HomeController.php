@@ -10,15 +10,14 @@ class HomeController
     private $brandModel;
     private $categoryModel;
     private $homeModel;
+    private $userModel;
+
     public function __construct()
     {
         $this->homeModel = new Home();
         $this->productModel = new Products();
         $this->brandModel = new Brand();
         $this->categoryModel = new Category();
-    private $userModel;
-    public function __construct() {
-        $this->homeModel = new Home();
         $this->userModel = new User();
     }
     public function index()
@@ -35,13 +34,16 @@ class HomeController
     }
     public function detail()
     {
+        $productList = $this->homeModel->get_all_products();
+
         $content = '../app/views/pages/user/detail.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
 
-    public function blogdetail() {
+    public function blogdetail()
+    {
         $content = '../app/views/pages/user/blogdetail.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -151,7 +153,7 @@ class HomeController
             $district = $_POST['district'] ?? '';
             $ward = $_POST['ward'] ?? '';
             $street = $_POST['street'] ?? '';
-            $userId = $_SESSION['user']['user_id']; 
+            $userId = $_SESSION['user']['user_id'];
 
             $result = $this->homeModel->updateUserAddress($city, $district, $ward, $street, $userId);
 
@@ -205,9 +207,13 @@ class HomeController
     public function test()
     {
         $content = '../app/views/pages/user/test.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
     }
 
-    public function logout() {
+    public function logout()
+    {
         session_unset();
         session_destroy();
 
@@ -233,4 +239,3 @@ class HomeController
         include_once "../app/views/layouts/default2.php";
     }
 }
-
