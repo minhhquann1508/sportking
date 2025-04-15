@@ -204,7 +204,7 @@
                     <?php if (!empty($productList['data'])): ?>
                     <?php foreach ($productList['data'] as $product): ?>
                     <div class="col-6 col-md-4 col-lg-3 mb-4">
-                        <a href="?controller=product&action=detail&id=<?= $product['product_id'] ?>"
+                        <a href="?controller=home&action=product_detail&product_id=<?= $product['product_id'] ?>"
                             class="text-decoration-none text-dark">
                             <div class="card h-100 border-0 d-grid gap-2">
                                 <img src="<?= $product['thumbnail'] ?>" class="card-img-top object-fit-cover"
