@@ -44,7 +44,9 @@
         }
 
         public function get_all() {
-            $response = $this->variantModel->get_all();
+            $response = $this->variantModel->get_all(
+                $_GET['product_id']
+            );
             echo json_encode($response);
             exit;
         }
