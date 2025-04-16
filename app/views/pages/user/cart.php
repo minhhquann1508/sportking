@@ -72,7 +72,6 @@ const deleteCheckItems = () => {
 }
 
 const renderCart = (cart) => {
-    console.log(cart);
     let html = '';
     if (Object.keys(cart).length === 0) {
         html = `
@@ -116,7 +115,7 @@ const renderCart = (cart) => {
                                     </div>
                                     <span>
                                         <h6 class="mb-1" style="font-size: 14px;">
-                                            ${variant.price.toLocaleString('vi-VN')} vnđ
+                                            ${Number(variant.price).toLocaleString('vi-VN')} vnđ
                                         </h6>
                                     </span>
                                 </div>
@@ -133,7 +132,7 @@ const renderCart = (cart) => {
             });
         });
     }
-
+    updateCartQuantitySpan()
     document.getElementById('cart-body').innerHTML = html;
 };
 
@@ -220,7 +219,6 @@ $(document).ready(() => {
         method: 'GET',
         dataType: 'json',
         success: (response) => {
-            console.log(response);
             renderCart(response);
             renderTotal();
         },
