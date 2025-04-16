@@ -273,7 +273,7 @@ const setUpdatedProduct = (id) => {
 const renderListProduct = (products) => {
     const html = products.map(product => {
         return `<tr>
-            <td>${product.product_name}</td>
+            <td style="width: 350px">${product.product_name}</td>
             <td class="text-center">
                 <img width="35" height="35" src="${product.thumbnail}" alt="">
             </td>
