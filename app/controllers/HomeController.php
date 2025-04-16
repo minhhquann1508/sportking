@@ -37,7 +37,6 @@ class HomeController
         $brands = $this->homeModel->get_all_brands();
         $productList = $this->homeModel->get_all_products();
 
-
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/home2.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -47,9 +46,8 @@ class HomeController
     {
         $product_id = $_GET['product_id'] ?? null;
         $product = $this->productModel->get_product_by_id($product_id);
-        // $sizes = $this->sizeModel->get_size_by_category($product['category_id']);
-        // $colors = $this->colorModel->get_all();
-        $variant = $this->variantModel->get_variant_by_product_id($product_id);
+        $variant = $this->variantModel->get_all_variant_by_product_id($product_id);
+        $productList = $this->homeModel->get_all_products();
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/detail.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -66,7 +64,8 @@ class HomeController
         include_once "../app/views/layouts/default2.php";
     }
 
-    public function blogdetail() {
+    public function blogdetail()
+    {
         $id = $_GET['id'];
         $categories = $this->homeModel->get_all_categorys();
         $blogResult = $this->blogModel->get_blog_by_id($id);
