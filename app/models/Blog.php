@@ -10,8 +10,6 @@
             return ['success' => true, 'message' => 'Lấy dữ liệu thành công', 'data' => $data];
             
         }
-
-        
         public function add_blog($blog) {
             $index = 0;
             $params = [];

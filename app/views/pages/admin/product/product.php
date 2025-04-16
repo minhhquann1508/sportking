@@ -273,7 +273,7 @@ const setUpdatedProduct = (id) => {
 const renderListProduct = (products) => {
     const html = products.map(product => {
         return `<tr>
-            <td>${product.product_name}</td>
+            <td style="width: 350px">${product.product_name}</td>
             <td class="text-center">
                 <img width="35" height="35" src="${product.thumbnail}" alt="">
             </td>
@@ -346,7 +346,7 @@ $(document).ready(() => {
                         subDescInput.val('');
                         soldsInput.val(0);
                         viewsInput.val(0);
-                        descriptionInput.val('');
+                        descriptionInput[0]['data-froala.editor'].html.set('');
                         publicInput.prop('checked', false);
                         fileInput.val('');
                         $('#addModal').modal('hide');

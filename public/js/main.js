@@ -66,3 +66,27 @@ window.addEventListener("scroll", () => {
   }
   lastScrollY = window.scrollY;
 });
+
+const updateCartQuantitySpan = () => {
+  $.ajax({
+    url: "?controller=cart&action=get_cart",
+    method: "GET",
+    dataType: "json",
+    success: (res) => {
+      let totalQuantity = 0;
+      Object.values(res).forEach((item) => {
+        item.forEach((i) => {
+          totalQuantity += Number(i.quantity);
+        });
+      });
+      $("#cart-quantity").text(totalQuantity);
+    },
+    error: (err) => {
+      console.log(err);
+    },
+  });
+};
+
+$(document).ready(() => {
+  updateCartQuantitySpan();
+});

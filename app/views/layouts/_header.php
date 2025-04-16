@@ -1,28 +1,37 @@
+<?php 
+    include_once '../app/models/Category.php';
+    include_once '../app/models/Brand.php';
+    $category = new Category();
+    $brand = new Brand();
+    $categories = $category->get_all_category();
+    $brands = $brand->get_all_brands();
+?>
+
 <style>
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 76px;
-        width: 100%;
-        background: transparent;
-        transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
-        z-index: 1000;
-    }
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 76px;
+    width: 100%;
+    background: transparent;
+    transition: background 0.3s ease-in-out, transform 0.3s ease-in-out;
+    z-index: 1000;
+}
 
-    .header-scroll {
-        background: white;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+.header-scroll {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-    .header-hidden {
-        transform: translateY(-100%);
-    }
+.header-hidden {
+    transform: translateY(-100%);
+}
 </style>
 
 <header class="d-flex align-items-center">
     <nav class="container d-flex justify-content-between align-items-center py-2">
-        <a href="#">
+        <a href="?controller=home">
             <img src="./img/logo.png" alt="Logo" width="120px">
         </a>
 
@@ -37,9 +46,11 @@
                     Danh mục
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <?php
+                        foreach ($categories as $category) {
+                        echo '<li><a class="dropdown-item" href="?action=product&category_id='.$category['category_id'].'">'.$category['category_name'].'</a></li>';
+                        }
+                    ?>
                 </ul>
             </li>
 
@@ -48,9 +59,11 @@
                     Thương hiệu
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <?php
+                        foreach ($brands as $brand) {
+                        echo '<li><a class="dropdown-item" href="?action=product&brand_id='.$brand['brand_id'].'">'.$brand['brand_name'].'</a></li>';
+                        }
+                    ?>
                 </ul>
             </li>
 
@@ -83,14 +96,14 @@
                     <?php
                     if (isset($_SESSION['user'])) {
                     ?>
-                        <li><a class="dropdown-item" href="?controller=home&action=profile">Thông tin tài khoản</a></li>
-                        <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
-                        <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
+                    <li><a class="dropdown-item" href="?controller=home&action=profile">Thông tin tài khoản</a></li>
+                    <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
+                    <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
                     <?php
                     } else {
                     ?>
-                        <li><a class="dropdown-item" href="?controller=auth">Đăng nhập</a></li>
-                        <li><a class="dropdown-item" href="?controller=auth&action=register">Đăng kí</a></li>
+                    <li><a class="dropdown-item" href="?controller=auth">Đăng nhập</a></li>
+                    <li><a class="dropdown-item" href="?controller=auth&action=register">Đăng kí</a></li>
                     <?php
                     }
                     ?>
@@ -99,13 +112,13 @@
 
 
             <div class=" position-relative">
-                <a href="/?controller=cart">
+                <a href="?controller=cart">
                     <img src="./img/cart.svg" width="20">
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                    <span id="cart-quantity"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
                         style="background: #bd844c;">3</span>
                 </a>
             </div>
         </div>
-
     </nav>
 </header>
