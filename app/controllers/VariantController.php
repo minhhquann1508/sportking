@@ -48,5 +48,23 @@
             echo json_encode($response);
             exit;
         }
+
+        public function get_variant_item() {
+            $result = $this->variantModel->find_variant(
+                $_GET['product_id'],
+                $_GET['color_id'],
+                $_GET['size_id'],
+            );
+            echo json_encode($result);
+            exit;
+        }
+
+        public function delete_variant_item() {
+            $response = $this->variantModel->delete_variant(
+                $_GET['variant_id']
+            );
+            echo json_encode($response);
+            exit;
+        }
     }
 ?>

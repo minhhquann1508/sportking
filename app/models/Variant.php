@@ -25,6 +25,7 @@ class Variant extends Database
                 p.product_name,
                 c.category_name,
                 b.brand_name,
+                co.color_id,
                 co.color_name,
                 co.color_hex,
                 s.size_id,
@@ -131,6 +132,41 @@ class Variant extends Database
             return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => array_values($variants)];
         } else {
             return ['success' => false, 'message' => 'Lấy danh sách không thành công', 'data' => null];
+        }
+    }
+    public function find_variant($product_id, $color_id, $size_id){
+        $sql = "SELECT 
+            v.*, 
+            p.thumbnail, 
+            p.product_name,
+            c.color_name, 
+            s.size_name 
+        FROM product_variant v
+        INNER JOIN product p ON p.product_id = v.product_id
+        INNER JOIN color c ON v.color_id = c.color_id
+        INNER JOIN size s ON v.size_id = s.size_id
+        WHERE p.product_id = ? AND v.color_id = ? AND v.size_id = ?";
+        $response = $this->select($sql, [$product_id, $color_id, $size_id]);
+        if($response) {
+            return ['success' => true, 'message' => 'Lấy thành công', 'data' => $response[0]];
+        } else {
+            return ['success' => false, 'message' => 'Lấy thất bại', 'data' => null];
+        }
+    }
+
+    public function delete_variant($variant_id) {
+        $sql1 = "DELETE FROM variant_image WHERE variant_id = ?";
+        $res = $this->execute($sql1, [$variant_id]);
+        if($res) {
+            $sql2 = "DELETE FROM $this->table WHERE variant_id = ?";
+            $response = $this->execute($sql2, [$variant_id]);
+            if($response) {
+                return ['success' => true, 'message' => 'Xoá thành công', 'data' => null];
+            } else {
+                return ['success' => false, 'message' => 'Xoá thất bại', 'data' => null];
+            }
+        } else {
+            return ['success' => false, 'message' => 'Xoá thất bại', 'data' => null];
         }
     }
 }
