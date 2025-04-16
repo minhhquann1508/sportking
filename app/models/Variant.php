@@ -17,37 +17,93 @@ class Variant extends Database
     }
 
     public function get_all_variant_by_product_id($product_id)
-    {
-        $sql = "SELECT 
-                v.variant_id,
-                v.price,
-                v.stock,
-                p.product_name,
-                c.category_name,
-                b.brand_name,
-                co.color_id,
-                co.color_name,
-                co.color_hex,
-                s.size_id,
-                s.size_name,
-                i.image_url
-                FROM product_variant v
-                INNER JOIN product p ON p.product_id = v.product_id
-                INNER JOIN category c ON c.category_id = p.category_id
-                INNER JOIN brands b ON b.brand_id = p.brand_id
-                INNER JOIN color co ON co.color_id = v.color_id
-                INNER JOIN size s ON s.size_id = v.size_id
-                LEFT JOIN variant_image i ON i.variant_id = v.variant_id
-                WHERE p.product_id = ?
-                AND v.variant_id IS NOT NULL 
-                ";
-        $response = $this->select($sql, [$product_id]);
-        if ($response) {
-            return ['success' => true, 'message' => 'Lấy thành công', 'data' => $response];
-        } else {
-            return ['success' => false, 'message' => 'Lấy không thành công', 'data' => null];
+{
+    $sql = "SELECT * FROM product_variant v
+        INNER JOIN product p ON v.product_id = p.product_id
+        INNER JOIN variant_image i ON i.variant_id = v.variant_id
+        INNER JOIN color c ON c.color_id = v.color_id
+        INNER JOIN size s ON s.size_id = v.size_id
+        WHERE p.product_id = ?";
+    $response = $this->select($sql, [$product_id]);
+    
+    if ($response) {
+        // Process the response to organize into product and arrays for color, images, and sizes
+        $productData = [];
+        $colors = [];
+        $sizes = [];
+        $images = [];
+        
+        foreach ($response as $row) {
+            // Organize the product data
+            $productData = [
+                'product_name' => $row['product_name'],
+                'variants' => []
+            ];
+
+            // Ensure there are no duplicate colors for each variant
+            if (!isset($colors[$row['variant_id']])) {
+                $colors[$row['variant_id']] = [];
+            }
+
+            // Add color details for each variant
+            $colors[$row['variant_id']][] = [
+                'color_id' => $row['color_id'],
+                'color_name' => $row['color_name'],
+                'color_hex' => $row['color_hex']
+            ];
+
+            // Ensure there are no duplicate sizes for each variant
+            if (!isset($sizes[$row['variant_id']])) {
+                $sizes[$row['variant_id']] = [];
+            }
+
+            $sizes[$row['variant_id']][] = [
+                'size_id' => $row['size_id'],
+                'size_name' => $row['size_name']
+            ];
+
+            // Ensure there are no duplicate images for each variant
+            if (!isset($images[$row['variant_id']])) {
+                $images[$row['variant_id']] = [];
+            }
+
+            $images[$row['variant_id']][] = $row['image_url'];
         }
+
+        // Remove duplicates in color arrays for each variant
+        foreach ($colors as $variant_id => $color_list) {
+            $colors[$variant_id] = array_values(array_unique($color_list, SORT_REGULAR)); // Remove duplicates
+        }
+
+        // Remove duplicates in size arrays for each variant
+        foreach ($sizes as $variant_id => $size_list) {
+            $sizes[$variant_id] = array_values(array_unique($size_list, SORT_REGULAR)); // Remove duplicates
+        }
+
+        // Organize the final result in the desired structure
+        $variants = [];
+        foreach ($response as $row) {
+            $variant = [
+                'variant_id' => $row['variant_id'],
+                'price' => $row['price'],
+                'stock' => $row['stock'],
+                'colors' => $colors[$row['variant_id']] ?? [],
+                'sizes' => $sizes[$row['variant_id']] ?? [],
+                'images' => $images[$row['variant_id']] ?? []
+            ];
+
+            $variants[$row['variant_id']] = $variant;
+        }
+
+        return [
+            'success' => true,
+            'message' => 'Lấy thành công',
+            'data' => array_values($variants) // Convert variant array to a clean index array
+        ];
+    } else {
+        return ['success' => false, 'message' => 'Lấy không thành công', 'data' => null];
     }
+}
 
     public function add($price, $stock, $product_id, $size_id, $color_id)
     {
@@ -86,7 +142,7 @@ class Variant extends Database
         }
     }
 
-    public function get_all()
+    public function get_all($product_id)
     {
         $sql = "SELECT 
                 v.variant_id,
@@ -105,8 +161,9 @@ class Variant extends Database
             INNER JOIN brands b ON b.brand_id = p.brand_id
             INNER JOIN color co ON co.color_id = v.color_id
             INNER JOIN size s ON s.size_id = v.size_id
-            LEFT JOIN variant_image i ON i.variant_id = v.variant_id";
-        $response = $this->select($sql);
+            LEFT JOIN variant_image i ON i.variant_id = v.variant_id
+            WHERE p.product_id = ?";
+        $response = $this->select($sql, [$product_id]);
         if ($response) {
             $variants = [];
             foreach ($response as $row) {
