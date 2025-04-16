@@ -4,7 +4,6 @@
 <?php include 'home.php' ?>
 
 <?php
-
 $category = [
     ["name" => "Jackets", "products" => 110, "image" => "https://placehold.co/200x200"],
     ["name" => "Skirts", "products" => 180, "image" => "https://placehold.co/200x200"],
