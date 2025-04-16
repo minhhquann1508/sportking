@@ -8,8 +8,7 @@ class Database
         $dbname = "sportking";
         $username = "root";
         $password = "";
-        try {
-            $this->conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+        try {            $this->conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             die("Kết nối thất bại: " . $e->getMessage());

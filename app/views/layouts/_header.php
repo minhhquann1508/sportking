@@ -1,3 +1,12 @@
+<?php 
+    include_once '../app/models/Category.php';
+    include_once '../app/models/Brand.php';
+    $category = new Category();
+    $brand = new Brand();
+    $categories = $category->get_all_category();
+    $brands = $brand->get_all_brands();
+?>
+
 <style>
 header {
     position: fixed;
@@ -22,7 +31,7 @@ header {
 
 <header class="d-flex align-items-center">
     <nav class="container d-flex justify-content-between align-items-center py-2">
-        <a href="#">
+        <a href="?controller=home">
             <img src="./img/logo.png" alt="Logo" width="120px">
         </a>
 
@@ -37,9 +46,11 @@ header {
                     Danh mục
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <?php
+                        foreach ($categories as $category) {
+                        echo '<li><a class="dropdown-item" href="?action=product&category_id='.$category['category_id'].'">'.$category['category_name'].'</a></li>';
+                        }
+                    ?>
                 </ul>
             </li>
 
@@ -48,9 +59,11 @@ header {
                     Thương hiệu
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <?php
+                        foreach ($brands as $brand) {
+                        echo '<li><a class="dropdown-item" href="?action=product&brand_id='.$brand['brand_id'].'">'.$brand['brand_name'].'</a></li>';
+                        }
+                    ?>
                 </ul>
             </li>
 
@@ -99,13 +112,13 @@ header {
 
 
             <div class=" position-relative">
-                <a href="/?controller=cart">
+                <a href="?controller=cart">
                     <img src="./img/cart.svg" width="20">
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                    <span id="cart-quantity"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
                         style="background: #bd844c;">3</span>
                 </a>
             </div>
         </div>
-
     </nav>
 </header>

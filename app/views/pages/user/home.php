@@ -118,6 +118,13 @@
         flex-direction: column;
         top: 0;
         left: 0;
+        transition: opacity 0.5s ease;
+        opacity: 1;
+
+    }
+
+    #loading.fade-out {
+        opacity: 0;
     }
 
     #loading img {

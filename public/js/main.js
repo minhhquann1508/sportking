@@ -67,39 +67,26 @@ window.addEventListener("scroll", () => {
   lastScrollY = window.scrollY;
 });
 
-function showLoading() {
-  const loading = document.getElementById("loading");
-  loading.style.display = "flex";
+const updateCartQuantitySpan = () => {
+  $.ajax({
+    url: "?controller=cart&action=get_cart",
+    method: "GET",
+    dataType: "json",
+    success: (res) => {
+      let totalQuantity = 0;
+      Object.values(res).forEach((item) => {
+        item.forEach((i) => {
+          totalQuantity += Number(i.quantity);
+        });
+      });
+      $("#cart-quantity").text(totalQuantity);
+    },
+    error: (err) => {
+      console.log(err);
+    },
+  });
+};
 
-  loading.innerHTML = `
-      <div>
-          <img src="./img/loading.gif" alt="Loading">
-          <div id="loading-text">Loading</div>
-      </div>
-      <div id="progress-bar">
-          <div id="progress-bar-fill"></div>
-      </div>
-  `;
-
-  const loadingText = loading.querySelector("#loading-text");
-  const fill = loading.querySelector("#progress-bar-fill");
-
-  let dot = 0;
-  let progress = 0;
-
-  const dotInterval = setInterval(() => {
-    dot = (dot + 1) % 4;
-    loadingText.textContent = "Loading" + ".".repeat(dot);
-  }, 500);
-
-  const progressInterval = setInterval(() => {
-    progress += Math.random() * 10;
-    fill.style.width = Math.min(progress, 100) + "%";
-
-    if (progress >= 100) {
-      clearInterval(progressInterval);
-      clearInterval(dotInterval);
-      loading.style.display = "none";
-    }
-  }, 300);
-}
+$(document).ready(() => {
+  updateCartQuantitySpan();
+});
