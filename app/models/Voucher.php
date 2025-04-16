@@ -11,7 +11,7 @@ class Voucher extends Database {
 
     public function getById($voucherId){
         $query = "SELECT * FROM $this->table WHERE voucher_id = ?";
-        return $this->selectOne($query, [$voucherId]);
+        return $this->select($query, [$voucherId]);
     }
 
     public function create($code, $discount_type, $discount_value, $quantity, $expired, $status = 'inactive'){
@@ -48,7 +48,7 @@ class Voucher extends Database {
             $params[] = $exclude_id;
         }
         
-        $result = $this->selectOne($query, $params);
+        $result = $this->select($query, $params);
         return !empty($result);
     }
 }

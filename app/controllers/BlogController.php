@@ -50,6 +50,13 @@ require_once '../app/models/Blog.php';
         }
     }
 
+    public function search(){
+        if (isset($_POST['btn-search'])){
+            $noidung = $_POST['noidung'];
+            echo ($noidung);
+            }
+    }
+
     public function update_blog_by_id() {
         if (isset($_POST['blog_id']) && $_POST['blog_id']) {
             $blog_id = $_POST['blog_id'];
