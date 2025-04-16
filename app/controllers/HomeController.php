@@ -2,6 +2,7 @@
 require_once '../app/models/Home.php';
 require_once '../app/models/Products.php';
 require_once '../app/models/Brand.php';
+require_once '../app/models/Order.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
 class HomeController
@@ -10,16 +11,18 @@ class HomeController
     private $brandModel;
     private $categoryModel;
     private $homeModel;
+    private $userModel;
+    private $orderModel;
+
     public function __construct()
     {
         $this->homeModel = new Home();
         $this->productModel = new Products();
         $this->brandModel = new Brand();
         $this->categoryModel = new Category();
-    private $userModel;
-    public function __construct() {
-        $this->homeModel = new Home();
         $this->userModel = new User();
+        $this->orderModel = new Order();
+
     }
     public function index()
     {
@@ -189,6 +192,23 @@ class HomeController
 
     public function order()
     {
+        $content = '../app/views/pages/user/order.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
+    }
+
+    public function add_orders() {
+       
+        // Lấy thông tin
+        $total_amount = $_POST['total_amount'];
+        $user_id = $_POST['user_id'];
+        $address_id = $_POST['address_id']; // sửa đúng chính tả
+        $items = $_POST['items'];
+        // Gọi model để thêm đơn hàng
+        $response = $this->orderModel->add_order($total_amount, $user_id, $address_id, $items);
+        echo json_encode($response);
+        exit;
         $content = '../app/views/pages/user/order.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';

@@ -14,14 +14,30 @@ class Voucher extends Database {
         return $this->selectOne($query, [$voucherId]);
     }
 
-    public function create($code, $discount_type, $discount_value, $quantity, $expired, $status = 'inactive'){
+    // public function create($code, $discount_type, $discount_value, $quantity, $expired, $status = 'inactive'){
+    //     // Kiểm tra mã voucher đã tồn tại chưa
+    //     if ($this->isCodeExists($code)) {
+    //         return false;
+    //     }
+        
+    //     $query = "INSERT INTO $this->table (code, discount_type, discount_value, quantity, expired, status) VALUES (?, ?, ?, ?, ?, ?)";
+    //     return $this->execute($query, [$code, $discount_type, $discount_value, $quantity, $expired, $status]);
+    // }
+    public function create($data){
         // Kiểm tra mã voucher đã tồn tại chưa
-        if ($this->isCodeExists($code)) {
+        if ($this->isCodeExists($data['code'])) {
             return false;
         }
-        
+    
         $query = "INSERT INTO $this->table (code, discount_type, discount_value, quantity, expired, status) VALUES (?, ?, ?, ?, ?, ?)";
-        return $this->execute($query, [$code, $discount_type, $discount_value, $quantity, $expired, $status]);
+        return $this->execute($query, [
+            $data['code'],
+            $data['discount_type'],
+            $data['discount_value'],
+            $data['quantity'],
+            $data['expired'],
+            $data['status']
+        ]);
     }
 
     public function update($voucher_id, $code, $discount_type, $discount_value, $quantity, $expired, $status){
@@ -52,4 +68,5 @@ class Voucher extends Database {
         return !empty($result);
     }
 }
+
 ?>
