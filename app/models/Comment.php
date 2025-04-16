@@ -4,35 +4,7 @@
     class Comment extends Database{
         private $table = "comments";
 
-    //     public function get_all_comments() {
-    //         // Sử dụng alias để tránh xung đột tên cột
-    //         $query = "SELECT 
-    //                     c.comment_id,
-    //                     c.content,
-    //                     c.status,
-    //                     u.fullname
-    //                   FROM $this->table c
-    //                   LEFT JOIN users u ON c.user_id = u.user_id
-    //                   LEFT JOIN product p ON c.product_id = p.product_id
-    //                   ORDER BY c.comment_id DESC";
-        
-    //         $result = $this->select($query);
-        
-    //         // Kiểm tra kết quả trả về
-    //         if ($result !== false && is_array($result) && !empty($result)) {
-    //             return [
-    //                 'success' => true,
-    //                 'message' => 'Lấy danh sách bình luận thành công',
-    //                 'data' => $result
-    //             ];
-    //         } else {
-    //             return [
-    //                 'success' => false,
-    //                 'message' => 'Không có bình luận nào',
-    //                 'data' => []
-    //             ];
-    //     }
-    // }
+   
 
 
         // lấy tất cả các comment 
@@ -90,10 +62,7 @@
                 ];
             }
         }
-        public function delete_comment($comment_id) {
-            $query = "DELETE FROM $this->table WHERE comment_id = ?";
-            return $this->execute($query, [$comment_id]);
-        }
+       
 
 
         public function filter_comments($user_id = null, $product_id = null) {

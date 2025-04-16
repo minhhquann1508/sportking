@@ -1,3 +1,7 @@
+<?php print_r($_SESSION['user']['user_id'])?>
+ <!-- <?php print_r($content) ?> -->
+
+
 <link rel="stylesheet" href="/app/views/pages/user/order.css">
 <main style="padding-top: 76px;">
     <div class="container">
@@ -264,6 +268,7 @@ $(document).ready(function() {
     //         console.error(" AJAX Error:", status, error);
     //     },
     // });
+
     $(document).ready(function () {
     console.log("Trang đã tải xong - JS hoạt động!");
 
@@ -397,94 +402,80 @@ $(document).ready(function() {
             quantity: productQty
         };
     // Khi bấm nút Thanh Toán
-    $("#order-submit").on("click", function(e) {
-        e.preventDefault();
-        console.log("Nút thanh toán được bấm!");
+    // $("#order-submit").on("click", function (e) {
+    //     e.preventDefault();
+    //     console.log("Nút thanh toán được bấm!");
 
-        console.log("Thông tin sản phẩm:", productData);
-        // if ($("#enterNewAddress").is(":checked")) {
-        //     isValid &= validateInput("#addressInput", /.+/, "Địa chỉ không được để trống!");
-        // }
-        if (isValid) {
-            let orderData = {
-                fullName: $("#firstName").val(),
-                email: $("#username").val(),
-                phone: $("#phone").val(),
-                address: $("#enterNewAddress").is(":checked") ? $("#addressInput").val() :
-                    "Địa chỉ đã từng đặt",
-            };
+    //     let isValid = true;
 
-            console.log("Dữ liệu đơn hàng:", orderData);
-            alert("✅ Đơn hàng hợp lệ, dữ liệu đã được thu thập!");
+    //     isValid &= validateInput("#firstName", /^[a-zA-ZÀ-Ỹà-ỹ\s]+$/, "Tên không hợp lệ!");
+    //     isValid &= validateInput("#username", /^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email không hợp lệ!");
+    //     isValid &= validateInput("#phone", /^[0-9]{10}$/, "Số điện thoại không hợp lệ!");
 
-            // Nếu muốn gửi lên server, bạn dùng AJAX:
-            // $.post("order.php", orderData, function(response) {
-            //     alert("Đặt hàng thành công!");
-            // });
-        // Lấy dữ liệu địa chỉ
-        let address = "";
-        if ($("#enterNewAddress").is(":checked")) {
-            let phuong = $("#newAddressSection input").eq(1).val().trim();
-            let quan = $("#newAddressSection input").eq(2).val().trim();
-            let duong = $("#newAddressSection input").eq(3).val().trim();
-            address = `${duong}, ${phuong}, ${quan}, Hồ Chí Minh`;
-        } else {
-            address = "Địa chỉ đã từng đặt";
-        }
-        let orderData = {
-            fullName: $("#firstName").val(),
-            email: $("#username").val(),
-            phone: $("#phone").val(),
-            address: $("#enterNewAddress").is(":checked")
-            ? `${$("#newAddressSection input").eq(3).val().trim()}, ${$("#newAddressSection input").eq(1).val().trim()}, ${$("#newAddressSection input").eq(2).val().trim()}, Hồ Chí Minh`
-            : selectedSavedAddress || "Chưa chọn địa chỉ",
-        // Khi bấm nút Thanh Toán
-        $("#order-submit").on("click", function(e) {
-            e.preventDefault();
-            console.log("Nút thanh toán được bấm!");
+    //     // if ($("#enterNewAddress").is(":checked")) {
+    //     //     isValid &= validateInput("#addressInput", /.+/, "Địa chỉ không được để trống!");
+    //     // }
+    //     if (isValid) {
+    //     // Lấy dữ liệu địa chỉ
+    //     let address = "";
+    //     if ($("#enterNewAddress").is(":checked")) {
+    //         let phuong = $("#newAddressSection input").eq(1).val().trim();
+    //         let quan = $("#newAddressSection input").eq(2).val().trim();
+    //         let duong = $("#newAddressSection input").eq(3).val().trim();
+    //         address = `${duong}, ${phuong}, ${quan}, Hồ Chí Minh`;
+    //     } else {
+    //         address = "Địa chỉ đã từng đặt";
+    //     }
 
-            let isValid = true;
+    //     let orderData = {
+    //         fullName: $("#firstName").val(),
+    //         email: $("#username").val(),
+    //         phone: $("#phone").val(),
+    //         address: $("#enterNewAddress").is(":checked")
+    //         ? `${$("#newAddressSection input").eq(3).val().trim()}, ${$("#newAddressSection input").eq(1).val().trim()}, ${$("#newAddressSection input").eq(2).val().trim()}, Hồ Chí Minh`
+    //         : selectedSavedAddress || "Chưa chọn địa chỉ",
 
-            isValid &= validateInput("#firstName", /^[a-zA-ZÀ-Ỹà-ỹ\s]+$/, "Tên không hợp lệ!");
-            isValid &= validateInput("#username", /^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email không hợp lệ!");
-            isValid &= validateInput("#phone", /^[0-9]{10}$/, "Số điện thoại không hợp lệ!");
+    //     };
 
-            // if ($("#enterNewAddress").is(":checked")) {
-            //     isValid &= validateInput("#addressInput", /.+/, "Địa chỉ không được để trống!");
-            // }
-            if (isValid) {
-                // Lấy dữ liệu địa chỉ
-                let address = "";
-                if ($("#enterNewAddress").is(":checked")) {
-                    let phuong = $("#newAddressSection input").eq(1).val().trim();
-                    let quan = $("#newAddressSection input").eq(2).val().trim();
-                    let duong = $("#newAddressSection input").eq(3).val().trim();
-                    address = `${duong}, ${phuong}, ${quan}, Hồ Chí Minh`;
-                } else {
-                    address = "Địa chỉ đã từng đặt";
-                }
+    //     console.log("📤 Dữ liệu đơn hàng:", orderData);
+    //     alert("✅ Đơn hàng hợp lệ, dữ liệu đã được thu thập!");
 
-                let orderData = {
-                    fullName: $("#firstName").val(),
-                    email: $("#username").val(),
-                    phone: $("#phone").val(),
-                    address: $("#enterNewAddress").is(":checked") ?
-                        `${$("#newAddressSection input").eq(3).val().trim()}, ${$("#newAddressSection input").eq(1).val().trim()}, ${$("#newAddressSection input").eq(2).val().trim()}, Hồ Chí Minh` : selectedSavedAddress || "Chưa chọn địa chỉ",
+    //     // Nếu muốn gửi lên server
+    //     // $.post("order.php", orderData, function(response) {
+    //     //     alert("Đặt hàng thành công!");
+    //     // });
+        
+    //     }
+        
+       
+    // });
 
-                };
-
-                console.log("📤 Dữ liệu đơn hàng:", orderData);
-                alert("✅ Đơn hàng hợp lệ, dữ liệu đã được thu thập!");
-
-                // Nếu muốn gửi lên server
-                // $.post("order.php", orderData, function(response) {
-                //     alert("Đặt hàng thành công!");
-                // });
-
+    $('#order-submit').click(() => {
+        $.ajax({
+            url: '?controller=home&action=add_orders',
+            method: 'POST',
+            dataType:'json',
+            data: {
+                total_amount:$('#totalAmount').val(),
+                user_id: $_SESSION['user']['user_id'],
+                address_id: 1,
+                items: [
+                    {
+                        // variant_id phải tồn tại
+                        variant_id: 21,
+                        price: 200,
+                        quantity: 2
+                    }
+                ]
+            },
+            success: (res) => {
+                console.log(res);
+            },
+            error: (err) => {
+                console.log(err);
             }
-
-
-        });
+        })
     });
 });
+
 </script>
