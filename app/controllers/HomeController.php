@@ -55,16 +55,6 @@ class HomeController
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
-    public function blog()
-    {
-        $categories = $this->homeModel->get_all_categorys();
-        $blogList = $this->blogModel->get_all_blogs();
-        $blogRelated = $this->blogModel->get_by_quantity($number=3);
-        $content = '../app/views/pages/user/blog.php';
-        $header = '../app/views/layouts/_header.php';
-        $footer = '../app/views/layouts/_footer.php';
-        include_once "../app/views/layouts/default2.php";
-    }
 
     public function blogdetail() {
         $id = $_GET['id'];
@@ -243,7 +233,7 @@ class HomeController
     {
         $categories = $this->homeModel->get_all_categorys();
         $blogList = $this->blogModel->get_all_blogs();
-        $blogRelated = $this->blogModel->get_by_quantity($number=3);
+        $blogRelated = $this->blogModel->get_by_quantity();
         $content = '../app/views/pages/user/blog.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
