@@ -1,3 +1,5 @@
+<?php include '../app/views/layouts/_list_product.php' ?>
+<?php include '../app/views/layouts/_list_product_cssfile.php' ?>
 <style>
   .article-img {
     width: 100%;
@@ -39,6 +41,7 @@
   .card img {
     border-radius: 10px;
   }
+
 </style>
   <div class="container mt-5 py-5">
     <div class="row">
@@ -48,11 +51,13 @@
               <h2 class="fw-bold"><?= $blogDetail['title'] ?></h2>
               <div class="article-meta mb-2">
                 <i class="bi bi-calendar-event"></i> <?= $blogDetail['created_at'] ?> &nbsp; | &nbsp;
-                <i class="bi bi-person"></i> <?= $blogDetail['author_id'] ?>
+                <i class="bi bi-person"></i> <?= $blogDetail['fullname'] ?>
               </div>
               <div class="content" style="width: 100%;">
                 <img src="<?= $blogDetail['thumbnail'] ?>" alt="" class="article-img" />
-                <?= $blogDetail['content'] ?>
+                <?= nl2br(html_entity_decode($blogDetail['content'])) ?>
+
+
               </div>
             </div>
       </div>
@@ -60,10 +65,12 @@
       <!-- Sidebar -->
       <div class="col-4">
         <div class="input-group mb-4">
-          <input type="text" class="form-control" placeholder="Tìm kiếm tin">
-          <button class="btn btn-primary" type="button">
+          <form action="" method="post" class="d-flex align-items-center custom-search-form mb-4" style="width: 100%">
+          <input type="text" name="noidung" class="form-control border-1" placeholder="Tìm kiếm tin tức">
+          <button class="btn btn-primary rounded-0  bg-primary" name="btn-search" type="submit">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
+          </form>
         </div>
 
         <div class="list-group mb-4">
@@ -79,7 +86,7 @@
         <div class="list-category p-2">
           <h5 class="mb-3">Danh mục</h5>
           <ul class="list-unstyled">
-            <?php foreach ($categories['data'] as $category): ?>
+            <?php foreach ($categories as $category): ?>
               <li class="py-2"><a href="#"><?= $category['category_name']; ?></a></li>
             <?php endforeach; ?>
           </ul>
@@ -96,5 +103,10 @@
         </div>
       </div>
     </div>
-  </div>
 
+    <div class="container splq">
+      <h4 class="text-center">Sản phẩm liên quan</h4>
+      <?php render_list_product($productList); ?>
+    </div>
+
+  </div>
