@@ -9,6 +9,7 @@ require_once '../app/models/Blog.php';
 require_once '../app/models/Size.php';
 require_once '../app/models/Color.php';
 require_once '../app/models/Variant.php';
+require_once '../app/models/Address.php';
 class HomeController
 {
     private $productModel;
@@ -21,6 +22,7 @@ class HomeController
     private $sizeModel;
     private $colorModel;
     private $variantModel;
+    private $addressModel;
     public function __construct()
     {
         $this->homeModel = new Home();
@@ -34,6 +36,7 @@ class HomeController
         $this->userModel = new User();
         $this->sizeModel = new Size();
         $this->colorModel = new Color();
+        $this->addressModel = new Address();
     }
     public function index()
     {
@@ -198,12 +201,19 @@ class HomeController
         }
     }
 
-    public function order()
+    public function order2()
     {
-        $content = '../app/views/pages/user/order.php';
-        $header = '../app/views/layouts/_header.php';
-        $footer = '../app/views/layouts/_footer.php';
-        include_once "../app/views/layouts/default2.php";
+        if (isset($_SESSION['user']['user_id'])) {
+            $id = $_SESSION['user']['user_id'];
+            // $order
+            $address = $this->addressModel->get_address_by_user_id($id)['data'];
+            $content = '../app/views/pages/user/order2.php';
+            $header = '../app/views/layouts/_header.php';
+            $footer = '../app/views/layouts/_footer.php';
+            include_once "../app/views/layouts/default2.php";
+        } else {
+            echo "Bạn chưa đăng nhập!";
+        }
     }
 
     public function add_orders() {

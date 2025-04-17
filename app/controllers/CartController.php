@@ -90,5 +90,11 @@
             echo json_encode([]); 
             exit;
         }
+
+        public function add_to_order() {
+            $_SESSION['order_list'] = $_POST['items'];
+            echo json_encode($_SESSION['order_list']); 
+            exit;
+        }
     }
 ?>
