@@ -7,14 +7,12 @@
                     <button class="btn" onclick="deleteAll()"><i class="fa-regular fa-trash-can"></i></button>
                 </div>
                 <ul id="cart-body">
-                    <!-- Item -->
-
                 </ul>
             </div>
             <div class="col-4">
                 <h5 class="text-uppercase text-center mt-1">tóm tắt đơn hàng</h5>
                 <div class="mt-4" id="cart-total">
-                    <button class="btn btn-primary mt-3 w-100">Thanh toán ngay</button>
+                    <!-- <button class="btn btn-primary mt-3 w-100">Thanh toán ngay</button>
                     <div class="mt-3">
                         <strong>CÁC PHƯƠNG THỨC THANH TOÁN</strong>
                         <ul>
@@ -22,8 +20,9 @@
                             <li></li>
                             <li></li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
+                <button class="btn btn-primary mt-2 w-100" id="submit-btn">Thanh toán ngay</button>
             </div>
         </div>
     </div>
@@ -66,6 +65,7 @@ const renderCart = (cart) => {
         Object.keys(cart).forEach(productId => {
             const variants = cart[productId];
             variants.forEach(variant => {
+                console.log(variant);
                 html += `
                     <li class="border-bottom">
                         <div class="row py-3 h-100 align-items-stretch">
@@ -152,7 +152,11 @@ const renderTotal = () => {
             </li>
         </ul>
     `;
-
+    if (checkedItems.length <= 0) {
+        $('#submit-btn').prop('disabled', true);
+    } else {
+        $('#submit-btn').prop('disabled', false);
+    }
     document.getElementById('cart-total').innerHTML = html;
 };
 
@@ -189,6 +193,23 @@ const deleteAll = () => {
         }
     })
 }
+
+$('#submit-btn').click(() => {
+    $.ajax({
+        url: '?controller=cart&action=add_to_order',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            items: checkedItems
+        },
+        success: (res) => {
+            window.location.href = '?controller=home&action=order'
+        },
+        error: (err) => {
+            console.log(err);
+        }
+    })
+})
 
 $(document).ready(() => {
     $.ajax({
