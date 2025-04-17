@@ -21,8 +21,11 @@ function render_list_product($data)
                             <a class="" href="http://localhost/sportking/public/?controller=home&action=product_detail&product_id=<?= $product['product_id'] ?>"><i class="fa-solid fa-cart-shopping"></i></a>
                         </li>
                         <li>
-                            <a class="" href="http://localhost/sportking/public/?controller=home&action=product_detail&product_id=<?= $product['product_id'] ?>"><i class="fa-regular fa-eye"></i></a>
+                            <a href="#" class="quick-view-btn" data-product-id="<?= $product['product_id'] ?>" data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                <i class="fa-regular fa-eye"></i>
+                            </a>
                         </li>
+
                         <li>
                             <a class="" href="http://localhost/sportking/public/?controller=home&action=product_detail&product_id=<?= $product['product_id'] ?>"><i class="fa-regular fa-heart"></i></a>
                         </li>
@@ -39,3 +42,43 @@ function render_list_product($data)
     echo '</div>';
 }
 ?>
+
+<div class="modal fade" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" style="border-radius: none;max-width:1200px">
+        <div class="modal-content" style="border-radius: none;">
+            <div class="modal-header" style="border:none;border-radius: none">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" id="quickViewContent">
+                hello
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $(".quick-view-btn").on("click", function(e) {
+            e.preventDefault();
+
+            var productId = $(this).data("product-id");
+
+            $("#quickViewContent").html('<div class="text-center py-3"><div class="spinner-border text-primary"></div></div>');
+
+            $.ajax({
+                url: "?controller=home&action=quickview",
+                method: "GET",
+                data: {
+                    product_id: productId
+                },
+                success: (response) => {
+                    $("#quickViewContent").html(response);
+                },
+                error: (xhr, status, error) => {
+                    $("#quickViewContent").html("<p class='text-danger'>Lỗi tải thông tin sản phẩm.</p>");
+                    console.error("Lỗi AJAX: ", error);
+                }
+            });
+        });
+    });
+</script>

@@ -60,6 +60,34 @@ class HomeController
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+    public function quickview()
+    {
+        if (isset($_GET['product_id'])) {
+            $product_id = $_GET['product_id'];
+
+            $product = $this->productModel->get_product_by_id($product_id);
+            $variant = $this->variantModel->get_all_variant_by_product_id($product_id);
+
+            $data = [
+                'product' => $product['data'],
+                'variant' => $variant['data'][0] ?? []
+            ];
+        } else {
+            echo "<p>Không tìm thấy sản phẩm.</p>";
+        }
+        require_once '../app/views/layouts/quickview.php';
+    }
+
+    // public function blog()
+    // {
+    //     $categories = $this->homeModel->get_all_categorys();
+    //     $blogList = $this->blogModel->get_all_blogs();
+    //     $blogRelated = $this->blogModel->get_by_quantity();
+    //     $content = '../app/views/pages/user/blog.php';
+    //     $header = '../app/views/layouts/_header.php';
+    //     $footer = '../app/views/layouts/_footer.php';
+    //     include_once "../app/views/layouts/default2.php";
+    // }
     public function blogdetail()
     {
         $id = $_GET['id'];
@@ -216,8 +244,9 @@ class HomeController
         }
     }
 
-    public function add_orders() {
-       
+    public function add_orders()
+    {
+
         // Lấy thông tin
         $total_amount = $_POST['total_amount'];
         $user_id = $_POST['user_id'];
