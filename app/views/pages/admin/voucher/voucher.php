@@ -1,4 +1,3 @@
-
 <div class="container mt-5">
     <h5>Quản Lý Voucher</h5>
 
@@ -34,7 +33,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="voucherForm">
-                    <input type="hidden" id="voucherId">
+                        <input type="hidden" id="voucherId">
                         <div class="mb-3">
                             <label for="code" class="form-label">Mã Voucher</label>
                             <input type="text" class="form-control" id="code" required>
@@ -69,17 +68,18 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                             <button type="submit" class="btn btn-primary" id="btnSaveVoucher">Lưu Voucher</button>
                         </div>
-                    
+
                     </form>
-                        
+
                 </div>
-               
+
             </div>
         </div>
     </div>
 
     <!-- Modal Xóa Voucher -->
-    <div class="modal fade" id="deleteVoucherModal" tabindex="-1" aria-labelledby="deleteVoucherModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteVoucherModal" tabindex="-1" aria-labelledby="deleteVoucherModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -99,15 +99,16 @@
     </div>
 
     <!-- Modal Cập nhật Voucher -->
-    <div class="modal fade" id="updateVoucherModal" tabindex="-1" aria-labelledby="updateVoucherModalLabel" aria-hidden="true">
+    <div class="modal fade" id="updateVoucherModal" tabindex="-1" aria-labelledby="updateVoucherModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
-           <div class="modal-content">>
-           <div class="modal-header">
+            <div class="modal-content">>
+                <div class="modal-header">
                     <h5 class="modal-title" id="updateVoucherModalLabel">Cập nhật Voucher</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                     <form id="updateVoucherForm">
+                    <form id="updateVoucherForm">
                         <input type="hidden" id="updateVoucherId">
                         <div class="mb-3">
                             <label>Mã voucher:</label>
@@ -122,7 +123,8 @@
                         </div>
                         <div class="mb-3">
                             <label>Giá trị giảm giá:</label>
-                            <input type="number" id="updateDiscountValue" class="form-control" placeholder="Nhập giá trị giảm giá">
+                            <input type="number" id="updateDiscountValue" class="form-control"
+                                placeholder="Nhập giá trị giảm giá">
                         </div>
                         <div class="mb-3">
                             <label>Số lượng:</label>
@@ -145,26 +147,24 @@
                         </div>
                     </form>
                 </div>
-                
-           </div> 
-               
-            
+
+            </div>
+
+
         </div>
     </div>
 </div>
 </div>
 
 <script>
-   
-
-   $(document).ready(function() {
+$(document).ready(function() {
     // Định dạng ngày tháng
     function formatDate(dateString) {
         if (!dateString) return "N/A";
         const date = new Date(dateString);
         return date.toLocaleDateString("vi-VN", {
-            year: "numeric", 
-            month: "2-digit", 
+            year: "numeric",
+            month: "2-digit",
             day: "2-digit",
             hour: "2-digit",
             minute: "2-digit"
@@ -179,7 +179,7 @@
             dataType: "json",
             success: function(vouchers) {
                 let html = '';
-                
+
                 if (vouchers && vouchers.length > 0) {
                     $.each(vouchers, function(index, voucher) {
                         html += `
@@ -210,12 +210,14 @@
                 } else {
                     html = '<tr><td colspan="8" class="text-center">Không có voucher nào</td></tr>';
                 }
-                
+
                 $('#voucherList').html(html);
             },
             error: function(xhr) {
                 console.error("Lỗi khi tải voucher:", xhr.responseText);
-                $('#voucherList').html('<tr><td colspan="8" class="text-center text-danger">Lỗi khi tải dữ liệu</td></tr>');
+                $('#voucherList').html(
+                    '<tr><td colspan="8" class="text-center text-danger">Lỗi khi tải dữ liệu</td></tr>'
+                );
             }
         });
     }
@@ -231,7 +233,7 @@
     // Thêm voucher
     $('#voucherForm').submit(function(e) {
         e.preventDefault();
-        
+
         const formData = {
             code: $('#code').val(),
             discount_type: $('#discount_type').val(),
@@ -241,7 +243,7 @@
             status: $('#status').val()
         };
 
-        console.log('Dữ liệu gửi đi:', formData); // Kiểm tra dữ liệu trước khi gửi
+        console.log('Dữ liệu gửi đi:', formData);
 
         $.ajax({
             url: "?controller=voucher&action=addVoucher",
@@ -249,7 +251,7 @@
             data: formData,
             dataType: 'json',
             success: function(response) {
-                console.log('Phản hồi từ server:', response); // Kiểm tra phản hồi
+                console.log('Phản hồi từ server:', response);
                 if (response.success) {
                     $('#voucherModal').modal('hide');
                     loadVouchers();
@@ -291,7 +293,7 @@
     // Cập nhật voucher
     $('#updateVoucherForm').submit(function(e) {
         e.preventDefault();
-        
+
         const formData = {
             voucher_id: $('#updateVoucherId').val(),
             code: $('#updateCode').val(),
@@ -330,7 +332,7 @@
     $(document).on('click', '.btnDelete', function() {
         if (confirm('Bạn có chắc chắn muốn xóa voucher này?')) {
             const voucherId = $(this).data('id');
-            
+
             $.ajax({
                 url: "?controller=voucher&action=deleteVoucher&id=" + voucherId,
                 method: "GET",

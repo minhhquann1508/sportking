@@ -41,7 +41,7 @@
                             <p class="me-2"><i class="fa-regular fa-circle-user"></i> <?= $blog['author_id'] ?></p>
                             <p class="me-2"><i class="fa-solid fa-eye"></i> <?= $blog['views'] ?></p>
                         </div>
-                        <a class="card-title" style="font-size: 24px; font-weight: ;"
+                        <a class="card-title" style="font-size: 24px; font-weight: 700 ;"
                             href="?controller=home&action=blogdetail&id=<?= $blog['blog_id']?>"><?= $blog['title'] ?></a>
                         <p class="card-text"><?= truncateContent($blog['content'], 100) ?>
                         </p>

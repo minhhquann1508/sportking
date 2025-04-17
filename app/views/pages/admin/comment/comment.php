@@ -31,7 +31,8 @@ $(document).ready(function() {
             method: "GET",
             dataType: "json",
             success: function(response) {
-                if(response.success) {
+                console.log("API Response:", response);
+                if (response.success) {
                     renderComments(response.data);
                 } else {
                     $("#comment-table").html(
@@ -41,7 +42,8 @@ $(document).ready(function() {
                     );
                 }
             },
-            error: function() {
+            error: function(xhr, status, error) {
+                console.error("AJAX Error:", xhr.responseText); // Xem chi tiết lỗi
                 $("#comment-table").html(
                     `<tr>
                         <td colspan="7" class="text-center">Lỗi khi tải dữ liệu</td>
@@ -54,8 +56,8 @@ $(document).ready(function() {
     // Hàm render comments
     function renderComments(comments) {
         let content = "";
-        
-        if(comments.length > 0) {
+
+        if (comments.length > 0) {
             $.each(comments, function(index, comment) {
                 content += `
                     <tr>
@@ -86,19 +88,19 @@ $(document).ready(function() {
                 </tr>
             `;
         }
-        
+
         $("#comment-table").html(content);
     }
 
     // Xóa bình luận
     $(document).on('click', '.delete-comment', function() {
         let commentId = $(this).data('id');
-        
-        if(confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
+
+        if (confirm('Bạn có chắc chắn muốn xóa bình luận này?')) {
             $.post("?controller=comment&action=delete_comment", {
                 comment_id: commentId
             }, function(response) {
-                if(response.success) {
+                if (response.success) {
                     alert(response.message);
                     loadComments();
                 } else {
@@ -112,12 +114,12 @@ $(document).ready(function() {
     $(document).on('click', '.toggle-status', function() {
         let commentId = $(this).data('id');
         let newStatus = $(this).data('status');
-        
+
         $.post("?controller=comment&action=toggle_status", {
             comment_id: commentId,
             new_status: newStatus
         }, function(response) {
-            if(response.success) {
+            if (response.success) {
                 loadComments();
             } else {
                 alert('Thay đổi trạng thái thất bại');

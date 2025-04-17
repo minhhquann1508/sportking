@@ -5,6 +5,7 @@ require_once '../app/models/Brand.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
 require_once '../app/models/Blog.php';
+require_once '../app/models/Order.php';
 class HomeController
 {
     private $productModel;
@@ -13,6 +14,7 @@ class HomeController
     private $blogModel;
     private $homeModel;
     private $userModel;
+    private $orderModel;
     public function __construct()
     {
         $this->homeModel = new Home();
@@ -20,6 +22,7 @@ class HomeController
         $this->brandModel = new Brand();
         $this->blogModel = new Blog();
         $this->categoryModel = new Category();
+        $this->orderModel = new Order();
     }
     public function index()
     {
@@ -67,6 +70,7 @@ class HomeController
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+
     public function about()
     {
         $content = '../app/views/pages/user/about.php';
@@ -127,7 +131,9 @@ class HomeController
                     'product_name' => $item['product_name'],
                     'price' => $item['price'],
                     'thumbnail' => $item['thumbnail'],
-                    'quantity' => $item['quantity']
+                    'quantity' => $item['quantity'],
+                    'color' => $item['color_name'],
+                    'size' => $item['size_name']
                 ];
             }
         }
@@ -138,6 +144,45 @@ class HomeController
         include_once "../app/views/layouts/default2.php";
     }
 
+    public function detail_order() {
+        $id = $_GET['id'];
+        $result = $this->homeModel->get_order_by_id($id);
+    
+        if ($result['success']) {
+            $rows = $result['data'];
+            $order = [
+                'order_id' => $rows[0]['order_id'],
+                'status' => $rows[0]['status'],
+                'order_date' => $rows[0]['order_date'],
+                'fullname' => $rows[0]['fullname'],
+                'email' => $rows[0]['email'],
+                'phone' => $rows[0]['phone'],
+                'address' => $rows[0]['street'] . ', ' . $rows[0]['ward'] . ', ' . $rows[0]['district'] . ', ' . $rows[0]['city'],
+                'voucher_id' => $rows[0]['voucher_id'],
+                'total' => $rows[0]['total_amount'],
+                'products' => []
+            ];
+    
+            foreach ($rows as $row) {
+                $order['products'][] = [
+                    'product_name' => $row['product_name'],
+                    'thumbnail' => $row['thumbnail'],
+                    'color' => $row['color_name'],
+                    'size' => $row['size_name'],
+                    'price' => $row['price'],
+                    'quantity' => $row['quantity']
+                ];
+            }
+        } else {
+            $order = null;
+        }
+    
+        $content = '../app/views/pages/user/profile/orders/detail-order.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
+    }
+    
 
     public function updateProfile()
     {
@@ -197,10 +242,30 @@ class HomeController
 
     public function order()
     {
+        $user_id =$_GET['user_id'] ?? $_SESSION['user']['user_id'];
+        $userResult = $this->homeModel->info_user_by_id($user_id);
+        $user = $userResult['data'];
+        $voucher = $this->homeModel->get_all_voucher();
         $content = '../app/views/pages/user/order.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
+    }
+    public function add_orders() {
+       
+        // Lấy thông tin
+        $total_amount = $_POST['total_amount'];
+        $user_id = $_POST['user_id'];
+        $address_id = $_POST['address_id']; // sửa đúng chính tả
+        $items = $_POST['items'];
+        // Gọi model để thêm đơn hàng
+        $response = $this->orderModel->add_order($total_amount, $user_id, $address_id, $items);
+        echo json_encode($response);
+        exit;
+        // $content = '../app/views/pages/user/order.php';
+        // $header = '../app/views/layouts/_header.php';
+        // $footer = '../app/views/layouts/_footer.php';
+        // include_once "../app/views/layouts/default2.php";
     }
     public function checkout()
     {

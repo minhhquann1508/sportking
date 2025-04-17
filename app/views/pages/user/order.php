@@ -1,3 +1,7 @@
+<?php
+$address = $user['street'].','. $user['ward'].','. $user['district'].','. $user['city'];
+
+?>
 <link rel="stylesheet" href="/app/views/pages/user/order.css">
 <main style="padding-top: 76px;">
     <div class="container">
@@ -7,9 +11,11 @@
                     <h5 class="text-uppercase">Đơn hàng</h5>
                 </div>
                 <div class="row g-3">
+                    <input type="hidden" id="user_id" value="<?=  $user['user_id']?>">
                     <div class="col-6">
                         <label for="firstName" class="form-label">Họ và tên</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="" required>
+                        <input type="text" class="form-control" id="firstName" placeholder="<?=  $user['fullname']?>"
+                            required>
                         <div class="invalid-feedback">
                             Tên phải hợp lệ.
                         </div>
@@ -18,7 +24,8 @@
                         <label for="email" class="form-label">Email</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text">@</span>
-                            <input type="text" class="form-control" id="username" required>
+                            <input type="email" class="form-control" id="username" placeholder="<?=  $user['email']?>"
+                                required>
                             <div class="invalid-feedback">
                                 Tên người dùng của bạn là bắt buộc
                             </div>
@@ -27,7 +34,7 @@
 
                     <div class="col-12 ">
                         <label for="phone" class="form-label ">Số điện thoại </label>
-                        <input type="phone" class="form-control" id="phone">
+                        <input type="phone" class="form-control" placeholder="<?=  $user['phone']?>" id="phone">
                         <div class="invalid-feedback">
                             Vui lòng nhập địa chỉ email hợp lệ để cập nhật thông tin vận chuyển.
                         </div>
@@ -40,102 +47,63 @@
                     </div>
 
                     <div class="col-12">
-<<<<<<< HEAD
-                        <div class="btn-group col-12" id="savedAddressSection">
-                            <button type="button" class="$gray-700 form-control">Địa chỉ</button>
-                            <button type="button" class="$gray-500 dropdown-toggle dropdown-toggle-split"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-=======
                         <!-- <div class="btn-group col-12" id="savedAddressSection">
                             <button type="button" class="$gray-700 form-control" id="saveAddressBtn"> Chọn địa chỉ</button>
                             <button type="button" class="$gray-500 dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
->>>>>>> 3b8c65869f9268dbf511e3d48a9be54c0b28baa2
                                 <span class="visually-hidden">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" id="savedAdressList">
                                 <li><a class="dropdown-item" class="form-label" href="#">Địa chỉ từng đặt hàng</a></li>
-                                <li><a class="dropdown-item" href="#">12d, Tân kỳ tân quý, Bình Tân , TP Hồ Chí Minh</a>
-                                </li>
+                                <li><a class="dropdown-item" href="#">12d, Tân kỳ tân quý, Bình Tân , TP Hồ Chí Minh</a></li>
                                 <li><a class="dropdown-item" href="#">55c, Quang Trung, Gò Vấp , TP Hồ Chí Minh</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="#">Separated link</a></li>
                             </ul>
-<<<<<<< HEAD
-
-=======
                             
                         </div> -->
                         <div class="form-group" id="savedAddressSection">
                             <label class="form-label">Chọn địa chỉ đã từng đặt:</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="savedAddress" value="12d, Tân kỳ tân quý, Bình Tân , TP Hồ Chí Minh">
-                                <label class="form-check-label">12d, Tân kỳ tân quý, Bình Tân , TP Hồ Chí Minh</label>
+                                <input class="form-check-input" type="radio" name="savedAddress"
+                                    value="12d, Tân kỳ tân quý, Bình Tân , TP Hồ Chí Minh">
+                                <label class="form-check-label"><?= $address?></label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="savedAddress" value="55c, Quang Trung, Gò Vấp , TP Hồ Chí Minh">
-                                <label class="form-check-label">55c, Quang Trung, Gò Vấp , TP Hồ Chí Minh</label>
+                                <input class="form-check-input" type="radio" name="savedAddress"
+                                    value="55c, Quang Trung, Gò Vấp , TP Hồ Chí Minh">
+                                <label class="form-check-label"><?= $address?></label>
                             </div>
->>>>>>> 3b8c65869f9268dbf511e3d48a9be54c0b28baa2
                         </div>
                     </div>
 
                     <div class="row d-flex mt-3 " id="newAddressSection">
                         <label for="addressInput" class="form-label">Địa chỉ 2</label>
                         <input type="text" class="form-control" id="addressInput" disabled>
-                    
 
-<<<<<<< HEAD
-                    <div class="col-6">
-                        <label for="firstName" class="form-label">Thành Phố</label>
-                        <input type="text" readonly class="form-control" value="Hồ Chí Minh">
-                    </div>
-                    <div class="col-6">
-                        <label for="username" class="form-label">Phường:</label>
-                        <div class="input-group has-validation">
 
-                            <input type="text" class="form-control" id="username" required>
-
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <label for="firstName" class="form-label">Quận:</label>
-                        <input type="text" class="form-control" id="username">
-                    </div>
-                    <div class="col-6">
-                        <label for="username" class="form-label">Đường:</label>
-                        <div class="input-group has-validation">
-=======
                         <div class="col-6">
                             <label for="firstName" class="form-label">Thành Phố</label>
-                            <input type="text" readonly class="form-control" value="Hồ Chí Minh" >
+                            <input type="text" readonly class="form-control" value="<?= $user['city']?>">
                         </div>
                         <div class="col-6">
                             <label for="username" class="form-label">Phường:</label>
                             <div class="input-group has-validation">
-                            
-                                <input type="text" class="form-control" id="username" required>
-                                
+                                <input type="text" class="form-control" placeholder="<?= $user['ward']?>" id="username"
+                                    required>
                             </div>
-                        </div>   
+                        </div>
                         <div class="col-6">
                             <label for="firstName" class="form-label">Quận:</label>
-                            <input type="text"  class="form-control" id="username" >
+                            <input type="text" class="form-control" placeholder="<?= $user['district']?>" id="username">
                         </div>
                         <div class="col-6">
                             <label for="username" class="form-label">Đường:</label>
                             <div class="input-group has-validation">
-                            
-                                <input type="text" class="form-control" id="username" required>
-                                
+
+                                <input type="text" class="form-control" placeholder="<?= $user['street']?>"
+                                    id="username" required>
+
                             </div>
-                        </div> 
-                    </div>  
->>>>>>> 3b8c65869f9268dbf511e3d48a9be54c0b28baa2
-
-                            <input type="text" class="form-control" id="username" required>
-
                         </div>
                     </div>
 
@@ -154,14 +122,53 @@
                             <span>Giá gốc</span>
                             <span>3.480.000 đ</span>
                         </li>
-                       
-                        <li class="list-group-item d-flex justify-content-between bg-light mb-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="useVoucher">
-                                <label class="form-check-label text-success" for="useVoucher">Sử dụng voucher giảm 1.000.000đ</label>
-                            </div>
-                            <span id="voucherAmount" class="text-success">−1.000.000 đ</span>
+                        <li id="select_voucher" class="list-group-item d-flex justify-content-between bg-light mb-2"
+                            data-bs-toggle="modal" data-bs-target="#voucherModal" style="cursor: pointer;">
+                            <span>🎁 Voucher của sản phẩm</span>
                         </li>
+                        <!-- Modal voucher -->
+                        <div class="modal fade" id="voucherModal" tabindex="-1" aria-labelledby="voucherModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="voucherModalLabel">Chọn Voucher</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Đóng"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <?php if (!empty($voucher['data'])): ?>
+                                        <ul class="list-group">
+                                            <?php foreach($voucher['data'] as $index => $vch): ?>
+                                            <li
+                                                class="list-group-item d-flex justify-content-between align-items-center">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="voucher_id"
+                                                        id="voucher<?= $index ?>" value="<?= $vch['voucher_id'] ?>">
+                                                    <label class="form-check-label" for="voucher<?= $index ?>">
+                                                        <?= htmlspecialchars($vch['code']) ?> - Giảm
+                                                        <?= htmlspecialchars($vch['discount_value']) ?> đ
+                                                    </label>
+                                                </div>
+                                            </li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                        <?php else: ?>
+                                        <p class="text-muted">Không có voucher nào khả dụng.</p>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Đóng</button>
+                                        <button type="button" class="btn btn-success" id="applyVoucher">Áp dụng</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                         <!-- <li class="list-group-item d-flex justify-content-between bg-light mb-2">
                             <div class="form-check">
                             <select class="form-select" aria-label="Default select example">
@@ -209,7 +216,7 @@
                             <span>Miễn phí</span>
                         </li>
                         <hr>
-                       
+
                         <li class="list-group-item d-flex justify-content-between mt-2 bg-light">
                             <strong>Tổng</strong>
                             <strong id="totalAmount">2.480.000 đ</strong>
@@ -226,10 +233,9 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-primary mt-3 w-100" id="order-submit">Thanh toán ngay</button>
-
-
-
+                    <button class="btn btn-primary mt-3 w-100" id="order-submit"><a
+                            href="?controller=home&action=checkout&id=1">Thanh toán
+                            ngay</a></button>
                 </div>
             </div>
         </div>
@@ -238,48 +244,51 @@
     </div>
 </main>
 <script>
-<<<<<<< HEAD
-$.ajax({
-    url: "?controller=order",
-    type: "POST",
-    data: orderData,
-    dataType: "json",
-    success: function(response) {
-        if (response.status === "success") {
-            alert(" Đặt hàng thành công!");
-            console.log(" Phản hồi từ server:", response);
-        } else {
-            alert("Lỗi đặt hàng: " + response.message);
-        }
-    },
-    error: function(xhr, status, error) {
-        alert(" Lỗi kết nối đến server! Hãy thử lại.");
-        console.error(" AJAX Error:", status, error);
-    },
+document.getElementById('applyVoucher').addEventListener('click', function() {
+    const selectedVoucher = document.querySelector('input[name="voucher_id"]:checked');
+    if (selectedVoucher) {
+        const voucherId = selectedVoucher.value;
+        const label = selectedVoucher.nextElementSibling.textContent;
+
+        // Gắn thông tin voucher đã chọn vào một nơi cụ thể, ví dụ:
+        document.getElementById('select_voucher').innerHTML =
+            `<span class="text-success">🎁 Đã chọn voucher: ${label}</span>`;
+
+        // Có thể thêm hidden input để gửi form
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'selected_voucher_id';
+        hiddenInput.value = voucherId;
+        document.querySelector('form')?.appendChild(hiddenInput);
+    }
+
+    // Đóng modal
+    const modal = bootstrap.Modal.getInstance(document.getElementById('voucherModal'));
+    modal.hide();
 });
+</script>
+
+<script>
+// $.ajax({
+//     url: "?controller=order", // File PHP xử lý
+//     type: "POST",
+//     data: orderData,
+//     dataType: "json",
+//     success: function (response) {
+//         if (response.status === "success") {
+//             alert(" Đặt hàng thành công!");
+//             console.log(" Phản hồi từ server:", response);
+//         } else {
+//             alert("Lỗi đặt hàng: " + response.message);
+//         }
+//     },
+//     error: function (xhr, status, error) {
+//         alert(" Lỗi kết nối đến server! Hãy thử lại.");
+//         console.error(" AJAX Error:", status, error);
+//     },
+// });
 
 $(document).ready(function() {
-=======
-    // $.ajax({
-    //     url: "?controller=order", // File PHP xử lý
-    //     type: "POST",
-    //     data: orderData,
-    //     dataType: "json",
-    //     success: function (response) {
-    //         if (response.status === "success") {
-    //             alert(" Đặt hàng thành công!");
-    //             console.log(" Phản hồi từ server:", response);
-    //         } else {
-    //             alert("Lỗi đặt hàng: " + response.message);
-    //         }
-    //     },
-    //     error: function (xhr, status, error) {
-    //         alert(" Lỗi kết nối đến server! Hãy thử lại.");
-    //         console.error(" AJAX Error:", status, error);
-    //     },
-    // });
-    $(document).ready(function () {
->>>>>>> 3b8c65869f9268dbf511e3d48a9be54c0b28baa2
     console.log("Trang đã tải xong - JS hoạt động!");
 
     // Ẩn phần nhập địa chỉ ban đầu
@@ -329,7 +338,7 @@ $(document).ready(function() {
 
 
     //khi click vào địa chỉ từng đặt
-    $("#savedAddressList.dropdown-item").on("click", function(e){
+    $("#savedAddressList.dropdown-item").on("click", function(e) {
         e.preventDefault();
         selectedSavedAddress = $(this).text().trim();
         $("#savedAddressBtn").text(selectedSavedAddress);
@@ -337,7 +346,7 @@ $(document).ready(function() {
 
     // xử lý tính tổng
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         function parseCurrency(str) {
             return parseInt(str.replace(/[^\d]/g, '')); // Bỏ ký tự không phải số
         }
@@ -348,7 +357,7 @@ $(document).ready(function() {
 
         const originalTotal = parseCurrency($("#totalAmount").text()); // Lấy số tiền gốc
 
-        $("#useVoucher").on("change", function () {
+        $("#useVoucher").on("change", function() {
             let finalTotal = originalTotal;
             if ($(this).is(":checked")) {
                 finalTotal -= 1000000;
@@ -375,70 +384,77 @@ $(document).ready(function() {
 
 
     // Khi bấm nút Thanh Toán
-    $("#order-submit").on("click", function(e) {
-        e.preventDefault();
-        console.log("Nút thanh toán được bấm!");
+    // $("#order-submit").on("click", function (e) {
+    //     e.preventDefault();
+    //     console.log("Nút thanh toán được bấm!");
 
-        let isValid = true;
+    //     let isValid = true;
 
-        isValid &= validateInput("#firstName", /^[a-zA-ZÀ-Ỹà-ỹ\s]+$/, "Tên không hợp lệ!");
-        isValid &= validateInput("#username", /^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email không hợp lệ!");
-        isValid &= validateInput("#phone", /^[0-9]{10}$/, "Số điện thoại không hợp lệ!");
+    //     isValid &= validateInput("#firstName", /^[a-zA-ZÀ-Ỹà-ỹ\s]+$/, "Tên không hợp lệ!");
+    //     isValid &= validateInput("#username", /^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Email không hợp lệ!");
+    //     isValid &= validateInput("#phone", /^[0-9]{10}$/, "Số điện thoại không hợp lệ!");
 
-        // if ($("#enterNewAddress").is(":checked")) {
-        //     isValid &= validateInput("#addressInput", /.+/, "Địa chỉ không được để trống!");
-        // }
-        if (isValid) {
-<<<<<<< HEAD
-            let orderData = {
-                fullName: $("#firstName").val(),
-                email: $("#username").val(),
-                phone: $("#phone").val(),
-                address: $("#enterNewAddress").is(":checked") ? $("#addressInput").val() :
-                    "Địa chỉ đã từng đặt",
-            };
+    //     // if ($("#enterNewAddress").is(":checked")) {
+    //     //     isValid &= validateInput("#addressInput", /.+/, "Địa chỉ không được để trống!");
+    //     // }
+    //     if (isValid) {
+    //     // Lấy dữ liệu địa chỉ
+    //     let address = "";
+    //     if ($("#enterNewAddress").is(":checked")) {
+    //         let phuong = $("#newAddressSection input").eq(1).val().trim();
+    //         let quan = $("#newAddressSection input").eq(2).val().trim();
+    //         let duong = $("#newAddressSection input").eq(3).val().trim();
+    //         address = `${duong}, ${phuong}, ${quan}, Hồ Chí Minh`;
+    //     } else {
+    //         address = "Địa chỉ đã từng đặt";
+    //     }
 
-            console.log("Dữ liệu đơn hàng:", orderData);
-            alert("✅ Đơn hàng hợp lệ, dữ liệu đã được thu thập!");
+    //     let orderData = {
+    //         fullName: $("#firstName").val(),
+    //         email: $("#username").val(),
+    //         phone: $("#phone").val(),
+    //         address: $("#enterNewAddress").is(":checked")
+    //         ? `${$("#newAddressSection input").eq(3).val().trim()}, ${$("#newAddressSection input").eq(1).val().trim()}, ${$("#newAddressSection input").eq(2).val().trim()}, Hồ Chí Minh`
+    //         : selectedSavedAddress || "Chưa chọn địa chỉ",
 
-            // Nếu muốn gửi lên server, bạn dùng AJAX:
-            // $.post("order.php", orderData, function(response) {
-            //     alert("Đặt hàng thành công!");
-            // });
-=======
-        // Lấy dữ liệu địa chỉ
-        let address = "";
-        if ($("#enterNewAddress").is(":checked")) {
-            let phuong = $("#newAddressSection input").eq(1).val().trim();
-            let quan = $("#newAddressSection input").eq(2).val().trim();
-            let duong = $("#newAddressSection input").eq(3).val().trim();
-            address = `${duong}, ${phuong}, ${quan}, Hồ Chí Minh`;
-        } else {
-            address = "Địa chỉ đã từng đặt";
->>>>>>> 3b8c65869f9268dbf511e3d48a9be54c0b28baa2
-        }
+    //     };
 
-        let orderData = {
-            fullName: $("#firstName").val(),
-            email: $("#username").val(),
-            phone: $("#phone").val(),
-            address: $("#enterNewAddress").is(":checked")
-            ? `${$("#newAddressSection input").eq(3).val().trim()}, ${$("#newAddressSection input").eq(1).val().trim()}, ${$("#newAddressSection input").eq(2).val().trim()}, Hồ Chí Minh`
-            : selectedSavedAddress || "Chưa chọn địa chỉ",
+    //     console.log("📤 Dữ liệu đơn hàng:", orderData);
+    //     alert("✅ Đơn hàng hợp lệ, dữ liệu đã được thu thập!");
 
-        };
+    //     // Nếu muốn gửi lên server
+    //     // $.post("order.php", orderData, function(response) {
+    //     //     alert("Đặt hàng thành công!");
+    //     // });
 
-        console.log("📤 Dữ liệu đơn hàng:", orderData);
-        alert("✅ Đơn hàng hợp lệ, dữ liệu đã được thu thập!");
+    //     }
 
-        // Nếu muốn gửi lên server
-        // $.post("order.php", orderData, function(response) {
-        //     alert("Đặt hàng thành công!");
-        // });
-        
-        }
 
-       
+    // });
+
+    $('#order-submit').click(() => {
+        let user_id = $('#user_id').val().trim();
+        $.ajax({
+            url: '?controller=home&action=add_orders',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                total_amount: $('#totalAmount').val(),
+                user_id: user_id,
+                address_id: 1,
+                items: [{
+                    variant_id: 21,
+                    price: 200,
+                    quantity: 2
+                }]
+            },
+            success: (res) => {
+                console.log(res);
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
     });
 });
 </script>

@@ -40,19 +40,20 @@
             $query = "SELECT * FROM $this->table ORDER BY comment_id DESC";
             $result = $this->select($query);
             if($result){
-                return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => $result];
+                return ['success' => true, 'message' => 'Lấy dữ liệu thành công', 'data' => $result];
             }else{
-                return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
+                return ['success' => false, 'message' => 'Lấy dữ liệu thất bại', 'data' => null];
             }
         }
+        
         // lấy bình luận từ id của bình luận đó 
         public function get_comment_by_id($comment_id){
             $query = "SELECT * FROM $this->table WHERE comment_id = ?";
             $result = $this->execute($query, [$comment_id]);
             if($result){
-                return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => $result];
+                return ['success' => true, 'message' => 'Lấy dữ liệu thành công', 'data' => $result];
             }else{
-                return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
+                return ['success' => false, 'message' => 'Dữ liệu hiện chưa cập nhật', 'data' => null];
             }
         }
         // thêm bình luận mới 
@@ -67,29 +68,29 @@
             }                
         }
         // Xoá bình luận
-        public function delete_comment($comment_id){
-            $query = "DELETE $this->table WHERE comment_id = :comment_id";
-            $result = &this->execute($query,['comment_id' => $comment_id]);
-            if($result){
-                return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => null];
-            }else{
-                return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
-            }
-            // Kiểm tra kết quả trả về
-            if ($result !== false && is_array($result) && !empty($result)) {
-                return [
-                    'success' => true,
-                    'message' => 'Lấy danh sách bình luận thành công',
-                    'data' => $result
-                ];
-            } else {
-                return [
-                    'success' => false,
-                    'message' => 'Không có bình luận nào',
-                    'data' => []
-                ];
-            }
-        }
+        // public function delete_comment($comment_id){
+        //     $query = "DELETE $this->table WHERE comment_id = :comment_id";
+        //     $result = &this->execute($query,['comment_id' => $comment_id]);
+        //     if($result){
+        //         return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => null];
+        //     }else{
+        //         return ['success' => false, 'message' => 'Thêm thương hiệu thất baị', 'data' => null];
+        //     }
+        //     // Kiểm tra kết quả trả về
+        //     if ($result !== false && is_array($result) && !empty($result)) {
+        //         return [
+        //             'success' => true,
+        //             'message' => 'Lấy danh sách bình luận thành công',
+        //             'data' => $result
+        //         ];
+        //     } else {
+        //         return [
+        //             'success' => false,
+        //             'message' => 'Không có bình luận nào',
+        //             'data' => []
+        //         ];
+        //     }
+        // }
         public function delete_comment($comment_id) {
             $query = "DELETE FROM $this->table WHERE comment_id = ?";
             return $this->execute($query, [$comment_id]);

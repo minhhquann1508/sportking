@@ -18,6 +18,7 @@ class CommentController {
         echo json_encode($comments);
         exit;
     }
+    
 
     public function delete_comment() {
         $comment_id = $_POST['comment_id'];
@@ -35,12 +36,12 @@ class CommentController {
         exit;
     }
 
-    public function toggle_status() {
-        $comment_id = $_POST['comment_id'];
-        $new_status = $_POST['new_status'];
-        $result = $this->commentModel->update_comment_status($comment_id, $new_status);
-        echo json_encode($result);
-        exit;
-    }
+    // public function toggle_status() {
+    //     $comment_id = $_POST['comment_id'];
+    //     $new_status = $_POST['new_status'];
+    //     $result = $this->commentModel->update_comment_status($comment_id, $new_status);
+    //     echo json_encode($result);
+    //     exit;
+    // }
 }
 ?>

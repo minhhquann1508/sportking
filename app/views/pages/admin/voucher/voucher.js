@@ -9,12 +9,11 @@ $(document).ready(function() {
     const voucherIdInput = $('#voucherId');
     const btnAddVoucher = $('#btnAddVoucher');
 
-    let currentVoucherId = null; // Lưu ID voucher khi chỉnh sửa hoặc xóa
+    let currentVoucherId = null; 
 
-    // Hàm tải danh sách voucher từ backend
     function loadVouchers() {
         $.ajax({
-            url: '<?= BASE_URL ?>/admin/voucher/getVouchers', // Đường dẫn API lấy danh sách voucher
+            url: '<?= BASE_URL ?>/admin/voucher/getVouchers', 
             type: 'GET',
             dataType: 'json',
             success: function(data) {
@@ -116,7 +115,7 @@ $(document).ready(function() {
             data: data,
             success: function(response) {
                 if (response.success) {
-                    alert(response.message);
+                    console.log('Phản hồi từ server:', response);
                     voucherModal.modal('hide');
                     loadVouchers(); // Tải lại danh sách voucher
                 } else {

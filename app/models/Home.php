@@ -80,12 +80,33 @@
         }
 
         public function get_all_order_by_user_id($user_id) {
-            $sql = "SELECT o.*, p.*, oi.*, pv.* FROM orders o 
+            $sql = "SELECT o.*, p.*, oi.*, pv.*, s.*, c.* FROM orders o 
                     JOIN order_items oi ON oi.order_id = o.order_id
                     JOIN product_variant pv ON pv.variant_id = oi.variant_id 
+                    JOIN size s ON s.size_id = pv.size_id
+                    JOIN color c ON c.color_id = pv.color_id
                     JOIN product p ON p.product_id = pv.product_id
             WHERE o.user_id = ?";
             $result = $this->select($sql, [$user_id]);
+            if($result) {
+                return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
+            } else {
+                return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
+            }
+        }
+        public function get_order_by_id($id){
+            $sql = "SELECT o.*, p.*, oi.*, pv.*, s.*, c.*, ad.*,
+                    u.fullname, u.email, u.phone
+                    FROM orders o 
+                    JOIN order_items oi ON oi.order_id = o.order_id
+                    JOIN users u ON u.user_id = o.user_id
+                    JOIN address ad ON u.user_id = ad.user_id
+                    JOIN product_variant pv ON pv.variant_id = oi.variant_id 
+                    JOIN size s ON s.size_id = pv.size_id
+                    JOIN color c ON c.color_id = pv.color_id
+                    JOIN product p ON p.product_id = pv.product_id
+            WHERE o.order_id = ?";
+            $result = $this->select($sql, [$id]);
             if($result) {
                 return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
             } else {
@@ -151,6 +172,18 @@
                 return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
             }
         }
+        public function info_user_by_id($user_id){
+            $sql = "SELECT u.phone, u.fullname, u.email, ad.*
+            FROM $this->tableUser u 
+            JOIN address ad ON ad.user_id = u.user_id
+            WHERE u.user_id =?";
+            $result = $this->select($sql, [$user_id]);
+            if($result) {
+                return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result[0]];
+            } else {
+                return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
+            }
+        }
 
         public function get_all_categorys() {
             $sql = "SELECT c.*FROM $this->tableCategory c";
@@ -163,6 +196,18 @@
         }
         public function get_all_brands() {
             $sql = "SELECT b.*FROM $this->tableBrand b";
+            $result = $this->select($sql);
+            if($result) {
+                return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
+            } else {
+                return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
+            }
+        }
+        public function get_all_voucher(){
+            $sql = "SELECT v.*
+            FROM voucher v
+            Limit 3
+            ";
             $result = $this->select($sql);
             if($result) {
                 return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
