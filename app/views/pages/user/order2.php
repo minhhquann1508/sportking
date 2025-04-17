@@ -1,5 +1,5 @@
 <?php
-print_r($_SESSION['order_list']);
+$total_price = 0;
 ?>
 <div style="padding-top: 76px;">
     <div class="container pb-5">
@@ -91,38 +91,46 @@ print_r($_SESSION['order_list']);
                     <div class="card-body">
                         <!-- List of Products -->
                         <ul class="list-group mb-3">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="my-0">Sản phẩm 1</h6>
-                                    <small class="text-muted">Số lượng: 2</small>
+                            <?php 
+                                $subtotal = 0;
+                                foreach ($orders as $index => $product): 
+                                    $total_price = $product['price'] * $product['quantity'];
+                                    $subtotal += $total_price;
+                            ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="d-flex gap-3">
+                                    <img src="<?php echo $product['thumbnail']; ?>"
+                                        alt="<?php echo $product['product_name']; ?>" width="60" height="60"
+                                        style="object-fit: contain; border-radius: 6px;">
+                                    <div>
+                                        <h6 class="mb-1"><?php echo $product['product_name']; ?></h6>
+                                        <small class="text-muted">Số lượng:
+                                            <?php echo $product['quantity']; ?></small><br>
+                                        <small class="text-muted">Size: <?php echo $product['size_name']; ?></small><br>
+                                        <small class="text-muted">Màu sắc: <?php echo $product['color_name']; ?></small>
+                                    </div>
                                 </div>
-                                <span class="text-muted">500.000đ</span>
+                                <small
+                                    class="text-muted"><?php echo number_format($total_price, 0, ',', '.') . 'đ'; ?></small>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="my-0">Sản phẩm 2</h6>
-                                    <small class="text-muted">Số lượng: 1</small>
-                                </div>
-                                <span class="text-muted">300.000đ</span>
-                            </li>
+                            <?php endforeach; ?>
                         </ul>
 
                         <!-- Subtotal -->
                         <div class="d-flex justify-content-between">
                             <span>Tạm tính:</span>
-                            <strong>800.000đ</strong>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span>Phí giao hàng:</span>
-                            <strong>30.000đ</strong>
+                            <strong><?php echo number_format($total_price, 0, ',', '.') . 'đ'; ?></strong>
                         </div>
                         <hr>
                         <div class="d-flex justify-content-between fs-5">
                             <span>Tổng cộng:</span>
-                            <strong>830.000đ</strong>
+                            <strong>
+                                <strong
+                                    id="total_amount"><?php echo number_format($total_price, 0, ',', '.'); ?></strong><strong>đ</strong>
+                            </strong>
                         </div>
 
-                        <button class="btn btn-primary w-100 mt-4">Đặt hàng</button>
+                        <button class="btn btn-primary w-100 mt-4" id="add-btn">Đặt hàng</button>
                     </div>
                 </div>
             </div>
@@ -142,4 +150,28 @@ document.getElementById('saved-address').addEventListener('change', function() {
         customAddress.style.display = 'none';
     }
 });
+
+$('#add-btn').click(() => {
+    const total_amount = Number($('#total_amount').text().replace(/\./g, ''));
+    const address_id = $('#saved-address').val();
+    if (address_id !== '' && address_id !== 'other') {
+        $.ajax({
+            url: '?controller=order&action=add_order',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                address_id: address_id,
+                total_amount: total_amount
+            },
+            success: (res) => {
+                const order_id = res.data.order_id
+                showToast('Đặt hàng thành công');
+                window.location.href = `?controller=home&action=checkout&order_id=${order_id}`
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
+    }
+})
 </script>
