@@ -21,16 +21,16 @@ $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
                     <div class="me-2 d-flex gap-2 h-100" style="flex-direction: column; width: 80px;">
                         <?php
                         $content = '';
-                            foreach ($variantData[0]['images'] as $img) {
-                                $content .= '<div class="position-relative flex-grow-1" onclick="changeImage(this, \'' . $img. '\')">
+                        foreach ($variantData[0]['images'] as $img) {
+                            $content .= '<div class="position-relative flex-grow-1" onclick="changeImage(this, \'' . $img . '\')">
                                     <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
                                         style="cursor: pointer;"></div>
                                     <img height="120" width="80" class="w-100" style="object-fit: contain;"
-                                        src="'.$img.'"
+                                        src="' . $img . '"
                                         alt="">
                                 </div>';
-                            }
-                            echo $content;
+                        }
+                        echo $content;
                         ?>
                     </div>
                     <div style="width: 100%; height: 100%">
@@ -62,21 +62,21 @@ $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
                     <p style="line-height: 1.6;"><?php echo $product['data'][0]['sub_desc'] ?>
                     </p>
                     <div class="d-flex gap-2 mb-3">
-                        <?php 
-                            foreach ($variantData as $variant) {
-                                $colors = $variant['colors'];
-                                foreach ($colors as $color) {
-                                    echo '
+                        <?php
+                        foreach ($variantData as $variant) {
+                            $colors = $variant['colors'];
+                            foreach ($colors as $color) {
+                                echo '
                                         <button class="btn btn-sm border d-flex align-items-center gap-2 color-btn"
-                                            data-color-id="'.$color['color_id'].'>">
+                                            data-color-id="' . $color['color_id'] . '>">
                                             <p class="m-0"
-                                                style="width: 18px; height: 18px; background-color: '.$color['color_hex'].';">
+                                                style="width: 18px; height: 18px; background-color: ' . $color['color_hex'] . ';">
                                             </p>
-                                            <span>'.$color['color_name'].'</span>
+                                            <span>' . $color['color_name'] . '</span>
                                         </button>
                                     ';
-                                }
                             }
+                        }
                         ?>
 
                     </div>
@@ -85,13 +85,13 @@ $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
                         <select style="width: 200px;" id="size-input" class="form-select"
                             aria-label="Default select example">
                             <option selected>Vui lòng chọn size</option>
-                            <?php 
-                                foreach ($variantData as $variant) {
-                                    $sizes = $variant['sizes'];
-                                    foreach ($sizes as $size) {
-                                        echo '<option value="'.$size['size_id'].'">'.$size['size_name'].'</option>';
-                                    }
+                            <?php
+                            foreach ($variantData as $variant) {
+                                $sizes = $variant['sizes'];
+                                foreach ($sizes as $size) {
+                                    echo '<option value="' . $size['size_id'] . '">' . $size['size_name'] . '</option>';
                                 }
+                            }
                             ?>
                         </select>
                     </div>
@@ -145,31 +145,31 @@ $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
             <h4>Đánh giá sản phẩm</h4>
             <hr>
             <?php if (!empty($comments) && is_array($comments)): ?>
-            <?php foreach ($comments as $comment): ?>
-            <div class="row">
-                <div class="col-2 text-start pe-0 mt-1">
-                    <strong style="font-size: 14px;">
-                        <?= $comment['fullname'] ?>
-                    </strong>
-                    <br>
-                    <small><?= date('d/m/Y', strtotime($comment['ngay_binh_luan'])) ?></small>
-                </div>
-                <div class="col-10 ps-0">
-                    <div class="flex">
-                        <?php
+                <?php foreach ($comments as $comment): ?>
+                    <div class="row">
+                        <div class="col-2 text-start pe-0 mt-1">
+                            <strong style="font-size: 14px;">
+                                <?= $comment['fullname'] ?>
+                            </strong>
+                            <br>
+                            <small><?= date('d/m/Y', strtotime($comment['ngay_binh_luan'])) ?></small>
+                        </div>
+                        <div class="col-10 ps-0">
+                            <div class="flex">
+                                <?php
                                 for ($i = 1; $i <= $comment['rating']; $i++) {
                                     echo '<i class="fa-solid fa-star" style="font-size: 10px; color: orange"></i>';
                                 }
                                 ?>
+                            </div>
+                            <small style="line-height: 1.6;">
+                                <?= htmlspecialchars($comment['content'] ?? 'Không có nội dung bình luận.') ?>
+                            </small>
+                        </div>
                     </div>
-                    <small style="line-height: 1.6;">
-                        <?= htmlspecialchars($comment['content'] ?? 'Không có nội dung bình luận.') ?>
-                    </small>
-                </div>
-            </div>
-            <?php endforeach; ?>
+                <?php endforeach; ?>
             <?php else: ?>
-            <p>Chưa có bình luận nào.</p>
+                <p>Chưa có bình luận nào.</p>
             <?php endif; ?>
         </div>
     </section>
@@ -182,75 +182,75 @@ $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
     </section>
 </main>
 <script>
-let selectedColorId = null;
-document.querySelectorAll('.color-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        selectedColorId = this.getAttribute('data-color-id');
+    let selectedColorId = null;
+    document.querySelectorAll('.color-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            selectedColorId = this.getAttribute('data-color-id');
+        });
     });
-});
-const handleChangeQuantity = (status) => {
-    const quantitySpan = document.getElementById('quantity');
-    let quantity = Number(quantitySpan.textContent);
+    const handleChangeQuantity = (status) => {
+        const quantitySpan = document.getElementById('quantity');
+        let quantity = Number(quantitySpan.textContent);
 
-    if (status) {
-        quantity += 1;
-    } else {
-        if (quantity > 1) {
-            quantity -= 1;
+        if (status) {
+            quantity += 1;
         } else {
-            return;
+            if (quantity > 1) {
+                quantity -= 1;
+            } else {
+                return;
+            }
         }
+        quantitySpan.textContent = quantity;
     }
-    quantitySpan.textContent = quantity;
-}
 
-const changeImage = (e, img) => {
-    document.querySelector('.product-thumbnail').classList.remove("fade-in");
-    const overPlays = document.querySelectorAll('.overplay');
-    overPlays.forEach(overPlay => overPlay.style.display = 'block');
-    const overPlay = e.querySelector('.overplay');
-    overPlay.style.display = 'none';
-    document.querySelector('.product-thumbnail').src = img;
-    setTimeout(() => {
-        document.querySelector('.product-thumbnail').classList.add("fade-in");
-    }, 10);
-}
+    const changeImage = (e, img) => {
+        document.querySelector('.product-thumbnail').classList.remove("fade-in");
+        const overPlays = document.querySelectorAll('.overplay');
+        overPlays.forEach(overPlay => overPlay.style.display = 'block');
+        const overPlay = e.querySelector('.overplay');
+        overPlay.style.display = 'none';
+        document.querySelector('.product-thumbnail').src = img;
+        setTimeout(() => {
+            document.querySelector('.product-thumbnail').classList.add("fade-in");
+        }, 10);
+    }
 
-$('#add-btn').click((e) => {
-    const quantity = $('#quantity').text();
-    const size = $('#size-input').val();
-    const product_id = $('#product-id').val();
-    $.ajax({
-        url: `?controller=variant&action=get_variant_item&product_id=${product_id}&color_id=${selectedColorId}&size_id=${size}`,
-        method: 'GET',
-        dataType: 'json',
-        success: (res) => {
-            console.log(res);
-            const variant = {
-                ...res.data,
-                quantity: Number(quantity)
-            };
-            // Thêm vào giỏ
-            $.ajax({
-                url: '?controller=cart&action=add',
-                method: 'POST',
-                dataType: 'json',
-                data: {
-                    product_id: product_id,
-                    variant
-                },
-                success: (res) => {
-                    updateCartQuantitySpan()
-                    showToast('Thêm vào giỏ thành công')
-                },
-                error: (err) => {
-                    console.log(err);
-                }
-            })
-        },
-        error: (err) => {
-            console.log(err);
-        }
+    $('#add-btn').click((e) => {
+        const quantity = $('#quantity').text();
+        const size = $('#size-input').val();
+        const product_id = $('#product-id').val();
+        $.ajax({
+            url: `?controller=variant&action=get_variant_item&product_id=${product_id}&color_id=${selectedColorId}&size_id=${size}`,
+            method: 'GET',
+            dataType: 'json',
+            success: (res) => {
+                console.log(res);
+                const variant = {
+                    ...res.data,
+                    quantity: Number(quantity)
+                };
+                // Thêm vào giỏ
+                $.ajax({
+                    url: '?controller=cart&action=add',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        product_id: product_id,
+                        variant
+                    },
+                    success: (res) => {
+                        updateCartQuantitySpan()
+                        showToast('Thêm vào giỏ thành công')
+                    },
+                    error: (err) => {
+                        console.log(err);
+                    }
+                })
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
     })
-})
 </script>
