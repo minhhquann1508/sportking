@@ -12,45 +12,33 @@ $desc = $productData['desc'] ?? 'Không có mô tả chi tiết';
 $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
 ?>
 
-
 <main style="padding-top: 76px;">
     <section class="py-4">
         <div class="container">
             <input type="hidden" id="product-id" value="<?php echo $productData['product_id'] ?>">
-            <!-- <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-                    <li class="breadcrumb-item fw-bold">Chi tiết sản phẩm</li>
-                    <li class="breadcrumb-item  fw-bold">Áo thể thao chống thấm hút mồ hôi</li>
-                </ol>
-            </nav> -->
             <div class="row">
-                <div class="col-5 d-flex">
+                <div class="col-6 d-flex">
                     <div class="me-2 d-flex gap-2 h-100" style="flex-direction: column; width: 80px;">
                         <?php
                         $content = '';
-                        if (!empty($variant['data'])):
-                            foreach ($variant['data'] as $img) {
-                                $image_url = !empty($img['image_url']) ? $img['image_url'] : 'https://placehold.co/400x600';
-                                $content .= '<div class="position-relative flex-grow-1" onclick="changeImage(this, \'' . $image_url . '\')">
-                                            <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
-                                                style="cursor: pointer;"></div>
-                                            <img height="120" width="80" class="w-100"
-                                                src="' . $image_url . '"
-                                                alt="">
-                                        </div>';
+                            foreach ($variantData[0]['images'] as $img) {
+                                $content .= '<div class="position-relative flex-grow-1" onclick="changeImage(this, \'' . $img. '\')">
+                                    <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
+                                        style="cursor: pointer;"></div>
+                                    <img height="120" width="80" class="w-100" style="object-fit: contain;"
+                                        src="'.$img.'"
+                                        alt="">
+                                </div>';
                             }
                             echo $content;
-                        endif;
                         ?>
-
                     </div>
-                    <div style="width: 420px; height: 100%">
-                        <img id="thumbnail" class="product-thumbnail fade-in w-100 h-100" src="<?php echo $thumbnail ?>"
-                            alt="">
+                    <div style="width: 100%; height: 100%">
+                        <img id="thumbnail" class="product-thumbnail fade-in w-100 h-100" style="object-fit: contain;"
+                            src="<?php echo $thumbnail ?>" alt="">
                     </div>
                 </div>
-                <div class="col-7">
+                <div class="col-6">
                     <h3 class="text-uppercase" style="font-weight: 500;">
                         <?php echo $product['data'][0]['product_name'] ?></h3>
                     <h4 style="font-weight: 200;" class="d-flex align-items-center gap-3">
@@ -74,32 +62,37 @@ $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
                     <p style="line-height: 1.6;"><?php echo $product['data'][0]['sub_desc'] ?>
                     </p>
                     <div class="d-flex gap-2 mb-3">
-                        <?php if (!empty($variant['data'])): ?>
-                        <?php foreach ($variant['data'] as $data) : ?>
-                        <!-- <button class="btn btn-sm border d-flex align-items-center gap-2">
-                            <p class="m-0"
-                                style="width: 18px; height: 18px; background-color: <?php echo $data['color_hex'] ?>;">
-                            </p>
-                            <span><?php echo $data['color_name'] ?></span>
-                        </button> -->
-                        <button class="btn btn-sm border d-flex align-items-center gap-2 color-btn"
-                            data-color-id="<?php echo $data['color_id'] ?>">
-                            <p class="m-0"
-                                style="width: 18px; height: 18px; background-color: <?php echo $data['color_hex'] ?>;">
-                            </p>
-                            <span><?php echo $data['color_name'] ?></span>
-                        </button>
-                        <?php endforeach; ?>
-                        <?php endif; ?>
+                        <?php 
+                            foreach ($variantData as $variant) {
+                                $colors = $variant['colors'];
+                                foreach ($colors as $color) {
+                                    echo '
+                                        <button class="btn btn-sm border d-flex align-items-center gap-2 color-btn"
+                                            data-color-id="'.$color['color_id'].'>">
+                                            <p class="m-0"
+                                                style="width: 18px; height: 18px; background-color: '.$color['color_hex'].';">
+                                            </p>
+                                            <span>'.$color['color_name'].'</span>
+                                        </button>
+                                    ';
+                                }
+                            }
+                        ?>
+
                     </div>
 
                     <div class="mb-3">
                         <select style="width: 200px;" id="size-input" class="form-select"
                             aria-label="Default select example">
                             <option selected>Vui lòng chọn size</option>
-                            <?php foreach ($variant['data'] as $data) : ?>
-                            <option value="<?php echo $data['size_id'] ?>"><?php echo $data['size_name'] ?></option>
-                            <?php endforeach; ?>
+                            <?php 
+                                foreach ($variantData as $variant) {
+                                    $sizes = $variant['sizes'];
+                                    foreach ($sizes as $size) {
+                                        echo '<option value="'.$size['size_id'].'">'.$size['size_name'].'</option>';
+                                    }
+                                }
+                            ?>
                         </select>
                     </div>
                     <div class="d-flex align-items-center border rounded mb-3" style="width: fit-content;">

@@ -2,6 +2,7 @@
 require_once '../app/models/Home.php';
 require_once '../app/models/Products.php';
 require_once '../app/models/Brand.php';
+require_once '../app/models/Order.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
 require_once '../app/models/Blog.php';
@@ -16,6 +17,7 @@ class HomeController
     private $blogModel;
     private $homeModel;
     private $userModel;
+    private $orderModel;
     private $sizeModel;
     private $colorModel;
     private $variantModel;
@@ -26,6 +28,8 @@ class HomeController
         $this->brandModel = new Brand();
         $this->blogModel = new Blog();
         $this->categoryModel = new Category();
+        $this->userModel = new User();
+        $this->orderModel = new Order();
         $this->variantModel = new Variant();
         $this->userModel = new User();
         $this->sizeModel = new Size();
@@ -53,7 +57,6 @@ class HomeController
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
-
     public function blogdetail()
     {
         $id = $_GET['id'];
@@ -197,6 +200,23 @@ class HomeController
 
     public function order()
     {
+        $content = '../app/views/pages/user/order.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
+    }
+
+    public function add_orders() {
+       
+        // Lấy thông tin
+        $total_amount = $_POST['total_amount'];
+        $user_id = $_POST['user_id'];
+        $address_id = $_POST['address_id']; // sửa đúng chính tả
+        $items = $_POST['items'];
+        // Gọi model để thêm đơn hàng
+        $response = $this->orderModel->add_order($total_amount, $user_id, $address_id, $items);
+        echo json_encode($response);
+        exit;
         $content = '../app/views/pages/user/order.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';

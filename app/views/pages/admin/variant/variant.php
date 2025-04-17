@@ -1,5 +1,6 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <h5>Danh sách biến thể</h5>
+    <h5>Danh sách biến thể <?php echo $product['product_name']; ?></h5>
+    <input type="hidden" id="product_id" value="<?php echo $product['product_id']; ?>">
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
         Thêm biến thể
     </button>
@@ -8,7 +9,6 @@
     <table class="table table-bordered border-dark">
         <thead>
             <tr>
-                <th scope="col" class="fw-bold">Tên sản phẩm</th>
                 <th scope="col" class="fw-bold text-center">Hình ảnh</th>
                 <th scope="col" class="fw-bold text-center">Giá (VNĐ)</th>
                 <th scope="col" class="fw-bold text-center">Tồn kho</th>
@@ -222,7 +222,6 @@ const renderList = (variants) => {
         ).join('');
         return `
             <tr>
-                <td>${variant.product_name}</td>
                 <td>${imgs}</td>
                 <td class="text-center">${Number(variant.price).toLocaleString()}</td>
                 <td class="text-center">${variant.stock}</td>
@@ -337,8 +336,9 @@ $('#add-btn').click(async (e) => {
 })
 
 const fetchListVariant = () => {
+    const id = $('#product_id').val();
     $.ajax({
-        url: '?controller=variant&action=get_all',
+        url: `?controller=variant&action=get_all&product_id=${id}`,
         method: 'GET',
         dataType: 'json',
         success: (response) => {
