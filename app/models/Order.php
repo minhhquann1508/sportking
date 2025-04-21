@@ -6,13 +6,28 @@ class Order extends Database {
     private $table_item = "order_items";
     
 
+<<<<<<< Updated upstream
     public function add_order($total_amount, $user_id, $address_id, $items) {
         $voucher_id = null;
+=======
+    public function add_order($user_id, $address_id, $voucher_id,$total_amount,$items) {
+        $voucher_id = 1;
+>>>>>>> Stashed changes
         // 1. Thêm đơn hàng
-        $sql = "INSERT INTO {$this->table} (total_amount, user_id, address_id, voucher_id)
-                VALUES (?, ?, ?,?)";
+        $sql = "INSERT INTO {$this->table} ( user_id, address_id, voucher_id,total_amount)
+                VALUES (?, ?, ?, ?)";         
         
-        $response = $this->execute($sql, [$total_amount, $user_id, $address_id, $voucher_id]);
+        // order_id,total_amount,order_date,status,user_id,address_id,voucher_id,
+
+
+        try {    $response = $this->execute($sql, [$user_id, $address_id, $voucher_id,$total_amount]);
+        } catch (PDOException $e) {
+            die("Kết nối thất bại: " . $e->getMessage());
+        }
+        echo("DONE");
+
+
+        // $response = $this->execute($sql, [$user_id, $address_id, $voucher_id,$total_amount,$items]);
         
         if ($response) {
             $order_id = $this->lastInsertId();

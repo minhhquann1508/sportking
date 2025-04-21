@@ -9,6 +9,11 @@ require_once '../app/models/Blog.php';
 require_once '../app/models/Size.php';
 require_once '../app/models/Color.php';
 require_once '../app/models/Variant.php';
+<<<<<<< Updated upstream
+=======
+require_once '../app/models/Address.php';
+require_once '../app/models/Voucher.php';
+>>>>>>> Stashed changes
 class HomeController
 {
     private $productModel;
@@ -21,6 +26,11 @@ class HomeController
     private $sizeModel;
     private $colorModel;
     private $variantModel;
+<<<<<<< Updated upstream
+=======
+    private $addressModel;
+    private $voucherModel;
+>>>>>>> Stashed changes
     public function __construct()
     {
         $this->homeModel = new Home();
@@ -34,6 +44,11 @@ class HomeController
         $this->userModel = new User();
         $this->sizeModel = new Size();
         $this->colorModel = new Color();
+<<<<<<< Updated upstream
+=======
+        $this->addressModel = new Address();
+        $this->voucherModel = new Voucher();
+>>>>>>> Stashed changes
     }
     public function index()
     {
@@ -210,6 +225,7 @@ class HomeController
 
     public function order()
     {
+<<<<<<< Updated upstream
         $content = '../app/views/pages/user/order.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -218,13 +234,43 @@ class HomeController
 
     public function add_orders() {
        
+=======
+        if (isset($_SESSION['user']['user_id'])) {
+            $id = $_SESSION['user']['user_id'];
+            $orders = [];
+            foreach ($_SESSION['order_list'] as $item) {
+                $variant_item = $this->variantModel->get_variant_by_id($item['id'])['data'];
+                $variant_item['quantity'] = $item['quantity'];
+                $orders[] = $variant_item;
+            }
+            $voucher = $this->voucherModel->getVouchers();
+            $address = $this->addressModel->get_address_by_user_id($id)['data'];
+            $content = '../app/views/pages/user/order2.php';
+            $header = '../app/views/layouts/_header.php';
+            $footer = '../app/views/layouts/_footer.php';
+            include_once "../app/views/layouts/default2.php";
+        } else {
+            echo "Bạn chưa đăng nhập!";
+        }
+        
+    }
+
+    public function add_orders()
+    {
+
+        $rawData = file_get_contents("php://input");
+        $postData = json_decode($rawData, true);
+
+>>>>>>> Stashed changes
         // Lấy thông tin
-        $total_amount = $_POST['total_amount'];
-        $user_id = $_POST['user_id'];
-        $address_id = $_POST['address_id']; // sửa đúng chính tả
-        $items = $_POST['items'];
+        $total_amount = $postData['total_amount'];
+        $user_id = $postData['user_id'];
+        $address_id = $postData['address_id']; // sửa đúng chính tả
+        $items = $postData['items'];
+        $voucher_id = $postData['voucher_id'];
         // Gọi model để thêm đơn hàng
-        $response = $this->orderModel->add_order($total_amount, $user_id, $address_id, $items);
+        $response = $this->orderModel->add_order($user_id, $address_id, $voucher_id,$total_amount,$items);
+
         echo json_encode($response);
         exit;
         $content = '../app/views/pages/user/order.php';
@@ -232,6 +278,9 @@ class HomeController
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+
+
+
     public function checkout()
     {
         $content = '../app/views/pages/user/checkout.php';
