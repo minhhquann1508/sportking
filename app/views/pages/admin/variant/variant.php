@@ -27,7 +27,6 @@
     <div class="col">
         <select class="form-select" id="size_id" name="size_id">
             <option value="">Màu sắc</option>
-
         </select>
     </div>
 

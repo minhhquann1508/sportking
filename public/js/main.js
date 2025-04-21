@@ -87,6 +87,20 @@ const updateCartQuantitySpan = () => {
   });
 };
 
+function uploadToCloudinary(formData) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "https://api.cloudinary.com/v1_1/dtdkm7cjl/image/upload",
+      method: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: (res) => resolve(res),
+      error: (err) => reject(err),
+    });
+  });
+}
+
 $(document).ready(() => {
   updateCartQuantitySpan();
 });
