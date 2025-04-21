@@ -124,11 +124,6 @@ $blog = [
     </div>
 </section>
 
-
-<?php print_r($variant_list) ?>
-
-
-
 <div class="container my-5">
     <p class="mb-1" style="font-size:18px; font-weight:550;color:#BD844C">Sản phẩm của chúng tôi</p>
     <div class="d-flex justify-content-between align-items-center">
@@ -147,7 +142,7 @@ $blog = [
             </li>
         </ul>
     </div>
-
+    <?php print_r($variant_list) ?>
     <!-- Tab Content -->
     <div class="tab-content mt-3">
         <div class="tab-pane fade show active" id="flashSale">

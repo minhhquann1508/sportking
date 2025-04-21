@@ -44,15 +44,43 @@ class HomeController
         $brands = $this->homeModel->get_all_brands();
         $variant_list = $this->variantModel->get_variant_list();
 
+
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/home2.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+    public function get_variant()
+    {
+        if (isset($_POST['variant_id'])) {
+            $variant_id = $_POST['variant_id'];
+
+            $variant = $this->variantModel->get_variant_by_id($variant_id);
+
+            if ($variant) {
+                echo json_encode([
+                    'success' => true,
+                    'data' => $variant
+                ]);
+            } else {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Khong tim thay so luong.'
+                ]);
+            }
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Thieu tham so.'
+            ]);
+        }
+    }
     public function product_detail()
     {
         $variant_id = $_GET['variant_id'] ?? null;
+        $product_id = $_GET['product_id'] ?? null;
         $variant_detail = $this->variantModel->get_all_variant_by_id($variant_id);
+        $variant_detail_list = $this->productModel->get_all_variants_by_product_id($product_id);
         $variant_list = $this->variantModel->get_variant_list();
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/detail.php';

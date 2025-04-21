@@ -56,7 +56,6 @@ class Variant extends Database
                     ];
                 }
 
-
                 $colorKey = $row['color_id'];
                 if (!isset($colors[$colorKey])) {
                     $colors[$colorKey] = [
@@ -101,33 +100,44 @@ class Variant extends Database
     public function get_variant_list()
     {
         $sql = "SELECT 
-                    v.variant_id,
-                    v.price,
-                    v.stock,
-                    p.product_name,
-                    c.category_name,
-                    b.brand_name,
-                    co.color_name,
-                    co.color_hex,
-                    s.size_name,
-                    i.image_url
-                FROM product_variant v
-                INNER JOIN (
-                    SELECT product_id, MIN(variant_id) AS first_variant_id
-                    FROM product_variant
-                    GROUP BY product_id
-                ) first_variants ON v.variant_id = first_variants.first_variant_id
-                INNER JOIN product p ON p.product_id = v.product_id
-                INNER JOIN category c ON c.category_id = p.category_id
-                INNER JOIN brands b ON b.brand_id = p.brand_id
-                INNER JOIN color co ON co.color_id = v.color_id
-                INNER JOIN size s ON s.size_id = v.size_id
-                LEFT JOIN (
-                    SELECT vi.variant_id, MIN(vi.image_url) AS image_url
-                    FROM variant_image vi
-                    GROUP BY vi.variant_id
-                ) i ON i.variant_id = v.variant_id;
+            v.variant_id,
+            v.price,
+            v.stock,
+            p.product_name,
+            p.product_id,
+            c.category_name,
+            b.brand_name,
+            co.color_name,
+            co.color_hex,
+            s.size_name,
+            i.image_url
+        FROM product_variant v
+        -- Lấy variant_id nhỏ nhất cho mỗi product
+        INNER JOIN (
+            SELECT product_id, MIN(variant_id) AS first_variant_id
+            FROM product_variant
+            GROUP BY product_id
+        ) first_variants ON v.variant_id = first_variants.first_variant_id
+
+        -- Join thông tin sản phẩm
+        INNER JOIN product p ON p.product_id = v.product_id
+        INNER JOIN category c ON c.category_id = p.category_id
+        INNER JOIN brands b ON b.brand_id = p.brand_id
+        INNER JOIN color co ON co.color_id = v.color_id
+        INNER JOIN size s ON s.size_id = v.size_id
+
+        -- Lấy ảnh có image_id nhỏ nhất cho mỗi variant
+        LEFT JOIN (
+            SELECT vi1.variant_id, vi1.image_url
+            FROM variant_image vi1
+            INNER JOIN (
+                SELECT variant_id, MIN(image_id) AS min_image_id
+                FROM variant_image
+                GROUP BY variant_id
+            ) vi2 ON vi1.variant_id = vi2.variant_id AND vi1.image_id = vi2.min_image_id
+        ) i ON i.variant_id = v.variant_id;
                 ";
+
         $response = $this->select($sql);
         if ($response) {
             return ['success' => true, 'message' => 'Thêm thành công', 'data' => $response];

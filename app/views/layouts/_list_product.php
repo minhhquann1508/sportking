@@ -11,6 +11,7 @@ function render_list_product($data)
         $productName = $product['product_name'];
         $brand = $product['brand_name'];
         $variantId = $product['variant_id'];
+        $productId = $product['product_id'];
 ?>
         <div class="product-card">
             <div class="">
@@ -18,7 +19,7 @@ function render_list_product($data)
                 <div class="product-actions">
                     <ul class="product-icons">
                         <li>
-                            <a class="" href="http://localhost/sportking/public/?controller=home&action=product_detail&variant_id=<?= $variantId ?>"><i class="fa-solid fa-cart-shopping"></i></a>
+                            <a class="" href="http://localhost/sportking/public/?controller=home&action=product_detail&product_id=<?= $productId ?>&variant_id=<?= $variantId ?>"><i class="fa-solid fa-cart-shopping"></i></a>
                         </li>
                         <li>
                             <a href="#" class="quick-view-btn" data-variant-id="<?= $variantId ?>" data-bs-toggle="modal" data-bs-target="#quickViewModal">
@@ -26,13 +27,13 @@ function render_list_product($data)
                             </a>
                         </li>
                         <li>
-                            <a class="" href="http://localhost/sportking/public/?controller=home&action=product_detail&variant_id=<?= $variantId ?>"><i class="fa-regular fa-heart"></i></a>
+                            <a class="" href="http://localhost/sportking/public/?controller=home&action=product_detail&product_id=<?= $productId ?>&variant_id=<?= $variantId ?>"><i class="fa-regular fa-heart"></i></a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div style="padding: 10px;">
-                <a href="http://localhost/sportking/public/?controller=home&action=product_detail&variant_id=<?= $variantId ?>" style="font-size: 16px; margin: 0;"><?= $productName ?></a>
+                <a href="http://localhost/sportking/public/?controller=home&action=product_detail&product_id=<?= $productId ?>&variant_id=<?= $variantId ?>" style="font-size: 16px; margin: 0;"><?= $productName ?></a>
                 <p style="font-size: 14px;margin: 0;" class="text-muted mb-2"><?= $brand ?></p>
                 <p style="font-size: 16px; font-weight: 600; margin: 0;">đ<?= number_format($price, 0, ',', '.') ?></p>
             </div>

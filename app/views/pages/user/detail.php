@@ -3,8 +3,9 @@
 
 <?php
 print_r($variant_detail);
+print_r($variant_detail_list);
+echo '<br>';
 ?>
-
 <main style="padding-top: 76px;">
     <section class="py-4">
         <div class="container">
@@ -51,16 +52,52 @@ print_r($variant_detail);
                     <strong>Mô tả ngắn</strong>
                     <p style="line-height: 1.6;"><?php echo $variant_detail['data'][0]['sub_desc'] ?>
                     </p>
-                    <div class="d-flex gap-2 mb-3">
+                    <style>
+                        .color-btn.active,
+                        .size-btn.active {
+                            border: 2px solid #ff5722;
+                            background-color: #ffe9e0;
+                            color: #ff5722;
+                            font-weight: bold;
+                            transition: all 0.3s ease;
+                        }
+
+                        .color-btn,
+                        .size-btn {
+                            cursor: pointer;
+                            border: 1px solid #ddd;
+                            padding: 8px 12px;
+                            border-radius: 6px;
+                            background-color: #fff;
+                            margin-right: 8px;
+                            transition: all 0.2s ease;
+                        }
+                    </style>
+                    <div class="d-flex gap-3 mb-2">
                         <?php
-                        $colors = $variant_detail['data'][0]['colors'];
+                        $colors = $variant_detail_list['data']['colors'];
+                        $variants = $variant_detail_list['data']['variants'];
+                        $product_id = $_GET['product_id'];
+
+                        $default_variant_id = $variant_detail['data'][0]['variant_id'];
+
+                        $colorToVariant = [];
+                        foreach ($variants as $variant) {
+                            $colorToVariant[$variant['color_id']] = $variant['variant_id'];
+                        }
+
                         foreach ($colors as $color) {
+                            $color_id = $color['color_id'];
+                            $variant_id = $colorToVariant[$color_id] ?? null;
+                            $isActive = ($variant_id == $default_variant_id) ? 'active' : '';
+
                             echo '
-                                <button class="btn btn-sm border d-flex align-items-center gap-2 color-btn"
-                                    data-color-id="' . $color['color_id'] . '">
+                                <button class="btn d-flex align-items-center gap-2 color-btn ' . $isActive . '" 
+                                        data-variant-id="' . $variant_id . '"
+                                        data-color-id="' . $color_id . '"
+                                        style="text-decoration: none; color: inherit;">
                                     <p class="m-0"
-                                        style="width: 18px; height: 18px; background-color: ' . $color['color_hex'] . '; border-radius: 50%;">
-                                    </p>
+                                    style="width: 18px; height: 18px; background-color: ' . $color['color_hex'] . '; border-radius: 50%;"></p>
                                     <span>' . $color['color_name'] . '</span>
                                 </button>
                             ';
@@ -69,18 +106,87 @@ print_r($variant_detail);
 
                     </div>
 
-                    <div class="mb-3">
-                        <select style="width: 200px;" id="size-input" class="form-select"
-                            aria-label="Default select example">
-                            <option selected>Vui lòng chọn size</option>
-                            <?php
-                            $sizes = $variant_detail['data'][0]['sizes'];
-                            foreach ($sizes as $size) {
-                                echo '<option value="' . $size['size_id'] . '">' . $size['size_name'] . '</option>';
-                            }
-                            ?>
-                        </select>
+                    <div class="d-flex gap-3 mb-2" id="size-buttons">
+                        <?php
+                        $sizes = $variant_detail_list['data']['sizes'];
+                        foreach ($sizes as $size) {
+                            echo '
+                                <button class="btn btn-outline-dark size-btn" data-size-id="' . $size['size_id'] . '">' . $size['size_name'] . '</button>
+                            ';
+                        }
+                        ?>
                     </div>
+
+                    <div id="stock-info"></div>
+                    <script>
+                        let selectedVariantId = document.querySelector('.color-btn.active')?.dataset.variantId;
+                        let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId;
+                        let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId;
+
+                        document.querySelectorAll('.color-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+
+                                selectedVariantId = this.dataset.variantId;
+                                selectedColorId = this.dataset.colorId;
+
+                                if (selectedSizeId) {
+                                    fetchStock();
+                                }
+                            });
+                        });
+
+                        document.querySelectorAll('.size-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+
+                                selectedSizeId = this.dataset.sizeId;
+
+                                if (selectedVariantId && selectedColorId) {
+                                    fetchStock();
+                                }
+                            });
+                        });
+
+                        function fetchStock() {
+                            $.ajax({
+                                url: '?controller=home&action=get_variant',
+                                method: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    variant_id: selectedVariantId
+                                },
+                                success: (res) => {
+                                    console.log(res);
+                                    if (res.success && res.data && res.data.data && res.data.data.stock) {
+                                        const stock = res.data.data.stock;
+                                        $('#stock-info').text(`Còn lại: ${stock} sản phẩm`).show();
+                                    } else {
+                                        $('#stock-info').text('Không tìm thấy thông tin tồn kho').show();
+                                    }
+                                },
+                                error: (err) => {
+                                    console.error('Lỗi khi lấy tồn kho:', err);
+                                    $('#stock-info').text('Có lỗi xảy ra khi lấy tồn kho').show();
+                                }
+                            });
+                        }
+
+                        // Gọi luôn hàm fetchStock khi trang load nếu có sẵn giá trị mặc định
+                        if (selectedVariantId && selectedSizeId) {
+                            fetchStock();
+                        }
+                    </script>
+
+
+
+
+
+
+
+
                     <div class="d-flex align-items-center border rounded mb-3" style="width: fit-content;">
                         <button class="btn border-end" onclick="handleChangeQuantity(false)">-</button>
                         <span id="quantity" class="mx-3">1</span>
@@ -167,29 +273,14 @@ print_r($variant_detail);
         </div>
     </section>
 </main>
+
 <script>
-    let selectedColorId = null;
-    document.querySelectorAll('.color-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            selectedColorId = this.getAttribute('data-color-id');
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
         });
     });
-    const handleChangeQuantity = (status) => {
-        const quantitySpan = document.getElementById('quantity');
-        let quantity = Number(quantitySpan.textContent);
-
-        if (status) {
-            quantity += 1;
-        } else {
-            if (quantity > 1) {
-                quantity -= 1;
-            } else {
-                return;
-            }
-        }
-        quantitySpan.textContent = quantity;
-    }
-
     const changeImage = (e, img) => {
         document.querySelector('.product-thumbnail').classList.remove("fade-in");
         const overPlays = document.querySelectorAll('.overplay');
