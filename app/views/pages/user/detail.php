@@ -1,11 +1,6 @@
 <?php include '../app/views/layouts/_list_product.php' ?>
 <?php include '../app/views/layouts/_list_product_cssfile.php' ?>
 
-<?php
-print_r($variant_detail);
-print_r($variant_detail_list);
-echo '<br>';
-?>
 <main style="padding-top: 76px;">
     <section class="py-4">
         <div class="container">
@@ -72,6 +67,11 @@ echo '<br>';
                             margin-right: 8px;
                             transition: all 0.2s ease;
                         }
+
+                        button.disabled {
+                            opacity: 0.4;
+                            pointer-events: none;
+                        }
                     </style>
                     <div class="d-flex gap-3 mb-2">
                         <?php
@@ -92,14 +92,14 @@ echo '<br>';
                             $isActive = ($variant_id == $default_variant_id) ? 'active' : '';
 
                             echo '
-                                <button class="btn d-flex align-items-center gap-2 color-btn ' . $isActive . '" 
+                                <a href="?controller=home&action=product_detail&product_id=23&variant_id=' . $variant_id . '" class="btn d-flex align-items-center gap-2 color-btn ' . $isActive . '" 
                                         data-variant-id="' . $variant_id . '"
                                         data-color-id="' . $color_id . '"
                                         style="text-decoration: none; color: inherit;">
                                     <p class="m-0"
                                     style="width: 18px; height: 18px; background-color: ' . $color['color_hex'] . '; border-radius: 50%;"></p>
                                     <span>' . $color['color_name'] . '</span>
-                                </button>
+                                </a>
                             ';
                         }
                         ?>
@@ -109,17 +109,30 @@ echo '<br>';
                     <div class="d-flex gap-3 mb-2" id="size-buttons">
                         <?php
                         $sizes = $variant_detail_list['data']['sizes'];
+                        $variants = $variant_detail_list['data']['variants'];
+                        $first_variant_id = $variant_detail_list['data']['first_variant_id'];
+
+                        $default_size_id = null;
+                        foreach ($variants as $variant) {
+                            if ($variant['variant_id'] == $first_variant_id) {
+                                $default_size_id = $variant['size_id'];
+                                break;
+                            }
+                        }
+
                         foreach ($sizes as $size) {
+                            $isActive = ($size['size_id'] == $default_size_id) ? 'active' : '';
                             echo '
-                                <button class="btn btn-outline-dark size-btn" data-size-id="' . $size['size_id'] . '">' . $size['size_name'] . '</button>
-                            ';
+                                    <button class="btn btn-outline-dark size-btn ' . $isActive . '" 
+                                        data-size-id="' . $size['size_id'] . '">' . $size['size_name'] . '</button>
+                                ';
                         }
                         ?>
                     </div>
 
+
                     <div id="stock-info"></div>
                     <script>
-                        let selectedVariantId = document.querySelector('.color-btn.active')?.dataset.variantId;
                         let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId;
                         let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId;
 
@@ -128,11 +141,10 @@ echo '<br>';
                                 document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
                                 this.classList.add('active');
 
-                                selectedVariantId = this.dataset.variantId;
                                 selectedColorId = this.dataset.colorId;
 
                                 if (selectedSizeId) {
-                                    fetchStock();
+                                    fetchVariant();
                                 }
                             });
                         });
@@ -144,41 +156,43 @@ echo '<br>';
 
                                 selectedSizeId = this.dataset.sizeId;
 
-                                if (selectedVariantId && selectedColorId) {
-                                    fetchStock();
+                                if (selectedColorId) {
+                                    fetchVariant();
                                 }
                             });
                         });
 
-                        function fetchStock() {
+                        function fetchVariant() {
                             $.ajax({
                                 url: '?controller=home&action=get_variant',
                                 method: 'POST',
                                 dataType: 'json',
                                 data: {
-                                    variant_id: selectedVariantId
+                                    color_id: selectedColorId,
+                                    size_id: selectedSizeId
                                 },
                                 success: (res) => {
-                                    console.log(res);
-                                    if (res.success && res.data && res.data.data && res.data.data.stock) {
-                                        const stock = res.data.data.stock;
-                                        $('#stock-info').text(`Còn lại: ${stock} sản phẩm`).show();
+                                    console.log("Response:", res);
+                                    if (res.success && res.data) {
+                                        const variant = res.data;
+                                        $('#stock-info').text(
+                                            variant.stock > 0 ? `Còn lại: ${variant.stock} sản phẩm` : 'Hết hàng'
+                                        ).show();
+                                        selectedVariantId = variant.variant_id;
                                     } else {
-                                        $('#stock-info').text('Không tìm thấy thông tin tồn kho').show();
+                                        $('#stock-info').text(res.message || 'Không tìm thấy dữ liệu').show();
                                     }
                                 },
-                                error: (err) => {
-                                    console.error('Lỗi khi lấy tồn kho:', err);
-                                    $('#stock-info').text('Có lỗi xảy ra khi lấy tồn kho').show();
+                                error: (xhr) => {
+                                    console.error('Lỗi khi lấy variant:', xhr);
+                                    console.log('Phản hồi từ server:', xhr.responseText);
+                                    $('#stock-info').text('Có lỗi xảy ra').show();
                                 }
                             });
                         }
-
-                        // Gọi luôn hàm fetchStock khi trang load nếu có sẵn giá trị mặc định
-                        if (selectedVariantId && selectedSizeId) {
-                            fetchStock();
-                        }
                     </script>
+
+
 
 
 

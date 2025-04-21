@@ -52,26 +52,17 @@ class HomeController
     }
     public function get_variant()
     {
-        if (isset($_POST['variant_id'])) {
-            $variant_id = $_POST['variant_id'];
+        if (isset($_POST['color_id']) && isset($_POST['size_id'])) {
+            $color_id = $_POST['color_id'];
+            $size_id = $_POST['size_id'];
 
-            $variant = $this->variantModel->get_variant_by_id($variant_id);
-
-            if ($variant) {
-                echo json_encode([
-                    'success' => true,
-                    'data' => $variant
-                ]);
-            } else {
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => 'Khong tim thay so luong.'
-                ]);
-            }
+            $variant = $this->variantModel->get_variant_by_color_size($color_id, $size_id);
+            echo json_encode($variant);
         } else {
             echo json_encode([
-                'status' => 'error',
-                'message' => 'Thieu tham so.'
+                'success' => false,
+                'message' => 'Thiếu tham số color_id hoặc size_id',
+                'data' => null
             ]);
         }
     }
