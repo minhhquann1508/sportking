@@ -42,19 +42,37 @@ class HomeController
     {
         $categories = $this->homeModel->get_all_categorys();
         $brands = $this->homeModel->get_all_brands();
-        $productList = $this->homeModel->get_all_products();
+        $variant_list = $this->variantModel->get_variant_list();
+
 
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/home2.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+    public function get_variant()
+    {
+        if (isset($_POST['color_id']) && isset($_POST['size_id'])) {
+            $color_id = $_POST['color_id'];
+            $size_id = $_POST['size_id'];
+
+            $variant = $this->variantModel->get_variant_by_color_size($color_id, $size_id);
+            echo json_encode($variant);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Thiếu tham số color_id hoặc size_id',
+                'data' => null
+            ]);
+        }
+    }
     public function product_detail()
     {
+        $variant_id = $_GET['variant_id'] ?? null;
         $product_id = $_GET['product_id'] ?? null;
-        $product = $this->productModel->get_product_by_id($product_id);
-        $variant = $this->variantModel->get_all_variant_by_product_id($product_id);
-        $productList = $this->homeModel->get_all_products();
+        $variant_detail = $this->variantModel->get_all_variant_by_id($variant_id);
+        $variant_detail_list = $this->productModel->get_all_variants_by_product_id($product_id);
+        $variant_list = $this->variantModel->get_variant_list();
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/detail.php';
         $footer = '../app/views/layouts/_footer.php';

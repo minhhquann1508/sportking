@@ -14,7 +14,10 @@
     <div class="col-md-6">
         <h5><?= $product['data'][0]['product_name'] ?></h5>
         <p class="text-muted"><?= $product['data'][0]['brand_name'] ?></p>
-        <p class="fw-bold">đ<?= number_format($variant['data'][0]['price'], 0, ',', '.') ?></p>
+        <p class="fw-bold">
+            đ<?= !empty($variant['data'][0]['price']) ? number_format($variant['data'][0]['price'], 0, ',', '.') : '0' ?>
+        </p>
+
 
         <div class="d-flex gap-3 mb-2">
             <span><strong>Lượt xem:</strong> <?= $product['data'][0]['views'] ?></span>
