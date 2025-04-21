@@ -1,27 +1,16 @@
 <?php include '../app/views/layouts/_list_product.php' ?>
 <?php include '../app/views/layouts/_list_product_cssfile.php' ?>
 
-<?php
-$productData = $product['data'][0] ?? [];
-$variantData = $variant['data'] ?? [];
-$thumbnail = !empty($productData['thumbnail']) ? $productData['thumbnail'] : 'https://placehold.co/400x600';
-$views = $productData['views'] ?? 0;
-$solds = $productData['solds'] ?? 0;
-$subDesc = $productData['sub_desc'] ?? 'Không có mô tả ngắn';
-$desc = $productData['desc'] ?? 'Không có mô tả chi tiết';
-$price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
-?>
-
 <main style="padding-top: 76px;">
     <section class="py-4">
         <div class="container">
-            <input type="hidden" id="product-id" value="<?php echo $productData['product_id'] ?>">
+            <input type="hidden" id="product-id" value="<?php echo $variant_detail['data'][0]['variant_id'] ?>">
             <div class="row">
                 <div class="col-6 d-flex">
                     <div class="me-2 d-flex gap-2 h-100" style="flex-direction: column; width: 80px;">
                         <?php
                         $content = '';
-                        foreach ($variantData[0]['images'] as $img) {
+                        foreach ($variant_detail['data'][0]['images'] as $img) {
                             $content .= '<div class="position-relative flex-grow-1" onclick="changeImage(this, \'' . $img . '\')">
                                     <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
                                         style="cursor: pointer;"></div>
@@ -40,61 +29,178 @@ $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
                 </div>
                 <div class="col-6">
                     <h3 class="text-uppercase" style="font-weight: 500;">
-                        <?php echo $product['data'][0]['product_name'] ?></h3>
+                        <?php echo $variant_detail['data'][0]['product_name'] ?></h3>
                     <h4 style="font-weight: 200;" class="d-flex align-items-center gap-3">
-                        <h4 id="price"><?php echo number_format($price, 0, ',', '.') ?></h4>
+                        <h4 id="price"><?php echo number_format($variant_detail['data'][0]['price'], 0, ',', '.') ?></h4>
                     </h4>
                     <div class="d-flex gap-3 mb-2">
                         <span><strong>Danh mục:
-                            </strong><span><?php echo $product['data'][0]['category_name'] ?></span></span>
-                        <span><strong>Thương hiệu:
-                            </strong><span><?php echo $product['data'][0]['brand_name'] ?></span></span>
+                                <span><?php echo $variant_detail['data'][0]['category']['category_name']; ?></span>
+
+                                <span><strong>Thương hiệu:
+                                    </strong><span><?php echo $variant_detail['data'][0]['brand']['brand_name'] ?></span></span>
                     </div>
-                    <!-- <div class="d-flex gap-3 mb-2">
-                        <span><strong>Màu sắc: </strong><span></span></span>
-                        <span><strong>Còn lại: </strong><span>1</span></span>
-                    </div> -->
                     <div class="d-flex gap-3 mb-2">
-                        <span><strong>Lượt xem: </strong><span><?php echo $product['data'][0]['views'] ?></span></span>
-                        <span><strong>Lượt bán: </strong><span><?php echo $product['data'][0]['solds'] ?></span></span>
+                        <span><strong>Lượt xem: </strong><span><?php echo $variant_detail['data'][0]['views'] ?></span></span>
+                        <span><strong>Lượt bán: </strong><span><?php echo $variant_detail['data'][0]['solds'] ?></span></span>
                     </div>
                     <strong>Mô tả ngắn</strong>
-                    <p style="line-height: 1.6;"><?php echo $product['data'][0]['sub_desc'] ?>
+                    <p style="line-height: 1.6;"><?php echo $variant_detail['data'][0]['sub_desc'] ?>
                     </p>
-                    <div class="d-flex gap-2 mb-3">
+                    <style>
+                        .color-btn.active,
+                        .size-btn.active {
+                            border: 2px solid #ff5722;
+                            background-color: #ffe9e0;
+                            color: #ff5722;
+                            font-weight: bold;
+                            transition: all 0.3s ease;
+                        }
+
+                        .color-btn,
+                        .size-btn {
+                            cursor: pointer;
+                            border: 1px solid #ddd;
+                            padding: 8px 12px;
+                            border-radius: 6px;
+                            background-color: #fff;
+                            margin-right: 8px;
+                            transition: all 0.2s ease;
+                        }
+
+                        button.disabled {
+                            opacity: 0.4;
+                            pointer-events: none;
+                        }
+                    </style>
+                    <div class="d-flex gap-3 mb-2">
                         <?php
-                        foreach ($variantData as $variant) {
-                            $colors = $variant['colors'];
-                            foreach ($colors as $color) {
-                                echo '
-                                        <button class="btn btn-sm border d-flex align-items-center gap-2 color-btn"
-                                            data-color-id="' . $color['color_id'] . '>">
-                                            <p class="m-0"
-                                                style="width: 18px; height: 18px; background-color: ' . $color['color_hex'] . ';">
-                                            </p>
-                                            <span>' . $color['color_name'] . '</span>
-                                        </button>
-                                    ';
-                            }
+                        $colors = $variant_detail_list['data']['colors'];
+                        $variants = $variant_detail_list['data']['variants'];
+                        $product_id = $_GET['product_id'];
+
+                        $default_variant_id = $variant_detail['data'][0]['variant_id'];
+
+                        $colorToVariant = [];
+                        foreach ($variants as $variant) {
+                            $colorToVariant[$variant['color_id']] = $variant['variant_id'];
+                        }
+
+                        foreach ($colors as $color) {
+                            $color_id = $color['color_id'];
+                            $variant_id = $colorToVariant[$color_id] ?? null;
+                            $isActive = ($variant_id == $default_variant_id) ? 'active' : '';
+
+                            echo '
+                                <a href="?controller=home&action=product_detail&product_id=23&variant_id=' . $variant_id . '" class="btn d-flex align-items-center gap-2 color-btn ' . $isActive . '" 
+                                        data-variant-id="' . $variant_id . '"
+                                        data-color-id="' . $color_id . '"
+                                        style="text-decoration: none; color: inherit;">
+                                    <p class="m-0"
+                                    style="width: 18px; height: 18px; background-color: ' . $color['color_hex'] . '; border-radius: 50%;"></p>
+                                    <span>' . $color['color_name'] . '</span>
+                                </a>
+                            ';
                         }
                         ?>
 
                     </div>
 
-                    <div class="mb-3">
-                        <select style="width: 200px;" id="size-input" class="form-select"
-                            aria-label="Default select example">
-                            <option selected>Vui lòng chọn size</option>
-                            <?php
-                            foreach ($variantData as $variant) {
-                                $sizes = $variant['sizes'];
-                                foreach ($sizes as $size) {
-                                    echo '<option value="' . $size['size_id'] . '">' . $size['size_name'] . '</option>';
-                                }
+                    <div class="d-flex gap-3 mb-2" id="size-buttons">
+                        <?php
+                        $sizes = $variant_detail_list['data']['sizes'];
+                        $variants = $variant_detail_list['data']['variants'];
+                        $first_variant_id = $variant_detail_list['data']['first_variant_id'];
+
+                        $default_size_id = null;
+                        foreach ($variants as $variant) {
+                            if ($variant['variant_id'] == $first_variant_id) {
+                                $default_size_id = $variant['size_id'];
+                                break;
                             }
-                            ?>
-                        </select>
+                        }
+
+                        foreach ($sizes as $size) {
+                            $isActive = ($size['size_id'] == $default_size_id) ? 'active' : '';
+                            echo '
+                                    <button class="btn btn-outline-dark size-btn ' . $isActive . '" 
+                                        data-size-id="' . $size['size_id'] . '">' . $size['size_name'] . '</button>
+                                ';
+                        }
+                        ?>
                     </div>
+
+
+                    <div id="stock-info"></div>
+                    <script>
+                        let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId;
+                        let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId;
+
+                        document.querySelectorAll('.color-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+
+                                selectedColorId = this.dataset.colorId;
+
+                                if (selectedSizeId) {
+                                    fetchVariant();
+                                }
+                            });
+                        });
+
+                        document.querySelectorAll('.size-btn').forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                                this.classList.add('active');
+
+                                selectedSizeId = this.dataset.sizeId;
+
+                                if (selectedColorId) {
+                                    fetchVariant();
+                                }
+                            });
+                        });
+
+                        function fetchVariant() {
+                            $.ajax({
+                                url: '?controller=home&action=get_variant',
+                                method: 'POST',
+                                dataType: 'json',
+                                data: {
+                                    color_id: selectedColorId,
+                                    size_id: selectedSizeId
+                                },
+                                success: (res) => {
+                                    console.log("Response:", res);
+                                    if (res.success && res.data) {
+                                        const variant = res.data;
+                                        $('#stock-info').text(
+                                            variant.stock > 0 ? `Còn lại: ${variant.stock} sản phẩm` : 'Hết hàng'
+                                        ).show();
+                                        selectedVariantId = variant.variant_id;
+                                    } else {
+                                        $('#stock-info').text(res.message || 'Không tìm thấy dữ liệu').show();
+                                    }
+                                },
+                                error: (xhr) => {
+                                    console.error('Lỗi khi lấy variant:', xhr);
+                                    console.log('Phản hồi từ server:', xhr.responseText);
+                                    $('#stock-info').text('Có lỗi xảy ra').show();
+                                }
+                            });
+                        }
+                    </script>
+
+
+
+
+
+
+
+
+
+
                     <div class="d-flex align-items-center border rounded mb-3" style="width: fit-content;">
                         <button class="btn border-end" onclick="handleChangeQuantity(false)">-</button>
                         <span id="quantity" class="mx-3">1</span>
@@ -177,33 +283,18 @@ $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
     <section class="py-4">
         <div class="container">
             <h4 class="text-center">Sản phẩm liên quan</h4>
-            <?php render_list_product($productList); ?>
+            <?php render_list_product($variant_list); ?>
         </div>
     </section>
 </main>
+
 <script>
-    let selectedColorId = null;
-    document.querySelectorAll('.color-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            selectedColorId = this.getAttribute('data-color-id');
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
         });
     });
-    const handleChangeQuantity = (status) => {
-        const quantitySpan = document.getElementById('quantity');
-        let quantity = Number(quantitySpan.textContent);
-
-        if (status) {
-            quantity += 1;
-        } else {
-            if (quantity > 1) {
-                quantity -= 1;
-            } else {
-                return;
-            }
-        }
-        quantitySpan.textContent = quantity;
-    }
-
     const changeImage = (e, img) => {
         document.querySelector('.product-thumbnail').classList.remove("fade-in");
         const overPlays = document.querySelectorAll('.overplay');

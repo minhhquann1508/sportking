@@ -1,11 +1,12 @@
 <?php
-    include_once '../app/models/Brand.php';
-    include_once '../app/models/Blog.php';
-    $brand = new Brand();
-    $blog = new Blog();
-    $brands = $brand->get_all_brands();
-    $blogs = $blog->get_all_blogs();
+include_once '../app/models/Brand.php';
+include_once '../app/models/Blog.php';
+$brand = new Brand();
+$blog = new Blog();
+$brands = $brand->get_all_brands();
+$blogs = $blog->get_all_blogs();
 ?>
+
 
 <?php include '../app/views/layouts/_list_product.php' ?>
 <?php include '../app/views/layouts/_list_product_cssfile.php' ?>
@@ -123,10 +124,6 @@ $blog = [
     </div>
 </section>
 
-
-
-
-
 <div class="container my-5">
     <p class="mb-1" style="font-size:18px; font-weight:550;color:#BD844C">Sản phẩm của chúng tôi</p>
     <div class="d-flex justify-content-between align-items-center">
@@ -145,24 +142,24 @@ $blog = [
             </li>
         </ul>
     </div>
-
+    <?php print_r($variant_list) ?>
     <!-- Tab Content -->
     <div class="tab-content mt-3">
         <div class="tab-pane fade show active" id="flashSale">
             <div class="container" style="padding: 20px 0;">
-                <?php render_list_product($productList); ?>
+                <?php render_list_product($variant_list); ?>
             </div>
         </div>
 
         <div class="tab-pane fade" id="newArrivals">
             <div class="container" style="padding: 20px 0;">
-                <?php render_list_product($productList); ?>
+                <?php render_list_product($variant_list); ?>
             </div>
         </div>
 
         <div class="tab-pane fade" id="bestSellers">
             <div class="container" style="padding: 20px 0;">
-                <?php render_list_product($productList); ?>
+                <?php render_list_product($variant_list); ?>
             </div>
         </div>
     </div>
@@ -176,13 +173,13 @@ $blog = [
 
     <div class="row justify-content-center">
         <?php foreach ($category as $item): ?>
-        <div class="col-md-4 col-lg-2 mb-3">
-            <div class="card p-3 text-center">
-                <img src="<?= $item['image'] ?>" class="img-fluid" alt="<?= $item['name'] ?>">
-                <h5 class="mt-2"><?= $item['name'] ?></h5>
-                <p><?= $item['products'] ?>+ Products</p>
+            <div class="col-md-4 col-lg-2 mb-3">
+                <div class="card p-3 text-center">
+                    <img src="<?= $item['image'] ?>" class="img-fluid" alt="<?= $item['name'] ?>">
+                    <h5 class="mt-2"><?= $item['name'] ?></h5>
+                    <p><?= $item['products'] ?>+ Products</p>
+                </div>
             </div>
-        </div>
         <?php endforeach; ?>
     </div>
 
@@ -193,22 +190,22 @@ $blog = [
     <p class="text-center mb-4" style="font-size: 2rem; font-weight: bold;">Tin tức</p>
 
     <div class="row">
-        <?php 
-            foreach (array_slice($blogs['data'], 0,2) as $blog) {
-                echo '
+        <?php
+        foreach (array_slice($blogs['data'], 0, 2) as $blog) {
+            echo '
                     <div class="col-md-4">
                         <div class="card border-0" style="background: none;">
-                            <img src="'.$blog['thumbnail'].'" class="card-img-top" alt="'.$blog['title'].'">
+                            <img src="' . $blog['thumbnail'] . '" class="card-img-top" alt="' . $blog['title'] . '">
                             <div class="card-body">
-                                <p class="text-muted" style="font-size: 0.9rem;">'.$blog['fullname'].'</p>
-                                <h5 class="card-title">'.$blog['title'].'</h5>
-                                <p class="card-text" style="color: #555;">'.$blog['content'].'</p>
-                                <p class="text-muted" style="font-size: 0.9rem;">'.$blog['created_at'].'</p>
+                                <p class="text-muted" style="font-size: 0.9rem;">' . $blog['fullname'] . '</p>
+                                <h5 class="card-title">' . $blog['title'] . '</h5>
+                                <p class="card-text" style="color: #555;">' . $blog['content'] . '</p>
+                                <p class="text-muted" style="font-size: 0.9rem;">' . $blog['created_at'] . '</p>
                             </div>
                         </div>
                     </div>
                 ';
-            }
+        }
         ?>
     </div>
 
@@ -225,54 +222,54 @@ $blog = [
 
     <div class="container">
         <div class="row justify-content-center align-items-center">
-            <?php 
-                foreach (array_slice($brands, 0, 5) as $brand) {
+            <?php
+            foreach (array_slice($brands, 0, 5) as $brand) {
                 echo '<div class="col-6 col-sm-4 col-md-2 text-center">
-                        <img src="'.$brand['thumbnail'].'" alt="'.$brand['brand_name'].'" style="width: 100px; height: auto;">
+                        <img src="' . $brand['thumbnail'] . '" alt="' . $brand['brand_name'] . '" style="width: 100px; height: auto;">
                     </div>';
-                }
+            }
             ?>
         </div>
     </div>
 </div>
 
 <script>
-function myCursor() {
-    const dot = document.querySelector('.cursor-dot');
-    const ring = document.querySelector('.cursor-ring');
+    function myCursor() {
+        const dot = document.querySelector('.cursor-dot');
+        const ring = document.querySelector('.cursor-ring');
 
-    let mouseX = 0,
-        mouseY = 0;
-    let ringX = 0,
-        ringY = 0;
+        let mouseX = 0,
+            mouseY = 0;
+        let ringX = 0,
+            ringY = 0;
 
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        dot.style.left = `${mouseX}px`;
-        dot.style.top = `${mouseY}px`;
-    });
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            dot.style.left = `${mouseX}px`;
+            dot.style.top = `${mouseY}px`;
+        });
 
-    function animate() {
-        ringX += (mouseX - ringX) * 0.3;
-        ringY += (mouseY - ringY) * 0.3;
-        ring.style.left = `${ringX}px`;
-        ring.style.top = `${ringY}px`;
-        requestAnimationFrame(animate);
+        function animate() {
+            ringX += (mouseX - ringX) * 0.3;
+            ringY += (mouseY - ringY) * 0.3;
+            ring.style.left = `${ringX}px`;
+            ring.style.top = `${ringY}px`;
+            requestAnimationFrame(animate);
+        }
+
+        const hoverElements = document.querySelectorAll('a, button, img');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovered');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovered');
+            });
+        });
+
+        animate();
     }
 
-    const hoverElements = document.querySelectorAll('a, button, img');
-    hoverElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            document.body.classList.add('hovered');
-        });
-        el.addEventListener('mouseleave', () => {
-            document.body.classList.remove('hovered');
-        });
-    });
-
-    animate();
-}
-
-document.addEventListener('DOMContentLoaded', myCursor);
+    document.addEventListener('DOMContentLoaded', myCursor);
 </script>
