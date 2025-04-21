@@ -1,3 +1,5 @@
+<?php print_r($_SESSION['cart'])?>
+
 <main style="padding-top: 76px;">
     <div class="container">
         <div class="row py-3">

@@ -7,12 +7,23 @@ class Order extends Database {
     
 
     public function add_order($total_amount, $user_id, $address_id, $items) {
-        $voucher_id = 1;
+        $voucher_id = null;
         // 1. Thêm đơn hàng
-        $sql = "INSERT INTO {$this->table} (total_amount, user_id, address_id, voucher_id)
-                VALUES (?, ?, ?,?)";
+        $sql = "INSERT INTO {$this->table} ( user_id, address_id, voucher_id,total_amount)
+                VALUES (?, ?, ?, ?)";         
         
-        $response = $this->execute($sql, [$total_amount, $user_id, $address_id, $voucher_id]);
+        // order_id,total_amount,order_date,status,user_id,address_id,voucher_id,
+
+
+        try {    
+          $response = $this->execute($sql, [$user_id, $address_id, $voucher_id,$total_amount]);
+        } catch (PDOException $e) {
+            die("Kết nối thất bại: " . $e->getMessage());
+        }
+        echo("DONE");
+
+
+        // $response = $this->execute($sql, [$user_id, $address_id, $voucher_id,$total_amount,$items]);
         
         if ($response) {
             $order_id = $this->lastInsertId();

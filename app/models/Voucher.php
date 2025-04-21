@@ -9,8 +9,9 @@ class Voucher extends Database {
         return $this->select($query);
     }
 
-    public function getById($voucherId){
-        $query = "SELECT * FROM $this->table WHERE voucher_id = ?";
+    public function getById($voucherId, $limmit = 3){
+        $query = "SELECT * FROM $this->table WHERE voucher_id = ? LIMMIT = ?";
+        return $this->select($query, [$voucherId, $limmit]);
         return $this->select($query, [$voucherId]);
     }
 
