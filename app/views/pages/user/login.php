@@ -40,7 +40,7 @@
                             <input type="checkbox" class="form-check-input" id="exampleCheck1">
                             <label class="form-check-label" for="exampleCheck1">Ghi nhớ tài khoản</label>
                         </div>
-                        <a href="">Quên mật khẩu</a>
+                        <a href="?controller=auth&action=forgotPassword">Quên mật khẩu</a>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Đăng nhập ngay</button>
                 </form>

@@ -234,7 +234,12 @@ class HomeController
     {
         if (isset($_SESSION['user']['user_id'])) {
             $id = $_SESSION['user']['user_id'];
-            // $order
+            $orders = [];
+            foreach ($_SESSION['order_list'] as $item) {
+                $variant_item = $this->variantModel->get_variant_by_id($item['id'])['data'];
+                $variant_item['quantity'] = $item['quantity'];
+                $orders[] = $variant_item;
+            }
             $address = $this->addressModel->get_address_by_user_id($id)['data'];
             $content = '../app/views/pages/user/order2.php';
             $header = '../app/views/layouts/_header.php';

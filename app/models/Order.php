@@ -7,7 +7,7 @@ class Order extends Database {
     
 
     public function add_order($total_amount, $user_id, $address_id, $items) {
-        $voucher_id = null;
+        $voucher_id = 1;
         // 1. Thêm đơn hàng
         $sql = "INSERT INTO {$this->table} (total_amount, user_id, address_id, voucher_id)
                 VALUES (?, ?, ?,?)";
@@ -26,7 +26,7 @@ class Order extends Database {
                         $order_id, 
                         $item['quantity'], 
                         $item['price'],
-                        $item['variant_id']
+                        $item['id']
                     ]);
                 
                     if (!$item_response) {
@@ -56,9 +56,5 @@ class Order extends Database {
             ];
         }
     }
-    
-
-
-    
 }
 ?>
