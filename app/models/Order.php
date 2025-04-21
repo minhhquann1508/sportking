@@ -7,7 +7,7 @@ class Order extends Database {
     
 
     public function add_order($total_amount, $user_id, $address_id, $items) {
-        $voucher_id = null;
+        $voucher_id = 1;
         // 1. Thêm đơn hàng
         $sql = "INSERT INTO {$this->table} ( user_id, address_id, voucher_id,total_amount)
                 VALUES (?, ?, ?, ?)";         

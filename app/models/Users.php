@@ -86,5 +86,87 @@
                 return ['success' => false, 'message' => 'Thêm mới thất bại', 'data' => null];
             }
         }
+
+        public function CheckEmail($emailSend) {
+            $sql = "SELECT COUNT(*) as dem FROM $this->table WHERE email = ?";
+            $result = $this->select($sql, [$emailSend]);
+        
+            if ($result && isset($result[0]['dem'])) {
+                return $result[0]['dem'] > 0 ? 10 : 0;
+            }
+        
+            return 0;
+        }
+        public function CapNhatPassMoi($emailSend, $pass_moi) {
+            $hashedPass = password_hash($pass_moi, PASSWORD_DEFAULT);
+            $sql = "UPDATE $this->table SET password = ? WHERE email = ?";
+            $result = $this->execute($sql, [$hashedPass, $emailSend]);
+        
+            if ($result) {
+                return [
+                    'success' => true,'message' => 'Cập nhật mật khẩu thành công','data' => null];
+            } else {
+                return [
+                    'success' => false,'message' => 'Cập nhật mật khẩu thất bại','data' => null];
+            }
+        }        
+        public function GuiMailPassMoi($emailSend, $pass_moi) {
+            require_once "PHPMailer-master/src/PHPMailer.php"; 
+            require_once "PHPMailer-master/src/SMTP.php"; 
+            require_once "PHPMailer-master/src/Exception.php";   
+        
+            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        
+            try {
+                $mail->SMTPDebug = 0;
+                $mail->isSMTP();  
+                $mail->CharSet  = "UTF-8";
+                $mail->Host = 'smtp.gmail.com'; 
+                $mail->SMTPAuth = true; 
+                $mail->Username = 'vanduyho717@gmail.com';  
+                $mail->Password = 'xvgu ydcc dtzr gsap';
+                $mail->SMTPSecure = 'ssl';    
+                $mail->Port = 465;
+        
+                $mail->setFrom('vanduyho717@gmail.com', 'SPORTKING'); 
+                $mail->addAddress($emailSend);
+        
+                $mail->isHTML(true);  
+                $mail->Subject = 'Mật khẩu mới của bạn';
+                $mail->Body = '
+                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
+                            <div style="text-align: center;">
+                                <h2 style="color: #4a90e2;">🔐 Yêu cầu đặt lại mật khẩu</h2>
+                            </div>
+                            <p style="font-size: 16px; color: #333;">Xin chào,</p>
+                            <p style="font-size: 16px; color: #333;">Bạn đã yêu cầu khôi phục mật khẩu cho tài khoản của mình. Dưới đây là mật khẩu mới của bạn:</p>
+                            <div style="text-align: center; margin: 30px 0;">
+                                <span style="display: inline-block; background-color: #4a90e2; color: white; padding: 12px 20px; border-radius: 6px; font-size: 18px; font-weight: bold;">
+                                    ' . htmlspecialchars($pass_moi) . '
+                                </span>
+                            </div>
+                            <p style="font-size: 16px; color: #333;">Hãy đăng nhập bằng mật khẩu này và đổi lại mật khẩu sau khi đăng nhập để bảo mật tài khoản của bạn.</p>
+                            <p style="font-size: 14px; color: #888;">Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này.</p>
+                            <hr style="margin: 20px 0;">
+                            <p style="font-size: 13px; color: #aaa; text-align: center;">© 2025 SPORTKING Team - Mọi quyền được bảo lưu.</p>
+                        </div>
+                    ';
+                $mail->smtpConnect([
+                    "ssl" => [
+                        "verify_peer" => false,
+                        "verify_peer_name" => false,
+                        "allow_self_signed" => true
+                    ]
+                ]);
+        
+                $mail->send();
+                return [
+                    'success' => true,'message' => 'Gửi mật khẩu mới thành công','data' => null];
+            } catch (Exception $e) {
+                return [
+                    'success' => false,'message' => 'Gửi mật khẩu mới thất bại: ' . $mail->ErrorInfo,'data' => null];
+            }
+        }        
+        
     }
 ?>

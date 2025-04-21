@@ -183,11 +183,12 @@ class HomeController
                     'product_name' => $item['product_name'],
                     'price' => $item['price'],
                     'thumbnail' => $item['thumbnail'],
-                    'quantity' => $item['quantity']
+                    'quantity' => $item['quantity'],
+                    'color' => $item['color_name'],
+                    'size' => $item['size_name']
                 ];
             }
         }
-
         $content = '../app/views/pages/user/profile/profile.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';

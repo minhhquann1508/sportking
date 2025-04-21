@@ -315,6 +315,7 @@ class Variant extends Database
         }
     }
 
+
     public function get_variant_by_id($variant_id)
     {
         $sql = "SELECT v.*, s.size_name, c.color_name,p.product_name, p.thumbnail FROM $this->table v
@@ -329,7 +330,6 @@ class Variant extends Database
             return ['success' => false, 'message' => 'Lấy thất bại', 'data' => null];
         }
     }
-
     public function get_variant_by_color_size($color_id, $size_id)
     {
         $sql = "SELECT v.*, s.size_name, c.color_name,p.product_name, p.thumbnail 
