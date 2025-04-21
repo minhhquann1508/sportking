@@ -7,13 +7,25 @@
             $this->bannerModel = new Banner();
         }
         public function index() {
-            $banners = $this->bannerModel->get_all_banners();
+            // $banners = $this->bannerModel->get_all_banners();
             $content = '../app/views/pages/admin/banner.php';
             include_once "../app/views/layouts/admin.php";
         }
-        public function create() {
-            $content = '../app/views/pages/admin/add_banner.php';
-            include_once "../app/views/layouts/admin.php";
+        public function get_all() {
+            $response = $this->bannerModel->get_all_banners();
+            echo json_encode($response);
+            exit;
+        }
+
+        public function add() {
+            $user_id = $_SESSION['user']['user_id'];
+            $response = $this->bannerModel->create_banner(
+            $_POST['url'],  
+            $_POST['img_url'],  
+            $user_id,  
+            );
+            echo json_encode($response);
+            exit;
         }
     }
 ?>
