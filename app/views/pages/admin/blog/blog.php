@@ -1,3 +1,9 @@
+<style>
+    th{
+        text-align: center;
+    }
+</style>
+
 <div class="container-fluid">
     <div class="d-flex justify-content-between align-items-end mb-3">
         <h5>Thông tin bài viết</h5>
@@ -5,7 +11,7 @@
             Thêm bài viết
         </button>
     </div>
-    <div class="mb-3">
+    <!-- <div class="mb-3">
         <form method="post" id="search-box" class="row">
             <div class="col-11 d-flex gap-2">
                 <div class="flex-grow-1">
@@ -35,7 +41,7 @@
                 <button type="submit" class="btn btn-primary w-100"><span class="fw-bold">Tìm</span> <i
                         class="fa-solid fa-magnifying-glass" style="font-size: 12px;"></i></button>
             </div>
-    </div>
+    </div> -->
     <table class="table table-bordered border-dark">
         <thead>
             <tr>
@@ -74,6 +80,10 @@
                         <textarea id="editor"></textarea>
                     </div>
                     <div class="mb-3">
+                        <label for="exampleInputViews" class="form-label">Lượt xem</label>
+                        <input type="number" min="1" class="form-control" id="views" aria-describedby="viewsHelp">
+                    </div>
+                    <div class="mb-3">
                         <label for="exampleInputThumbnail" class="form-label">Hình ảnh</label>
                         <input type="file" class="form-control" id="thumbnail" aria-describedby="thumbnailHelp">
                     </div>
@@ -104,6 +114,10 @@
                     <div class="mb-3">
                         <label class="form-label">Nội dung</label>
                         <textarea id="update_editor"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Lượt xem</label>
+                        <input type="number" class="form-control" id="update_views">
                     </div>
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Hình ảnh</label>
@@ -145,7 +159,7 @@
                         <tr>
                             <td>${key+1}</td>
                             <td>${blog.title}</td>
-                            <td>${blog.content}</td>
+                            <td width="700">${blog.content}</td>
                             <td><img src="${blog.thumbnail}" width="100"></td>
                             <td>${blog.views}</td>
                             <td>${formatDate(blog.created_at)}</td>
@@ -174,6 +188,7 @@
         e.preventDefault();
         const title = $('#title');
         const content = $('#editor');
+        const views = $('#views');
         const thumbnail = $('#thumbnail');
         const file = thumbnail[0].files[0] || null;
             const formData = new FormData();
@@ -190,6 +205,7 @@
                 success: (res) => {
                     const blog = {
                         title: title.val(),
+                        views: views.val(),
                         content: content.val(),
                         author_id: 1,
                         thumbnail: res.secure_url
@@ -203,6 +219,7 @@
                         dataType: "json",
                         success: (response) => {
                             title.val('');
+                            views.val('');
                             content.val(''),
                             thumbnail.val('');
                             $('#add-blog-modal').modal('hide');
@@ -242,6 +259,7 @@
                 const blog = res.data;
                 $('#update_blog_id').val(blog.blog_id);
                 $('#update_title').val(blog.title);
+                $('#update_views').val(blog.views);
                 $('#update_editor').val(blog.content);
                 $('#preview_thumbnail').attr('src', blog.thumbnail).parent().show();
             } else {
@@ -265,6 +283,7 @@
 const updateBlogBtn = $('#update_btn');
 const updateBlogId = $('#update_blog_id');
 const updateTitle = $('#update_title');
+const updateViews = $('#update_views');
 const updateContent = $('#update_editor');
 const updatedThumbnail = $('#preview_thumbnail');
 const updateThumbnailInput = $('#updated_thumbnail');
@@ -277,6 +296,7 @@ const updateThumbnailInput = $('#updated_thumbnail');
         const blog = {
         blog_id: updateBlogId.val(),
         title: updateTitle.val(),
+        views: updateViews.val(),
         content: content,
         // is_public: updateIsPublic.is(':checked') ? 1 : 0,
         };

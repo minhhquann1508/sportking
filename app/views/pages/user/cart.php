@@ -9,33 +9,12 @@
                     <button class="btn" onclick="deleteAll()"><i class="fa-regular fa-trash-can"></i></button>
                 </div>
                 <ul id="cart-body">
-                    <!-- Item -->
-
                 </ul>
             </div>
             <div class="col-4">
                 <h5 class="text-uppercase text-center mt-1">tóm tắt đơn hàng</h5>
                 <div class="mt-4" id="cart-total">
-                    <!-- <ul>
-                        <li class="d-flex justify-content-between mb-2">
-                            <span>2 sản phẩm</span>
-                            <span>2.480.000 đ</span>
-                        </li>
-                        <li class="d-flex justify-content-between mb-2">
-                            <span>Giá gốc</span>
-                            <span>3.480.000 đ</span>
-                        </li>
-                        <li class="d-flex justify-content-between mb-2">
-                            <span>Giao hàng</span>
-                            <span>Miễn phí</span>
-                        </li>
-                        <hr>
-                        <li class="d-flex justify-content-between mt-2">
-                            <strong>Tổng</strong>
-                            <strong>2.650.000 đ</strong>
-                        </li>
-                    </ul> -->
-                    <button class="btn btn-primary mt-3 w-100">Thanh toán ngay</button>
+                    <!-- <button class="btn btn-primary mt-3 w-100">Thanh toán ngay</button>
                     <div class="mt-3">
                         <strong>CÁC PHƯƠNG THỨC THANH TOÁN</strong>
                         <ul>
@@ -43,8 +22,9 @@
                             <li></li>
                             <li></li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
+                <button class="btn btn-primary mt-2 w-100" id="submit-btn">Thanh toán ngay</button>
             </div>
         </div>
     </div>
@@ -87,6 +67,7 @@ const renderCart = (cart) => {
         Object.keys(cart).forEach(productId => {
             const variants = cart[productId];
             variants.forEach(variant => {
+                console.log(variant);
                 html += `
                     <li class="border-bottom">
                         <div class="row py-3 h-100 align-items-stretch">
@@ -95,22 +76,18 @@ const renderCart = (cart) => {
                                 onchange="handleCheck(${variant.variant_id}, ${variant.quantity}, ${variant.price})" >
                             </div>
                             <div class="col-2 d-flex justify-content-center align-items-center ps-1">
-                                <img width="100" height="100" style="object-fit: cover;" src="${variant.thumbnail}" alt="">
+                                <img width="100" height="100" style="object-fit: contain;" src="${variant.thumbnail}" alt="">
                             </div>
                             <div class="col d-flex flex-column justify-content-between" style="height: 100px;">
                                 <div class="d-flex justify-content-between flex-grow-1">
                                     <div>
                                         <h6 class="mb-1">${variant.product_name}</h6>
-                                        <div class="d-flex gap-2">
-                                            <select class="form-select form-select-sm" disabled>
-                                                <option selected>${variant.color_name}</option>
-                                            </select>
-                                            <select class="form-select form-select-sm" disabled>
-                                                <option selected>${variant.size_name}</option>
-                                            </select>
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <span style="font-size: 13px">${variant.color_name}</span>
+                                            <span style="font-size: 13px">${variant.size_name}</span>
                                             <div class="d-flex align-items-center border rounded">
                                                 <button class="btn btn-sm border-end">-</button>
-                                                <span class="mx-3">${variant.quantity}</span>
+                                                <span class="mx-2" style="font-size: 13px">${variant.quantity}</span>
                                                 <button class="btn btn-sm border-start">+</button>
                                             </div>
                                         </div>
@@ -177,7 +154,11 @@ const renderTotal = () => {
             </li>
         </ul>
     `;
-
+    if (checkedItems.length <= 0) {
+        $('#submit-btn').prop('disabled', true);
+    } else {
+        $('#submit-btn').prop('disabled', false);
+    }
     document.getElementById('cart-total').innerHTML = html;
 };
 
@@ -214,6 +195,23 @@ const deleteAll = () => {
         }
     })
 }
+
+$('#submit-btn').click(() => {
+    $.ajax({
+        url: '?controller=cart&action=add_to_order',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            items: checkedItems
+        },
+        success: (res) => {
+            window.location.href = '?controller=home&action=order'
+        },
+        error: (err) => {
+            console.log(err);
+        }
+    })
+})
 
 $(document).ready(() => {
     $.ajax({

@@ -19,7 +19,8 @@
         }
 
         public function get_list_products() {
-            $response = $this->productModel->get_all_products();
+            $page = $_GET['page'];
+            $response = $this->productModel->get_all_products($page);
             echo json_encode($response);
         }
 
@@ -62,6 +63,13 @@
                 echo json_encode($response);
                 exit;
             }
+        }
+
+        public function search_product() {
+            $search_params = $_GET['search_params'];
+            $response = $this->productModel->search_product($search_params);
+            echo json_encode($response);
+            exit;
         }
     }
 ?>

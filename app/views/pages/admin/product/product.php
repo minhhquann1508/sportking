@@ -1,9 +1,44 @@
-<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="d-flex justify-content-between align-items-center">
     <h5>Danh sách sản phẩm</h5>
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
         Thêm sản phẩm
     </button>
 </div>
+<form class="row g-3 align-items-end mt-2 mb-3">
+    <!-- Tên sản phẩm -->
+    <div class="col-md-4">
+        <input type="text" class="form-control" id="search_name" placeholder="Nhập tên sản phẩm">
+    </div>
+
+    <!-- Danh mục -->
+    <div class="col-md-3">
+        <select id="search_category" class="form-select">
+            <option value="">Tất cả danh mục</option>
+            <?php 
+                foreach ($categories as $category) {
+                    echo '<option value="'.$category['category_id'].'">'.$category['category_name'].'</option>';
+                }
+            ?>
+        </select>
+    </div>
+
+    <!-- Thương hiệu -->
+    <div class="col-md-3">
+        <select id="search_brand" class="form-select">
+            <option value="">Tất cả thương hiệu</option>
+            <?php 
+                foreach ($brands as $brand) {
+                    echo '<option value="'.$brand['brand_id'].'">'.$brand['brand_name'].'</option>';
+                }
+            ?>
+        </select>
+    </div>
+
+    <!-- Nút tìm kiếm -->
+    <div class="col-md-2 d-grid">
+        <button type="submit" id="search_btn" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+</form>
 <div>
     <table class="table table-bordered border-dark">
         <thead>
@@ -20,6 +55,9 @@
         <tbody id="table-body">
         </tbody>
     </table>
+    <div class="d-flex justify-content-center">
+        <div id="pagination"></div>
+    </div>
 </div>
 <!-- Add Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -33,65 +71,61 @@
                 <form>
                     <div class="mb-3">
                         <label class="form-label">Tên sản phẩm</label>
-                        <input placeholder="Nhập tên sản phẩm" type="text" class="form-control" id="product_name"
-                            aria-describedby="emailHelp">
+                        <input placeholder="Nhập tên sản phẩm" type="text" class="form-control" id="product_name">
+                        <div class="text-danger error-message" id="error-name"></div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mô tả ngắn</label>
-                        <input placeholder="Nhập mô tả ngắn" type="text" class="form-control" id="subdesc"
-                            aria-describedby="emailHelp">
+                        <input placeholder="Nhập mô tả ngắn" type="text" class="form-control" id="subdesc">
+                        <div class="text-danger error-message" id="error-subdesc"></div>
                     </div>
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Hình ảnh sản phẩm</label>
                         <input class="form-control" type="file" id="thumbnail">
+                        <div class="text-danger error-message" id="error-thumbnail"></div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-6">
-                            <div>
-                                <label class="form-label">Lượt bán</label>
-                                <input type="number" value="0" class="form-control" id="solds"
-                                    aria-describedby="emailHelp">
-                            </div>
+                            <label class="form-label">Lượt bán</label>
+                            <input type="number" value="0" class="form-control" id="solds">
                         </div>
                         <div class="col-6">
-                            <div>
-                                <label class="form-label">Lượt xem</label>
-                                <input type="number" value="0" class="form-control" id="views"
-                                    aria-describedby="emailHelp">
-                            </div>
+                            <label class="form-label">Lượt xem</label>
+                            <input type="number" value="0" class="form-control" id="views">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-6">
                             <label class="form-label">Danh mục</label>
-                            <select class="form-select" aria-label="Default select example" id="category">
+                            <select class="form-select" id="category">
                                 <?php 
                                     foreach ($categories as $key => $category) {
-                                        echo '<option '.($key == 1 ?? 'selected').' value="'.$category['category_id'].'">'.$category['category_name'].'</option>';
+                                        echo '<option value="'.$category['category_id'].'">'.$category['category_name'].'</option>';
                                     }
                                 ?>
                             </select>
+                            <div class="text-danger error-message" id="error-category"></div>
                         </div>
                         <div class="col-6">
                             <label class="form-label">Thương hiệu</label>
-                            <select class="form-select" aria-label="Default select example" id="brand">
+                            <select class="form-select" id="brand">
                                 <?php 
                                     foreach ($brands as $key => $brand) {
-                                        echo '<option '.($key == 1 ?? 'selected').' value="'.$brand['brand_id'].'">
-                                            '.$brand['brand_name'].'
-                                            </option>';
+                                        echo '<option value="'.$brand['brand_id'].'">'.$brand['brand_name'].'</option>';
                                     }
                                 ?>
                             </select>
+                            <div class="text-danger error-message" id="error-brand"></div>
                         </div>
                     </div>
-                    <div class="mb-3 p-0">
+                    <div class="mb-3">
                         <label class="form-label">Mô tả chi tiết</label>
                         <textarea id="editor"></textarea>
+                        <div class="text-danger error-message" id="error-description"></div>
                     </div>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="is_public" checked>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Hiện sản phẩm</label>
+                        <input class="form-check-input" type="checkbox" id="is_public" checked>
+                        <label class="form-check-label" for="is_public">Hiện sản phẩm</label>
                     </div>
                 </form>
             </div>
@@ -115,39 +149,39 @@
                 <form>
                     <div class="mb-3">
                         <label class="form-label">Id sản phẩm</label>
-                        <input disabled placeholder="Nhập tên sản phẩm" type="text" class="form-control" id="product_id"
-                            aria-describedby="emailHelp">
+                        <input disabled placeholder="Nhập tên sản phẩm" type="text" class="form-control"
+                            id="product_id">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Tên sản phẩm</label>
-                        <input placeholder="Nhập tên sản phẩm" type="text" class="form-control" id="updated_name"
-                            aria-describedby="emailHelp">
+                        <input placeholder="Nhập tên sản phẩm" type="text" class="form-control" id="updated_name">
+                        <div class="text-danger mt-1" id="error_name" style="display: none;">Tên sản phẩm không được để
+                            trống</div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Mô tả ngắn</label>
-                        <input placeholder="Nhập mô tả ngắn" type="text" class="form-control" id="updated_subdesc"
-                            aria-describedby="emailHelp">
+                        <input placeholder="Nhập mô tả ngắn" type="text" class="form-control" id="updated_subdesc">
+                        <div class="text-danger mt-1" id="error_subdesc" style="display: none;">Mô tả ngắn không được để
+                            trống</div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-6">
                             <div>
                                 <label class="form-label">Lượt bán</label>
-                                <input type="number" value="0" class="form-control" id="updated_solds"
-                                    aria-describedby="emailHelp">
+                                <input type="number" value="0" class="form-control" id="updated_solds">
                             </div>
                         </div>
                         <div class="col-6">
                             <div>
                                 <label class="form-label">Lượt xem</label>
-                                <input type="number" value="0" class="form-control" id="updated_views"
-                                    aria-describedby="emailHelp">
+                                <input type="number" value="0" class="form-control" id="updated_views">
                             </div>
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-6">
                             <label class="form-label">Danh mục</label>
-                            <select class="form-select" aria-label="Default select example" id="updated_category">
+                            <select class="form-select" id="updated_category">
                                 <?php 
                                     foreach ($categories as $key => $category) {
                                         echo '<option '.($key == 1 ?? 'selected').' value="'.$category['category_id'].'">'.$category['category_name'].'</option>';
@@ -157,12 +191,10 @@
                         </div>
                         <div class="col-6">
                             <label class="form-label">Thương hiệu</label>
-                            <select class="form-select" aria-label="Default select example" id="updated_brand">
+                            <select class="form-select" id="updated_brand">
                                 <?php 
                                     foreach ($brands as $key => $brand) {
-                                        echo '<option '.($key == 1 ?? 'selected').' value="'.$brand['brand_id'].'">
-                                            '.$brand['brand_name'].'
-                                            </option>';
+                                        echo '<option '.($key == 1 ?? 'selected').' value="'.$brand['brand_id'].'">'.$brand['brand_name'].'</option>';
                                     }
                                 ?>
                             </select>
@@ -171,6 +203,8 @@
                     <div class="mb-3 p-0">
                         <label class="form-label">Mô tả chi tiết</label>
                         <textarea id="updated_editor"></textarea>
+                        <div class="text-danger mt-1" id="error_detail" style="display: none;">Mô tả chi tiết không được
+                            để trống</div>
                     </div>
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Hình ảnh sản phẩm</label>
@@ -271,37 +305,56 @@ const setUpdatedProduct = (id) => {
 
 // render list product function
 const renderListProduct = (products) => {
-    const html = products.map(product => {
-        return `<tr>
-            <td style="width: 350px">${product.product_name}</td>
-            <td class="text-center">
-                <img width="35" height="35" src="${product.thumbnail}" alt="">
-            </td>
-            <td class="text-center">${product.solds}</td>
-            <td class="text-center">${product.views}</td>
-            <td class="text-center">${product.brand_name}</td>
-            <td class="text-center">${product.category_name}</td>
-            <td class="text-center">
-                <button type="button" class="btn-sm btn-border"><a href="?controller=variant&product_id=${product.product_id}"><i class="fa-regular fa-object-group"></a></i></button>
-                <button type="button" onclick="setUpdatedProduct('${product.product_id}')" class="btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal"><i class="fa-regular fa-pen-to-square"></i></button>
-                <button type="button" onclick="setIdProduct('${product.product_id}')" class="btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                    <i class="fa-regular fa-trash-can"></i>
-                </button>
-            </td>
-        </tr>`;
-    })
-    document.getElementById('table-body').innerHTML = html.join('');
+    let html = '';
+
+    if (!products || products.length === 0) {
+        html = `<tr>
+                    <td colspan="7" class="text-center text-muted">Không có sản phẩm nào</td>
+                </tr>`;
+    } else {
+        html = products.map(product => {
+            return `<tr>
+                <td style="width: 350px">${product.product_name}</td>
+                <td class="text-center">
+                    <img style="object-fit: contain" width="35" height="35" src="${product.thumbnail}" alt="">
+                </td>
+                <td class="text-center">${product.solds}</td>
+                <td class="text-center">${product.views}</td>
+                <td class="text-center">${product.brand_name}</td>
+                <td class="text-center">${product.category_name}</td>
+                <td class="text-center">
+                    <button type="button" class="btn-sm btn-border">
+                        <a href="?controller=variant&product_id=${product.product_id}">
+                            <i class="fa-regular fa-object-group"></i>
+                        </a>
+                    </button>
+                    <button type="button" onclick="setUpdatedProduct('${product.product_id}')" class="btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
+                    <button type="button" onclick="setIdProduct('${product.product_id}')" class="btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                </td>
+            </tr>`;
+        }).join('');
+    }
+    document.getElementById('table-body').innerHTML = html;
 }
 
 // Fetch list product
 $(document).ready(() => {
     const fetchListProducts = () => {
+        const page = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
+
         $.ajax({
-            url: "?controller=product&action=get_list_products",
+            url: `?controller=product&action=get_list_products&page=${page}`,
             method: 'GET',
             dataType: 'json',
             success: (response) => {
                 renderListProduct(response.data);
+                if (response.pagination) {
+                    renderPagination(page, response.pagination.total);
+                }
             },
             error: (error) => {
                 console.log(error.responseText);
@@ -312,11 +365,49 @@ $(document).ready(() => {
 
     // Add new product
     submitBtn.click(() => {
+        // Reset lỗi trước
+        $('.error-message').text('');
+
         const file = fileInput[0].files[0];
+        const name = nameInput.val().trim();
+        const subDesc = subDescInput.val().trim();
+        const description = descriptionInput[0]['data-froala.editor'].html.get().trim();
+        const solds = soldsInput.val();
+        const views = viewsInput.val();
+        const category = categoryInput.val();
+        const brand = brandInput.val();
+
+        let isValid = true;
+
+        if (!name) {
+            $('#error-name').text("Tên sản phẩm không được để trống!");
+            isValid = false;
+        }
+        if (!subDesc) {
+            $('#error-subdesc').text("Mô tả ngắn không được để trống!");
+            isValid = false;
+        }
+        if (!description || description === "<p><br></p>") {
+            $('#error-description').text("Mô tả chi tiết không được để trống!");
+            isValid = false;
+        }
+        if (!category) {
+            $('#error-category').text("Vui lòng chọn danh mục!");
+            isValid = false;
+        }
+        if (!brand) {
+            $('#error-brand').text("Vui lòng chọn thương hiệu!");
+            isValid = false;
+        }
+
+        if (!isValid) return;
+
+        // Nếu hợp lệ, tiếp tục upload ảnh và gửi form
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "chovybe_present");
         formData.append("cloud_name", "dtdkm7cjl");
+
         $.ajax({
             url: 'https://api.cloudinary.com/v1_1/dtdkm7cjl/image/upload',
             method: "POST",
@@ -326,16 +417,17 @@ $(document).ready(() => {
             success: (cloudinaryResponse) => {
                 const imageUrl = cloudinaryResponse.secure_url;
                 const product = {
-                    product_name: nameInput.val(),
-                    sub_desc: subDescInput.val(),
-                    solds: soldsInput.val(),
-                    views: viewsInput.val(),
-                    category_id: categoryInput.val(),
-                    brand_id: brandInput.val(),
-                    description: descriptionInput.val(),
+                    product_name: name,
+                    sub_desc: subDesc,
+                    solds: solds,
+                    views: views,
+                    category_id: category,
+                    brand_id: brand,
+                    description: description,
                     is_public: publicInput.is(':checked') ? 1 : 0,
                     thumbnail: imageUrl
                 }
+
                 $.ajax({
                     url: "?controller=product&action=add_product",
                     method: "POST",
@@ -351,18 +443,18 @@ $(document).ready(() => {
                         fileInput.val('');
                         $('#addModal').modal('hide');
                         fetchListProducts();
-                        showToast(response.message)
+                        showToast(response.message);
                     },
                     error: (error) => {
-                        showToast(error.responseText)
+                        showToast(error.responseText);
                     }
-                })
+                });
             },
             error: (error) => {
                 showToast("Lỗi khi upload ảnh lên Cloudinary!");
             }
-        })
-    })
+        });
+    });
 
     //Delete product
     deleteBtn.click(() => {
@@ -383,33 +475,66 @@ $(document).ready(() => {
     })
     // Update product
     updateBtn.click(async () => {
+        // Xoá lỗi cũ
+        $('#error_name, #error_subdesc, #error_detail').hide();
+
         const file = fileInputUpdate[0].files[0];
+        const name = nameInputUpdate.val().trim();
+        const subDesc = subDescInputUpdate.val().trim();
+        const description = descriptionInputUpdate.val().trim();
+
+        let hasError = false;
+
+        if (!name) {
+            $('#error_name').show();
+            hasError = true;
+        }
+
+        if (!subDesc) {
+            $('#error_subdesc').show();
+            hasError = true;
+        }
+
+        if (!description) {
+            $('#error_detail').show();
+            hasError = true;
+        }
+
+        if (hasError) {
+            return; // Dừng nếu có lỗi
+        }
+
         const product = {
-            product_name: nameInputUpdate.val(),
-            sub_desc: subDescInputUpdate.val(),
+            product_name: name,
+            sub_desc: subDesc,
             solds: soldsInputUpdate.val(),
             views: viewsInputUpdate.val(),
             category_id: categoryInputUpdate.val(),
             brand_id: brandInputUpdate.val(),
-            description: descriptionInputUpdate.val(),
+            description: description,
             is_public: publicInputUpdate.is(':checked') ? 1 : 0,
         }
+
         if (file) {
-            // Nếu có file thì upload
             const formData = new FormData();
             formData.append("file", file);
             formData.append("upload_preset", "chovybe_present");
             formData.append("cloud_name", "dtdkm7cjl");
-            const cloudinaryResponse = await $.ajax({
-                url: 'https://api.cloudinary.com/v1_1/dtdkm7cjl/image/upload',
-                method: "POST",
-                data: formData,
-                processData: false,
-                contentType: false
-            });
-            product.thumbnail = cloudinaryResponse.secure_url;
+
+            try {
+                const cloudinaryResponse = await $.ajax({
+                    url: 'https://api.cloudinary.com/v1_1/dtdkm7cjl/image/upload',
+                    method: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false
+                });
+                product.thumbnail = cloudinaryResponse.secure_url;
+            } catch (error) {
+                showToast("Lỗi khi upload ảnh!");
+                return;
+            }
         } else {
-            // Nếu không có file thì cập nhật thường
             product.thumbnail = updatedThumbnail.attr('src') || null;
         }
 
@@ -431,7 +556,36 @@ $(document).ready(() => {
             error: (error) => {
                 showToast(error.responseText)
             }
-        })
+        });
+    });
+})
+
+$('#search_btn').click((e) => {
+    const page = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
+    e.preventDefault();
+    const name = $('#search_name').val();
+    const brand = $('#search_brand').val();
+    const category = $('#search_category').val();
+    const search_params = {
+        product_name: name,
+        brand_id: brand,
+        category_id: category
+    };
+
+    $.ajax({
+        url: '?controller=product&action=search_product',
+        method: 'GET',
+        data: {
+            search_params
+        },
+        dataType: 'json',
+        success: (res) => {
+            renderListProduct(res.data);
+            renderPagination(page, res.pagination.total);
+        },
+        error: (err) => {
+            renderListProduct([]);
+        }
     })
 })
 </script>

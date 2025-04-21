@@ -9,11 +9,9 @@ require_once '../app/models/Blog.php';
 require_once '../app/models/Size.php';
 require_once '../app/models/Color.php';
 require_once '../app/models/Variant.php';
-<<<<<<< Updated upstream
-=======
 require_once '../app/models/Address.php';
 require_once '../app/models/Voucher.php';
->>>>>>> Stashed changes
+require_once '../app/models/Address.php';
 class HomeController
 {
     private $productModel;
@@ -26,11 +24,8 @@ class HomeController
     private $sizeModel;
     private $colorModel;
     private $variantModel;
-<<<<<<< Updated upstream
-=======
     private $addressModel;
     private $voucherModel;
->>>>>>> Stashed changes
     public function __construct()
     {
         $this->homeModel = new Home();
@@ -44,48 +39,81 @@ class HomeController
         $this->userModel = new User();
         $this->sizeModel = new Size();
         $this->colorModel = new Color();
-<<<<<<< Updated upstream
-=======
         $this->addressModel = new Address();
         $this->voucherModel = new Voucher();
->>>>>>> Stashed changes
     }
     public function index()
     {
         $categories = $this->homeModel->get_all_categorys();
         $brands = $this->homeModel->get_all_brands();
-        $productList = $this->homeModel->get_all_products();
+        $variant_list = $this->variantModel->get_variant_list();
+
 
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/home2.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+    public function get_variant()
+    {
+        if (isset($_POST['color_id']) && isset($_POST['size_id'])) {
+            $color_id = $_POST['color_id'];
+            $size_id = $_POST['size_id'];
+
+            $variant = $this->variantModel->get_variant_by_color_size($color_id, $size_id);
+            echo json_encode($variant);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Thiếu tham số color_id hoặc size_id',
+                'data' => null
+            ]);
+        }
+    }
     public function product_detail()
     {
+        $variant_id = $_GET['variant_id'] ?? null;
         $product_id = $_GET['product_id'] ?? null;
-        $product = $this->productModel->get_product_by_id($product_id);
-        $variant = $this->variantModel->get_all_variant_by_product_id($product_id);
-        $productList = $this->homeModel->get_all_products();
+        $variant_detail = $this->variantModel->get_all_variant_by_id($variant_id);
+        $variant_detail_list = $this->productModel->get_all_variants_by_product_id($product_id);
+        $variant_list = $this->variantModel->get_variant_list();
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/detail.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
-    public function blog()
+    public function quickview()
     {
-        $categories = $this->homeModel->get_all_categorys();
-        $blogList = $this->blogModel->get_all_blogs();
-        $blogRelated = $this->blogModel->get_by_quantity();
-        $content = '../app/views/pages/user/blog.php';
-        $header = '../app/views/layouts/_header.php';
-        $footer = '../app/views/layouts/_footer.php';
-        include_once "../app/views/layouts/default2.php";
+        if (isset($_GET['product_id'])) {
+            $product_id = $_GET['product_id'];
+
+            $product = $this->productModel->get_product_by_id($product_id);
+            $variant = $this->variantModel->get_all_variant_by_product_id($product_id);
+
+            $data = [
+                'product' => $product['data'],
+                'variant' => $variant['data'][0] ?? []
+            ];
+        } else {
+            echo "<p>Không tìm thấy sản phẩm.</p>";
+        }
+        require_once '../app/views/layouts/quickview.php';
     }
 
+    // public function blog()
+    // {
+    //     $categories = $this->homeModel->get_all_categorys();
+    //     $blogList = $this->blogModel->get_all_blogs();
+    //     $blogRelated = $this->blogModel->get_by_quantity();
+    //     $content = '../app/views/pages/user/blog.php';
+    //     $header = '../app/views/layouts/_header.php';
+    //     $footer = '../app/views/layouts/_footer.php';
+    //     include_once "../app/views/layouts/default2.php";
+    // }
     public function blogdetail()
     {
         $id = $_GET['id'];
+        $productList = $this->homeModel->get_all_products();
         $categories = $this->homeModel->get_all_categorys();
         $blogResult = $this->blogModel->get_blog_by_id($id);
         $blogDetail = $blogResult['data'];
@@ -223,9 +251,8 @@ class HomeController
         }
     }
 
-    public function order()
+    public function order2()
     {
-<<<<<<< Updated upstream
         $content = '../app/views/pages/user/order.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -233,8 +260,6 @@ class HomeController
     }
 
     public function add_orders() {
-       
-=======
         if (isset($_SESSION['user']['user_id'])) {
             $id = $_SESSION['user']['user_id'];
             $orders = [];
@@ -260,8 +285,26 @@ class HomeController
 
         $rawData = file_get_contents("php://input");
         $postData = json_decode($rawData, true);
+        if (isset($_SESSION['user']['user_id'])) {
+            $id = $_SESSION['user']['user_id'];
+            $orders = [];
+            foreach ($_SESSION['order_list'] as $item) {
+                $variant_item = $this->variantModel->get_variant_by_id($item['id'])['data'];
+                $variant_item['quantity'] = $item['quantity'];
+                $orders[] = $variant_item;
+            }
+            $address = $this->addressModel->get_address_by_user_id($id)['data'];
+            $content = '../app/views/pages/user/order2.php';
+            $header = '../app/views/layouts/_header.php';
+            $footer = '../app/views/layouts/_footer.php';
+            include_once "../app/views/layouts/default2.php";
+        } else {
+            echo "Bạn chưa đăng nhập!";
+        }
+    }
 
->>>>>>> Stashed changes
+    public function add_orders()
+    {
         // Lấy thông tin
         $total_amount = $postData['total_amount'];
         $user_id = $postData['user_id'];
@@ -318,6 +361,8 @@ class HomeController
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+
+
     public function contact()
     {
         $content = '../app/views/pages/user/contact.php';

@@ -44,7 +44,10 @@
         }
 
         public function get_all() {
-            $response = $this->variantModel->get_all();
+            $response = $this->variantModel->get_all(
+                $_GET['product_id'],
+                $_GET['page']
+            );
             echo json_encode($response);
             exit;
         }
@@ -63,6 +66,13 @@
             $response = $this->variantModel->delete_variant(
                 $_GET['variant_id']
             );
+            echo json_encode($response);
+            exit;
+        }
+
+        public function update() {
+            $update_product = $_POST;
+            $response = $this->variantModel->update_variant_by_id($update_product);
             echo json_encode($response);
             exit;
         }
