@@ -2,26 +2,19 @@
 <?php include '../app/views/layouts/_list_product_cssfile.php' ?>
 
 <?php
-$productData = $product['data'][0] ?? [];
-$variantData = $variant['data'] ?? [];
-$thumbnail = !empty($productData['thumbnail']) ? $productData['thumbnail'] : 'https://placehold.co/400x600';
-$views = $productData['views'] ?? 0;
-$solds = $productData['solds'] ?? 0;
-$subDesc = $productData['sub_desc'] ?? 'Không có mô tả ngắn';
-$desc = $productData['desc'] ?? 'Không có mô tả chi tiết';
-$price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
+print_r($variant_detail);
 ?>
 
 <main style="padding-top: 76px;">
     <section class="py-4">
         <div class="container">
-            <input type="hidden" id="product-id" value="<?php echo $productData['product_id'] ?>">
+            <input type="hidden" id="product-id" value="<?php echo $variant_detail['data'][0]['variant_id'] ?>">
             <div class="row">
                 <div class="col-6 d-flex">
                     <div class="me-2 d-flex gap-2 h-100" style="flex-direction: column; width: 80px;">
                         <?php
                         $content = '';
-                        foreach ($variantData[0]['images'] as $img) {
+                        foreach ($variant_detail['data'][0]['images'] as $img) {
                             $content .= '<div class="position-relative flex-grow-1" onclick="changeImage(this, \'' . $img . '\')">
                                     <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
                                         style="cursor: pointer;"></div>
@@ -40,42 +33,37 @@ $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
                 </div>
                 <div class="col-6">
                     <h3 class="text-uppercase" style="font-weight: 500;">
-                        <?php echo $product['data'][0]['product_name'] ?></h3>
+                        <?php echo $variant_detail['data'][0]['product_name'] ?></h3>
                     <h4 style="font-weight: 200;" class="d-flex align-items-center gap-3">
-                        <h4 id="price"><?php echo number_format($price, 0, ',', '.') ?></h4>
+                        <h4 id="price"><?php echo number_format($variant_detail['data'][0]['price'], 0, ',', '.') ?></h4>
                     </h4>
                     <div class="d-flex gap-3 mb-2">
                         <span><strong>Danh mục:
-                            </strong><span><?php echo $product['data'][0]['category_name'] ?></span></span>
-                        <span><strong>Thương hiệu:
-                            </strong><span><?php echo $product['data'][0]['brand_name'] ?></span></span>
+                                <span><?php echo $variant_detail['data'][0]['category']['category_name']; ?></span>
+
+                                <span><strong>Thương hiệu:
+                                    </strong><span><?php echo $variant_detail['data'][0]['brand']['brand_name'] ?></span></span>
                     </div>
-                    <!-- <div class="d-flex gap-3 mb-2">
-                        <span><strong>Màu sắc: </strong><span></span></span>
-                        <span><strong>Còn lại: </strong><span>1</span></span>
-                    </div> -->
                     <div class="d-flex gap-3 mb-2">
-                        <span><strong>Lượt xem: </strong><span><?php echo $product['data'][0]['views'] ?></span></span>
-                        <span><strong>Lượt bán: </strong><span><?php echo $product['data'][0]['solds'] ?></span></span>
+                        <span><strong>Lượt xem: </strong><span><?php echo $variant_detail['data'][0]['views'] ?></span></span>
+                        <span><strong>Lượt bán: </strong><span><?php echo $variant_detail['data'][0]['solds'] ?></span></span>
                     </div>
                     <strong>Mô tả ngắn</strong>
-                    <p style="line-height: 1.6;"><?php echo $product['data'][0]['sub_desc'] ?>
+                    <p style="line-height: 1.6;"><?php echo $variant_detail['data'][0]['sub_desc'] ?>
                     </p>
                     <div class="d-flex gap-2 mb-3">
                         <?php
-                        foreach ($variantData as $variant) {
-                            $colors = $variant['colors'];
-                            foreach ($colors as $color) {
-                                echo '
-                                        <button class="btn btn-sm border d-flex align-items-center gap-2 color-btn"
-                                            data-color-id="' . $color['color_id'] . '>">
-                                            <p class="m-0"
-                                                style="width: 18px; height: 18px; background-color: ' . $color['color_hex'] . ';">
-                                            </p>
-                                            <span>' . $color['color_name'] . '</span>
-                                        </button>
-                                    ';
-                            }
+                        $colors = $variant_detail['data'][0]['colors'];
+                        foreach ($colors as $color) {
+                            echo '
+                                <button class="btn btn-sm border d-flex align-items-center gap-2 color-btn"
+                                    data-color-id="' . $color['color_id'] . '">
+                                    <p class="m-0"
+                                        style="width: 18px; height: 18px; background-color: ' . $color['color_hex'] . '; border-radius: 50%;">
+                                    </p>
+                                    <span>' . $color['color_name'] . '</span>
+                                </button>
+                            ';
                         }
                         ?>
 
@@ -86,11 +74,9 @@ $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
                             aria-label="Default select example">
                             <option selected>Vui lòng chọn size</option>
                             <?php
-                            foreach ($variantData as $variant) {
-                                $sizes = $variant['sizes'];
-                                foreach ($sizes as $size) {
-                                    echo '<option value="' . $size['size_id'] . '">' . $size['size_name'] . '</option>';
-                                }
+                            $sizes = $variant_detail['data'][0]['sizes'];
+                            foreach ($sizes as $size) {
+                                echo '<option value="' . $size['size_id'] . '">' . $size['size_name'] . '</option>';
                             }
                             ?>
                         </select>
@@ -177,7 +163,7 @@ $price = !empty($variantData[0]['price']) ?  $variantData[0]['price'] : 0;
     <section class="py-4">
         <div class="container">
             <h4 class="text-center">Sản phẩm liên quan</h4>
-            <?php render_list_product($productList); ?>
+            <?php render_list_product($variant_list); ?>
         </div>
     </section>
 </main>

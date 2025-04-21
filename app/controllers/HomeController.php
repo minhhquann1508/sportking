@@ -42,7 +42,7 @@ class HomeController
     {
         $categories = $this->homeModel->get_all_categorys();
         $brands = $this->homeModel->get_all_brands();
-        $productList = $this->homeModel->get_all_products();
+        $variant_list = $this->variantModel->get_variant_list();
 
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/home2.php';
@@ -51,10 +51,9 @@ class HomeController
     }
     public function product_detail()
     {
-        $product_id = $_GET['product_id'] ?? null;
-        $product = $this->productModel->get_product_by_id($product_id);
-        $variant = $this->variantModel->get_all_variant_by_product_id($product_id);
-        $productList = $this->homeModel->get_all_products();
+        $variant_id = $_GET['variant_id'] ?? null;
+        $variant_detail = $this->variantModel->get_all_variant_by_id($variant_id);
+        $variant_list = $this->variantModel->get_variant_list();
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/detail.php';
         $footer = '../app/views/layouts/_footer.php';
