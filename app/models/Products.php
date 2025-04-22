@@ -159,7 +159,7 @@ class Products extends Database
                 ]
             ];
         }
-
+    }
     public function add_product($product)
     {
         $index = 0;
@@ -340,3 +340,4 @@ class Products extends Database
             ];
         }
     }
+}
