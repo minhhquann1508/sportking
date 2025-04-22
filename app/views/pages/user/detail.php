@@ -1,33 +1,40 @@
 <?php include '../app/views/layouts/_list_product.php' ?>
 <?php include '../app/views/layouts/_list_product_cssfile.php' ?>
-
-<main style="padding-top: 76px;">
+<main style="padding-top: 76px;background-color:#f0f0f0">
     <section class="py-4">
         <div class="container">
-            <input type="hidden" id="product-id" value="<?php echo $variant_detail['data'][0]['variant_id'] ?>">
-            <div class="row">
-                <div class="col-6 d-flex">
-                    <div class="me-2 d-flex gap-2 h-100" style="flex-direction: column; width: 80px;">
+            <div class="breadcrumb d-flex align-items-center gap-2">
+                <span href="#" style="font-size:13px;color:#212121;text-transform: uppercase;"><?php echo $variant_detail['data'][0]['category']['category_name']; ?></span></span>
+                <i class="fa-solid fa-angle-right" style="color:#ccc"></i>
+                <span href="#" style="font-size:13px;color:#212121;text-transform: uppercase;"><?php echo $variant_detail['data'][0]['brand']['brand_name'] ?></span>
+                <i class="fa-solid fa-angle-right" style="color:#ccc"></i>
+                <span href="#" style="font-size:13px;color:#212121;text-transform: uppercase;"><?php echo $variant_detail['data'][0]['product_name'] ?></span>
+            </div>
+            <!-- <input type="hidden" id="product-id" value="<?php echo $variant_detail['data'][0]['variant_id'] ?>"> -->
+
+            <div class="d-flex gap-3">
+                <div class=" p-3 rounded" style="max-width: 500px;background-color:white;height:fit-content">
+                    <div style="width: 450px; height: 450px">
+                        <img id="thumbnail" class="product-thumbnail fade-in" style="width: 100%;height:450px;object-fit:contain"
+                            src="<?php echo $variant_detail['data'][0]['images'][0] ?>" alt="">
+                    </div>
+                    <div class="mt-3 d-flex gap-2 ">
                         <?php
                         $content = '';
                         foreach ($variant_detail['data'][0]['images'] as $img) {
-                            $content .= '<div class="position-relative flex-grow-1" onclick="changeImage(this, \'' . $img . '\')">
-                                    <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
-                                        style="cursor: pointer;"></div>
-                                    <img height="120" width="80" class="w-100" style="object-fit: contain;"
-                                        src="' . $img . '"
-                                        alt="">
-                                </div>';
+                            $content .= '<div class="position-relative " onclick="changeImage(this, \'' . $img . '\')" style="height:84px;width:84px">
+                                                    <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
+                                                        style="cursor: pointer;"></div>
+                                                    <img height="84" width="84"  style="object-fit: contain;"
+                                                        src="' . $img . '"
+                                                        alt="">
+                                                </div>';
                         }
                         echo $content;
                         ?>
                     </div>
-                    <div style="width: 100%; height: 100%">
-                        <img id="thumbnail" class="product-thumbnail fade-in w-100 h-100" style="object-fit: contain;"
-                            src="<?php echo $thumbnail ?>" alt="">
-                    </div>
                 </div>
-                <div class="col-6">
+                <div class="p-3 rounded" style="background-color: white;">
                     <h3 class="text-uppercase" style="font-weight: 500;">
                         <?php echo $variant_detail['data'][0]['product_name'] ?></h3>
                     <h4 style="font-weight: 200;" class="d-flex align-items-center gap-3">
@@ -73,77 +80,103 @@
                             pointer-events: none;
                         }
                     </style>
-                    <div class="d-flex gap-3 mb-2">
-                        <?php
-                        $colors = $variant_detail_list['data']['colors'];
-                        $variants = $variant_detail_list['data']['variants'];
-                        $product_id = $_GET['product_id'];
+                    <?php
+                    $colors = $variant_detail_list['data']['colors'];
+                    $sizes = $variant_detail_list['data']['sizes'];
+                    $variants = $variant_detail_list['data']['variants'];
 
-                        $default_variant_id = $variant_detail['data'][0]['variant_id'];
+                    $availableCombinations = [];
+                    foreach ($variants as $variant) {
+                        $availableCombinations[$variant['color_id']][$variant['size_id']] = $variant['variant_id'];
+                    }
 
-                        $colorToVariant = [];
-                        foreach ($variants as $variant) {
-                            $colorToVariant[$variant['color_id']] = $variant['variant_id'];
+                    $default_variant_id = $variant_detail['data'][0]['variant_id'];
+                    $first_variant_id = $variant_detail_list['data']['first_variant_id'];
+
+                    foreach ($variants as $variant) {
+                        if ($variant['variant_id'] == $first_variant_id) {
+                            $default_size_id = $variant['size_id'];
+                            $default_color_id = $variant['color_id'];
+                            break;
                         }
+                    }
 
-                        foreach ($colors as $color) {
-                            $color_id = $color['color_id'];
-                            $variant_id = $colorToVariant[$color_id] ?? null;
-                            $isActive = ($variant_id == $default_variant_id) ? 'active' : '';
+                    echo '<div class="d-flex gap-3 mb-2" id="color-buttons">';
+                    foreach ($colors as $color) {
+                        $color_id = $color['color_id'];
+                        $isActive = ($color_id == $default_color_id) ? 'active' : '';
 
-                            echo '
-                                <a href="?controller=home&action=product_detail&product_id=23&variant_id=' . $variant_id . '" class="btn d-flex align-items-center gap-2 color-btn ' . $isActive . '" 
-                                        data-variant-id="' . $variant_id . '"
-                                        data-color-id="' . $color_id . '"
-                                        style="text-decoration: none; color: inherit;">
-                                    <p class="m-0"
-                                    style="width: 18px; height: 18px; background-color: ' . $color['color_hex'] . '; border-radius: 50%;"></p>
-                                    <span>' . $color['color_name'] . '</span>
-                                </a>
-                            ';
-                        }
-                        ?>
-
-                    </div>
-
-                    <div class="d-flex gap-3 mb-2" id="size-buttons">
-                        <?php
-                        $sizes = $variant_detail_list['data']['sizes'];
-                        $variants = $variant_detail_list['data']['variants'];
-                        $first_variant_id = $variant_detail_list['data']['first_variant_id'];
-
-                        $default_size_id = null;
-                        foreach ($variants as $variant) {
-                            if ($variant['variant_id'] == $first_variant_id) {
-                                $default_size_id = $variant['size_id'];
+                        $hasSize = false;
+                        foreach ($sizes as $size) {
+                            if (isset($availableCombinations[$color_id][$size['size_id']])) {
+                                $hasSize = true;
                                 break;
                             }
                         }
+                        $isDisabled = !$hasSize ? 'disabled' : '';
 
-                        foreach ($sizes as $size) {
-                            $isActive = ($size['size_id'] == $default_size_id) ? 'active' : '';
-                            echo '
-                                    <button class="btn btn-outline-dark size-btn ' . $isActive . '" 
-                                        data-size-id="' . $size['size_id'] . '">' . $size['size_name'] . '</button>
-                                ';
-                        }
-                        ?>
-                    </div>
+                        echo '
+                            <button class="btn d-flex align-items-center gap-2 color-btn ' . $isActive . '" 
+                                data-color-id="' . $color_id . '" ' . $isDisabled . '>
+                                <p class="m-0"
+                                style="width: 18px; height: 18px; background-color: ' . $color['color_hex'] . '; border-radius: 50%;"></p>
+                                <span>' . $color['color_name'] . '</span>
+                            </button>
+                        ';
+                    }
+                    echo '</div>';
+
+                    echo '<div class="d-flex gap-3 mb-2" id="size-buttons">';
+                    foreach ($sizes as $size) {
+                        $size_id = $size['size_id'];
+                        $isActive = ($size_id == $default_size_id) ? 'active' : '';
+                        $isDisabled = !isset($availableCombinations[$default_color_id][$size_id]) ? 'disabled' : '';
+
+                        echo '
+                            <button class="btn btn-outline-dark size-btn ' . $isActive . '" 
+                                data-size-id="' . $size_id . '" ' . $isDisabled . '>' . $size['size_name'] . '</button>
+                        ';
+                    }
+                    echo '</div>';
+                    ?>
+
+
 
 
                     <div id="stock-info"></div>
                     <script>
+                        const availableCombinations = <?php echo json_encode($availableCombinations); ?>;
+
                         let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId;
                         let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId;
 
+                        if (selectedColorId && selectedSizeId && availableCombinations[selectedColorId]?.[selectedSizeId]) {
+                            fetchVariant();
+                        }
+
+
                         document.querySelectorAll('.color-btn').forEach(btn => {
                             btn.addEventListener('click', function() {
+                                if (this.disabled) return;
+
                                 document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
                                 this.classList.add('active');
 
                                 selectedColorId = this.dataset.colorId;
 
-                                if (selectedSizeId) {
+                                document.querySelectorAll('.size-btn').forEach(sizeBtn => {
+                                    const sizeId = sizeBtn.dataset.sizeId;
+                                    const isAvailable = availableCombinations[selectedColorId] && availableCombinations[selectedColorId][sizeId];
+
+                                    sizeBtn.disabled = !isAvailable;
+
+                                    if (!isAvailable && sizeBtn.classList.contains('active')) {
+                                        sizeBtn.classList.remove('active');
+                                        selectedSizeId = null;
+                                    }
+                                });
+
+                                if (selectedSizeId && availableCombinations[selectedColorId]?.[selectedSizeId]) {
                                     fetchVariant();
                                 }
                             });
@@ -151,16 +184,20 @@
 
                         document.querySelectorAll('.size-btn').forEach(btn => {
                             btn.addEventListener('click', function() {
+                                if (this.disabled) return;
+
                                 document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
                                 this.classList.add('active');
 
                                 selectedSizeId = this.dataset.sizeId;
 
-                                if (selectedColorId) {
+                                if (selectedColorId && availableCombinations[selectedColorId]?.[selectedSizeId]) {
                                     fetchVariant();
                                 }
                             });
                         });
+
+
 
                         function fetchVariant() {
                             $.ajax({
@@ -191,16 +228,6 @@
                             });
                         }
                     </script>
-
-
-
-
-
-
-
-
-
-
                     <div class="d-flex align-items-center border rounded mb-3" style="width: fit-content;">
                         <button class="btn border-end" onclick="handleChangeQuantity(false)">-</button>
                         <span id="quantity" class="mx-3">1</span>
@@ -240,7 +267,7 @@
             </div>
             <div class="py-4">
                 <h4>Mô tả chi tiết sản phẩm</h4>
-                <p style="line-height: 1.6;"><?php echo $product['data'][0]['description'] ?>
+                <p style="line-height: 1.6;"><?php echo $variant_detail_list['data']['product']['description'] ?>
                 </p>
             </div>
         </div>
