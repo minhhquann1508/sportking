@@ -2,9 +2,8 @@
 class Database
 {
     protected $conn;
-    public function __construct()
-    {
-
+    public function __construct() {
+        
         $host = "localhost";
         $dbname = "sportking";
         $username = "root";

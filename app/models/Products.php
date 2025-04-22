@@ -159,7 +159,6 @@ class Products extends Database
                 ]
             ];
         }
-    }
 
     public function add_product($product)
     {
@@ -235,36 +234,67 @@ class Products extends Database
             return ['success' => false, 'message' => 'Xoá sản phẩm thất bại', 'data' => null];
         }
     }
-    public function search_product($search_params, $page = 1, $limit = 10)
-    {
-        $product_name = $search_params['product_name'] ?? '';
-        $brand_id = $search_params['brand_id'] ?? '';
-        $category_id = $search_params['category_id'] ?? '';
+// <<<<<<< quoc
+//     public function search_product($search_params, $page = 1, $limit = 10)
+//     {
+//         $product_name = $search_params['product_name'] ?? '';
+//         $brand_id = $search_params['brand_id'] ?? '';
+//         $category_id = $search_params['category_id'] ?? '';
 
-        $where = [];
+//         $where = [];
 
-        if (!empty($product_name)) {
-            $product_name = preg_replace('/[^a-zA-Z0-9\s]/', '', $product_name);
-            $where[] = "p.product_name LIKE '%$product_name%'";
-        }
+//         if (!empty($product_name)) {
+//             $product_name = preg_replace('/[^a-zA-Z0-9\s]/', '', $product_name);
+//             $where[] = "p.product_name LIKE '%$product_name%'";
+//         }
 
-        if (!empty($brand_id)) {
-            $where[] = "p.brand_id = " . (int)$brand_id;
-        }
+//         if (!empty($brand_id)) {
+//             $where[] = "p.brand_id = " . (int)$brand_id;
+//         }
 
-        if (!empty($category_id)) {
-            $where[] = "p.category_id = " . (int)$category_id;
-        }
+//         if (!empty($category_id)) {
+//             $where[] = "p.category_id = " . (int)$category_id;
+//         }
 
-        $where_sql = '';
-        if (!empty($where)) {
-            $where_sql = 'WHERE ' . implode(' AND ', $where);
-        }
+//         $where_sql = '';
+//         if (!empty($where)) {
+//             $where_sql = 'WHERE ' . implode(' AND ', $where);
+//         }
 
-        $offset = ($page - 1) * $limit;
+//         $offset = ($page - 1) * $limit;
 
-        // Truy vấn dữ liệu
-        $sql = "SELECT p.*, c.category_name, b.brand_name 
+//         // Truy vấn dữ liệu
+//         $sql = "SELECT p.*, c.category_name, b.brand_name 
+// =======
+        public function search_product($search_params, $page = 1, $limit = 10) {
+            $product_name = $search_params['product_name'] ?? '';
+            $brand_id = $search_params['brand_id'] ?? '';
+            $category_id = $search_params['category_id'] ?? '';
+        
+            $where = [];
+        
+            if (!empty($product_name)) {
+                $product_name = preg_replace('/[^a-zA-Z0-9\s]/', '', $product_name);
+                $where[] = "p.product_name LIKE '%$product_name%'";
+            }
+        
+            if (!empty($brand_id)) {
+                $where[] = "p.brand_id = " . (int)$brand_id;
+            }
+        
+            if (!empty($category_id)) {
+                $where[] = "p.category_id = " . (int)$category_id;
+            }
+        
+            $where_sql = '';
+            if (!empty($where)) {
+                $where_sql = 'WHERE ' . implode(' AND ', $where);
+            }
+        
+            $offset = ($page - 1) * $limit;
+        
+            // Truy vấn dữ liệu
+            $sql = "SELECT p.*, c.category_name, b.brand_name 
                     FROM $this->table p 
                     INNER JOIN category c ON c.category_id = p.category_id
                     INNER JOIN brands b ON b.brand_id = p.brand_id
@@ -310,4 +340,3 @@ class Products extends Database
             ];
         }
     }
-}
