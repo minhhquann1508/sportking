@@ -225,13 +225,16 @@
                                 size_id: selectedSizeId
                             },
                             success: (res) => {
+                                console.log("Response:", res);
                                 if (res.success && res.data) {
                                     const variant = res.data;
+
                                     $('#stock-info').text(
                                         variant.stock > 0 ? `Còn lại: ${variant.stock} sản phẩm` :
                                         'Hết hàng'
                                     ).show();
-                                    $('#stock').val(variant.stock);
+
+                                    $('#price').text(`${Number(variant.price).toLocaleString()} đ`);
                                     selectedVariantId = variant.variant_id;
                                 } else {
                                     $('#stock-info').text(res.message || 'Không tìm thấy dữ liệu').show();
