@@ -214,7 +214,7 @@ class Variant extends Database
                 WHERE p.product_id = ?
                 ORDER BY v.color_id DESC, v.size_id ASC
                 LIMIT ? OFFSET ?";
-        
+
         $variantRows = $this->select($sql, [$product_id, (int)$limit, (int)$offset]);
 
         if (!$variantRows) {
@@ -348,28 +348,28 @@ class Variant extends Database
             return ['success' => false, 'message' => 'Lấy thất bại', 'data' => null];
         }
     }
-    public function update_variant_by_id($variant) {
+    public function update_variant_by_id($variant)
+    {
         // return;
         $sql = "UPDATE $this->table 
                 SET price = ?, stock = ?, color_id = ?, size_id = ?
                 WHERE variant_id = ?";
-        if(isset($variant['images'])) {
+        if (isset($variant['images'])) {
             $variant_id = $variant['variant_id'];
             $sql2 = "DELETE FROM variant_image WHERE variant_id = ?";
             $response = $this->execute($sql2, [$variant_id]);
             return $this->add_img($variant_id, $variant['images']);
-        } 
+        }
         $variant_id = $variant['variant_id'];
         $price = $variant['price'];
         $stock = $variant['stock'];
         $color_id = $variant['color_id'];
         $size_id = $variant['size_id'];
         $response = $this->execute($sql, [$price, $stock, $color_id, $size_id, $variant_id]);
-        if($response) {
+        if ($response) {
             return ['success' => true, 'message' => 'Cập nhật thành công', 'data' => null];
         } else {
             return ['success' => false, 'message' => 'Cập nhật thất bại', 'data' => null];
         }
     }
-}
 }
