@@ -333,112 +333,13 @@
 </main>
 
 <script>
-    const availableCombinations = <?php echo json_encode($availableCombinations); ?>;
-
-    let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId;
-    let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId;
-
-    if (selectedColorId && selectedSizeId && availableCombinations[selectedColorId]?.[selectedSizeId]) {
-        fetchVariant();
-    }
-
-
-    document.querySelectorAll('.color-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (this.disabled) return;
-
-            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-
-            selectedColorId = this.dataset.colorId;
-
-            document.querySelectorAll('.size-btn').forEach(sizeBtn => {
-                const sizeId = sizeBtn.dataset.sizeId;
-                const isAvailable = availableCombinations[selectedColorId] && availableCombinations[selectedColorId][sizeId];
-
-                sizeBtn.disabled = !isAvailable;
-
-                if (!isAvailable && sizeBtn.classList.contains('active')) {
-                    sizeBtn.classList.remove('active');
-                    selectedSizeId = null;
-                }
-            });
-
-            if (selectedSizeId && availableCombinations[selectedColorId]?.[selectedSizeId]) {
-                fetchVariant();
-            }
-        });
+document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
     });
+});
 
-    document.querySelectorAll('.size-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (this.disabled) return;
-
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-
-            selectedSizeId = this.dataset.sizeId;
-
-            if (selectedColorId && availableCombinations[selectedColorId]?.[selectedSizeId]) {
-                fetchVariant();
-            }
-        });
-    });
-
-
-
-    function fetchVariant() {
-        $.ajax({
-            url: '?controller=home&action=get_variant',
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                color_id: selectedColorId,
-                size_id: selectedSizeId
-            },
-            success: (res) => {
-                console.log("Response:", res);
-                if (res.success && res.data) {
-                    const variant = res.data;
-
-                    $('#stock-info').text(
-                        variant.stock > 0 ? `Còn lại: ${variant.stock} sản phẩm` : 'Hết hàng'
-                    ).show();
-
-                    $('#price').text(`${variant.price} đ`);
-                    selectedVariantId = variant.variant_id;
-                } else {
-                    $('#stock-info').text(res.message || 'Không tìm thấy dữ liệu').show();
-                }
-            },
-
-            error: (xhr) => {
-                console.error('Lỗi khi lấy variant:', xhr);
-                console.log('Phản hồi từ server:', xhr.responseText);
-                $('#stock-info').text('Có lỗi xảy ra').show();
-            }
-        });
-    }
-</script>
-
-<script>
-    document.querySelectorAll('.size-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-            this.classList.add('selected');
-        });
-    });
-    const changeImage = (e, img) => {
-        document.querySelector('.product-thumbnail').classList.remove("fade-in");
-        const overPlays = document.querySelectorAll('.overplay');
-        overPlays.forEach(overPlay => overPlay.style.display = 'block');
-        const overPlay = e.querySelector('.overplay');
-        overPlay.style.display = 'none';
-        document.querySelector('.product-thumbnail').src = img;
-        setTimeout(() => {
-            document.querySelector('.product-thumbnail').classList.add("fade-in");
-        }, 10);
-    }
 const handleChangeQuantity = (status) => {
     const quantitySpan = document.getElementById('quantity');
     const quantity = Number(quantitySpan.textContent.trim());
@@ -490,24 +391,24 @@ $('#add-btn').click((e) => {
             const variant = {
                 ...res.data,
                 quantity
-            }
+            };
             $.ajax({
                 url: '?controller=cart&action=add',
                 method: 'POST',
                 dataType: 'json',
                 data: variant,
                 success: (res) => {
-                    updateCartQuantitySpan()
-                    showToast('Thêm vào giỏ thành công')
+                    updateCartQuantitySpan();
+                    showToast('Thêm vào giỏ thành công');
                 },
                 error: (err) => {
                     console.log(err);
                 }
-            })
+            });
         },
         error: (err) => {
             console.log(err);
         }
-    })
- }
+    });
+});
 </script>
