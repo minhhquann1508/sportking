@@ -159,7 +159,6 @@ class Products extends Database
                 ];
             }
         }
-    }
 
     public function add_product($product)
     {
@@ -234,7 +233,7 @@ class Products extends Database
         } else {
             return ['success' => false, 'message' => 'Xoá sản phẩm thất bại', 'data' => null];
         }
-
+    }
         public function search_product($search_params, $page = 1, $limit = 10) {
             $product_name = $search_params['product_name'] ?? '';
             $brand_id = $search_params['brand_id'] ?? '';
@@ -310,4 +309,3 @@ class Products extends Database
             }
         }
     }
-}
