@@ -372,4 +372,3 @@ class Variant extends Database
         }
     }
 }
-}
