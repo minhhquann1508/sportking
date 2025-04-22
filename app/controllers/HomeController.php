@@ -74,6 +74,7 @@ class HomeController
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+
     public function product()
     {
         $category = isset($_POST['category']) ? $_POST['category'] : '';

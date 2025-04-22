@@ -5,7 +5,6 @@
             : $content;
 }
 ?>
-
 <style>
     .list-group-item {
         border-bottom: 1px solid #ddd;
@@ -25,32 +24,22 @@
     .card img {
         border-radius: 10px;
     }
-
-    .list-category ul li a {
-        text-decoration: none;
-        color: #333;
-    }
-
-    .list-category ul li a:hover {
-        color: #007bff;
-    }
 </style>
-
 <div class="container mt-5 py-5">
-    <div class="row gx-4">
+    <div class="row">
         <!-- Content -->
-        <div class="col-md-8">
+        <div class="col-8">
             <?php if (!empty($blogList['data'])): ?>
                 <?php foreach ($blogList['data'] as $blog): ?>
                 <div class="card mb-4">
                     <img src="<?= $blog['thumbnail'] ?>" class="card-img-top w-100 h-auto" alt="...">
                     <div class="card-body">
-                        <div class="d-flex align-items-center flex-wrap mb-2 text-muted" style="font-size: 14px;">
-                            <p class="me-3 mb-0"><i class="fa-regular fa-calendar-minus"></i> <?= date("H:i d/m/y", strtotime($blog['created_at'])) ?></p>
-                            <p class="me-3 mb-0"><i class="fa-regular fa-circle-user"></i> <?= $blog['fullname'] ?></p>
-                            <p class="me-3 mb-0"><i class="fa-solid fa-eye"></i> <?= $blog['views'] ?></p>
+                        <div class="d-flex align-items-center">
+                            <p class="me-2"><i class="fa-regular fa-calendar-minus"></i> <?= date("H:i d/m/y", strtotime($blog['created_at'])) ?></p>
+                            <p class="me-2"><i class="fa-regular fa-circle-user"></i> <?= $blog['author_id'] ?></p>
+                            <p class="me-2"><i class="fa-solid fa-eye"></i> <?= $blog['views'] ?></p>
                         </div>
-                        <a class="card-title d-block mb-2 fw-bold text-dark" style="font-size: 24px;" href="?controller=home&action=blogdetail&id=<?= $blog['blog_id']?>"><?= $blog['title'] ?></a>
+                        <a class="card-title" style="font-size: 24px;" href="?controller=home&action=blogdetail&id=<?= $blog['blog_id']?>" ><?= $blog['title'] ?></a>
                         <p class="card-text"><?= truncateContent($blog['content'], 100) ?></p>
                     </div>
                 </div>
@@ -61,30 +50,25 @@
         </div>
 
         <!-- Sidebar -->
-        <div class="col-md-4">
-            <!-- Search -->
-            <div class="mb-4">
-                <form action="" method="post" class="input-group">
-                    <input type="text" name="noidung" class="form-control border-1" placeholder="Tìm kiếm tin tức">
-                    <button class="btn btn-primary" name="btn-search" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                </form>
-            </div>
+        <div class="col-4">
+            <form action="" method="GET" class="input-group mb-4">
+                <input type="text" class="form-control" name="keyword" placeholder="Tìm kiếm tin tức" value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : '' ?>">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
 
-            <!-- Other Posts -->
             <div class="list-group mb-4">
                 <h5 class="mb-3">Các bài viết khác</h5>
                 <?php foreach ($blogRelated['data'] as $blog): ?>
                 <div class="d-flex align-items-center border-bottom border-muted py-2">
                     <img src="<?= $blog['thumbnail'] ?>" class="me-2 w-25 h-auto rounded" alt="">
-                    <a class="text-decoration-none" href="?controller=home&action=blogdetail&id=<?= $blog['blog_id']?>"><?= $blog['title'] ?></a>
+                    <a href="?controller=home&action=blogdetail&id=<?= $blog['blog_id']?>"><?= $blog['title'] ?></a>
                 </div>
                 <?php endforeach; ?>
             </div>
 
-            <!-- Categories -->
-            <div class="list-category p-2 mb-4">
+            <div class="list-category p-2">
                 <h5 class="mb-3">Danh mục</h5>
                 <ul class="list-unstyled">
                     <?php foreach ($categories as $category): ?>
@@ -93,9 +77,8 @@
                 </ul>
             </div>
 
-            <!-- Keywords -->
             <div class="list-key">
-                <h5 class="py-2">Từ khóa nổi bật</h5>
+                <h5 class="mt-4 py-2">Từ khóa nổi bật</h5>
                 <div class="d-flex flex-wrap gap-2 mt-2 py-2">
                     <span class="badge bg-light text-dark border">Thời Trang</span>
                     <span class="badge bg-light text-dark border">Sản Phẩm Mới</span>
