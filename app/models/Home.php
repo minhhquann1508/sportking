@@ -84,9 +84,11 @@ class Home extends Database
 
     public function get_all_order_by_user_id($user_id)
     {
-        $sql = "SELECT o.*, p.*, oi.*, pv.* FROM orders o 
+        $sql = "SELECT o.*, p.*, oi.*, pv.*, sz.*, cl.* FROM orders o 
                     JOIN order_items oi ON oi.order_id = o.order_id
                     JOIN product_variant pv ON pv.variant_id = oi.variant_id 
+                    JOIN size sz ON sz.size_id = pv.size_id
+                    JOIN color cl ON cl.color_id = pv.color_id
                     JOIN product p ON p.product_id = pv.product_id
             WHERE o.user_id = ?";
         $result = $this->select($sql, [$user_id]);

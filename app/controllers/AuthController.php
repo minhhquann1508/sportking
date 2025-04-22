@@ -47,5 +47,28 @@
             $footer = '../app/views/layouts/_footer.php';
             include_once "../app/views/layouts/default2.php";
         }
+        public function forgotPassword()
+        {
+            if ($_SERVER['REQUEST_METHOD'] == "POST") {
+                $emailSend = $_POST['email_send'];
+                $kq = $this->userModel->CheckEmail($emailSend);
+
+                if ($kq == 0) {
+                    echo json_encode(['success' => false, 'message' => 'Email không tồn tại', 'data' => null]);
+                    exit(); 
+                } else {
+                    $pass_moi = substr(md5(mt_rand()), 0, 7);
+                    $this->userModel->CapNhatPassMoi($emailSend, $pass_moi);
+                    $this->userModel->GuiMailPassMoi($emailSend, $pass_moi);
+                    echo json_encode(['success' => true, 'message' => 'Đã gửi mật khẩu mới đến email của bạn', 'data' => null]);
+                    exit();  
+                }
+            }
+            $content = '../app/views/pages/user/forgot_password.php';
+            $header = '../app/views/layouts/_header.php';
+            $footer = '../app/views/layouts/_footer.php';
+            include_once "../app/views/layouts/default2.php";
+        }
+
     }
 ?>

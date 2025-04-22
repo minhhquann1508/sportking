@@ -2,12 +2,16 @@
 require_once '../app/models/Home.php';
 require_once '../app/models/Products.php';
 require_once '../app/models/Brand.php';
+require_once '../app/models/Order.php';
 require_once '../app/models/Category.php';
 require_once '../app/models/Users.php';
 require_once '../app/models/Blog.php';
 require_once '../app/models/Size.php';
 require_once '../app/models/Color.php';
 require_once '../app/models/Variant.php';
+require_once '../app/models/Address.php';
+require_once '../app/models/Voucher.php';
+
 class HomeController
 {
     private $productModel;
@@ -16,9 +20,12 @@ class HomeController
     private $blogModel;
     private $homeModel;
     private $userModel;
+    private $orderModel;
     private $sizeModel;
     private $colorModel;
     private $variantModel;
+    private $addressModel;
+    private $voucherModel;
     public function __construct()
     {
         $this->homeModel = new Home();
@@ -26,34 +33,83 @@ class HomeController
         $this->brandModel = new Brand();
         $this->blogModel = new Blog();
         $this->categoryModel = new Category();
+        $this->userModel = new User();
+        $this->orderModel = new Order();
         $this->variantModel = new Variant();
         $this->userModel = new User();
         $this->sizeModel = new Size();
         $this->colorModel = new Color();
+        $this->addressModel = new Address();
+        $this->voucherModel = new Voucher();
     }
     public function index()
     {
         $categories = $this->homeModel->get_all_categorys();
         $brands = $this->homeModel->get_all_brands();
-        $productList = $this->homeModel->get_all_products();
+        $variant_list = $this->variantModel->get_variant_list();
+
 
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/home2.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+    public function get_variant()
+    {
+        if (isset($_POST['color_id']) && isset($_POST['size_id'])) {
+            $color_id = $_POST['color_id'];
+            $size_id = $_POST['size_id'];
+
+            $variant = $this->variantModel->get_variant_by_color_size($color_id, $size_id);
+            echo json_encode($variant);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Thiếu tham số color_id hoặc size_id',
+                'data' => null
+            ]);
+        }
+    }
     public function product_detail()
     {
+        $variant_id = $_GET['variant_id'] ?? null;
         $product_id = $_GET['product_id'] ?? null;
-        $product = $this->productModel->get_product_by_id($product_id);
-        $variant = $this->variantModel->get_all_variant_by_product_id($product_id);
-        $productList = $this->homeModel->get_all_products();
+        $variant_detail = $this->variantModel->get_all_variant_by_id($variant_id);
+        $variant_detail_list = $this->productModel->get_all_variants_by_product_id($product_id);
+        $variant_list = $this->variantModel->get_variant_list();
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/detail.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+    public function quickview()
+    {
+        if (isset($_GET['product_id'])) {
+            $product_id = $_GET['product_id'];
 
+            // $product = $this->productModel->get_product_by_id($product_id);
+            $variant = $this->variantModel->get_all_variant_by_product_id($product_id);
+
+            $data = [
+                // 'product' => $product['data'],
+                'variant' => $variant['data'][0] ?? []
+            ];
+        } else {
+            echo "<p>Không tìm thấy sản phẩm.</p>";
+        }
+        require_once '../app/views/layouts/quickview.php';
+    }
+
+    // public function blog()
+    // {
+    //     $categories = $this->homeModel->get_all_categorys();
+    //     $blogList = $this->blogModel->get_all_blogs();
+    //     $blogRelated = $this->blogModel->get_by_quantity();
+    //     $content = '../app/views/pages/user/blog.php';
+    //     $header = '../app/views/layouts/_header.php';
+    //     $footer = '../app/views/layouts/_footer.php';
+    //     include_once "../app/views/layouts/default2.php";
+    // }
     public function blogdetail()
     {
         $id = $_GET['id'];
@@ -128,11 +184,12 @@ class HomeController
                     'product_name' => $item['product_name'],
                     'price' => $item['price'],
                     'thumbnail' => $item['thumbnail'],
-                    'quantity' => $item['quantity']
+                    'quantity' => $item['quantity'],
+                    'color' => $item['color_name'],
+                    'size' => $item['size_name']
                 ];
             }
         }
-
         $content = '../app/views/pages/user/profile/profile.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -196,13 +253,59 @@ class HomeController
         }
     }
 
-    public function order()
+    public function order2()
     {
+        $voucher = $this->voucherModel->getVouchers();
+        $address = $this->addressModel->get_address_by_user_id($id)['data'];
+        echo ('xin chaof');
+        $content = '../app/views/pages/user/order2.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
+    }
+
+    public function add_orders()
+    {
+        $rawData = file_get_contents("php://input");
+        $postData = json_decode($rawData, true);
+        // Lấy thông tin
+        $total_amount = $postData['total_amount'];
+        $user_id = $postData['user_id'];
+        $address_id = $postData['address_id']; 
+        $items = $postData['items'];
+        $voucher_id = $postData['voucher_id'];
+       
+        // Gọi model để thêm đơn hàng
+        $response = $this->orderModel->add_order($user_id, $address_id, $voucher_id,$total_amount,$items);
+
+        echo json_encode($response);
+        exit;
         $content = '../app/views/pages/user/order.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+
+
+    // public function add_orders() {
+    //     if (isset($_SESSION['user']['user_id'])) {
+    //         $id = $_SESSION['user']['user_id'];
+    //         $orders = [];
+    //         foreach ($_SESSION['order_list'] as $item) {
+    //             $variant_item = $this->variantModel->get_variant_by_id($item['id'])['data'];
+    //             $variant_item['quantity'] = $item['quantity'];
+    //             $orders[] = $variant_item;
+    //         }
+    //         $voucher = $this->voucherModel->getVouchers();
+    //         $address = $this->addressModel->get_address_by_user_id($id)['data'];
+    //         $content = '../app/views/pages/user/order2.php';
+    //         $header = '../app/views/layouts/_header.php';
+    //         $footer = '../app/views/layouts/_footer.php';
+    //         include_once "../app/views/layouts/default2.php";
+    //     } else {
+    //         echo "Bạn chưa đăng nhập!";
+    //     }
+
     public function checkout()
     {
         $content = '../app/views/pages/user/checkout.php';

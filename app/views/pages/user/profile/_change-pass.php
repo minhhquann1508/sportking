@@ -33,6 +33,11 @@
         </div>
         <div class="form-group row">
             <div class="col-sm-10 offset-sm-2">
+                <a href="?controller=auth&action=forgotPassword">Quên mật khẩu</a>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10 offset-sm-2">
                 <button type="submit" name="update-password" class=" btn btn-primary">Cập nhật</button>
             </div>
         </div>

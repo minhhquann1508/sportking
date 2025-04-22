@@ -63,24 +63,6 @@
         transition-delay: 0.1s;
     }
 
-    .product-card:hover .product-icons li:nth-child(1) {
-        transform: translateX(0);
-        opacity: 1;
-        transition-delay: 0.2s;
-    }
-
-    .product-card:hover .product-icons li:nth-child(2) {
-        transform: translateX(0);
-        opacity: 1;
-        transition-delay: 0.3s;
-    }
-
-    .product-card:hover .product-icons li:nth-child(3) {
-        transform: translateX(0);
-        opacity: 1;
-        transition-delay: 0.4s;
-    }
-
     .product-icons {
         display: flex;
         flex-direction: column;

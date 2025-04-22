@@ -10,66 +10,45 @@
         ],
         [
             'label' => 'Quản lý danh mục',
-            'url' => '',
-            'children' => [
-                ['label' => 'Danh sách danh mục', 'url' => '?controller=category'],
-                ['label' => 'Thêm danh mục', 'url' => '#']
-            ]
+            'url' => '?controller=category',
         ],
         [
             'label' => 'Quản lý thương hiệu',
-            'url' => '',
-            'children' => [
-                ['label' => 'Danh sách danh mục', 'url' => '#'],
-                ['label' => 'Thêm danh mục', 'url' => '#']
-            ]
+            'url' => '?controller=brand',
         ],
         [
             'label' => 'Quản lý sản phẩm',
-            'url' => '',
-            'children' => [
-                ['label' => 'Danh sách sản phẩm', 'url' => '#'],
-                ['label' => 'Thêm sản phẩm', 'url' => '#'],
-                ['label' => 'Biến thể sản phẩm', 'url' => '#']
-            ]
+            'url' => '?controller=product',
         ],
         [
             'label' => 'Quản lý người dùng',
-            'url' => '',
-            'children' => [
-                ['label' => 'Danh sách người dùng', 'url' => '/?controller=user'],
-            ]
+            'url' => '?controller=user',
         ],
         [
             'label' => 'Quản lý đơn hàng',
             'url' => '',
             'children' => [
-                ['label' => 'Danh sách đơn hàng', 'url' => '#'],
-                ['label' => 'Thống kê đơn hàng', 'url' => '#']
+                ['label' => 'Danh sách đơn hàng', 'url' => '?controller=order'],
+                ['label' => 'Thống kê đơn hàng', 'url' => '?controller=order&action=test']
             ]
         ],
         [
             'label' => 'Quản lý bài viết',
-            'url' => '',
-            'children' => [
-                ['label' => 'Danh sách bài viết', 'url' => '#'],
-                ['label' => 'Thêm bài viết', 'url' => '#']
-            ]
+            'url' => '?controller=blog',
         ],
         [
             'label' => 'Quản lý bình luận',
-            'url' => '',
-            'children' => [
-                ['label' => 'Danh sách bình luận', 'url' => '#'],
-                ['label' => 'Bình luận bị xóa', 'url' => '#']
-            ]
+            'url' => '?controller=comment',
         ],
         [
             'label' => 'Quản lý banner',
-            'url' => '',
-            'children' => [
-                ['label' => 'Danh sách banner', 'url' => '?controller=banner'],
-            ]
+            'url' => '?controller=banner',
+            
+        ],
+        [
+            'label' => 'Quản lý voucher',
+            'url' => '?controller=voucher',
+            
         ]
     ];
     
@@ -77,31 +56,39 @@
     $index = 0;
 
     foreach ($items as $menu) {
-        $collapseId = "collapse" . $index; 
-        $sidebar .= '
+        $collapseId = "collapse" . $index;
+
+        if (!empty($menu['children'])) {
+            // Accordion with children
+            $sidebar .= '
             <li class="my-1">
                 <div class="accordion-item">
-                    <h2 class="accordion-header">
+                    <div class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#' . $collapseId . '" aria-expanded="false" aria-controls="' . $collapseId . '">
+                            data-bs-target="#' . $collapseId . '" aria-expanded="false" aria-controls="' . $collapseId . '"
+                            >
                             ' . $menu['label'] . '
                         </button>
-                    </h2>
+                    </div>
                     <div id="' . $collapseId . '" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <ul class="list-group">';
-        
-        if (!empty($menu['children'])) {
             foreach ($menu['children'] as $item) {
                 $sidebar .= '<li class="list-group-item p-3">
-                                <a class="d-block w-100" href="' . $item['url'] . '">' . $item['label'] . '</a>
+                                <a class="d-block w-100" style="font-weight: normal" href="' . $item['url'] . '">' . $item['label'] . '</a>
                             </li>';
             }
-        }
-
-        $sidebar .= '</ul>
+            $sidebar .= '</ul>
                     </div>
                 </div>
             </li>';
+        } else {
+            // Just a direct link
+            $sidebar .= '
+            <li class="my-1">
+                <a class="btn w-100 text-start border p-3" href="' . $menu['url'] . '">' . $menu['label'] . '</a>
+            </li>';
+        }
+
         $index++;
     }
     $sidebar .= '</ul>';
