@@ -1,33 +1,40 @@
 <?php include '../app/views/layouts/_list_product.php' ?>
 <?php include '../app/views/layouts/_list_product_cssfile.php' ?>
-
-<main style="padding-top: 76px;">
+<main style="padding-top: 76px;background-color:#f0f0f0">
     <section class="py-4">
         <div class="container">
-            <input type="hidden" id="product-id" value="<?php echo $variant_detail['data'][0]['variant_id'] ?>">
-            <div class="row">
-                <div class="col-6 d-flex">
-                    <div class="me-2 d-flex gap-2 h-100" style="flex-direction: column; width: 80px;">
+            <div class="breadcrumb d-flex align-items-center gap-2">
+                <span href="#" style="font-size:13px;color:#212121;text-transform: uppercase;"><?php echo $variant_detail['data'][0]['category']['category_name']; ?></span></span>
+                <i class="fa-solid fa-angle-right" style="color:#ccc"></i>
+                <span href="#" style="font-size:13px;color:#212121;text-transform: uppercase;"><?php echo $variant_detail['data'][0]['brand']['brand_name'] ?></span>
+                <i class="fa-solid fa-angle-right" style="color:#ccc"></i>
+                <span href="#" style="font-size:13px;color:#212121;text-transform: uppercase;"><?php echo $variant_detail['data'][0]['product_name'] ?></span>
+            </div>
+            <!-- <input type="hidden" id="product-id" value="<?php echo $variant_detail['data'][0]['variant_id'] ?>"> -->
+
+            <div class="d-flex gap-3">
+                <div class=" p-3 rounded" style="max-width: 500px;background-color:white;height:fit-content">
+                    <div style="width: 450px; height: 450px">
+                        <img id="thumbnail" class="product-thumbnail fade-in" style="width: 100%;height:450px;object-fit:contain"
+                            src="<?php echo $variant_detail['data'][0]['images'][0] ?>" alt="">
+                    </div>
+                    <div class="mt-3 d-flex gap-2 ">
                         <?php
                         $content = '';
                         foreach ($variant_detail['data'][0]['images'] as $img) {
-                            $content .= '<div class="position-relative flex-grow-1" onclick="changeImage(this, \'' . $img . '\')">
-                                    <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
-                                        style="cursor: pointer;"></div>
-                                    <img height="120" width="80" class="w-100" style="object-fit: contain;"
-                                        src="' . $img . '"
-                                        alt="">
-                                </div>';
+                            $content .= '<div class="position-relative " onclick="changeImage(this, \'' . $img . '\')" style="height:84px;width:84px">
+                                                    <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
+                                                        style="cursor: pointer;"></div>
+                                                    <img height="84" width="84"  style="object-fit: contain;"
+                                                        src="' . $img . '"
+                                                        alt="">
+                                                </div>';
                         }
                         echo $content;
                         ?>
                     </div>
-                    <div style="width: 100%; height: 100%">
-                        <img id="thumbnail" class="product-thumbnail fade-in w-100 h-100" style="object-fit: contain;"
-                            src="<?php echo $variant_detail['data'][0]['images'][0] ?>" alt="">
-                    </div>
                 </div>
-                <div class="col-6">
+                <div class="p-3 rounded" style="background-color: white;">
                     <h3 class="text-uppercase" style="font-weight: 500;">
                         <?php echo $variant_detail['data'][0]['product_name'] ?></h3>
                     <h4 style="font-weight: 200;" class="d-flex align-items-center gap-3">
@@ -148,7 +155,6 @@
                         }
 
 
-                        // Đoạn xử lý .color-btn như bạn đã viết
                         document.querySelectorAll('.color-btn').forEach(btn => {
                             btn.addEventListener('click', function() {
                                 if (this.disabled) return;
