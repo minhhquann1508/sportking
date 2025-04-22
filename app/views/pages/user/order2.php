@@ -2,14 +2,19 @@
 // Tính tổng giá trị đơn hàng từ session
 $total_price = 0;
 // var_dump($address);
-var_dump($voucher);
+// var_dump($voucher);
 
 if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
     foreach($_SESSION['order_list'] as $product) {
         $total_price += $product['price'] * $product['quantity'];
     }
 }
+print_r($_SESSION['order_list']);
+print_r($address);
+
 ?>
+
+
 <div style="padding-top: 76px;">
     <div class="container pb-5">
         <h4 class="mb-3 text-center">Thông tin đơn hàng</h4>
@@ -31,25 +36,6 @@ if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
                             <label class="form-label">Email</label>
                             <div class="form-control bg-light"><?= $_SESSION['user']['email'] ?? '' ?></div>
                         </div>
-                        <form>
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Họ và tên</label>
-                                <input type="text" class="form-control"
-                                    value="<?php echo $_SESSION['user']['fullname'] ?>" id="name"
-                                    placeholder="Nguyễn Văn A">
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Số điện thoại</label>
-                                <input type="text" class="form-control" value="<?php echo $_SESSION['user']['phone'] ?>"
-                                    id="name" id="phone">
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control"
-                                    value="<?php echo $_SESSION['user']['email'] ?>" id="email"
-                                    placeholder="abc@example.com">
-                            </div>
-                        </form>
                     </div>
                 </div>
 
@@ -67,21 +53,11 @@ if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
                                         foreach ($address as $add) {
                                             echo '<option value="'.$add['address_id'].'" data-street="'.$add['street'].'" 
                                                   data-district="'.$add['district'].'" data-city="'.$add['city'].'">'.
-                        <form>
-                            <!-- Dropdown địa chỉ có sẵn -->
-                            <div class="mb-3">
-                                <label for="saved-address" class="form-label">Chọn địa chỉ</label>
-                                <select class="form-select" id="saved-address">
-                                    <option value="">-- Chọn địa chỉ --</option>
-                                    <?php 
-                                        foreach ($address as $add) {
-                                            echo '<option value="'.$add['address_id'].'">'.
                                                     $add['street'].', Quận '.$add['district'].', '.$add['city'].
                                                 '</option>';
                                         }
                                     ?>
                                     <option value="new">Địa chỉ mới</option>
-                                    <option value="other">Địa chỉ khác</option>
                                 </select>
                             </div>
 
@@ -90,9 +66,6 @@ if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
                                 <div class="mb-3">
                                     <label for="street" class="form-label">Địa chỉ</label>
                                     <input type="text" class="form-control" name="street" placeholder="Số nhà, đường, phường...">
-                                    <label for="address" class="form-label">Địa chỉ</label>
-                                    <input type="text" class="form-control" id="address"
-                                        placeholder="Số nhà, đường, phường...">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
@@ -102,21 +75,11 @@ if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
                                     <div class="col-md-6 mb-3">
                                         <label for="district" class="form-label">Quận/Huyện</label>
                                         <input type="text" class="form-control" name="district">
-                                        <input type="text" class="form-control" id="city">
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="district" class="form-label">Quận/Huyện</label>
-                                        <input type="text" class="form-control" id="district">
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="note" class="form-label">Ghi chú</label>
                                     <textarea class="form-control" name="note" rows="2" placeholder="Ví dụ: Giao giờ hành chính..."></textarea>
-                                    <textarea class="form-control" id="note" rows="2"
-                                        placeholder="Ví dụ: Giao giờ hành chính..."></textarea>
-                                </div>
-                                <div class="text-end">
-                                    <button class="btn btn-primary">Lưu địa chỉ</button>
                                 </div>
                             </div>
                         </form>
@@ -170,14 +133,19 @@ if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
                         </div>
                                 
                         <!-- Order Summary -->
+                        <!-- <div class="d-flex justify-content-between">
+                            <span>Tạm tính:</span>
+                            <strong id="subtotal"><?= number_format($total_price, 0, ',', '.') ?>đ</strong>
+                        </div> -->
                         <div class="d-flex justify-content-between">
                             <span>Tạm tính:</span>
                             <strong id="subtotal"><?= number_format($total_price, 0, ',', '.') ?>đ</strong>
                         </div>
+
                         
                         <div class="d-flex justify-content-between text-danger" id="discount-row" style="display:none;">
                             <span>Giảm giá:</span>
-                            <strong id="discount-value">0đ</strong>
+                            <strong id="discount"></strong>
                         </div>
                         
                         <div class="d-flex justify-content-between">
@@ -192,53 +160,13 @@ if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
                         </div>
 
                         <button class="btn btn-primary w-100 mt-4" id="checkout-btn">Đặt hàng</button>
-                        <ul class="list-group mb-3">
-                            <?php 
-                                $subtotal = 0;
-                                foreach ($orders as $index => $product): 
-                                    $total_price = $product['price'] * $product['quantity'];
-                                    $subtotal += $total_price;
-                            ?>
-                            <li class="list-group-item d-flex justify-content-between align-items-start">
-                                <div class="d-flex gap-3">
-                                    <img src="<?php echo $product['thumbnail']; ?>"
-                                        alt="<?php echo $product['product_name']; ?>" width="60" height="60"
-                                        style="object-fit: contain; border-radius: 6px;">
-                                    <div>
-                                        <h6 class="mb-1"><?php echo $product['product_name']; ?></h6>
-                                        <small class="text-muted">Số lượng:
-                                            <?php echo $product['quantity']; ?></small><br>
-                                        <small class="text-muted">Size: <?php echo $product['size_name']; ?></small><br>
-                                        <small class="text-muted">Màu sắc: <?php echo $product['color_name']; ?></small>
-                                    </div>
-                                </div>
-                                <small
-                                    class="text-muted"><?php echo number_format($total_price, 0, ',', '.') . 'đ'; ?></small>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
-
-                        <!-- Subtotal -->
-                        <div class="d-flex justify-content-between">
-                            <span>Tạm tính:</span>
-                            <strong><?php echo number_format($total_price, 0, ',', '.') . 'đ'; ?></strong>
-                        </div>
-                        <hr>
-                        <div class="d-flex justify-content-between fs-5">
-                            <span>Tổng cộng:</span>
-                            <strong>
-                                <strong
-                                    id="total_amount"><?php echo number_format($total_price, 0, ',', '.'); ?></strong><strong>đ</strong>
-                            </strong>
-                        </div>
-
-                        <button class="btn btn-primary w-100 mt-4" id="add-btn">Đặt hàng</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 
 <script>
 $(document).ready(function() {
@@ -267,30 +195,43 @@ $(document).ready(function() {
     });
 
     // Xử lý voucher
-    $('#voucher').change(function() {
-            const discount_value = $(this).val();
-            if(discount_value) {
-                // Gửi AJAX để kiểm tra voucher
-                $.ajax({
-                    url: '?controller=voucher&action=getVoucher',
-                    method: 'POST',
-                    data: { discount_value: discount_value },
-                    success: (res) => {
-                        const discount = response.discount_value;
-                        showToast('áp dụng voucher thành công');
-                    },
-                    error: (err) => {
-                        console.log(err);
-                    }
-                });
-            } else {
-                $('#discount-row').hide();
-            }
-        });
+    let discount_value = '';
 
-    // Xử lý khi click nút đặt hàng
+    $('#voucher').change(function () {
+    discount_value = parseInt($(this).val()); // Ép về số
+
+    if (discount_value > 0) {
+        // Hiện dòng giảm giá
+        $('#discount-row').show();
+
+        // Hiển thị giá trị giảm giá
+        $('#discount').text('-' + discount_value.toLocaleString('vi-VN') + 'đ');
+
+        // Lấy lại giá trị tạm tính
+        const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
+
+        // Cập nhật tổng cộng mới
+        const newTotal = subtotal - discount_value;
+        $('#total-amount').text(newTotal.toLocaleString('vi-VN') + 'đ');
+    } else {
+        $('#discount-row').hide();
+        $('#discount').text('');
+        // Reset lại tổng tiền nếu chọn lại về default
+        const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
+        $('#total-amount').text(subtotal.toLocaleString('vi-VN') + 'đ');
+    }
+});
+
+    
+
+
+
+
+       // Xử lý khi click nút đặt hàng
     $('#checkout-btn').click(function(e) {
     e.preventDefault();
+
+    console.log(discount_value);
 
    
     // Lấy thông tin từ form
@@ -298,8 +239,10 @@ $(document).ready(function() {
     // const addressId = $('#saved-address').val();
     const addressId = 1;
     const voucherCode = $('#voucher').val();
-    const discountValue = $('#voucher option:selected').data('value') || 0;
+    // const discountValue = $('#voucher option:selected').data('value') || 0;
+  
     const totalAmount = parseInt($('#total-amount').text().replace(/[^\d]/g, ''));
+    const subTotal = discount_value - totalAmount;
     
     // Kiểm tra dữ liệu trước khi gửi
     console.log("Dữ liệu chuẩn bị gửi:", {
@@ -307,7 +250,8 @@ $(document).ready(function() {
         address_id: addressId,
         voucher_code: voucherCode,
         discount_value: discountValue,
-        total_amount: totalAmount
+        total_amount: totalAmount,
+        subTotal: subTotal
     });
     
     // Chuẩn bị danh sách sản phẩm
@@ -322,6 +266,7 @@ $(document).ready(function() {
             });
         <?php endforeach; ?>
     <?php endif; ?>
+    
     
     // Gửi dữ liệu dưới dạng JSON
     $.ajax({
@@ -417,40 +362,6 @@ $(document).ready(function() {
 //     renderOrder(cart);
 // });
 
-<!-- JavaScript để điều khiển hiển thị -->
-<script>
-document.getElementById('saved-address').addEventListener('change', function() {
-    const selectedValue = this.value;
-    const customAddress = document.getElementById('custom-address');
 
-    if (selectedValue === 'other') {
-        customAddress.style.display = 'block';
-    } else {
-        customAddress.style.display = 'none';
-    }
-});
 
-$('#add-btn').click(() => {
-    const total_amount = Number($('#total_amount').text().replace(/\./g, ''));
-    const address_id = $('#saved-address').val();
-    if (address_id !== '' && address_id !== 'other') {
-        $.ajax({
-            url: '?controller=order&action=add_order',
-            method: 'POST',
-            dataType: 'json',
-            data: {
-                address_id: address_id,
-                total_amount: total_amount
-            },
-            success: (res) => {
-                const order_id = res.data.order_id
-                showToast('Đặt hàng thành công');
-                window.location.href = `?controller=home&action=checkout&order_id=${order_id}`
-            },
-            error: (err) => {
-                console.log(err);
-            }
-        })
-    }
-})
 </script>

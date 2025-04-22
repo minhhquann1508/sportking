@@ -11,7 +11,7 @@ require_once '../app/models/Color.php';
 require_once '../app/models/Variant.php';
 require_once '../app/models/Address.php';
 require_once '../app/models/Voucher.php';
-require_once '../app/models/Address.php';
+
 class HomeController
 {
     private $productModel;
@@ -254,11 +254,37 @@ class HomeController
 
     public function order2()
     {
+        $voucher = $this->voucherModel->getVouchers();
+        $address = $this->addressModel->get_address_by_user_id($id)['data'];
+        echo ('xin chaof');
+        $content = '../app/views/pages/user/order2.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
+    }
+
+    public function add_orders()
+    {
+        $rawData = file_get_contents("php://input");
+        $postData = json_decode($rawData, true);
+        // Lấy thông tin
+        $total_amount = $postData['total_amount'];
+        $user_id = $postData['user_id'];
+        $address_id = $postData['address_id']; 
+        $items = $postData['items'];
+        $voucher_id = $postData['voucher_id'];
+       
+        // Gọi model để thêm đơn hàng
+        $response = $this->orderModel->add_order($user_id, $address_id, $voucher_id,$total_amount,$items);
+
+        echo json_encode($response);
+        exit;
         $content = '../app/views/pages/user/order.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
         include_once "../app/views/layouts/default2.php";
     }
+
 
     // public function add_orders() {
     //     if (isset($_SESSION['user']['user_id'])) {
