@@ -9,10 +9,12 @@ if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
         $total_price += $product['price'] * $product['quantity'];
     }
 }
-print_r($_SESSION['order_list']);
-print_r($address);
+// print_r($_SESSION['order_list']);
+// print_r($address);
+// var_dump($address);
 
 ?>
+<!-- <pre><?php print_r($_SESSION['user']); ?></pre> -->
 
 
 <div style="padding-top: 76px;">
@@ -236,8 +238,7 @@ $(document).ready(function() {
    
     // Lấy thông tin từ form
     const userId = <?= $_SESSION['user']['user_id'] ?? 0 ?>;
-    // const addressId = $('#saved-address').val();
-    const addressId = 1;
+    const addressId = parseInt($('#saved-address').val());
     const voucherCode = $('#voucher').val();
     // const discountValue = $('#voucher option:selected').data('value') || 0;
   
@@ -249,7 +250,7 @@ $(document).ready(function() {
         user_id: userId,
         address_id: addressId,
         voucher_code: voucherCode,
-        discount_value: discountValue,
+        discount_value: discount_value,
         total_amount: totalAmount,
         subTotal: subTotal
     });
@@ -283,8 +284,8 @@ $(document).ready(function() {
         }),
         success: function(response) {
             if(response.success) {
-                alert('Đặt hàng thành công! Mã đơn hàng: ' + response.order_id);
-                window.location.href = '?controller=order&action=detail&id=' + response.order_id;
+                alert('Đặt hàng thành công! Mã đơn hàng: ' + response.data.order_id);
+                window.location.href = '?controller=home&action=checkout&id=' + response.data.order_id;
             } else {
                 alert('Lỗi: ' + response.message);
             }

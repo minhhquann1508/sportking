@@ -6,7 +6,7 @@ class Order extends Database {
     private $table_item = "order_items";
     
 
-    public function add_order($total_amount, $user_id, $address_id, $items) {
+    public function add_order($user_id, $address_id, $voucher_id,$total_amount,$items) {
         $voucher_id = 1;
         // 1. Thêm đơn hàng
         $sql = "INSERT INTO {$this->table} ( user_id, address_id, voucher_id,total_amount)
@@ -15,13 +15,10 @@ class Order extends Database {
         // order_id,total_amount,order_date,status,user_id,address_id,voucher_id,
 
 
-        try {    
-          $response = $this->execute($sql, [$user_id, $address_id, $voucher_id,$total_amount]);
+        try {    $response = $this->execute($sql, [$user_id, $address_id, $voucher_id,$total_amount]);
         } catch (PDOException $e) {
             die("Kết nối thất bại: " . $e->getMessage());
         }
-        echo("DONE");
-
 
         // $response = $this->execute($sql, [$user_id, $address_id, $voucher_id,$total_amount,$items]);
         
@@ -37,7 +34,7 @@ class Order extends Database {
                         $order_id, 
                         $item['quantity'], 
                         $item['price'],
-                        $item['id']
+                        $item['variant_id']
                     ]);
                 
                     if (!$item_response) {
@@ -67,5 +64,9 @@ class Order extends Database {
             ];
         }
     }
+    
+
+
+    
 }
 ?>
