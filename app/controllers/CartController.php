@@ -18,37 +18,56 @@
         }
 
         public function add() {
-            if (!isset($_POST['variant'], $_POST['product_id'])) return;
-        
-            $variant = $_POST['variant'];
+            if (!isset($_POST['variant_id'], $_POST['product_id'])) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Thiếu dữ liệu',
+                    'data' => null
+                ]);
+                return;
+            }
+            
+            $variant = [
+                'variant_id'   => $_POST['variant_id'],
+                'price'        => (float) $_POST['price'],
+                'stock'        => (int) $_POST['stock'],
+                'size_id'      => $_POST['size_id'],
+                'color_id'     => $_POST['color_id'],
+                'thumbnail'    => $_POST['thumbnail'],
+                'product_name' => $_POST['product_name'],
+                'product_id' => $_POST['product_id'],
+                'color_name'   => $_POST['color_name'],
+                'size_name'    => $_POST['size_name'],
+                'quantity'     => (int) $_POST['quantity'],
+            ];
+            
             $product_id = $_POST['product_id'];
-        
+            
             if (!isset($_SESSION['cart'])) {
                 $_SESSION['cart'] = [];
             }
-        
-            // Nếu chưa có sản phẩm này trong giỏ thì thêm mới
+            
+            // Nếu sản phẩm này chưa có trong giỏ -> thêm mới
             if (!isset($_SESSION['cart'][$product_id])) {
                 $_SESSION['cart'][$product_id] = [$variant];
             } else {
                 $variant_exists = false;
-        
-                // Kiểm tra xem variant_id đã tồn tại trong danh sách chưa
+            
+                // Kiểm tra xem variant_id đã tồn tại chưa
                 foreach ($_SESSION['cart'][$product_id] as &$item) {
                     if ($item['variant_id'] == $variant['variant_id']) {
-                        $item['quantity'] += $variant['quantity'];
+                        $item['quantity'] += $variant['quantity']; // tăng số lượng nếu trùng
                         $variant_exists = true;
                         break;
                     }
                 }
-        
-                // Nếu chưa tồn tại thì thêm mới
+            
                 if (!$variant_exists) {
                     $_SESSION['cart'][$product_id][] = $variant;
                 }
             }
-        
-            // Trả về JSON để client xử lý tiếp nếu cần
+            
+            // Trả về kết quả
             echo json_encode([
                 'success' => true,
                 'message' => 'Thêm sản phẩm vào giỏ thành công',
