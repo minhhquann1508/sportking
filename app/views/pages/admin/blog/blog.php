@@ -65,7 +65,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm quản bài viết</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm bài viết</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -111,9 +111,9 @@
                         <label class="form-label">Tiêu đề</label>
                         <input type="text" class="form-control" id="update_title">
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 p-0">
                         <label class="form-label">Nội dung</label>
-                        <textarea id="update_editor"></textarea>
+                        <textarea id="updated_editor"></textarea>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Lượt xem</label>
@@ -158,8 +158,8 @@
                         content += `
                         <tr>
                             <td>${key+1}</td>
-                            <td>${blog.title}</td>
-                            <td width="700">${blog.content}</td>
+                            <td width="100 px">${blog.title}</td>
+                            <td width="500 px">${blog.content}</td>
                             <td><img src="${blog.thumbnail}" width="100"></td>
                             <td>${blog.views}</td>
                             <td>${formatDate(blog.created_at)}</td>
@@ -190,6 +190,29 @@
         const content = $('#editor');
         const views = $('#views');
         const thumbnail = $('#thumbnail');
+
+        // Validate
+        if (!title.val().trim()) {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                title.focus();
+                return;
+            }
+            if (!content) {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                tinymce.get('editor').focus();
+                return;
+            }
+            if (!views.val() || parseInt(views.val()) <= 0) {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                views.focus();
+                return;
+            }
+            if (thumbnail[0].files.length === 0) {
+                alert("Vui lòng điền đầy đủ thông tin!");
+                thumbnail.focus();
+                return;
+            }
+
         const file = thumbnail[0].files[0] || null;
             const formData = new FormData();
             formData.append("file", file);
@@ -260,7 +283,7 @@
                 $('#update_blog_id').val(blog.blog_id);
                 $('#update_title').val(blog.title);
                 $('#update_views').val(blog.views);
-                $('#update_editor').val(blog.content);
+                $('#updated_editor').val(blog.content);
                 $('#preview_thumbnail').attr('src', blog.thumbnail).parent().show();
             } else {
                 alert("Không lấy được dữ liệu bài viết");
@@ -284,7 +307,7 @@ const updateBlogBtn = $('#update_btn');
 const updateBlogId = $('#update_blog_id');
 const updateTitle = $('#update_title');
 const updateViews = $('#update_views');
-const updateContent = $('#update_editor');
+const updateContent = $('#updated_editor');
 const updatedThumbnail = $('#preview_thumbnail');
 const updateThumbnailInput = $('#updated_thumbnail');
 
