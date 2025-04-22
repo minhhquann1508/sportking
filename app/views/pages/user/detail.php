@@ -78,13 +78,11 @@
                     $sizes = $variant_detail_list['data']['sizes'];
                     $variants = $variant_detail_list['data']['variants'];
 
-                    // Bước 1: Xây dựng các combination hợp lệ
                     $availableCombinations = [];
                     foreach ($variants as $variant) {
                         $availableCombinations[$variant['color_id']][$variant['size_id']] = $variant['variant_id'];
                     }
 
-                    // Bước 2: Lấy variant mặc định (từ GET)
                     $default_variant_id = $variant_detail['data'][0]['variant_id'];
                     $first_variant_id = $variant_detail_list['data']['first_variant_id'];
 
@@ -96,13 +94,11 @@
                         }
                     }
 
-                    // Bước 3: Render color buttons
                     echo '<div class="d-flex gap-3 mb-2" id="color-buttons">';
                     foreach ($colors as $color) {
                         $color_id = $color['color_id'];
                         $isActive = ($color_id == $default_color_id) ? 'active' : '';
 
-                        // ✅ Kiểm tra: màu này có ít nhất 1 size không?
                         $hasSize = false;
                         foreach ($sizes as $size) {
                             if (isset($availableCombinations[$color_id][$size['size_id']])) {
@@ -123,18 +119,16 @@
                     }
                     echo '</div>';
 
-                    // Bước 4: Render size buttons
                     echo '<div class="d-flex gap-3 mb-2" id="size-buttons">';
                     foreach ($sizes as $size) {
                         $size_id = $size['size_id'];
                         $isActive = ($size_id == $default_size_id) ? 'active' : '';
-                        // chỉ disable nếu không có color nào khớp với size này
                         $isDisabled = !isset($availableCombinations[$default_color_id][$size_id]) ? 'disabled' : '';
 
                         echo '
-        <button class="btn btn-outline-dark size-btn ' . $isActive . '" 
-            data-size-id="' . $size_id . '" ' . $isDisabled . '>' . $size['size_name'] . '</button>
-    ';
+                            <button class="btn btn-outline-dark size-btn ' . $isActive . '" 
+                                data-size-id="' . $size_id . '" ' . $isDisabled . '>' . $size['size_name'] . '</button>
+                        ';
                     }
                     echo '</div>';
                     ?>
@@ -148,6 +142,11 @@
 
                         let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId;
                         let selectedSizeId = document.querySelector('.size-btn.active')?.dataset.sizeId;
+
+                        if (selectedColorId && selectedSizeId && availableCombinations[selectedColorId]?.[selectedSizeId]) {
+                            fetchVariant();
+                        }
+
 
                         // Đoạn xử lý .color-btn như bạn đã viết
                         document.querySelectorAll('.color-btn').forEach(btn => {
