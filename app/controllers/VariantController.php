@@ -54,9 +54,9 @@
 
         public function get_variant_item() {
             $result = $this->variantModel->find_variant(
-                $_GET['product_id'],
-                $_GET['color_id'],
-                $_GET['size_id'],
+                $_POST['product_id'],
+                $_POST['color_id'],
+                $_POST['size_id'],
             );
             echo json_encode($result);
             exit;

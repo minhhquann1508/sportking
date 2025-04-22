@@ -1,5 +1,3 @@
-<?php print_r($_SESSION['cart'])?>
-
 <main style="padding-top: 76px;">
     <div class="container">
         <div class="row py-3">
@@ -14,15 +12,6 @@
             <div class="col-4">
                 <h5 class="text-uppercase text-center mt-1">tóm tắt đơn hàng</h5>
                 <div class="mt-4" id="cart-total">
-                    <!-- <button class="btn btn-primary mt-3 w-100">Thanh toán ngay</button>
-                    <div class="mt-3">
-                        <strong>CÁC PHƯƠNG THỨC THANH TOÁN</strong>
-                        <ul>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                        </ul>
-                    </div> -->
                 </div>
                 <button class="btn btn-primary mt-2 w-100" id="submit-btn">Thanh toán ngay</button>
             </div>
@@ -33,20 +22,29 @@
 <script>
 const checkedItems = [];
 
-const handleCheck = (id, quantity, price) => {
-    const index = checkedItems.findIndex(el => el.id == id);
+const handleCheck = (variant_id, quantity, price, stock, size_id, color_id, thumbnail, product_name, color_name,
+    size_name, product_id) => {
+    const index = checkedItems.findIndex(el => el.variant_id == variant_id); // Tìm kiếm theo variant_id
     if (index !== -1) {
         checkedItems.splice(index, 1);
     } else {
         const variant = {
-            id,
+            variant_id,
             quantity,
-            price
-        }
+            price,
+            stock,
+            size_id,
+            color_id,
+            thumbnail,
+            product_name,
+            color_name,
+            size_name,
+            product_id
+        };
         checkedItems.push(variant);
     }
     renderTotal();
-}
+};
 
 const deleteCheckItems = () => {
     checkedItems.length = 0;
@@ -54,7 +52,9 @@ const deleteCheckItems = () => {
 }
 
 const renderCart = (cart) => {
+    console.log(cart);
     let html = '';
+
     if (Object.keys(cart).length === 0) {
         html = `
             <div class="text-center py-5">
@@ -67,47 +67,73 @@ const renderCart = (cart) => {
         Object.keys(cart).forEach(productId => {
             const variants = cart[productId];
             variants.forEach(variant => {
-                console.log(variant);
+                // Lấy tất cả các thông tin chi tiết của sản phẩm
+                const {
+                    variant_id,
+                    price,
+                    stock,
+                    size_id,
+                    color_id,
+                    thumbnail,
+                    product_id,
+                    product_name,
+                    color_name,
+                    size_name,
+                    quantity
+                } = variant;
+
                 html += `
                     <li class="border-bottom">
                         <div class="row py-3 h-100 align-items-stretch">
                             <div class="col-auto d-flex align-items-center pe-0">
                                 <input type="checkbox" class="form-check-input mt-1 cart-checkbox"
-                                onchange="handleCheck(${variant.variant_id}, ${variant.quantity}, ${variant.price})" >
+                                    onchange="handleCheck(
+                                        ${variant_id},
+                                        ${quantity},
+                                        ${price},
+                                        ${stock},
+                                        ${size_id},
+                                        ${color_id},
+                                        '${thumbnail.replace(/'/g, "\\'")}',
+                                        '${product_name.replace(/'/g, "\\'")}',
+                                        '${color_name.replace(/'/g, "\\'")}',
+                                        '${size_name.replace(/'/g, "\\'")}',
+                                        ${product_id}
+                                    )">
                             </div>
                             <div class="col-2 d-flex justify-content-center align-items-center ps-1">
-                                <img width="100" height="100" style="object-fit: contain;" src="${variant.thumbnail}" alt="">
+                                <img width="100" height="100" style="object-fit: contain;" src="${thumbnail}" alt="">
                             </div>
                             <div class="col d-flex flex-column justify-content-between" style="height: 100px;">
                                 <div class="d-flex justify-content-between flex-grow-1">
                                     <div>
-                                        <h6 class="mb-1">${variant.product_name}</h6>
+                                        <h6 class="mb-1">${product_name}</h6>
                                         <div class="d-flex gap-3 align-items-center">
-                                            <span style="font-size: 13px">${variant.color_name}</span>
-                                            <span style="font-size: 13px">${variant.size_name}</span>
+                                            <span style="font-size: 13px">${color_name}</span>
+                                            <span style="font-size: 13px">${size_name}</span>
                                             <div class="d-flex align-items-center border rounded">
                                                 <button class="btn btn-sm border-end">-</button>
-                                                <span class="mx-2" style="font-size: 13px">${variant.quantity}</span>
+                                                <span class="mx-2" style="font-size: 13px">${quantity}</span>
                                                 <button class="btn btn-sm border-start">+</button>
                                             </div>
                                         </div>
                                     </div>
                                     <span>
                                         <h6 class="mb-1" style="font-size: 14px;">
-                                            ${Number(variant.price).toLocaleString('vi-VN')} vnđ
+                                            ${Number(price).toLocaleString('vi-VN')} vnđ
                                         </h6>
                                     </span>
                                 </div>
                                 <div class="mt-auto d-flex justify-content-between align-items-end">
                                     <button class="btn btn-sm border">Yêu thích<i class="ms-1 fa-regular fa-heart"></i></button>
                                     <button class="btn btn-sm border">
-                                        <i class="fa-regular fa-trash-can" onclick="deleteItem('${variant.variant_id}', '${productId}')"></i>
+                                        <i class="fa-regular fa-trash-can" onclick="deleteItem('${variant_id}', '${productId}')"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </li>
-                `;
+                    `;
             });
         });
     }
@@ -205,7 +231,7 @@ $('#submit-btn').click(() => {
             items: checkedItems
         },
         success: (res) => {
-            window.location.href = '?controller=home&action=order'
+            window.location.href = '?controller=home&action=order2'
         },
         error: (err) => {
             console.log(err);
