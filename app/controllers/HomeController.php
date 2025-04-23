@@ -56,11 +56,12 @@ class HomeController
     }
     public function get_variant()
     {
-        if (isset($_POST['color_id']) && isset($_POST['size_id'])) {
+        if (isset($_POST['color_id']) && isset($_POST['size_id']) && isset($_POST['product_id'])) {
             $color_id = $_POST['color_id'];
             $size_id = $_POST['size_id'];
+            $product_id = $_POST['product_id'];
 
-            $variant = $this->variantModel->get_variant_by_color_size($color_id, $size_id);
+            $variant = $this->variantModel->get_variant_by_color_size($color_id, $size_id, $product_id);
             echo json_encode($variant);
         } else {
             echo json_encode([
@@ -394,6 +395,7 @@ class HomeController
 
     public function add_orders()
     {
+
         $rawData = file_get_contents("php://input");
         $postData = json_decode($rawData, true);
 
