@@ -447,7 +447,71 @@ class Variant extends Database
         ];
     }
 
-    public function filter_variant($price, $stock, $color_id, $size_id) {
-        
+    public function filter_variant($price = null, $stock = null, $color_id = null, $size_id = null) {
+        $sql = "SELECT 
+                    v.variant_id,
+                    v.product_id,
+                    v.color_id,
+                    v.size_id,
+                    v.price,
+                    v.stock,
+                    p.product_name,
+                    vi.image_url,
+                    c.category_name,
+                    b.brand_name,
+                    co.color_name
+                FROM product_variant v
+                JOIN product p ON p.product_id = v.product_id
+                JOIN category c ON c.category_id = p.category_id
+                JOIN brands b ON b.brand_id = p.brand_id
+                JOIN color co ON co.color_id = v.color_id
+                LEFT JOIN (
+                    SELECT variant_id, MIN(image_url) as image_url
+                    FROM variant_image
+                    GROUP BY variant_id
+                ) vi ON vi.variant_id = v.variant_id
+                WHERE 1";
+    
+        $params = [];
+    
+        // Lọc theo màu
+        if (!empty($color_id)) {
+            $sql .= " AND v.color_id = ?";
+            $params[] = $color_id;
+        }
+    
+        // Lọc theo size
+        if (!empty($size_id)) {
+            $sql .= " AND v.size_id = ?";
+            $params[] = $size_id;
+        }
+    
+        // Lọc theo tồn kho
+        if ($stock !== null) {
+            if ($stock == '0') {
+                $sql .= " AND v.stock = 0";
+            } elseif ($stock == '1') {
+                $sql .= " AND v.stock > 0 AND v.stock < 10";
+            }
+        }
+    
+        // Sắp xếp theo giá
+        if ($price == '0') {
+            $sql .= " ORDER BY v.price ASC";
+        } elseif ($price == '1') {
+            $sql .= " ORDER BY v.price DESC";
+        }
+    
+        $result = $this->select($sql, $params);
+    
+        return $result ? [
+            'success' => true,
+            'message' => 'Tìm thấy ' . count($result) . ' kết quả.',
+            'data' => $result
+        ] : [
+            'success' => false,
+            'message' => 'Không tìm thấy kết quả phù hợp.',
+            'data' => null
+        ];
     }
 }
