@@ -9,7 +9,8 @@ if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
         $total_price += $product['price'] * $product['quantity'];
     }
 }
-// print_r($_SESSION['order_list']);
+print_r($_SESSION['order_list']);
+
 // print_r($address);
 // var_dump($address);
 
@@ -28,15 +29,15 @@ if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label">Họ và tên</label>
-                            <input class="form-control bg-light"><?= $_SESSION['user']['fullname'] ?? '' ?></input>
+                            <input class="form-control bg-light" value="<?= $_SESSION['user']['fullname'] ?? '' ?> "></input>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Số điện thoại</label>
-                            <input class="form-control bg-light"><?= $_SESSION['user']['phone'] ?? '' ?></input>
+                            <input class="form-control bg-light" value="<?= $_SESSION['user']['phone'] ?? '' ?> "></input>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <div class="form-control bg-light"><?= $_SESSION['user']['email'] ?? '' ?></div>
+                            <input class="form-control bg-light" value="<?= $_SESSION['user']['email'] ?? '' ?>"></input>
                         </div>
                     </div>
                 </div>
@@ -156,13 +157,26 @@ if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
                         </div>
                         
                         <hr>
-                        <div class="d-flex justify-content-between fs-5">
+                        <div class="d-flex justify-content-between fs-5 mb-2">
                             <span>Tổng cộng:</span>
                             <strong id="total-amount"><?= number_format($total_price, 0, ',', '.') ?>đ</strong>
                         </div>
+                        <h6>Chọn phương thức thanh toán</h6>
 
+                        <select id="payment-method" name="payment_method">
+                            <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                            <option value="zalo">Thanh toán qua Zalo Pay</option>
+                        </select>
+
+                        <!-- Form thanh toán Zalo Pay (ẩn mặc định) -->
+                        <!-- <form id="payment-form"  method="post" style="margin-top: 10px; display: none;"> -->
+                            <input type="hidden" name="method" id="selected-method" value="zalo">
+                            <button type="submit" class="btn btn-primary w-100 mt-4" id="order-zalopay">Thanh toán Zalo Pay</button>
+                        <!-- </form> -->
+
+                        <!-- Nút Đặt hàng (hiện mặc định) -->
                         <button class="btn btn-primary w-100 mt-4" id="checkout-btn">Đặt hàng</button>
-                    </div>
+                                            </div>
                 </div>
             </div>
         </div>
@@ -171,9 +185,32 @@ if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
 
 
 <script>
+  
 $(document).ready(function() {
 
+    const select = document.getElementById("payment-method");
+    const zaloForm = document.getElementById("payment-form");
+    const codButton = document.getElementById("checkout-btn");
+    const hiddenInput = document.getElementById("selected-method");
 
+    // function updatePaymentView() {
+    //     const method = select.value;
+    //     hiddenInput.value = method;
+
+    //     if (method === "zalo") {
+    //         zaloForm.style.display = "block";
+    //         codButton.style.display = "none";
+    //     } else {
+    //         zaloForm.style.display = "none";
+    //         codButton.style.display = "block";
+    //     }
+    // }
+
+    // Khi thay đổi phương thức thanh toán
+    // select.addEventListener("change", updatePaymentView);
+
+    // Gọi ngay để hiển thị đúng khi load trang
+    // updatePaymentView();
     // $('#voucher').change(function(){
     //    const voucher = $(this).val();
     //    console.log(voucher);
@@ -233,68 +270,96 @@ $(document).ready(function() {
     $('#checkout-btn').click(function(e) {
     e.preventDefault();
 
-    console.log(discount_value);
+        console.log(discount_value);
 
-   
-    // Lấy thông tin từ form
-    const userId = <?= $_SESSION['user']['user_id'] ?? 0 ?>;
-    const addressId = parseInt($('#saved-address').val());
-    const voucherCode = $('#voucher').val();
-    // const discountValue = $('#voucher option:selected').data('value') || 0;
-  
-    const totalAmount = parseInt($('#total-amount').text().replace(/[^\d]/g, ''));
-    const subTotal = discount_value - totalAmount;
     
-    // Kiểm tra dữ liệu trước khi gửi
-    console.log("Dữ liệu chuẩn bị gửi:", {
-        user_id: userId,
-        address_id: addressId,
-        voucher_code: voucherCode,
-        discount_value: discount_value,
-        total_amount: totalAmount,
-        subTotal: subTotal
-    });
+        // Lấy thông tin từ form
+        const userId = <?= $_SESSION['user']['user_id'] ?? 0 ?>;
+        const addressId = parseInt($('#saved-address').val());
+        const voucherCode = $('#voucher').val();
+        // const discountValue = $('#voucher option:selected').data('value') || 0;
     
-    // Chuẩn bị danh sách sản phẩm
-    const orderItems = [];
-    <?php if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])): ?>
-        <?php foreach($_SESSION['order_list'] as $product): ?>
-            orderItems.push({
-                variant_id: 32,
-                product_id: 7,
-                price: <?= $product['price'] ?? 0 ?>,
-                quantity: <?= $product['quantity'] ?? 0 ?>
-            });
-        <?php endforeach; ?>
-    <?php endif; ?>
-    
-    
-    // Gửi dữ liệu dưới dạng JSON
-    $.ajax({
-        url: '?controller=home&action=add_orders',
-        method: 'POST',
-        contentType: 'application/json', // Thêm header này
-        dataType: 'json',
-        data: JSON.stringify({ // Chuyển thành chuỗi JSON
+        const totalAmount = parseInt($('#total-amount').text().replace(/[^\d]/g, ''));
+        const subTotal = discount_value - totalAmount;
+        
+        // Kiểm tra dữ liệu trước khi gửi
+        console.log("Dữ liệu chuẩn bị gửi:", {
             user_id: userId,
             address_id: addressId,
-            voucher_id: voucherCode,
+            voucher_code: voucherCode,
+            discount_value: discount_value,
             total_amount: totalAmount,
-            items: orderItems
-        }),
-        success: function(response) {
-            if(response.success) {
-                alert('Đặt hàng thành công! Mã đơn hàng: ' + response.data.order_id);
-                window.location.href = '?controller=home&action=checkout&id=' + response.data.order_id;
-            } else {
-                alert('Lỗi: ' + response.message);
+            subTotal: subTotal
+        });
+        
+        // Chuẩn bị danh sách sản phẩm
+        const orderItems = [];
+        <?php if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])): ?>
+            <?php foreach($_SESSION['order_list'] as $product): ?>
+                orderItems.push({
+                    variant_id: <?= $product['variant_id'] ?? 0 ?>,
+                    product_id: <?= $product['variant_id'] ?? 0 ?>,
+                    price: <?= $product['price'] ?? 0 ?>,
+                    quantity: <?= $product['quantity'] ?? 0 ?>
+                });
+            <?php endforeach; ?>
+        <?php endif; ?>
+        
+        
+        // Gửi dữ liệu dưới dạng JSON
+        $.ajax({
+            url: '?controller=home&action=add_orders',
+            method: 'POST',
+            contentType: 'application/json', // Thêm header này
+            dataType: 'json',
+            data: JSON.stringify({ // Chuyển thành chuỗi JSON
+                user_id: userId,
+                address_id: addressId,
+                voucher_id: voucherCode,
+                total_amount: totalAmount,
+                items: orderItems
+            }),
+            success: function(response) {
+                if(response.success) {
+                    alert('Đặt hàng thành công! Mã đơn hàng: ' +  response.data.order_id);
+                    window.location.href = '?controller=home&action=checkout&id=' + response.data.order_id;
+                } else {
+                    alert('Lỗi: ' + response.message);
+                }
+            },
+            error: function(xhr) {
+                console.error("Chi tiết lỗi:", xhr.responseText);
             }
-        },
-        error: function(xhr) {
-            console.error("Chi tiết lỗi:", xhr.responseText);
-        }
+        });
+
     });
-});
+
+
+    $('#order-zalopay').click(() => {
+        $.ajax({
+            url: '?controller=home&action=payment',
+            method: 'POST',
+            contentType: 'application/json', 
+            dataType: 'json',
+            data: JSON.stringify({
+                total_amount: parseInt($('#total-amount').text().replace(/[^\d]/g, '')), // Lưu ý: bạn đang lấy từ `<strong>` -> không có `.val()`, phải dùng `.text()` hoặc truyền số thật
+                items: [
+                    {
+                        variant_id: 21,
+                        price: 200,
+                        quantity: 2
+                    }
+                ]
+            }),
+            success: (res) => {
+                console.log("Phản hồi từ server:", res);
+                window.location.href = res.redirect_url;
+            },
+            error: (err) => {
+                console.error("Lỗi:", err);
+            }
+        });
+        });
         
 });
 
