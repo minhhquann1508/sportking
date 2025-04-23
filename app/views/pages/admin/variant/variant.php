@@ -8,30 +8,42 @@
 
 <form method="GET" action="variant_search.php" class="row g-3 align-items-end mb-3">
     <div class="col-3">
-        <input type="text" class="form-control" id="variant_name" name="variant_name"
-            placeholder="Nhập tên sản phẩm...">
-    </div>
-    <div class="col">
-        <select class="form-select" id="color_id" name="color_id">
-            <option value="">Lọc theo giá</option>
-            <option value="">Từ thấp đến cao</option>
-            <option value="">Từ cao đến thấp</option>
+        <select class="form-select" id="stock" name="stock">
+            <option value="">Số lượng tồn</option>
+            <option value="0">Đã hết hàng</option>
+            <option value="1">Còn ít (dưới 10 sản phẩm)</option>
         </select>
     </div>
-    <div class="col">
-        <select class="form-select" id="color_id" name="color_id">
-            <option value="">Size</option>
-
+    <div class="col-3">
+        <select class="form-select" id="price" name="price">
+            <option value="">Lọc theo giá</option>
+            <option value="0">Từ thấp đến cao</option>
+            <option value="1">Từ cao đến thấp</option>
         </select>
     </div>
     <div class="col">
         <select class="form-select" id="size_id" name="size_id">
+            <option value="">Size</option>
+            <?php 
+                foreach ($sizes['data'] as $size) {
+                    echo '<option value="'.$size['size_id'].'">'.$size['size_name'].'</option>';
+                }
+            ?>
+        </select>
+    </div>
+    <div class="col">
+        <select class="form-select" id="color_id" name="color_id">
             <option value="">Màu sắc</option>
+            <?php 
+                foreach ($colors['data'] as $color) {
+                    echo '<option value="'.$color['color_id'].'">'.$color['color_name'].'</option>';
+                }
+            ?>
         </select>
     </div>
 
     <div class="col">
-        <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+        <button type="submit" id="search_btn" class="btn btn-primary w-100">Tìm kiếm</button>
     </div>
 </form>
 
@@ -336,7 +348,8 @@ $('#update-btn').click((e) => {
             data: product,
             success: (res) => {
                 $('#updateModal').modal('hide');
-                showToast(res.message)
+                showToast(res.message);
+                fetchListVariant();
             },
             error: (err) => {
                 $('#updateModal').modal('hide');
@@ -505,6 +518,15 @@ $('#add-btn').click(async (e) => {
             console.error('Có lỗi trong quá trình upload:', error);
         });
 });
+
+$('#search_btn').click((e) => {
+    e.preventDefault();
+    const stock = $('#stock').val();
+    const price = $('#price').val();
+    const size_id = $('#size_id').val();
+    const color_id = $('#color_id').val();
+    console.log(stock, price, size_id, color_id);
+})
 
 const fetchListVariant = () => {
     const page = parseInt(new URLSearchParams(window.location.search).get('page')) || 1;
