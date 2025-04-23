@@ -142,8 +142,6 @@ $blog = [
             </li>
         </ul>
     </div>
-    <?php print_r($variant_list) ?>
-    <!-- Tab Content -->
     <div class="tab-content mt-3">
         <div class="tab-pane fade show active" id="flashSale">
             <div class="container" style="padding: 20px 0;">
