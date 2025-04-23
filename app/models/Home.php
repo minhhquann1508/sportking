@@ -99,6 +99,25 @@ class Home extends Database
             return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
         }
     }
+    public function get_order_by_user_id($order_id)
+    {
+        $sql = "SELECT o.*, p.*, oi.*, pv.*, sz.*, cl.*, a.*, u.* FROM orders o 
+        JOIN users u ON u.user_id = o.user_id
+        JOIN address a ON a.user_id = u.user_id
+        JOIN order_items oi ON oi.order_id = o.order_id
+        JOIN product_variant pv ON pv.variant_id = oi.variant_id 
+        JOIN size sz ON sz.size_id = pv.size_id
+        JOIN color cl ON cl.color_id = pv.color_id
+        JOIN product p ON p.product_id = pv.product_id
+        WHERE o.order_id = ?";
+
+        $result = $this->select($sql, [$order_id]);
+        if ($result) {
+            return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
+        } else {
+            return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
+        }
+    }
     public function get_product_by_id($product_id)
     {
         $sql = "SELECT p.*, c.category_name, b.brand_name FROM $this->tableProduct p 

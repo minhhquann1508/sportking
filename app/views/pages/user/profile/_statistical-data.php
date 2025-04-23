@@ -69,48 +69,54 @@ $("#update-form").submit(function(e) {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-.wrapper-statiscal .up-statiscal {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0;
-    border-radius: 10px;
-    background-color: #fff;
-}
-
-.wrapper-statiscal .up-statiscal .row {
     padding: 20px;
+    max-width: 800px;
+    margin: auto;
 }
 
-.wrapper-statiscal .up-statiscal .item-box {
-    background-color: #F2F4F5;
-    border: none;
-    border-radius: 12px;
-}
-
-.wrapper-statiscal .profile-statiscal {
+.profile-statiscal {
     padding: 20px;
     border-radius: 10px;
     background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 }
 
 .profile-statiscal h3 {
     font-size: 1.5rem;
     margin-bottom: 20px;
     color: #333;
+    text-align: center;
 }
 
 .profile-statiscal .form-group {
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-statiscal .form-group.row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.profile-statiscal label {
+    flex: 0 0 100%;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.profile-statiscal .col-sm-10,
+.profile-statiscal .col-sm-2 {
+    flex: 1 1 100%;
 }
 
 .profile-statiscal .form-control {
     border-radius: 5px;
-    padding: 155px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
-
 
 .profile-statiscal .form-check-label {
     margin-right: 15px;
@@ -124,5 +130,28 @@ $("#update-form").submit(function(e) {
 .form-control:focus {
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+/* Responsive điều chỉnh layout khi màn hình lớn hơn */
+@media (min-width: 576px) {
+    .profile-statiscal .form-group.row {
+        flex-direction: row;
+    }
+
+    .profile-statiscal label {
+        flex: 0 0 25%;
+        max-width: 25%;
+        margin-bottom: 0;
+    }
+
+    .profile-statiscal .col-sm-10 {
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
 }
 </style>

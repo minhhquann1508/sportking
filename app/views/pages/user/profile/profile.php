@@ -1,6 +1,6 @@
 <div class="container-lg mt-5 py-5">
-    <div class="profile-main d-flex gap-3">
-        <aside class="col-12 col-md-3 sidebar">
+    <div class="row profile-main">
+        <aside class="col-12 col-md-4 col-lg-3 sidebar mb-4 mb-md-0" id="sidebar">
             <div class="infor-user">
                 <div class="avatar-wrapper">
                     <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/background_silver.png"
@@ -49,7 +49,7 @@
             </ul>
         </aside>
 
-        <div class="main-content">
+        <div class="col-12 col-md-8 col-lg-9 main-content">
             <div class="tab-content">
                 <section class="tab-pane fade show active" id="personal-info" role="tabpanel">
                     <?php include '_statistical-data.php' ?>
@@ -66,21 +66,14 @@
                 <section class="tab-pane fade" id="My-feedback" role="tabpanel">
                     <?php include 'feedback/feedback.php'?>
                 </section>
-                <section class="tab-pane fade" id="account-settings" role="tabpanel">
-                    <h2 class="h5">Cài đặt tài khoản</h2>
-                    <p>Chỉnh sửa thông tin tài khoản và mật khẩu tại đây.</p>
-                </section>
             </div>
         </div>
     </div>
 </div>
 <style>
 .infor-user {
-    max-width: 300px;
-    margin: 0 auto;
-    padding: 20px;
-    border-radius: 10px;
     text-align: center;
+    padding: 20px;
 }
 
 .avatar-wrapper {
@@ -88,89 +81,157 @@
     height: 120px;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid #ddd;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
     margin: auto;
+    border: 3px solid #ddd;
 }
 
 .avatar-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* fit kiểu cover */
-    display: block;
-}
-
-.infor-user h5 {
-    font-size: 1.25rem;
-    color: #333;
-    margin-top: 15px;
-    font-weight: 600;
-}
-
-.infor-user .level-user {
-    width: 80%;
-    font-size: 0.9rem;
-    color: #888;
-    margin: auto;
-    background-color: #ccc;
-    padding: 10px;
-    border-radius: 50px;
-}
-
-.nav-link {
-    color: #333;
-    padding: 10px 15px;
-    cursor: pointer;
-}
-
-.nav-link:hover {
-    color: #C92127;
-    background-color: transparent;
-}
-
-.nav-link.active {
-    color: #C92127 !important;
-    background-color: transparent !important;
-    font-weight: bold;
-}
-
-.nav-pills .nav-link {
-    border-radius: 0;
 }
 
 .sidebar {
-    width: 25%;
+    background: #fff;
     padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.profile-main {
-    width: 100%;
+.nav-link {
+    background-color: transparent !important;
+    color: #333;
     display: flex;
-    justify-content: space-around;
-    margin: 20px 5px;
+    gap: 10px;
+    align-items: center;
+    padding: 12px;
+    font-size: 0.95rem;
 }
 
-.main-content {
-    width: 75%;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+.nav-link:hover {
+    color: #C92127 !important;
+}
+
+.nav-link.active {
+    background-color: transparent !important;
+    color: #C92127 !important;
+    font-weight: bold;
+}
+
+
+
+
+.submenu .nav-link {
+    font-size: 0.9rem;
+    padding-left: 30px;
+}
+
+.tab-content .tab-pane {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease;
+}
+
+.tab-content .tab-pane.active.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.4s ease both;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 80%;
+        border-radius: 0px;
+        background: white;
+        z-index: 999;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .menu-toggle {
+        position: fixed;
+        top: 80px;
+        left: 10px;
+        z-index: 1000;
+        background: #C92127;
+        color: #fff;
+        border: none;
+        padding: 10px 12px;
+        border-radius: 6px;
+    }
+
+    .main-content {
+        margin-top: 0px;
+    }
 }
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const triggerTabList = document.querySelectorAll('.nav-link[data-bs-toggle="pill"]');
-    triggerTabList.forEach(function(triggerEl) {
+    const currentHash = window.location.hash;
+    if (currentHash) {
+        const activeTabLink = document.querySelector(`.nav-link[href="${currentHash}"]`);
+        if (activeTabLink) {
+            const tab = new bootstrap.Tab(activeTabLink);
+            tab.show();
+            const tabTarget = document.querySelector(currentHash);
+            if (tabTarget) {
+                setTimeout(() => tabTarget.classList.add('fade-in-up'), 100);
+            }
+        }
+    }
+
+    triggerTabList.forEach(triggerEl => {
         triggerEl.addEventListener('click', function(e) {
             e.preventDefault();
+            const targetSelector = triggerEl.getAttribute('href');
+            history.pushState(null, '', targetSelector);
             const tab = new bootstrap.Tab(triggerEl);
             tab.show();
+            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove(
+                'fade-in-up'));
+            const tabTarget = document.querySelector(targetSelector);
+            if (tabTarget) {
+                setTimeout(() => tabTarget.classList.add('fade-in-up'), 100);
+            }
+            document.querySelector('#sidebar')?.classList.remove('show');
         });
+    });
+
+    const menuBtn = document.createElement('button');
+    menuBtn.className = 'menu-toggle d-md-none';
+    menuBtn.innerHTML = '<i class="fa fa-bars"></i>';
+    document.body.appendChild(menuBtn);
+
+    const sidebar = document.getElementById('sidebar');
+    menuBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
     });
 });
 </script>

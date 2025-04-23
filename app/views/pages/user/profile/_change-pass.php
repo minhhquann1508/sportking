@@ -74,46 +74,99 @@ $('#password-form').submit(function(e) {
 
 <style>
 .wrapper-password {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    padding: 10px 40px;
-    background-color: #fff;
-    border-radius: 10px;
-}
-
-.wrapper-password .form-password {
-    padding: 20px;
-
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 30px;
+    background: #fdfdfd;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
 }
 
 .wrapper-password h3 {
-    font-size: 1.5rem;
-    margin: 20px;
-    color: gray;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: left;
 }
 
 .form-password .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.form-password label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 6px;
+    display: inline-block;
 }
 
 .form-password .form-control {
-    border-radius: 5px;
-    padding: 15px;
+    border-radius: 8px;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease-in-out;
+    font-size: 16px;
 }
 
-
-.form-password .form-check-label {
-    margin-right: 15px;
-}
-
-.form-password .form-check-input {
-    margin-right: 5px;
-    padding: 10px;
-}
-
-.form-control:focus {
+.form-password .form-control:focus {
     border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+#password-error .error-message {
+    color: #d9534f;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.form-password a.text-decoration-underline {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.form-password .btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .wrapper-password {
+        padding: 20px;
+    }
+
+    .form-group.row {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-group.row label {
+        margin-bottom: 6px;
+    }
+
+    .form-group.row .col-sm-10,
+    .form-group.row .col-sm-2 {
+        width: 100%;
+    }
+
+    .form-group.row .col-sm-10.offset-sm-2 {
+        margin-left: 0;
+    }
+
+    .form-password .btn {
+        width: 100%;
+    }
+
+    .form-password .form-check-input {
+        margin-right: 8px;
+    }
+
+    .form-password a.text-decoration-underline {
+        display: inline-block;
+        margin-top: 10px;
+    }
 }
 </style>
