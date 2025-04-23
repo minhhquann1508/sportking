@@ -56,8 +56,6 @@
               <div class="content" style="width: 100%;">
                 <img src="<?= $blogDetail['thumbnail'] ?>" alt="" class="article-img" />
                 <?= nl2br(html_entity_decode($blogDetail['content'])) ?>
-
-
               </div>
             </div>
       </div>
@@ -104,9 +102,5 @@
       </div>
     </div>
 
-    <div class="container splq">
-      <h4 class="text-center">Sản phẩm liên quan</h4>
-      <?php render_list_product($productList); ?>
-    </div>
 
   </div>

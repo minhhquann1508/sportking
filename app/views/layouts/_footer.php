@@ -56,3 +56,4 @@
                     style="font-weight:500">Chính sách bảo mật</a></p>
         </div>
     </div>
+</footer>
