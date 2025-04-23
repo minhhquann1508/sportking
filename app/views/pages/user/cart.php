@@ -51,10 +51,51 @@ const deleteCheckItems = () => {
     renderTotal();
 }
 
-const renderCart = (cart) => {
-    console.log(cart);
-    let html = '';
+const updateQuantity = (status, quantity, stock, variant_id, product_id) => {
+    let newQuantity = quantity;
 
+    if (status === true) {
+        if (quantity < stock) {
+            newQuantity++;
+        } else {
+            showToast('Đã đạt số lượng tồn kho tối đa');
+            return;
+        }
+    } else if (status === false) {
+        if (quantity > 1) {
+            newQuantity--;
+        } else {
+            showToast('Số lượng tối thiểu là 1');
+            return;
+        }
+    }
+
+    // Gửi AJAX để cập nhật session
+    $.ajax({
+        url: '?controller=cart&action=update_quantity',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            variant_id,
+            product_id,
+            quantity: newQuantity
+        },
+        success: (res) => {
+            if (res.success) {
+                renderCart(res.data)
+                renderTotal();
+            } else {
+                showToast(res.message || 'Cập nhật thất bại');
+            }
+        },
+        error: (err) => {
+            console.log(err);
+        }
+    });
+}
+
+const renderCart = (cart) => {
+    let html = '';
     if (Object.keys(cart).length === 0) {
         html = `
             <div class="text-center py-5">
@@ -112,9 +153,9 @@ const renderCart = (cart) => {
                                             <span style="font-size: 13px">${color_name}</span>
                                             <span style="font-size: 13px">${size_name}</span>
                                             <div class="d-flex align-items-center border rounded">
-                                                <button class="btn btn-sm border-end">-</button>
+                                                <button class="btn btn-sm border-end" onclick="updateQuantity(false, ${quantity}, ${stock}, ${variant_id}, ${product_id})">-</button>
                                                 <span class="mx-2" style="font-size: 13px">${quantity}</span>
-                                                <button class="btn btn-sm border-start">+</button>
+                                                <button class="btn btn-sm border-start" onclick="updateQuantity(true, ${quantity}, ${stock}, ${variant_id}, ${product_id})">+</button>
                                             </div>
                                         </div>
                                     </div>

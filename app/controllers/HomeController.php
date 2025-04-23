@@ -257,8 +257,7 @@ class HomeController
     {
         $id = $_SESSION['user']['user_id'];
         $voucher = $this->voucherModel->getVouchers();
-        $address = $this->addressModel ->get_address_by_user_id($id)['data'];
-
+        $address = $this->addressModel->get_address_by_user_id($_SESSION['user']['user_id'])['data'];
         $content = '../app/views/pages/user/order2.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -278,36 +277,11 @@ class HomeController
         $voucher_id = !empty($postData['voucher_id']) ? (int)$postData['voucher_id'] : null;
 
         // Gọi model để thêm đơn hàng
-        $response = $this->orderModel->add_order($user_id, $address_id, $voucher_id,$total_amount,$items);
-
+        $response = $this->orderModel->add_order(
+            $total_amount, $user_id, $address_id,$items);
         echo json_encode($response);
         exit;
-
-        $content = '../app/views/pages/user/order.php';
-        $header = '../app/views/layouts/_header.php';
-        $footer = '../app/views/layouts/_footer.php';
-        include_once "../app/views/layouts/default2.php";
     }
-
-
-    // public function add_orders() {
-    //     if (isset($_SESSION['user']['user_id'])) {
-    //         $id = $_SESSION['user']['user_id'];
-    //         $orders = [];
-    //         foreach ($_SESSION['order_list'] as $item) {
-    //             $variant_item = $this->variantModel->get_variant_by_id($item['id'])['data'];
-    //             $variant_item['quantity'] = $item['quantity'];
-    //             $orders[] = $variant_item;
-    //         }
-            // $voucher = $this->voucherModel->getVouchers();
-            // $address = $this->addressModel->get_address_by_user_id($id)['data'];
-    //         $content = '../app/views/pages/user/order2.php';
-    //         $header = '../app/views/layouts/_header.php';
-    //         $footer = '../app/views/layouts/_footer.php';
-    //         include_once "../app/views/layouts/default2.php";
-    //     } else {
-    //         echo "Bạn chưa đăng nhập!";
-    //     }
 
     public function checkout()
     {
