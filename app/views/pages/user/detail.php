@@ -26,12 +26,12 @@
                         $content = '';
                         foreach ($variant_detail['data'][0]['images'] as $img) {
                             $content .= '<div class="position-relative " onclick="changeImage(this, \'' . $img . '\')" style="height:84px;width:84px">
-                                                    <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
-                                                        style="cursor: pointer;"></div>
-                                                    <img height="84" width="84"  style="object-fit: contain;"
-                                                        src="' . $img . '"
-                                                        alt="">
-                                                </div>';
+                                        <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
+                                            style="cursor: pointer;"></div>
+                                        <img height="84" width="84"  style="object-fit: contain;"
+                                            src="' . $img . '"
+                                            alt="">
+                                    </div>';
                         }
                         echo $content;
                         ?>
@@ -233,7 +233,7 @@
                                         variant.stock > 0 ? `Còn lại: ${variant.stock} sản phẩm` :
                                         'Hết hàng'
                                     ).show();
-
+                                    $('#stock').val(variant.stock);
                                     $('#price').text(`${Number(variant.price).toLocaleString()} đ`);
                                     selectedVariantId = variant.variant_id;
                                 } else {
@@ -345,19 +345,22 @@ document.querySelectorAll('.size-btn').forEach(btn => {
 
 const handleChangeQuantity = (status) => {
     const quantitySpan = document.getElementById('quantity');
-    const quantity = Number(quantitySpan.textContent.trim());
+    let quantity = Number(quantitySpan.textContent.trim());
     const stock = Number(document.getElementById('stock').value);
+    console.log(stock);
 
     if (status) {
         if (quantity < stock) {
-            quantitySpan.textContent = quantity + 1;
+            quantity++;
         }
     } else {
         if (quantity > 1) {
-            quantitySpan.textContent = quantity - 1;
+            quantity--;
         }
     }
+    quantitySpan.textContent = quantity;
 }
+
 document.querySelectorAll('.size-btn').forEach(btn => {
     btn.addEventListener('click', function() {
         document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
@@ -402,7 +405,7 @@ $('#add-btn').click((e) => {
                 data: variant,
                 success: (res) => {
                     updateCartQuantitySpan();
-                    showToast('Thêm vào giỏ thành công');
+                    showToast(res.message);
                 },
                 error: (err) => {
                     console.log(err);

@@ -26,11 +26,11 @@ print_r($address);
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label">Họ và tên</label>
-                            <input class="form-control bg-light"><?= $_SESSION['user']['fullname'] ?? '' ?></input>
+                            <input class="form-control bg-light" value="<?= $_SESSION['user']['fullname'] ?? '' ?>" />
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Số điện thoại</label>
-                            <input class="form-control bg-light"><?= $_SESSION['user']['phone'] ?? '' ?></input>
+                            <input class="form-control bg-light" value="<?= $_SESSION['user']['phone'] ?? '' ?>" />
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
@@ -65,7 +65,8 @@ print_r($address);
                             <div id="custom-address" style="display: none;">
                                 <div class="mb-3">
                                     <label for="street" class="form-label">Địa chỉ</label>
-                                    <input type="text" class="form-control" name="street" placeholder="Số nhà, đường, phường...">
+                                    <input type="text" class="form-control" name="street"
+                                        placeholder="Số nhà, đường, phường...">
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
@@ -79,7 +80,8 @@ print_r($address);
                                 </div>
                                 <div class="mb-3">
                                     <label for="note" class="form-label">Ghi chú</label>
-                                    <textarea class="form-control" name="note" rows="2" placeholder="Ví dụ: Giao giờ hành chính..."></textarea>
+                                    <textarea class="form-control" name="note" rows="2"
+                                        placeholder="Ví dụ: Giao giờ hành chính..."></textarea>
                                 </div>
                             </div>
                         </form>
@@ -119,19 +121,20 @@ print_r($address);
                                 }
                             ?>
                         </ul>
-                        
+
                         <div class="mb-3">
                             <label for="voucher" class="form-label">Mã giảm giá</label>
                             <select class="form-select" id="voucher" name="voucher_code">
                                 <option value="">-- Chọn mã giảm giá --</option>
                                 <?php foreach ($voucher as $v): ?>
-                                    <option value="<?= $v['discount_value'] ?>" data-value="<?= $v['discount_value'] ?>">
-                                        <?= $v['voucher_id'] ?> - Giảm <?= number_format($v['discount_value'], 0, ',', '.') ?>đ
-                                    </option>
+                                <option value="<?= $v['discount_value'] ?>" data-value="<?= $v['discount_value'] ?>">
+                                    <?= $v['voucher_id'] ?> - Giảm
+                                    <?= number_format($v['discount_value'], 0, ',', '.') ?>đ
+                                </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                                
+
                         <!-- Order Summary -->
                         <!-- <div class="d-flex justify-content-between">
                             <span>Tạm tính:</span>
@@ -142,17 +145,17 @@ print_r($address);
                             <strong id="subtotal"><?= number_format($total_price, 0, ',', '.') ?>đ</strong>
                         </div>
 
-                        
+
                         <div class="d-flex justify-content-between text-danger" id="discount-row" style="display:none;">
                             <span>Giảm giá:</span>
                             <strong id="discount"></strong>
                         </div>
-                        
+
                         <div class="d-flex justify-content-between">
                             <span>Phí vận chuyển:</span>
                             <strong id="shipping-fee">0đ</strong>
                         </div>
-                        
+
                         <hr>
                         <div class="d-flex justify-content-between fs-5">
                             <span>Tổng cộng:</span>
@@ -177,10 +180,10 @@ $(document).ready(function() {
     //    console.log(voucher);
     // });
 
-    
+
     // Toggle địa chỉ mới
     $('#saved-address').change(function() {
-        if($(this).val() === 'new') {
+        if ($(this).val() === 'new') {
             $('#custom-address').show();
             // Clear các trường địa chỉ
             $('#custom-address input').val('');
@@ -197,104 +200,102 @@ $(document).ready(function() {
     // Xử lý voucher
     let discount_value = '';
 
-    $('#voucher').change(function () {
-    discount_value = parseInt($(this).val()); // Ép về số
+    $('#voucher').change(function() {
+        discount_value = parseInt($(this).val()); // Ép về số
 
-    if (discount_value > 0) {
-        // Hiện dòng giảm giá
-        $('#discount-row').show();
+        if (discount_value > 0) {
+            // Hiện dòng giảm giá
+            $('#discount-row').show();
 
-        // Hiển thị giá trị giảm giá
-        $('#discount').text('-' + discount_value.toLocaleString('vi-VN') + 'đ');
+            // Hiển thị giá trị giảm giá
+            $('#discount').text('-' + discount_value.toLocaleString('vi-VN') + 'đ');
 
-        // Lấy lại giá trị tạm tính
-        const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
+            // Lấy lại giá trị tạm tính
+            const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
 
-        // Cập nhật tổng cộng mới
-        const newTotal = subtotal - discount_value;
-        $('#total-amount').text(newTotal.toLocaleString('vi-VN') + 'đ');
-    } else {
-        $('#discount-row').hide();
-        $('#discount').text('');
-        // Reset lại tổng tiền nếu chọn lại về default
-        const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
-        $('#total-amount').text(subtotal.toLocaleString('vi-VN') + 'đ');
-    }
-});
-
-    
-
-
-
-
-       // Xử lý khi click nút đặt hàng
-    $('#checkout-btn').click(function(e) {
-    e.preventDefault();
-
-    console.log(discount_value);
-
-   
-    // Lấy thông tin từ form
-    const userId = <?= $_SESSION['user']['user_id'] ?? 0 ?>;
-    // const addressId = $('#saved-address').val();
-    const addressId = 1;
-    const voucherCode = $('#voucher').val();
-    // const discountValue = $('#voucher option:selected').data('value') || 0;
-  
-    const totalAmount = parseInt($('#total-amount').text().replace(/[^\d]/g, ''));
-    const subTotal = discount_value - totalAmount;
-    
-    // Kiểm tra dữ liệu trước khi gửi
-    console.log("Dữ liệu chuẩn bị gửi:", {
-        user_id: userId,
-        address_id: addressId,
-        voucher_code: voucherCode,
-        discount_value: discountValue,
-        total_amount: totalAmount,
-        subTotal: subTotal
-    });
-    
-    // Chuẩn bị danh sách sản phẩm
-    const orderItems = [];
-    <?php if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])): ?>
-        <?php foreach($_SESSION['order_list'] as $product): ?>
-            orderItems.push({
-                variant_id: 32,
-                product_id: 7,
-                price: <?= $product['price'] ?? 0 ?>,
-                quantity: <?= $product['quantity'] ?? 0 ?>
-            });
-        <?php endforeach; ?>
-    <?php endif; ?>
-    
-    
-    // Gửi dữ liệu dưới dạng JSON
-    $.ajax({
-        url: '?controller=home&action=add_orders',
-        method: 'POST',
-        contentType: 'application/json', // Thêm header này
-        dataType: 'json',
-        data: JSON.stringify({ // Chuyển thành chuỗi JSON
-            user_id: userId,
-            address_id: addressId,
-            voucher_id: voucherCode,
-            total_amount: totalAmount,
-            items: orderItems
-        }),
-        success: function(response) {
-            if(response.success) {
-                alert('Đặt hàng thành công! Mã đơn hàng: ' + response.order_id);
-                window.location.href = '?controller=order&action=detail&id=' + response.order_id;
-            } else {
-                alert('Lỗi: ' + response.message);
-            }
-        },
-        error: function(xhr) {
-            console.error("Chi tiết lỗi:", xhr.responseText);
+            // Cập nhật tổng cộng mới
+            const newTotal = subtotal - discount_value;
+            $('#total-amount').text(newTotal.toLocaleString('vi-VN') + 'đ');
+        } else {
+            $('#discount-row').hide();
+            $('#discount').text('');
+            // Reset lại tổng tiền nếu chọn lại về default
+            const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
+            $('#total-amount').text(subtotal.toLocaleString('vi-VN') + 'đ');
         }
     });
-});
-        
+
+
+
+
+
+
+    // Xử lý khi click nút đặt hàng
+    $('#checkout-btn').click(function(e) {
+        e.preventDefault();
+        console.log(discount_value);
+        // Lấy thông tin từ form
+        const userId = <?= $_SESSION['user']['user_id'] ?? 0 ?>;
+        // const addressId = $('#saved-address').val();
+        const addressId = 1;
+        const voucherCode = $('#voucher').val();
+        const discountValue = $('#voucher option:selected').data('value') || 0;
+
+        const totalAmount = parseInt($('#total-amount').text().replace(/[^\d]/g, ''));
+        const subTotal = discount_value - totalAmount;
+
+        // Kiểm tra dữ liệu trước khi gửi
+        console.log("Dữ liệu chuẩn bị gửi:", {
+            user_id: userId,
+            address_id: addressId,
+            voucher_code: voucherCode,
+            discount_value: discountValue,
+            total_amount: totalAmount,
+            subTotal: subTotal
+        });
+
+        // Chuẩn bị danh sách sản phẩm
+        const orderItems = [];
+        <?php if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])): ?>
+        <?php foreach($_SESSION['order_list'] as $product): ?>
+        orderItems.push({
+            variant_id: <?= $product['variant_id'] ?>,
+            product_id: <?= $product['product_id'] ?>,
+            price: <?= $product['price'] ?? 0 ?>,
+            quantity: <?= $product['quantity'] ?? 0 ?>
+        });
+        <?php endforeach; ?>
+        <?php endif; ?>
+
+        // Gửi dữ liệu dưới dạng JSON
+        $.ajax({
+            url: '?controller=home&action=add_orders',
+            method: 'POST',
+            contentType: 'application/json', // Thêm header này
+            dataType: 'json',
+            data: JSON.stringify({ // Chuyển thành chuỗi JSON
+                user_id: userId,
+                address_id: addressId,
+                voucher_id: voucherCode,
+                total_amount: totalAmount,
+                items: orderItems
+            }),
+            success: function(response) {
+                if (response.success) {
+                    alert(response.message);
+                    window.location.href = '?controller=order&action=detail&id=' + response
+                        .data
+                        .order_id;
+                } else {
+                    alert('Đặt hàng không thành công');
+                }
+            },
+            error: function(xhr) {
+                console.error("Chi tiết lỗi:", xhr.responseText);
+            }
+        });
+    });
+
 });
 
 
@@ -335,7 +336,7 @@ $(document).ready(function() {
 //         Object.keys(cart).forEach(product => {
 //             // $total_price = product['price'] * product['quantity'];
 //             // $subtotal += $total_price;
-            
+
 //             html += `
 //                     <li class="list-group-item d-flex justify-content-between align-items-start">
 //                         <div class="d-flex gap-3">
@@ -361,7 +362,4 @@ $(document).ready(function() {
 // $(document).ready(() => {
 //     renderOrder(cart);
 // });
-
-
-
 </script>
