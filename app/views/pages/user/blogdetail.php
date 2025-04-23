@@ -56,8 +56,6 @@
               <div class="content" style="width: 100%;">
                 <img src="<?= $blogDetail['thumbnail'] ?>" alt="" class="article-img" />
                 <?= nl2br(html_entity_decode($blogDetail['content'])) ?>
-
-
               </div>
             </div>
       </div>

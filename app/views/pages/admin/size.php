@@ -207,7 +207,7 @@
                     const size = res.data;
                     $('#update_size_id').val(size.size_id);
                     $('#update_size_name').val(size.size_name);
-                    $('#update_category').val(size.category_id);
+                    $('#updated_category').val(size.category_id);
                 } else {
                     alert("Không lấy được dữ liệu bài viết");
                 }
@@ -218,7 +218,7 @@
     const updateSizeBtn = $('#update_btn');
     const updateSizeId = $('#update_size_id');
     const updateSizeName = $('#update_size_name');
-    const updateCategory = $('#update_category');
+    const updateCategory = $('#updated_category');
 
 
         //cập nhật size

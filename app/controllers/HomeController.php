@@ -313,7 +313,7 @@ class HomeController
     public function blog()
     {
         $categories = $this->homeModel->get_all_categorys();
-        $blogList = $this->blogModel->get_all_blogs();
+        $blogs = $this->blogModel->get_all_blogs();
         $blogRelated = $this->blogModel->get_by_quantity();
         $content = '../app/views/pages/user/blog.php';
         $header = '../app/views/layouts/_header.php';
