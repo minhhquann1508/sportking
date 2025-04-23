@@ -255,9 +255,9 @@ class HomeController
 
     public function order2()
     {
+        $id = $_SESSION['user']['user_id'];
         $voucher = $this->voucherModel->getVouchers();
         $address = $this->addressModel->get_address_by_user_id($_SESSION['user']['user_id'])['data'];
-        echo ('xin chaof');
         $content = '../app/views/pages/user/order2.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -268,13 +268,14 @@ class HomeController
     {
         $rawData = file_get_contents("php://input");
         $postData = json_decode($rawData, true);
+
         // Lấy thông tin
         $total_amount = $postData['total_amount'];
         $user_id = $postData['user_id'];
         $address_id = $postData['address_id']; 
         $items = $postData['items'];
-        $voucher_id = $postData['voucher_id'];
-       
+        $voucher_id = !empty($postData['voucher_id']) ? (int)$postData['voucher_id'] : null;
+
         // Gọi model để thêm đơn hàng
         $response = $this->orderModel->add_order(
             $total_amount, $user_id, $address_id,$items);
