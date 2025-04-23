@@ -19,6 +19,11 @@
         [
             'label' => 'Quản lý sản phẩm',
             'url' => '?controller=product',
+            'children' => [
+                ['label' => 'Danh sách sản phẩm', 'url' => '?controller=product'],
+                ['label' => 'Quản lý size', 'url' => '?controller=size'],
+                ['label' => 'Quản lý màu sắc', 'url' => '?controller=color'],
+            ]
         ],
         [
             'label' => 'Quản lý người dùng',

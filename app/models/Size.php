@@ -12,10 +12,10 @@
         }
 
         public function add_size($size_name, $category_id) {
-            $check_size_sql = "SELECT COUNT(*) as count FROM size WHERE size_name = ?";
-            $check_size_result = $this->select($check_size_sql, [$size_name]);
+            $check_size_sql = "SELECT * FROM size WHERE size_name = ? AND category_id = ?";
+            $check_size_result = $this->select($check_size_sql, [$size_name, $category_id]);
         
-            if ($check_size_result[0]['count'] > 0) {
+            if (count($check_size_result) > 0) {
                 return ['success' => false, 'message' => 'Size đã tồn tại'];
             }
         

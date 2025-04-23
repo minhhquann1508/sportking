@@ -100,42 +100,42 @@ class Variant extends Database
     public function get_variant_list()
     {
         $sql = "SELECT 
-            v.variant_id,
-            v.price,
-            v.stock,
-            p.product_name,
-            p.product_id,
-            c.category_name,
-            b.brand_name,
-            co.color_name,
-            co.color_hex,
-            s.size_name,
-            i.image_url
-        FROM product_variant v
-        -- Lấy variant_id nhỏ nhất cho mỗi product
-        INNER JOIN (
-            SELECT product_id, MIN(variant_id) AS first_variant_id
-            FROM product_variant
-            GROUP BY product_id
-        ) first_variants ON v.variant_id = first_variants.first_variant_id
+                    v.variant_id,
+                    v.price,
+                    v.stock,
+                    p.product_name,
+                    p.product_id,
+                    c.category_name,
+                    b.brand_name,
+                    co.color_name,  
+                    co.color_hex,
+                    s.size_name,
+                    i.image_url
+                FROM product_variant v
+                -- Lấy variant_id nhỏ nhất cho mỗi product
+                INNER JOIN (
+                    SELECT product_id, MIN(variant_id) AS first_variant_id
+                    FROM product_variant
+                    GROUP BY product_id
+                ) first_variants ON v.variant_id = first_variants.first_variant_id
 
-        -- Join thông tin sản phẩm
-        INNER JOIN product p ON p.product_id = v.product_id
-        INNER JOIN category c ON c.category_id = p.category_id
-        INNER JOIN brands b ON b.brand_id = p.brand_id
-        INNER JOIN color co ON co.color_id = v.color_id
-        INNER JOIN size s ON s.size_id = v.size_id
+                -- Join thông tin sản phẩm
+                INNER JOIN product p ON p.product_id = v.product_id
+                INNER JOIN category c ON c.category_id = p.category_id
+                INNER JOIN brands b ON b.brand_id = p.brand_id
+                INNER JOIN color co ON co.color_id = v.color_id
+                INNER JOIN size s ON s.size_id = v.size_id
 
-        -- Lấy ảnh có image_id nhỏ nhất cho mỗi variant
-        LEFT JOIN (
-            SELECT vi1.variant_id, vi1.image_url
-            FROM variant_image vi1
-            INNER JOIN (
-                SELECT variant_id, MIN(image_id) AS min_image_id
-                FROM variant_image
-                GROUP BY variant_id
-            ) vi2 ON vi1.variant_id = vi2.variant_id AND vi1.image_id = vi2.min_image_id
-        ) i ON i.variant_id = v.variant_id;
+                -- Lấy ảnh có image_id nhỏ nhất cho mỗi variant
+                LEFT JOIN (
+                    SELECT vi1.variant_id, vi1.image_url
+                    FROM variant_image vi1
+                    INNER JOIN (
+                        SELECT variant_id, MIN(image_id) AS min_image_id
+                        FROM variant_image
+                        GROUP BY variant_id
+                    ) vi2 ON vi1.variant_id = vi2.variant_id AND vi1.image_id = vi2.min_image_id
+                ) i ON i.variant_id = v.variant_id;
                 ";
 
         $response = $this->select($sql);
@@ -185,7 +185,7 @@ class Variant extends Database
 
     public function get_all($product_id, $page = 1, $limit = 10)
     {
-        $offset = ($page - 1) * $limit;
+        $offset = ((int)$page - 1) * $limit;
 
         $countSql = "SELECT COUNT(*) as total
                     FROM $this->table
@@ -371,5 +371,79 @@ class Variant extends Database
         } else {
             return ['success' => false, 'message' => 'Cập nhật thất bại', 'data' => null];
         }
+    }
+
+    public function search_variant($search, $category_id, $brand_id, $price_filter = null, $price_range_code = null)
+    {
+        // Subquery lấy variant đầu tiên theo product
+        $sql = "SELECT 
+                    v.variant_id,
+                    v.product_id,
+                    v.color_id,
+                    v.price,
+                    p.product_name,
+                    vi.image_url,
+                    b.brand_id,
+                    b.brand_name,
+                    c.category_id,
+                    c.category_name,
+                    co.color_name
+                FROM product_variant v
+                JOIN (
+                    SELECT MIN(variant_id) as first_variant_id
+                    FROM product_variant
+                    GROUP BY product_id
+                ) fv ON fv.first_variant_id = v.variant_id
+                JOIN product p ON p.product_id = v.product_id
+                JOIN brands b ON b.brand_id = p.brand_id
+                JOIN category c ON c.category_id = p.category_id
+                JOIN color co ON co.color_id = v.color_id
+                LEFT JOIN (
+                    SELECT variant_id, MIN(image_url) as image_url
+                    FROM variant_image
+                    GROUP BY variant_id
+                ) vi ON vi.variant_id = v.variant_id
+                WHERE 1";
+
+        $params = [];
+
+        if (!empty($search)) {
+            $sql .= " AND p.product_name LIKE ?";
+            $params[] = '%' . $search . '%';
+        }
+
+        if (!empty($category_id)) {
+            $sql .= " AND p.category_id = ?";
+            $params[] = $category_id;
+        }
+
+        if (!empty($brand_id)) {
+            $sql .= " AND p.brand_id = ?";
+            $params[] = $brand_id;
+        }
+
+        if (!empty($price_filter) && is_array($price_filter)) {
+            $sql .= " AND v.price BETWEEN ? AND ?";
+            $params[] = $price_filter[0];
+            $params[] = $price_filter[1];
+        }
+
+        if ($price_range_code === '1') {
+            $sql .= " ORDER BY v.price ASC";
+        } elseif ($price_range_code === '2') {
+            $sql .= " ORDER BY v.price DESC";
+        }
+
+        $result = $this->select($sql, $params);
+
+        return $result ? [
+            'success' => true,
+            'message' => 'Tìm thấy ' . count($result) . ' kết quả.',
+            'data' => $result
+        ] : [
+            'success' => false,
+            'message' => 'Không tìm thấy kết quả phù hợp.',
+            'data' => null
+        ];
     }
 }

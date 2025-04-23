@@ -336,7 +336,8 @@ $('#update-btn').click((e) => {
             data: product,
             success: (res) => {
                 $('#updateModal').modal('hide');
-                showToast(res.message)
+                showToast(res.message);
+                fetchListVariant();
             },
             error: (err) => {
                 $('#updateModal').modal('hide');
