@@ -2,6 +2,7 @@
 $total_price = 0;
 ?>
 <?php print_r($_SESSION['order_list'])?>
+
 <div class="container py-4">
   <div class="text-center mb-4">
     <h1 class="display-5 fw-bold">Check Out</h1>
