@@ -526,6 +526,23 @@ $('#search_btn').click((e) => {
     const size_id = $('#size_id').val();
     const color_id = $('#color_id').val();
     console.log(stock, price, size_id, color_id);
+    $.ajax({
+        url: '?controller=variant&action=filter_variant',
+        method: 'GET',
+        dataType: 'json',
+        data: {
+            stock,
+            price,
+            size_id,
+            color_id
+        },
+        success: (res) => {
+            console.log(res);
+        },
+        error: (error) => {
+            console.log(error);
+        }
+    })
 })
 
 const fetchListVariant = () => {

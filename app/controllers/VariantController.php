@@ -77,29 +77,14 @@
             exit;
         }
 
-        // public function get_variant_by_search() {
-        //     $search = $_GET['search'] ?? '';
-        //     $category_id = $_GET['category_id'] ?? '';
-        //     $brand_id = $_GET['brand_id'] ?? '';
-        //     $price_range = $_GET['price_range'] ?? '';
-        //     $price_filter = null;
-        
-        //     // Xử lý lọc giá theo khoảng
-        //     switch ($price_range) {
-        //         case '3':
-        //             $price_filter = [0, 499999]; // Dưới 500k
-        //             break;
-        //         case '4':
-        //             $price_filter = [500000, 1000000]; // Từ 500k đến 1 triệu
-        //             break;
-        //         default:
-        //             $price_filter = null; // Không lọc theo khoảng
-        //     }
-        
-        //     // Gọi model, truyền thêm price_range để xử lý sắp xếp
-        //     $response = $this->variantModel->search_variant($search, $category_id, $brand_id, $price_filter, $price_range);
-        //     echo json_encode($response);
-        //     exit;
-        // }
+        public function filter_variant() {
+            $stock = $_GET['stock'] ?? '0';
+            $price = $_GET['price'] ?? '0';
+            $size_id = $_GET['size_id'] ?? '';
+            $color_id = $_GET['color_id'] ?? '';
+            $response = $this->variantModel->filter_variant($price, $stock, $color_id, $size_id);
+            echo json_encode($response);
+            exit;
+        }
     }
 ?>
