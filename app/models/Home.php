@@ -9,6 +9,29 @@ class Home extends Database
     private $tableComment = "comments";
     private $tableOrder = "orders";
 
+    public function add_comment($product_id, $user_id, $rating, $content)
+    {
+        $sql = "INSERT INTO comments (product_id, user_id, rating, content, create_at)
+                VALUES (?, ?, ?, ?, NOW())";
+
+        $result = $this->execute($sql, [$product_id, $user_id, $rating, $content]);
+
+        if ($result) {
+            return [
+                'success' => true,
+                'message' => 'Thêm bình luận thành công',
+                'data' => null
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Thêm bình luận thất bại',
+                'data' => null
+            ];
+        }
+    }
+
+
     public function getUserByEmail($email)
     {
         $sql = "SELECT u.*, a.* FROM $this->tableUser u 
@@ -226,7 +249,8 @@ class Home extends Database
         }
     }
     public function get_all_comment_by_order_id($user_id)
-    {$sql = "SELECT pv.variant_id, o.order_id, p.*, cmt.content, cmt.rating, cmt.create_at
+    {
+        $sql = "SELECT pv.variant_id, o.order_id, p.*, cmt.content, cmt.rating, cmt.create_at
         FROM orders o 
         JOIN order_items oi ON oi.order_id = o.order_id
         JOIN product_variant pv ON pv.variant_id = oi.variant_id 
@@ -235,14 +259,13 @@ class Home extends Database
         WHERE o.user_id = ? 
         GROUP BY o.order_id, p.product_id";
 
-        
+
         $result = $this->select($sql, [$user_id]);
-        
+
         if ($result) {
             return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
         } else {
             return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
         }
     }
-
 }
