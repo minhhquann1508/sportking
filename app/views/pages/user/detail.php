@@ -51,6 +51,7 @@
                 <span href="#" id=""
                     style="font-size:13px;color:#212121;text-transform: uppercase;"><?php echo $variant_detail['data'][0]['product_name'] ?></span>
             </div>
+            <?php print_r($variant_detail_list['data']) ?>
 
             <div class="d-flex gap-3">
                 <!-- product imgs & cart -->
@@ -60,35 +61,42 @@
                             style="width: 100%; height: 100%; object-fit: cover;"
                             src="<?php echo $variant_detail['data'][0]['images'][0] ?>" alt="">
                     </div>
-
                     <div class="mt-3 d-flex gap-2 flex-wrap">
                         <?php
+                        $variants = $variant_detail_list['data']['variants'];
+                        $all_images = [];
+
+                        foreach ($variants as $variant) {
+                            if (isset($variant['images']) && is_array($variant['images'])) {
+                                foreach ($variant['images'] as $img) {
+                                    $all_images[] = $img;
+                                }
+                            }
+                        }
                         $max_thumbnail_img = 4;
-                        $images = $variant_detail['data'][0]['images'];
-                        $total_img = count($images);
+                        $total_img = count($all_images);
                         $i = 0;
-                        foreach ($images as $img):
-                            if ($i < $max_thumbnail_img):
                         ?>
-                                <div class="position-relative" onclick="changeImage(this, '<?= $img ?>')" style="height:84px;width:84px">
-                                    <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50" style="cursor: pointer;"></div>
-                                    <img height="84" width="84" style="object-fit: contain;" src="<?= $img ?>" alt="">
-                                </div>
-                            <?php
-                            elseif ($i === $max_thumbnail_img):
-                                $hidden_count = $total_img - $max_thumbnail_img;
-                            ?>
-                                <button type="button" class="d-flex align-items-center justify-content-center border-0"
-                                    style="background:#818181;width:84px;height:84px"
-                                    data-bs-toggle="modal" data-bs-target="#moreImagesModal">
-                                    <p class="fw-bold m-0" style="color:white">+<?= $hidden_count ?></p>
-                                </button>
-                                <?php break; ?>
-                        <?php
-                            endif;
-                            $i++;
-                        endforeach;
-                        ?>
+                        <div class="mt-3 d-flex gap-2 flex-wrap">
+                            <?php foreach ($all_images as $img): ?>
+                                <?php if ($i < $max_thumbnail_img): ?>
+                                    <div class="position-relative" onclick="changeImage(this, '<?= $img ?>')" style="height:84px;width:84px">
+                                        <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50" style="cursor: pointer;"></div>
+                                        <img height="84" width="84" style="object-fit: contain;" src="<?= $img ?>" alt="">
+                                    </div>
+                                <?php elseif ($i === $max_thumbnail_img):
+                                    $hidden_count = $total_img - $max_thumbnail_img;
+                                ?>
+                                    <button type="button" class="d-flex align-items-center justify-content-center border-0"
+                                        style="background:#818181;width:84px;height:84px"
+                                        data-bs-toggle="modal" data-bs-target="#moreImagesModal">
+                                        <p class="fw-bold m-0" style="color:white">+<?= $hidden_count ?></p>
+                                    </button>
+                                    <?php break; ?>
+                            <?php endif;
+                                $i++;
+                            endforeach; ?>
+                        </div>
                     </div>
                     <div class="mt-4">
                         <p class="fw-bold" style="font-size: 16px;">Chính sách ưu đãi của Sportking</p>
@@ -169,7 +177,6 @@
                             <span class="mx-2" style="color:grey">|</span>
                             <p style="font-size:14px">Đã bán <span style="color:#212121"><?php echo $variant_detail['data'][0]['solds'] ?></span></p>
                         </div>
-
                         <p style="font-size: 32px;font-weight: 900;color:#C92127" id="price"><?php echo number_format($variant_detail['data'][0]['price'], 0, ',', '.') ?>
                     </div>
 
@@ -316,6 +323,8 @@
 </main>
 
 <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const product_id = urlParams.get('product_id');
     const availableCombinations = <?php echo json_encode($availableCombinations); ?>;
 
     let selectedColorId = document.querySelector('.color-btn.active')?.dataset.colorId;
@@ -379,6 +388,7 @@
         });
     });
 
+
     function fetchVariant() {
         $.ajax({
             url: '?controller=home&action=get_variant',
@@ -386,7 +396,8 @@
             dataType: 'json',
             data: {
                 color_id: selectedColorId,
-                size_id: selectedSizeId
+                size_id: selectedSizeId,
+                product_id: product_id
             },
             success: (res) => {
                 console.log("Response:", res);
@@ -394,12 +405,13 @@
                     const variant = res.data;
 
                     $('#stock-info').text(
-                        variant.stock > 0 ? `${variant.stock} sản phẩm có sẵn` :
-                        'Hết hàng'
+                        variant.stock > 0 ? `${variant.stock} sản phẩm có sẵn` : 'Hết hàng'
                     ).show();
                     $('#stock').val(variant.stock);
                     $('#price').text(`${Number(variant.price).toLocaleString()} đ`);
                     selectedVariantId = variant.variant_id;
+
+                    $('#thumbnail').attr('src', variant.image_url);
                 } else {
                     $('#stock-info').text(res.message || 'Không tìm thấy dữ liệu').show();
                 }
