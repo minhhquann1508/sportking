@@ -33,7 +33,8 @@
         </div>
         <div class="form-group row">
             <div class="col-sm-10 offset-sm-2">
-                <a href="?controller=auth&action=forgotPassword">Quên mật khẩu</a>
+                <a href="?controller=auth&action=forgotPassword" class="text-decoration-underline text-secondary">Quên
+                    mật khẩu?</a>
             </div>
         </div>
         <div class="form-group row">
@@ -57,6 +58,9 @@ $('#password-form').submit(function(e) {
         success: function(response) {
             if (response.success) {
                 showToast(response.message);
+                setTimeout(() => {
+                    window.location.href = "?controller=home&action=profile";
+                }, 1000);
             } else {
                 showToast(response.message);
             }

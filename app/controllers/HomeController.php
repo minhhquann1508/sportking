@@ -252,7 +252,8 @@ class HomeController
 
         $user = $this->homeModel->getUserByEmail($email);
         $orders = $this->homeModel->get_all_order_by_user_id($user_id);
-
+        $tong_tien = $this->homeModel->total_money_by_user_id($user_id);
+        $feedback = $this->homeModel->get_all_comment_by_order_id($user_id);
         if (!$user) {
             echo 'Không tìm thấy người dùng.';
             exit;
@@ -289,6 +290,15 @@ class HomeController
         include_once "../app/views/layouts/default2.php";
     }
 
+    public function feedback()
+    {
+        $user_id = $_SESSION['user']['user_id'];
+        $feedback = $this->homeModel->get_all_comment_by_order_id($user_id);
+        $content = '../app/views/pages/user/profile/feedback/feedback.php';
+        $header = '../app/views/layouts/_header.php';
+        $footer = '../app/views/layouts/_footer.php';
+        include_once "../app/views/layouts/default2.php";
+    }
 
     public function updateProfile()
     {

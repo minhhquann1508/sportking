@@ -7,6 +7,7 @@ class Home extends Database
     private $tableBrand = "brands";
     private $tableUser = "users";
     private $tableComment = "comments";
+    private $tableOrder = "orders";
 
     public function getUserByEmail($email)
     {
@@ -214,4 +215,34 @@ class Home extends Database
             return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
         }
     }
+    public function total_money_by_user_id($user_id)
+    {
+        $sql = "SELECT SUM(total_amount) as total_money FROM $this->tableOrder WHERE user_id = ? AND status = 'Đã giao'";
+        $result = $this->select($sql, [$user_id]);
+        if ($result) {
+            return ['success' => true, 'message' => 'Lấy tổng tiền đơn hàng đã giao thành công', 'data' => $result];
+        } else {
+            return ['success' => false, 'message' => 'Lấy tổng tiền đơn hàng đã giao thất bại', 'data' => null];
+        }
+    }
+    public function get_all_comment_by_order_id($user_id)
+    {$sql = "SELECT pv.variant_id, o.order_id, p.*, cmt.content, cmt.rating, cmt.create_at
+        FROM orders o 
+        JOIN order_items oi ON oi.order_id = o.order_id
+        JOIN product_variant pv ON pv.variant_id = oi.variant_id 
+        JOIN product p ON p.product_id = pv.product_id
+        JOIN $this->tableComment cmt ON cmt.product_id = p.product_id
+        WHERE o.user_id = ? 
+        GROUP BY o.order_id, p.product_id";
+
+        
+        $result = $this->select($sql, [$user_id]);
+        
+        if ($result) {
+            return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
+        } else {
+            return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
+        }
+    }
+
 }

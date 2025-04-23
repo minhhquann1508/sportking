@@ -3,15 +3,10 @@
         <aside class="col-12 col-md-3 sidebar">
             <div class="infor-user">
                 <div class="avatar-wrapper">
-                    <img src="https://cdn0918.cdn4s1.com/media/blog-images/hinh-con-cho-meme/hinh-con-cho-meme-1.jpg"
+                    <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/background_silver.png"
                         alt="<?= $user['fullname'] ?>" title="<?= $user['fullname'] ?>" class="avatar-img">
                 </div>
                 <h5 class="mt-3"><?= $user['fullname'] ?></h5>
-                <div class="level-user">
-                    <p class="text-muted mb-0">
-                        <i class="fa-solid fa-medal"></i> Thành viên bạc
-                    </p>
-                </div>
             </div>
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
@@ -42,18 +37,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#nofication" class="nav-link" data-bs-toggle="pill" role="tab">
-                        <i class="fa-solid fa-bell"></i> Thông báo
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="#My-feedback" class="nav-link" data-bs-toggle="pill" role="tab">
                         <i class="fa-solid fa-comment"></i> Nhận xét của tôi
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#account-settings" class="nav-link" data-bs-toggle="pill" role="tab">
-                        <i class="fa-solid fa-cogs"></i> Cài đặt tài khoản
                     </a>
                 </li>
                 <li class="nav-item">
@@ -78,11 +63,8 @@
                 <section class="tab-pane fade" id="order-history" role="tabpanel">
                     <?php include 'orders/orders-profile.php' ?>
                 </section>
-                <section class="tab-pane fade" id="nofication" role="tabpanel">
-                    <?php include 'nofication/nofication-profile.php' ?>
-                </section>
                 <section class="tab-pane fade" id="My-feedback" role="tabpanel">
-                    <p>Bạn chưa có nhận xét nào.</p>
+                    <?php include 'feedback/feedback.php'?>
                 </section>
                 <section class="tab-pane fade" id="account-settings" role="tabpanel">
                     <h2 class="h5">Cài đặt tài khoản</h2>

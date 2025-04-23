@@ -100,7 +100,7 @@ header {
                     ?>
                     <li><a class="dropdown-item" href="?controller=home&action=profile">Thông tin tài khoản</a></li>
                     <li><a class="dropdown-item" href="#">Quản lý đơn hàng</a></li>
-                    <li><a class="dropdown-item text-danger" href="logout.php">Đăng xuất</a></li>
+                    <li><a class="dropdown-item text-danger" href="?controller=home&action=logout">Đăng xuất</a></li>
                     <?php
                     } else {
                     ?>
