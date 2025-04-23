@@ -196,7 +196,7 @@ $blog = [
                             <img src="' . $blog['thumbnail'] . '" class="card-img-top" alt="' . $blog['title'] . '">
                             <div class="card-body">
                                 <p class="text-muted" style="font-size: 0.9rem;">' . $blog['fullname'] . '</p>
-                                <h5 class="card-title">' . $blog['title'] . '</h5>
+                                <a class="card-title" href="?controller=home&action=blogdetail&id='.$blog['blog_id'].'">' . $blog['title'] . '</a>
                                 <p class="card-text" style="color: #555;">' . $blog['content'] . '</p>
                                 <p class="text-muted" style="font-size: 0.9rem;">' . $blog['created_at'] . '</p>
                             </div>

@@ -102,9 +102,5 @@
       </div>
     </div>
 
-    <div class="container splq">
-      <h4 class="text-center">Sản phẩm liên quan</h4>
-      <?php render_list_product($productList); ?>
-    </div>
 
   </div>
