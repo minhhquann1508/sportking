@@ -315,7 +315,6 @@ class Variant extends Database
         }
     }
 
-
     public function get_variant_by_id($variant_id)
     {
         $sql = "SELECT v.*, s.size_name, c.color_name,p.product_name, p.thumbnail FROM $this->table v
@@ -445,5 +444,9 @@ class Variant extends Database
             'message' => 'Không tìm thấy kết quả phù hợp.',
             'data' => null
         ];
+    }
+
+    public function filter_variant($price, $stock, $color_id, $size_id) {
+        
     }
 }
