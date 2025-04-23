@@ -231,6 +231,47 @@ class HomeController
         include_once "../app/views/layouts/default2.php";
     }
 
+    public function detailOrder(){
+        $order_id = $_GET['order_id'];
+        $result = $this->homeModel->get_order_by_user_id($order_id);
+    
+        if ($result['success']) {
+            $data = $result['data'];
+            
+            $orderDetails = [
+                'order_id' => $data[0]['order_id'],
+                'status' => $data[0]['status'],
+                'order_date' => $data[0]['order_date'],
+                'customer_name' => $data[0]['fullname'],
+                'customer_address' => $data[0]['street'] . ', ' . 
+                                     $data[0]['ward'] . ', ' . 
+                                     $data[0]['district'] . ', ' . 
+                                     $data[0]['city'],
+                'customer_phone' => $data[0]['phone'],
+                'products' => []
+            ];
+    
+            foreach ($data as $item) {
+                $orderDetails['products'][] = [
+                    'variant_id' => $item['variant_id'],
+                    'product_id' => $item['product_id'],
+                    'product_name' => $item['product_name'],
+                    'color' => $item['color_name'],
+                    'size' => $item['size_name'],
+                    'price' => $item['price'],
+                    'quantity' => $item['quantity'],
+                    'thumbnail' => $item['thumbnail']
+                ];
+            }
+            $content = '../app/views/pages/user/profile/orders/order-detail.php';
+            $header = '../app/views/layouts/_header.php';
+            $footer = '../app/views/layouts/_footer.php';
+            include_once "../app/views/layouts/default2.php";
+        } else {
+            echo "Không tìm thấy đơn hàng.";
+        }
+    }
+    
     public function feedback()
     {
         $user_id = $_SESSION['user']['user_id'];
