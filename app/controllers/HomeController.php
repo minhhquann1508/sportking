@@ -272,13 +272,17 @@ class HomeController
         // Lấy thông tin
         $total_amount = $postData['total_amount'];
         $user_id = $postData['user_id'];
-        $address_id = $postData['address_id']; 
+        $address_id = $postData['address_id'];
         $items = $postData['items'];
         $voucher_id = !empty($postData['voucher_id']) ? (int)$postData['voucher_id'] : null;
 
         // Gọi model để thêm đơn hàng
         $response = $this->orderModel->add_order(
-            $total_amount, $user_id, $address_id,$items);
+            $total_amount,
+            $user_id,
+            $address_id,
+            $items
+        );
         echo json_encode($response);
         exit;
     }
