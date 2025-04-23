@@ -535,6 +535,7 @@ $('#search_btn').click((e) => {
             price,
             size_id,
             color_id
+            product_id: <?php ?>
         },
         success: (res) => {
             console.log(res);

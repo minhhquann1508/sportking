@@ -12,15 +12,6 @@
             $total_price += $product['price'] * $product['quantity'];
         }
     }
-<<<<<<< HEAD
-}
-print_r($_SESSION['order_list']);
-
-// print_r($address);
-// var_dump($address);
-
-=======
->>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
 ?>
 
 
@@ -35,23 +26,18 @@ print_r($_SESSION['order_list']);
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label">Họ và tên</label>
-<<<<<<< HEAD
-                            <input class="form-control bg-light" value="<?= $_SESSION['user']['fullname'] ?? '' ?> "></input>
+                            <input class="form-control bg-light"
+                                value="<?= $_SESSION['user']['fullname'] ?? '' ?> "></input>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Số điện thoại</label>
-                            <input class="form-control bg-light" value="<?= $_SESSION['user']['phone'] ?? '' ?> "></input>
-=======
-                            <input class="form-control bg-light" value="<?= $_SESSION['user']['fullname'] ?? '' ?>" />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Số điện thoại</label>
-                            <input class="form-control bg-light" value="<?= $_SESSION['user']['phone'] ?? '' ?>" />
->>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
+                            <input class="form-control bg-light"
+                                value="<?= $_SESSION['user']['phone'] ?? '' ?> "></input>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Email</label>
-                            <input class="form-control bg-light" value="<?= $_SESSION['user']['email'] ?? '' ?>"></input>
+                            <input class="form-control bg-light"
+                                value="<?= $_SESSION['user']['email'] ?? '' ?>"></input>
                         </div>
                     </div>
                 </div>
@@ -151,23 +137,14 @@ print_r($_SESSION['order_list']);
                                 <?php endforeach; ?>
                             </select>
                         </div>
-
-                        <!-- Order Summary -->
-                        <!-- <div class="d-flex justify-content-between">
-                            <span>Tạm tính:</span>
-                            <strong id="subtotal"><?= number_format($total_price, 0, ',', '.') ?>đ</strong>
-                        </div> -->
                         <div class="d-flex justify-content-between">
                             <span>Tạm tính:</span>
                             <strong id="subtotal"><?= number_format($total_price, 0, ',', '.') ?>đ</strong>
                         </div>
-
-
                         <div class="d-flex justify-content-between text-danger" id="discount-row" style="display:none;">
                             <span>Giảm giá:</span>
                             <strong id="discount"></strong>
                         </div>
-
                         <div class="d-flex justify-content-between">
                             <span>Phí vận chuyển:</span>
                             <strong id="shipping-fee">0đ</strong>
@@ -187,19 +164,12 @@ print_r($_SESSION['order_list']);
 
                         <!-- Form thanh toán Zalo Pay (ẩn mặc định) -->
                         <!-- <form id="payment-form"  method="post" style="margin-top: 10px; display: none;"> -->
-<<<<<<< HEAD
-                            <input type="hidden" name="method" id="selected-method" value="zalo">
-                            <button type="submit" class="btn btn-primary w-100 mt-4" id="order-zalopay">Thanh toán Zalo Pay</button>
-=======
                         <input type="hidden" name="method" id="selected-method" value="zalo">
                         <button type="submit" class="btn btn-primary w-100 mt-4" id="order-zalopay">Thanh toán Zalo
                             Pay</button>
->>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
-                        <!-- </form> -->
-
                         <!-- Nút Đặt hàng (hiện mặc định) -->
                         <button class="btn btn-primary w-100 mt-4" id="checkout-btn">Đặt hàng</button>
-                                            </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -209,44 +179,11 @@ print_r($_SESSION['order_list']);
 
 
 <script>
-  
 $(document).ready(function() {
-<<<<<<< HEAD
-
-=======
->>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
     const select = document.getElementById("payment-method");
     const zaloForm = document.getElementById("payment-form");
     const codButton = document.getElementById("checkout-btn");
     const hiddenInput = document.getElementById("selected-method");
-<<<<<<< HEAD
-
-    // function updatePaymentView() {
-    //     const method = select.value;
-    //     hiddenInput.value = method;
-
-    //     if (method === "zalo") {
-    //         zaloForm.style.display = "block";
-    //         codButton.style.display = "none";
-    //     } else {
-    //         zaloForm.style.display = "none";
-    //         codButton.style.display = "block";
-    //     }
-    // }
-
-    // Khi thay đổi phương thức thanh toán
-    // select.addEventListener("change", updatePaymentView);
-
-    // Gọi ngay để hiển thị đúng khi load trang
-    // updatePaymentView();
-    // $('#voucher').change(function(){
-    //    const voucher = $(this).val();
-    //    console.log(voucher);
-    // });
-
-    
-=======
->>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
     // Toggle địa chỉ mới
     $('#saved-address').change(function() {
         if ($(this).val() === 'new') {
@@ -268,7 +205,6 @@ $(document).ready(function() {
 
     $('#voucher').change(function() {
         discount_value = parseInt($(this).val()); // Ép về số
-
         if (discount_value > 0) {
             // Hiện dòng giảm giá
             $('#discount-row').show();
@@ -278,96 +214,6 @@ $(document).ready(function() {
 
             // Lấy lại giá trị tạm tính
             const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
-
-<<<<<<< HEAD
-        // Cập nhật tổng cộng mới
-        const newTotal = subtotal - discount_value;
-        $('#total-amount').text(newTotal.toLocaleString('vi-VN') + 'đ');
-    } else {
-        $('#discount-row').hide();
-        $('#discount').text('');
-        // Reset lại tổng tiền nếu chọn lại về default
-        const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
-        $('#total-amount').text(subtotal.toLocaleString('vi-VN') + 'đ');
-    }
-});
-
-    
-
-
-
-
-       // Xử lý khi click nút đặt hàng
-    $('#checkout-btn').click(function(e) {
-    e.preventDefault();
-
-        console.log(discount_value);
-
-    
-        // Lấy thông tin từ form
-        const userId = <?= $_SESSION['user']['user_id'] ?? 0 ?>;
-        const addressId = parseInt($('#saved-address').val());
-        const voucherCode = $('#voucher').val();
-        // const discountValue = $('#voucher option:selected').data('value') || 0;
-    
-        const totalAmount = parseInt($('#total-amount').text().replace(/[^\d]/g, ''));
-        const subTotal = discount_value - totalAmount;
-        
-        // Kiểm tra dữ liệu trước khi gửi
-        console.log("Dữ liệu chuẩn bị gửi:", {
-            user_id: userId,
-            address_id: addressId,
-            voucher_code: voucherCode,
-            discount_value: discount_value,
-            total_amount: totalAmount,
-            subTotal: subTotal
-        });
-        
-        // Chuẩn bị danh sách sản phẩm
-        const orderItems = [];
-        <?php if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])): ?>
-            <?php foreach($_SESSION['order_list'] as $product): ?>
-                orderItems.push({
-                    variant_id: <?= $product['variant_id'] ?? 0 ?>,
-                    product_id: <?= $product['variant_id'] ?? 0 ?>,
-                    price: <?= $product['price'] ?? 0 ?>,
-                    quantity: <?= $product['quantity'] ?? 0 ?>
-                });
-            <?php endforeach; ?>
-        <?php endif; ?>
-        
-        
-        // Gửi dữ liệu dưới dạng JSON
-        $.ajax({
-            url: '?controller=home&action=add_orders',
-            method: 'POST',
-            contentType: 'application/json', // Thêm header này
-            dataType: 'json',
-            data: JSON.stringify({ // Chuyển thành chuỗi JSON
-                user_id: userId,
-                address_id: addressId,
-                voucher_id: voucherCode,
-                total_amount: totalAmount,
-                items: orderItems
-            }),
-            success: function(response) {
-                if(response.success) {
-                    alert('Đặt hàng thành công! Mã đơn hàng: ' +  response.data.order_id);
-                    window.location.href = '?controller=home&action=checkout&id=' + response.data.order_id;
-                } else {
-                    alert('Lỗi: ' + response.message);
-                }
-            },
-            error: function(xhr) {
-                console.error("Chi tiết lỗi:", xhr.responseText);
-            }
-        });
-
-    });
-
-
-=======
-            // Cập nhật tổng cộng mới
             const newTotal = subtotal - discount_value;
             $('#total-amount').text(newTotal.toLocaleString('vi-VN') + 'đ');
         } else {
@@ -378,6 +224,83 @@ $(document).ready(function() {
             $('#total-amount').text(subtotal.toLocaleString('vi-VN') + 'đ');
         }
     });
+
+    // Xử lý khi click nút đặt hàng
+    // $('#checkout-btn').click(function(e) {
+    //     e.preventDefault();
+    //     // Lấy thông tin từ form
+    //     const userId = <?= $_SESSION['user']['user_id'] ?? 0 ?>;
+    //     const addressId = parseInt($('#saved-address').val());
+    //     const voucherCode = $('#voucher').val();
+    //     // const discountValue = $('#voucher option:selected').data('value') || 0;
+
+    //     const totalAmount = parseInt($('#total-amount').text().replace(/[^\d]/g, ''));
+    //     const subTotal = discount_value - totalAmount;
+
+    //     // Kiểm tra dữ liệu trước khi gửi
+    //     console.log("Dữ liệu chuẩn bị gửi:", {
+    //         user_id: userId,
+    //         address_id: addressId,
+    //         voucher_code: voucherCode,
+    //         discount_value: discount_value,
+    //         total_amount: totalAmount,
+    //         subTotal: subTotal
+    //     });
+
+    //     // Chuẩn bị danh sách sản phẩm
+    //     const orderItems = [];
+    //     <?php if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])): ?>
+    //     <?php foreach($_SESSION['order_list'] as $product): ?>
+    //     orderItems.push({
+    //         variant_id: <?= $product['variant_id'] ?? 0 ?>,
+    //         product_id: <?= $product['variant_id'] ?? 0 ?>,
+    //         price: <?= $product['price'] ?? 0 ?>,
+    //         quantity: <?= $product['quantity'] ?? 0 ?>
+    //     });
+    //     <?php endforeach; ?>
+    //     <?php endif; ?>
+
+
+    //     // Gửi dữ liệu dưới dạng JSON
+    //     $.ajax({
+    //         url: '?controller=home&action=add_orders',
+    //         method: 'POST',
+    //         contentType: 'application/json', // Thêm header này
+    //         dataType: 'json',
+    //         data: JSON.stringify({ // Chuyển thành chuỗi JSON
+    //             user_id: userId,
+    //             address_id: addressId,
+    //             voucher_id: voucherCode,
+    //             total_amount: totalAmount,
+    //             items: orderItems
+    //         }),
+    //         success: function(response) {
+    //             if (response.success) {
+    //                 alert('Đặt hàng thành công! Mã đơn hàng: ' + response.data.order_id);
+    //                 window.location.href = '?controller=home&action=checkout&id=' + response
+    //                     .data.order_id;
+    //             } else {
+    //                 alert('Lỗi: ' + response.message);
+    //             }
+    //         },
+    //         error: function(xhr) {
+    //             console.error("Chi tiết lỗi:", xhr.responseText);
+    //         }
+    //     });
+
+    // });
+
+    // Cập nhật tổng cộng mới
+    //     const newTotal = subtotal - discount_value;
+    //     $('#total-amount').text(newTotal.toLocaleString('vi-VN') + 'đ');
+    // } else {
+    //     $('#discount-row').hide();
+    //     $('#discount').text('');
+    //     // Reset lại tổng tiền nếu chọn lại về default
+    //     const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
+    //     $('#total-amount').text(subtotal.toLocaleString('vi-VN') + 'đ');
+    // }
+    // });
 
     // Xử lý khi click nút đặt hàng
     $('#checkout-btn').click(function(e) {
@@ -448,36 +371,20 @@ $(document).ready(function() {
             }
         });
     });
->>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
     $('#order-zalopay').click(() => {
         $.ajax({
             url: '?controller=home&action=payment',
             method: 'POST',
-<<<<<<< HEAD
-            contentType: 'application/json', 
-            dataType: 'json',
-            data: JSON.stringify({
-                total_amount: parseInt($('#total-amount').text().replace(/[^\d]/g, '')), // Lưu ý: bạn đang lấy từ `<strong>` -> không có `.val()`, phải dùng `.text()` hoặc truyền số thật
-                items: [
-                    {
-                        variant_id: 21,
-                        price: 200,
-                        quantity: 2
-                    }
-                ]
-=======
             contentType: 'application/json',
             dataType: 'json',
             data: JSON.stringify({
                 total_amount: parseInt($('#total-amount').text().replace(/[^\d]/g,
-                    ''
-                )), // Lưu ý: bạn đang lấy từ `<strong>` -> không có `.val()`, phải dùng `.text()` hoặc truyền số thật
+                '')), // Lưu ý: bạn đang lấy từ `<strong>` -> không có `.val()`, phải dùng `.text()` hoặc truyền số thật
                 items: [{
                     variant_id: 21,
                     price: 200,
                     quantity: 2
                 }]
->>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
             }),
             success: (res) => {
                 console.log("Phản hồi từ server:", res);
@@ -487,81 +394,6 @@ $(document).ready(function() {
                 console.error("Lỗi:", err);
             }
         });
-<<<<<<< HEAD
-        });
-        
-});
-
-
-
-// $('#voucher').change(function() {
-//         const discount_value = $(this).val();
-//         if(discount_value) {
-//             // Gửi AJAX để kiểm tra voucher
-//             $.ajax({
-//                 url: '?controller=voucher&action=getVoucher',
-//                 method: 'POST',
-//                 data: { discount_value: discount_value },
-//                 success: (res) => {
-//                     const discount = response.discount_value;
-//                     showToast('áp dụng voucher thành công');
-//                 },
-//                 error: (err) => {
-//                     console.log(err);
-//                 }
-//             });
-//         } else {
-//             $('#discount-row').hide();
-//         }
-//     });
-
-
-// const cart = <?php echo json_encode($_SESSION['order_list'] ?? []); ?>;
-
-// const renderOrder = (cart) => {
-//     let html = '';
-
-//     if (Object.keys(cart).length === 0) {
-//         html = `<li class="list-group-item">Không có sản phẩm nào trong giỏ hàng.</li>`;
-//     } else {
-//         // TODO: FIX It
-//         $totalPrice = 0;
-//         $subtotal = 0;
-//         Object.keys(cart).forEach(product => {
-//             // $total_price = product['price'] * product['quantity'];
-//             // $subtotal += $total_price;
-            
-//             html += `
-//                     <li class="list-group-item d-flex justify-content-between align-items-start">
-//                         <div class="d-flex gap-3">
-//                             <img src="${product.thumbnail}" alt="${product.product_name}" width="60" height="60"
-//                                 style="object-fit: contain; border-radius: 6px;">
-//                             <div>
-//                                 <h6 class="mb-1">${product.product_name}</h6>
-//                                 <small class="text-muted">Số lượng: ${product.quantity}</small><br>
-//                                 <small class="text-muted">Size: ${product.size_name}</small><br>
-//                                 <small class="text-muted">Màu sắc: ${product.color_name}</small>
-//                             </div>
-//                         </div>
-//                         <small class="text-muted">${$totalPrice.toLocaleString('vi-VN')}đ</small>
-//                     </li>
-//                 `;
-//             });
-//     }
-
-//     document.getElementById('order-cart').innerHTML = html;
-// };
-
-
-// $(document).ready(() => {
-//     renderOrder(cart);
-// });
-
-
-
-</script>
-=======
     });
-});
+})
 </script>
->>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
