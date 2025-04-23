@@ -56,14 +56,14 @@ function limitWords($content, $word_limit = 30) {
                     <div class="content-blog  p-3">
                         <p class="mb-1 text-muted">
                             <i class="bi bi-calendar3"></i> <?= date("H:i d/m/y", strtotime($blog['created_at'])) ?>
-                            <i class="bi bi-person-fill ms-3"></i> <?= $blog['author_id'] ?>
+                            <i class="bi bi-person-fill ms-3"></i> <?= $blog['fullname'] ?>
                             <i class="fa-solid fa-eye ms-3"></i> <?= $blog['views'] ?>
                         </p>
                         <a class="fw-bold text-dark fs-5" href="?controller=home&action=blogdetail&id=<?= $blog['blog_id'] ?>">
                             <?= $blog['title'] ?>
                         </a>
                         <p class="limit-content">
-    <?= limitWords(strip_tags($blog['content']), 30) ?>
+             <?= limitWords(strip_tags($blog['content']), 30) ?>
 </p>
 
                     </div>
