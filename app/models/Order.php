@@ -32,10 +32,32 @@ class Order extends Database {
                     ];
                 }
             }
+            $orderList = $_SESSION['order_list'];
+            $cart = &$_SESSION['cart']; 
+
+            foreach ($orderList as $orderItem) {
+                $product_id = $orderItem['product_id'];
+                $variant_id = $orderItem['variant_id'];
+
+                if (isset($cart[$product_id])) {
+                    foreach ($cart[$product_id] as $index => $cartItem) {
+                        if ($cartItem['variant_id'] == $variant_id) {
+                            unset($cart[$product_id][$index]);
+                        }
+                    }
+
+                    if (empty($cart[$product_id])) {
+                        unset($cart[$product_id]);
+                    } else {
+                        $cart[$product_id] = array_values($cart[$product_id]);
+                    }
+                }
+            }
+            unset($_SESSION['order_list']);
             return [
                 'success' => true,
                 'message' => 'Thêm đơn hàng và sản phẩm thành công',
-                'data' => ['order_id' => $order_id]
+                'data' => ['order_id' => $order_id],
             ];
         } else {
             return [

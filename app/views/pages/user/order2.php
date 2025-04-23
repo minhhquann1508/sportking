@@ -1,17 +1,17 @@
 <?php
-// Tính tổng giá trị đơn hàng từ session
-$total_price = 0;
-// var_dump($address);
-// var_dump($voucher);
-
-if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
-    foreach($_SESSION['order_list'] as $product) {
-        $total_price += $product['price'] * $product['quantity'];
+    if(!isset($_SESSION['user'])) {
+        header('Location: ?controller=auth');
+        die();
+    } else if (!isset($_SESSION['order_list']) || empty($_SESSION['order_list'])) {
+        header('Location: ?controller=home');
+        die('Không tìm thấy sản phẩm');
     }
-}
-print_r($_SESSION['order_list']);
-print_r($address);
-
+    $total_price = 0;
+    if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])) {
+        foreach($_SESSION['order_list'] as $product) {
+            $total_price += $product['price'] * $product['quantity'];
+        }
+    }
 ?>
 
 
@@ -157,11 +157,25 @@ print_r($address);
                         </div>
 
                         <hr>
-                        <div class="d-flex justify-content-between fs-5">
+                        <div class="d-flex justify-content-between fs-5 mb-2">
                             <span>Tổng cộng:</span>
                             <strong id="total-amount"><?= number_format($total_price, 0, ',', '.') ?>đ</strong>
                         </div>
+                        <h6>Chọn phương thức thanh toán</h6>
 
+                        <select id="payment-method" name="payment_method">
+                            <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                            <option value="zalo">Thanh toán qua Zalo Pay</option>
+                        </select>
+
+                        <!-- Form thanh toán Zalo Pay (ẩn mặc định) -->
+                        <!-- <form id="payment-form"  method="post" style="margin-top: 10px; display: none;"> -->
+                        <input type="hidden" name="method" id="selected-method" value="zalo">
+                        <button type="submit" class="btn btn-primary w-100 mt-4" id="order-zalopay">Thanh toán Zalo
+                            Pay</button>
+                        <!-- </form> -->
+
+                        <!-- Nút Đặt hàng (hiện mặc định) -->
                         <button class="btn btn-primary w-100 mt-4" id="checkout-btn">Đặt hàng</button>
                     </div>
                 </div>
@@ -169,18 +183,15 @@ print_r($address);
         </div>
     </div>
 </div>
+</div>
 
 
 <script>
 $(document).ready(function() {
-
-
-    // $('#voucher').change(function(){
-    //    const voucher = $(this).val();
-    //    console.log(voucher);
-    // });
-
-
+    const select = document.getElementById("payment-method");
+    const zaloForm = document.getElementById("payment-form");
+    const codButton = document.getElementById("checkout-btn");
+    const hiddenInput = document.getElementById("selected-method");
     // Toggle địa chỉ mới
     $('#saved-address').change(function() {
         if ($(this).val() === 'new') {
@@ -224,11 +235,6 @@ $(document).ready(function() {
             $('#total-amount').text(subtotal.toLocaleString('vi-VN') + 'đ');
         }
     });
-
-
-
-
-
 
     // Xử lý khi click nút đặt hàng
     $('#checkout-btn').click(function(e) {
@@ -282,84 +288,47 @@ $(document).ready(function() {
             }),
             success: function(response) {
                 if (response.success) {
-                    alert(response.message);
-                    window.location.href = '?controller=order&action=detail&id=' + response
-                        .data
-                        .order_id;
+                    updateCartQuantitySpan();
+                    showToast(response.message);
+                    setTimeout(() => {
+                        window.location.href =
+                            '?controller=home&action=checkout&id=' + response.data
+                            .order_id;
+                    }, 2000)
                 } else {
-                    alert('Đặt hàng không thành công');
+                    showToast(response.message);
                 }
             },
             error: function(xhr) {
+                showToast(response.message);
                 console.error("Chi tiết lỗi:", xhr.responseText);
             }
         });
     });
-
+    $('#order-zalopay').click(() => {
+        $.ajax({
+            url: '?controller=home&action=payment',
+            method: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({
+                total_amount: parseInt($('#total-amount').text().replace(/[^\d]/g,
+                    ''
+                )), // Lưu ý: bạn đang lấy từ `<strong>` -> không có `.val()`, phải dùng `.text()` hoặc truyền số thật
+                items: [{
+                    variant_id: 21,
+                    price: 200,
+                    quantity: 2
+                }]
+            }),
+            success: (res) => {
+                console.log("Phản hồi từ server:", res);
+                window.location.href = res.redirect_url;
+            },
+            error: (err) => {
+                console.error("Lỗi:", err);
+            }
+        });
+    });
 });
-
-
-
-// $('#voucher').change(function() {
-//         const discount_value = $(this).val();
-//         if(discount_value) {
-//             // Gửi AJAX để kiểm tra voucher
-//             $.ajax({
-//                 url: '?controller=voucher&action=getVoucher',
-//                 method: 'POST',
-//                 data: { discount_value: discount_value },
-//                 success: (res) => {
-//                     const discount = response.discount_value;
-//                     showToast('áp dụng voucher thành công');
-//                 },
-//                 error: (err) => {
-//                     console.log(err);
-//                 }
-//             });
-//         } else {
-//             $('#discount-row').hide();
-//         }
-//     });
-
-
-// const cart = <?php echo json_encode($_SESSION['order_list'] ?? []); ?>;
-
-// const renderOrder = (cart) => {
-//     let html = '';
-
-//     if (Object.keys(cart).length === 0) {
-//         html = `<li class="list-group-item">Không có sản phẩm nào trong giỏ hàng.</li>`;
-//     } else {
-//         // TODO: FIX It
-//         $totalPrice = 0;
-//         $subtotal = 0;
-//         Object.keys(cart).forEach(product => {
-//             // $total_price = product['price'] * product['quantity'];
-//             // $subtotal += $total_price;
-
-//             html += `
-//                     <li class="list-group-item d-flex justify-content-between align-items-start">
-//                         <div class="d-flex gap-3">
-//                             <img src="${product.thumbnail}" alt="${product.product_name}" width="60" height="60"
-//                                 style="object-fit: contain; border-radius: 6px;">
-//                             <div>
-//                                 <h6 class="mb-1">${product.product_name}</h6>
-//                                 <small class="text-muted">Số lượng: ${product.quantity}</small><br>
-//                                 <small class="text-muted">Size: ${product.size_name}</small><br>
-//                                 <small class="text-muted">Màu sắc: ${product.color_name}</small>
-//                             </div>
-//                         </div>
-//                         <small class="text-muted">${$totalPrice.toLocaleString('vi-VN')}đ</small>
-//                     </li>
-//                 `;
-//             });
-//     }
-
-//     document.getElementById('order-cart').innerHTML = html;
-// };
-
-
-// $(document).ready(() => {
-//     renderOrder(cart);
-// });
 </script>
