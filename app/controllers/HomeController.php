@@ -159,7 +159,7 @@ class HomeController
         $user = $this->homeModel->getUserByEmail($email);
         $orders = $this->homeModel->get_all_order_by_user_id($user_id);
         $tong_tien = $this->homeModel->total_money_by_user_id($user_id);
-        $feedback = $this->homeModel->get_all_comment_by_order_id($user_id);
+        // $feedback = $this->homeModel->get_all_comment_by_order_id($user_id);
         if (!$user) {
             echo 'Không tìm thấy người dùng.';
             exit;
@@ -326,25 +326,23 @@ class HomeController
         $user_id = $postData['user_id'];
         $address_id = $postData['address_id'];
         $items = $postData['items'];
-        $voucher_id = !empty($postData['voucher_id']) ? (int)$postData['voucher_id'] : null;
-
+        $voucher_id = !empty($postData['voucher_id']) ? (int)$postData['voucher_id'] : 1;
+        $email = $_SESSION['user']['email'];
         
         // Gọi model để thêm đơn hàng
         $response = $this->orderModel->add_order(
             $total_amount,
             $user_id,
+            $email,
             $address_id,
-            $items
+            $items,
+            $voucher_id
         );
         echo json_encode($response);
         exit;
     }
 
-    public function payment_by_zalo_pay($total_amount,$items) {
-        // echo "<pre>";
-        // print_r(json_encode($items));
-        // echo "</pre>";
-
+    public function payment_by_zalo_pay($total_amount,$items, $user_id,$address_id,$voucher_id) {
         try {
             $config = [
                 "app_id" => 2553,
@@ -389,7 +387,12 @@ class HomeController
             $result = json_decode($resp, true);
             
             if($result['return_code'] == 1){
-                $this->add_orders();
+                // $response = $this->orderModel->add_order(
+                //     $total_amount,
+                //     $user_id,
+                //     $address_id,
+                //     $items
+                // );
                 $result['success'] = true;
                 return $result;
             }
@@ -406,12 +409,14 @@ class HomeController
         $postData = json_decode($rawData, true);
         
         $total_amount = $postData['total_amount'];
+        $user_id = $postData['user_id'];
+        $address_id = $postData['address_id'];
+        $voucher_id = $postData['voucher_id'];
         $items = $postData['items'];
         $_SESSION['orderItems'] = $_SESSION['order_list'];
         
-        $result = $this->payment_by_zalo_pay($total_amount,$items);
+        $result = $this->payment_by_zalo_pay($total_amount,$items,$user_id,$address_id,$voucher_id);
 
-        
         if(isset($result['success']) && $result['success'] === true) {
             $response = [
                 'status' => 'success',
