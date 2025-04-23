@@ -1,9 +1,25 @@
+<<<<<<< HEAD
+<!-- <?php
+$total_price = 0;
+?>
+ <?php print_r($_SESSION['order_list'])?>  -->
+
+ <?php
+session_start();
+$orderItems = $_SESSION['orderItems'] ?? [];
+$user = $_SESSION['user'] ?? [];
+$address = $_SESSION['address'] ?? []; 
+$total_price = 0;
+print_r($_SESSION['orderItems']);
+?>
+=======
 <?php
   $orderItems = $_SESSION['orderItems'] ?? [];
   $user = $_SESSION['user'] ?? [];
   $address = $_SESSION['address'] ?? []; 
   $total_price = 0;
 ?>
+>>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
 <div class="container py-4">
     <div class="text-center mb-4">
         <h1 class="display-5 fw-bold">Thanh Toán</h1>
@@ -22,7 +38,11 @@
                 <p class="fw-bold mb-1">Địa chỉ nhận hàng:</p>
                 <ul class="mb-0 ps-3">
                     <?php foreach ($address as $add): ?>
+<<<<<<< HEAD
+                        <li><?= $add['street'] ?>, Quận <?= $add['district'] ?>, <?= $add['city'] ?></li>
+=======
                     <li><?= $add['street'] ?>, Quận <?= $add['district'] ?>, <?= $add['city'] ?></li>
+>>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
                     <?php endforeach; ?>
                 </ul>
             </div>
@@ -40,6 +60,28 @@
                 <div class="card-body">
                     <ul class="list-group mb-3" id="order-cart">
                         <?php if (!empty($orderItems)): ?>
+<<<<<<< HEAD
+                            <?php foreach ($orderItems as $item): 
+                                $productTotal = $item['price'] * $item['quantity'];
+                                $total_price += $productTotal;
+                            ?>
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="d-flex gap-3">
+                                        <img src="<?= $item['thumbnail'] ?>" alt="<?= $item['product_name'] ?>"
+                                             width="60" height="60" style="object-fit: contain; border-radius: 6px;">
+                                        <div>
+                                            <h6 class="mb-1"><?= $item['product_name'] ?></h6>
+                                            <small class="text-muted">Số lượng: <?= $item['quantity'] ?></small><br>
+                                            <small class="text-muted">Size: <?= $item['size_name'] ?></small><br>
+                                            <small class="text-muted">Màu: <?= $item['color_name'] ?></small>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted"><?= number_format($productTotal, 0, ',', '.') ?>đ</small>
+                                </li>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <li class="list-group-item">Không có sản phẩm nào trong đơn hàng.</li>
+=======
                         <?php foreach ($orderItems as $item): 
                                 $productTotal = $item['price'] * $item['quantity'];
                                 $total_price += $productTotal;
@@ -60,6 +102,7 @@
                         <?php endforeach; ?>
                         <?php else: ?>
                         <li class="list-group-item">Không có sản phẩm nào trong đơn hàng.</li>
+>>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
                         <?php endif; ?>
                     </ul>
                 </div>
@@ -233,4 +276,8 @@
   $(document).ready(() => {
   renderOrder(cart);
   });
+<<<<<<< HEAD
 </script> -->
+=======
+</script> -->
+>>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f

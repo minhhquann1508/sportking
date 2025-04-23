@@ -386,7 +386,12 @@ class HomeController
     {
         $id = $_SESSION['user']['user_id'];
         $voucher = $this->voucherModel->getVouchers();
+<<<<<<< HEAD
+        $address = $this->addressModel ->get_address_by_user_id($id)['data'];
+        $_SESSION['orderItems'] = $data['items'] ?? [];
+=======
         $address = $this->addressModel->get_address_by_user_id($_SESSION['user']['user_id'])['data'];
+>>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
         $content = '../app/views/pages/user/order2.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';
@@ -398,7 +403,24 @@ class HomeController
 
         $rawData = file_get_contents("php://input");
         $postData = json_decode($rawData, true);
-
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $json = file_get_contents('php://input');
+            $data = json_decode($json, true);
+        
+            // Lưu lại dữ liệu sản phẩm đầy đủ vào session để dùng cho trang checkout
+            $_SESSION['orderItems'] = $_SESSION['order_list'];
+        
+            // Xử lý đơn hàng (lưu vào DB, tạo mã đơn, v.v...)
+            // $new_order_id = rand(1000, 9999); // ví dụ
+        
+            // echo json_encode([
+            //     'success' => true,
+            //     'data' => [
+            //         'order_id' => $new_order_id
+            //     ]
+            // ]);
+            // exit;
+        }
         // Lấy thông tin
         $total_amount = $postData['total_amount'];
         $user_id = $postData['user_id'];
@@ -406,6 +428,7 @@ class HomeController
         $items = $postData['items'];
         $voucher_id = !empty($postData['voucher_id']) ? (int)$postData['voucher_id'] : null;
 
+        
         // Gọi model để thêm đơn hàng
         $response = $this->orderModel->add_order(
             $total_amount,
@@ -417,6 +440,123 @@ class HomeController
         exit;
     }
 
+<<<<<<< HEAD
+    public function payment_by_zalo_pay($total_amount,$items) {
+        // echo "<pre>";
+        // print_r(json_encode($items));
+        // echo "</pre>";
+
+        try {
+            $config = [
+                "app_id" => 2553,
+                "key1" => "PcY4iZIKFCIdgZvA6ueMcMHHUbRLYjPL",
+                "key2" => "kLtgPl8HHhfvMuDHPwKfgfsY4Ydm9eIz",
+                "endpoint" => "https://sb-openapi.zalopay.vn/v2/create"
+            ];
+            $ngrok_port = "https://abec-183-80-10-41.ngrok-free.app";
+            
+            $embeddata = json_encode(['redirecturl' => $ngrok_port.'/sportking/public/?controller=home&action=checkout']);
+            $items = json_encode($items); 
+            // $items = json_decode($items);
+            // echo $items;
+            $transID = rand(0,1000000);
+            $order = [
+                "app_id" => $config["app_id"],
+                "app_time" => round(microtime(true) * 1000),
+                "app_trans_id" => date("ymd") . "_" . $transID,
+                "app_user" => "user123",
+                "item" => $items,
+                "embed_data" => $embeddata,
+                "amount" => $total_amount,
+                "description" => "Lazada - Payment for the order #$transID",
+                "bank_code" => "",
+                "callback_url" => $ngrok_port."/callback.php", 
+            ];
+            
+            
+            $data = $order["app_id"] . "|" . $order["app_trans_id"] . "|" . $order["app_user"] . "|" . $order["amount"]
+                . "|" . $order["app_time"] . "|" . $order["embed_data"] . "|" . $order["item"];
+            $order["mac"] = hash_hmac("sha256", $data, $config["key1"]);
+            
+            $context = stream_context_create([
+                "http" => [
+                    "header" => "Content-type: application/x-www-form-urlencoded\r\n",
+                    "method" => "POST",
+                    "content" => http_build_query($order)
+                ]
+            ]);
+            
+            $resp = file_get_contents($config["endpoint"], false, $context);
+            $result = json_decode($resp, true);
+            
+            if($result['return_code'] == 1){
+                // Instead of redirecting directly, return the URL to the calling function
+                // This helps avoid CORS issues
+                $result['success'] = true;
+                return $result;
+            }
+            
+            $result['success'] = false;
+            return $result;
+        } catch (PDOException $e) {
+            die("Kết nối thất bại: " . $e->getMessage());
+        }
+    }
+
+    public function payment(){
+        $rawData = file_get_contents("php://input");
+        $postData = json_decode($rawData, true);
+        
+        $total_amount = $postData['total_amount'];
+        $items = $postData['items'];
+        $_SESSION['orderItems'] = $_SESSION['order_list'];
+        
+        $result = $this->payment_by_zalo_pay($total_amount,$items);
+
+        
+        if(isset($result['success']) && $result['success'] === true) {
+            $response = [
+                'status' => 'success',
+                'redirect_url' => $result['order_url']
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'data' => $result
+            ];
+        }
+        
+        header('Content-Type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type');
+        
+        echo json_encode($response);
+        exit;
+    }
+  
+
+    // public function add_orders() {
+    //     if (isset($_SESSION['user']['user_id'])) {
+    //         $id = $_SESSION['user']['user_id'];
+    //         $orders = [];
+    //         foreach ($_SESSION['order_list'] as $item) {
+    //             $variant_item = $this->variantModel->get_variant_by_id($item['id'])['data'];
+    //             $variant_item['quantity'] = $item['quantity'];
+    //             $orders[] = $variant_item;
+    //         }
+            // $voucher = $this->voucherModel->getVouchers();
+            // $address = $this->addressModel->get_address_by_user_id($id)['data'];
+    //         $content = '../app/views/pages/user/order2.php';
+    //         $header = '../app/views/layouts/_header.php';
+    //         $footer = '../app/views/layouts/_footer.php';
+    //         include_once "../app/views/layouts/default2.php";
+    //     } else {
+    //         echo "Bạn chưa đăng nhập!";
+    //     }
+
+=======
+>>>>>>> 7838b6e97fb0d083608065f15a48c970e9eddb8f
     public function checkout()
     {
         $content = '../app/views/pages/user/checkout.php';
