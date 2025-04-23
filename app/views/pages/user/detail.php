@@ -51,11 +51,10 @@
                 <span href="#" id=""
                     style="font-size:13px;color:#212121;text-transform: uppercase;"><?php echo $variant_detail['data'][0]['product_name'] ?></span>
             </div>
-            <?php print_r($variant_detail_list['data']) ?>
 
             <div class="d-flex gap-3">
                 <!-- product imgs & cart -->
-                <div class="p-4 rounded-3 position-sticky sticky-top" style="min-width: 500px;max-height:800px; background-color: white;z-index:100">
+                <div class="p-4 rounded-3 position-sticky sticky-top" style="min-width: 500px;max-width: 500px;max-height:800px; background-color: white;z-index:100">
                     <div style="width: 100%; aspect-ratio: 1 / 1; background-color: #ccc; overflow: hidden;">
                         <img id="thumbnail" class="product-thumbnail"
                             style="width: 100%; height: 100%; object-fit: cover;"
@@ -135,16 +134,18 @@
                             </div>
                             <div class="modal-body d-flex align-items-start gap-4 ">
                                 <div style="width:100%; max-width:500px; aspect-ratio:1/1; background:#eee; overflow:hidden;">
-                                    <img id="modal-main-img" src="<?= $images[0] ?>"
+                                    <img id="modal-main-img" src="<?= $variants[0]['images'][0] ?>"
                                         style="width:100%; height:100%; object-fit:cover;" class="rounded" alt="">
                                 </div>
 
                                 <div class="d-flex flex-wrap align-items-start" style="max-width: 260px; gap: 8px;">
-                                    <?php foreach ($images as $img): ?>
-                                        <img src="<?= $img ?>"
-                                            onclick="document.getElementById('modal-main-img').src='<?= $img ?>'"
-                                            style="width: 80px; height: 80px; object-fit: contain; cursor: pointer;"
-                                            class="p-1 bg-light" alt="">
+                                    <?php foreach ($variants as $imgs): ?>
+                                        <?php foreach ($imgs['images'] as $img): ?>
+                                            <img src="<?= $img ?>"
+                                                onclick="document.getElementById('modal-main-img').src='<?= $img ?>'"
+                                                style="width: 80px; height: 80px; object-fit: contain; cursor: pointer;"
+                                                class="p-1 bg-light" alt="">
+                                        <?php endforeach; ?>
                                     <?php endforeach; ?>
                                 </div>
                             </div>
@@ -180,7 +181,7 @@
                         <p style="font-size: 32px;font-weight: 900;color:#C92127" id="price"><?php echo number_format($variant_detail['data'][0]['price'], 0, ',', '.') ?>
                     </div>
 
-                    <div class="p-4 rounded-3 mt-3" style="background-color: white;height:1000px">
+                    <div class="p-4 rounded-3 mt-3" style="background-color: white">
                         <p class="fw-bold" style="font-size: 18px;">Thông tin sản phẩm</p>
                         <?php
                         $colors = $variant_detail_list['data']['colors'];
