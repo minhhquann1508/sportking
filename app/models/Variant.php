@@ -329,18 +329,19 @@ class Variant extends Database
             return ['success' => false, 'message' => 'Lấy thất bại', 'data' => null];
         }
     }
-    public function get_variant_by_color_size($color_id, $size_id)
+    public function get_variant_by_color_size($color_id, $size_id, $product_id)
     {
-        $sql = "SELECT v.*, s.size_name, c.color_name,p.product_name, p.thumbnail 
+        $sql = "SELECT v.*, s.size_name, c.color_name,p.product_name, p.thumbnail, i.image_url
         FROM $this->table v
         INNER JOIN product p ON v.product_id = p.product_id
         INNER JOIN color c ON c.color_id = v.color_id
+        INNER JOIN variant_image i ON v.variant_id = i.variant_id
         INNER JOIN size s ON s.size_id = v.size_id
-        WHERE v.color_id = ? AND v.size_id = ? 
+        WHERE v.color_id = ? AND v.size_id = ? AND p.product_id = ?
         LIMIT 1
         ";
 
-        $response = $this->select($sql, [$color_id, $size_id]);
+        $response = $this->select($sql, [$color_id, $size_id, $product_id]);
         if ($response) {
             return ['success' => true, 'message' => 'Lấy thành công', 'data' => $response[0]];
         } else {
