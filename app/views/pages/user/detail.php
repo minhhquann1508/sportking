@@ -45,10 +45,58 @@ $data['comments'] = $commentModel->get_comment_by_product_id($product_detail['da
         padding: 0;
         margin: 0;
     }
+
+    .left-container {
+        min-width: 500px;
+        max-width: 500px;
+        max-height: 800px;
+        background-color: white;
+        z-index: 100
+    }
+
+    @media (max-width: 1400px) {
+        .left-container {
+            max-width: 400px;
+            min-width: 400px;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .body {
+            background-color: white;
+        }
+
+        .detail_section {
+            padding: 0 !important;
+        }
+
+        .breadcrumb {
+            display: none !important;
+        }
+
+        .left-container {
+            min-width: 100vw;
+            max-width: 100vw;
+        }
+
+        .right-container {
+            display: none !important;
+        }
+
+        .container {
+            max-width: 100vw;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .comment_container {
+            display: none !important;
+        }
+    }
 </style>
 
 <main style="padding-top: 76px;background-color:#f0f0f0">
-    <section class="py-4">
+    <section class="detail_section py-4">
         <div class="container">
             <div class="breadcrumb d-flex align-items-center gap-2">
                 <span href="#"
@@ -62,8 +110,7 @@ $data['comments'] = $commentModel->get_comment_by_product_id($product_detail['da
             </div>
             <div class="d-flex gap-3">
                 <!-- product imgs & cart -->
-                <div class="p-4 rounded-3 position-sticky sticky-top"
-                    style="min-width: 500px;max-width:500px;max-height:800px; background-color: white;z-index:100">
+                <div class="p-4 left-container rounded-3 position-sticky sticky-top">
                     <div style="width: 100%; aspect-ratio: 1 / 1; background-color: #ccc; overflow: hidden;">
                         <img id="thumbnail" class="product-thumbnail"
                             style="width: 100%; height: 100%; object-fit: cover;"
@@ -90,7 +137,7 @@ $data['comments'] = $commentModel->get_comment_by_product_id($product_detail['da
                                 <?php if ($i < $max_thumbnail_img): ?>
                                     <div class="position-relative" onclick="changeImage(this, '<?= $img ?>')"
                                         style="height:84px;width:84px">
-                                        <div class="overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
+                                        <div class="small_img overplay position-absolute w-100 h-100 bg-light top-0 start-0 opacity-50"
                                             style="cursor: pointer;"></div>
                                         <img height="84" width="84" style="object-fit: contain;" src="<?= $img ?>" alt="">
                                     </div>
@@ -169,7 +216,7 @@ $data['comments'] = $commentModel->get_comment_by_product_id($product_detail['da
                     </div>
                 </div>
 
-                <div class="w-100">
+                <div class="right-container w-100">
                     <div class="p-4 rounded-3" style="background-color: white;">
                         <p class="text-uppercase fw-bold" style="font-size: 23px;">
                             <?php echo $variant_detail['data'][0]['product_name'] ?></p>
@@ -371,12 +418,12 @@ $data['comments'] = $commentModel->get_comment_by_product_id($product_detail['da
             </div>
 
             <!-- reviews && comments -->
-            <div class="container pt-2 mt-3 rounded" style="background-color:white">
+            <div class="comment_container container pt-2 mt-3 rounded" style="background-color:white">
                 <p class="fw-bold" style="font-size: 18px;">Đánh giá sản phẩm</p>
-                <div class="row">
-                    <div class="col-5 d-flex">
+                <div class="d-flex">
+                    <div class="d-flex">
                         <div class="rating-average text-center p-3">
-                            <p class="text-center" style="font-size:38px;font-weight:600"><?php echo $average_rating_rounded; ?><span style="font-size:24px">/5</span></p>
+                            <p class="text-center" style="font-size:38px;font-weight:600;width: 150px;"><?php echo $average_rating_rounded; ?><span style="font-size:24px">/5</span></p>
                             <div class="stars" style="color: #F6A500; font-size: 18px;">
                                 <?php
                                 for ($i = 0; $i < $fullStars; $i++) {
@@ -392,11 +439,11 @@ $data['comments'] = $commentModel->get_comment_by_product_id($product_detail['da
                             </div>
                             <p class="text-m" style="color:#7a7e7f">(<?php echo $total_comments; ?> reviews)</p>
                         </div>
-                        <div class="rating-breakdown mt-2" style="width: 370px;">
+                        <div class="rating-breakdown mt-2" style="width: 350px;">
                             <?php for ($i = 5; $i >= 1; $i--): ?>
                                 <div class="d-flex align-items-center gap-2 mt-1">
-                                    <span class="text-m"><?php echo $i; ?> sao</span>
-                                    <div class="rating-bar" style="width:254px">
+                                    <span style="font-size: 14px;"><?php echo $i; ?> sao</span>
+                                    <div class="rating-bar" style="width:250px">
                                         <div class="bar flex-grow-1 rounded" style="height: 5px; background-color: #f2f4f5;position: relative;">
                                             <div class="fill rounded" style="height: 100%; background-color: #F6A500; width: <?php echo ($total_comments > 0) ? ($rating_count[$i] / $total_comments) * 100 : 0; ?>%;"></div>
                                         </div>
@@ -406,7 +453,7 @@ $data['comments'] = $commentModel->get_comment_by_product_id($product_detail['da
                             <?php endfor; ?>
                         </div>
                     </div>
-                    <div class="col-7 d-flex align-items-center justify-content-center">
+                    <div class="d-flex align-items-center justify-content-center w-100">
                         <!-- Nút Write reviews -->
                         <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#reviewModal">
                             <button class="d-flex gap-2 justify-content-center align-items-center border-0"
