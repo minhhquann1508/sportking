@@ -4,7 +4,7 @@ class Database
     protected $conn;
     public function __construct() {
         
-        $host = "127.0.0.1:3307";
+        $host = "localhost";
         $dbname = "sportking";
         $username = "root";
         $password = "";
