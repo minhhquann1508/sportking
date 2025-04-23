@@ -12,6 +12,7 @@
             $total_price += $product['price'] * $product['quantity'];
         }
     }
+    $cities = ['Hà Nội', 'TP. Hồ Chí Minh', 'Đà Nẵng', 'Cần Thơ', 'Hải Phòng', 'Huế', 'Nha Trang', 'Vũng Tàu'];
 ?>
 
 
@@ -49,7 +50,7 @@
                             <!-- Dropdown địa chỉ có sẵn -->
                             <div class="mb-3">
                                 <label for="saved-address" class="form-label">Chọn địa chỉ</label>
-                                <select class="form-select" id="saved-address" name="address_id" required>
+                                <select class="form-select" id="address_id" name="address_id" required>
                                     <option value="">-- Chọn địa chỉ --</option>
                                     <?php 
                                   
@@ -62,29 +63,43 @@
                                     ?>
                                     <option value="new">Địa chỉ mới</option>
                                 </select>
+                                <div class="text-danger" id="address-error"></div>
                             </div>
 
                             <!-- Nhập địa chỉ mới -->
                             <div id="custom-address" style="display: none;">
                                 <div class="mb-3">
                                     <label for="street" class="form-label">Địa chỉ</label>
-                                    <input type="text" class="form-control" name="street"
+                                    <input type="text" class="form-control" name="street" id="street"
                                         placeholder="Số nhà, đường, phường...">
+                                    <div class="text-danger" id="street-error"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-4 mb-3">
                                         <label for="city" class="form-label">Tỉnh/Thành phố</label>
-                                        <input type="text" class="form-control" name="city">
+                                        <select class="form-control" id="city" name="city">
+                                            <option value="">-- Chọn tỉnh/thành --</option>
+                                            <?php foreach ($cities as $city): ?>
+                                            <option value="<?= $city ?>"><?php echo $city ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <div class="text-danger" id="city-error"></div>
                                     </div>
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-4 mb-3">
                                         <label for="district" class="form-label">Quận/Huyện</label>
-                                        <input type="text" class="form-control" name="district">
+                                        <input placeholder="Quận / Huyện" id="district" type="text" class="form-control"
+                                            name="district">
+                                        <div class="text-danger" id="district-error"></div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="district" class="form-label">Phường / Xã</label>
+                                        <input placeholder="Phường / Xã" id="ward" type="text" class="form-control"
+                                            name="district">
+                                        <div class="text-danger" id="ward-error"></div>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="note" class="form-label">Ghi chú</label>
-                                    <textarea class="form-control" name="note" rows="2"
-                                        placeholder="Ví dụ: Giao giờ hành chính..."></textarea>
+                                <div>
+                                    <button class="btn btn-primary" id="add_address">Thêm địa chỉ mới</button>
                                 </div>
                             </div>
                         </form>
@@ -130,7 +145,7 @@
                             <select class="form-select" id="voucher" name="voucher_code">
                                 <option value="">-- Chọn mã giảm giá --</option>
                                 <?php foreach ($voucher as $v): ?>
-                                <option value="<?= $v['discount_value'] ?>" data-value="<?= $v['discount_value'] ?>">
+                                <option value="<?= $v['voucher_id'] ?>" data-value="<?= $v['discount_value'] ?>">
                                     <?= $v['voucher_id'] ?> - Giảm
                                     <?= number_format($v['discount_value'], 0, ',', '.') ?>đ
                                 </option>
@@ -149,27 +164,23 @@
                             <span>Phí vận chuyển:</span>
                             <strong id="shipping-fee">0đ</strong>
                         </div>
-
                         <hr>
                         <div class="d-flex justify-content-between fs-5 mb-2">
                             <span>Tổng cộng:</span>
                             <strong id="total-amount"><?= number_format($total_price, 0, ',', '.') ?>đ</strong>
                         </div>
-                        <h6>Chọn phương thức thanh toán</h6>
-
+                        <!-- <h6>Chọn phương thức thanh toán</h6>
                         <select id="payment-method" name="payment_method">
                             <option value="cod">Thanh toán khi nhận hàng (COD)</option>
                             <option value="zalo">Thanh toán qua Zalo Pay</option>
-                        </select>
-
-                        <!-- Form thanh toán Zalo Pay (ẩn mặc định) -->
-                        <!-- <form id="payment-form"  method="post" style="margin-top: 10px; display: none;"> -->
-                        <input type="hidden" name="method" id="selected-method" value="zalo">
+                        </select> -->
+                        <!--    <input type="hidden" name="method" id="selected-method" value="zalo">
                         <button type="submit" class="btn btn-primary w-100 mt-4" id="order-zalopay">Thanh toán Zalo
-                            Pay</button>
+                            Pay</button> -->
                         <!-- Nút Đặt hàng (hiện mặc định) -->
                         <button class="btn btn-primary w-100 mt-4" id="checkout-btn">Đặt hàng</button>
                     </div>
+                    <input type="hidden" id="new_address_id" name="new_address_id" value="">
                 </div>
             </div>
         </div>
@@ -179,13 +190,72 @@
 
 
 <script>
+$('#add_address').click((e) => {
+    e.preventDefault();
+
+    const ward = $('#ward').val().trim();
+    const district = $('#district').val().trim();
+    const city = $('#city').val().trim();
+    const street = $('#street').val().trim();
+
+    let isValid = true;
+
+    // Xóa lỗi cũ
+    $('.error-text').text('');
+
+    if (!street) {
+        $('#street-error').text('Vui lòng nhập tên đường');
+        isValid = false;
+    }
+    if (!ward) {
+        $('#ward-error').text('Vui lòng nhập phường/xã');
+        isValid = false;
+    }
+    if (!district) {
+        $('#district-error').text('Vui lòng nhập quận/huyện');
+        isValid = false;
+    }
+    if (!city) {
+        $('#city-error').text('Vui lòng nhập tỉnh/thành phố');
+        isValid = false;
+    }
+
+    if (!isValid) return;
+
+    $.ajax({
+        url: '?controller=adress&action=add_address',
+        method: 'POST',
+        dataType: 'json',
+        data: {
+            ward,
+            district,
+            city,
+            street,
+            user_id: <?php echo $_SESSION['user']['user_id'] ?>
+        },
+        success: (res) => {
+            if (res.success) {
+                $('#new_address_id').val(res.data.id);
+                $('#add_address').prop('disabled', true);
+                showToast("Thêm địa chỉ thành công");
+            } else {
+                showToast("Không thể thêm địa chỉ");
+            }
+        },
+        error: (err) => {
+            showToast('Có lỗi xảy ra');
+        }
+    });
+});
+
+
 $(document).ready(function() {
     const select = document.getElementById("payment-method");
     const zaloForm = document.getElementById("payment-form");
     const codButton = document.getElementById("checkout-btn");
     const hiddenInput = document.getElementById("selected-method");
     // Toggle địa chỉ mới
-    $('#saved-address').change(function() {
+    $('#address_id').change(function() {
         if ($(this).val() === 'new') {
             $('#custom-address').show();
             // Clear các trường địa chỉ
@@ -204,129 +274,44 @@ $(document).ready(function() {
     let discount_value = '';
 
     $('#voucher').change(function() {
-        discount_value = parseInt($(this).val()); // Ép về số
-        if (discount_value > 0) {
-            // Hiện dòng giảm giá
-            $('#discount-row').show();
+        const discount_value = parseInt($('#voucher option:selected').data('value')) || 0;
 
-            // Hiển thị giá trị giảm giá
+        if (discount_value > 0) {
+            $('#discount-row').show();
             $('#discount').text('-' + discount_value.toLocaleString('vi-VN') + 'đ');
 
-            // Lấy lại giá trị tạm tính
             const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
             const newTotal = subtotal - discount_value;
             $('#total-amount').text(newTotal.toLocaleString('vi-VN') + 'đ');
         } else {
             $('#discount-row').hide();
             $('#discount').text('');
-            // Reset lại tổng tiền nếu chọn lại về default
             const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
             $('#total-amount').text(subtotal.toLocaleString('vi-VN') + 'đ');
         }
     });
 
     // Xử lý khi click nút đặt hàng
-    // $('#checkout-btn').click(function(e) {
-    //     e.preventDefault();
-    //     // Lấy thông tin từ form
-    //     const userId = <?= $_SESSION['user']['user_id'] ?? 0 ?>;
-    //     const addressId = parseInt($('#saved-address').val());
-    //     const voucherCode = $('#voucher').val();
-    //     // const discountValue = $('#voucher option:selected').data('value') || 0;
-
-    //     const totalAmount = parseInt($('#total-amount').text().replace(/[^\d]/g, ''));
-    //     const subTotal = discount_value - totalAmount;
-
-    //     // Kiểm tra dữ liệu trước khi gửi
-    //     console.log("Dữ liệu chuẩn bị gửi:", {
-    //         user_id: userId,
-    //         address_id: addressId,
-    //         voucher_code: voucherCode,
-    //         discount_value: discount_value,
-    //         total_amount: totalAmount,
-    //         subTotal: subTotal
-    //     });
-
-    //     // Chuẩn bị danh sách sản phẩm
-    //     const orderItems = [];
-    //     <?php if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])): ?>
-    //     <?php foreach($_SESSION['order_list'] as $product): ?>
-    //     orderItems.push({
-    //         variant_id: <?= $product['variant_id'] ?? 0 ?>,
-    //         product_id: <?= $product['variant_id'] ?? 0 ?>,
-    //         price: <?= $product['price'] ?? 0 ?>,
-    //         quantity: <?= $product['quantity'] ?? 0 ?>
-    //     });
-    //     <?php endforeach; ?>
-    //     <?php endif; ?>
-
-
-    //     // Gửi dữ liệu dưới dạng JSON
-    //     $.ajax({
-    //         url: '?controller=home&action=add_orders',
-    //         method: 'POST',
-    //         contentType: 'application/json', // Thêm header này
-    //         dataType: 'json',
-    //         data: JSON.stringify({ // Chuyển thành chuỗi JSON
-    //             user_id: userId,
-    //             address_id: addressId,
-    //             voucher_id: voucherCode,
-    //             total_amount: totalAmount,
-    //             items: orderItems
-    //         }),
-    //         success: function(response) {
-    //             if (response.success) {
-    //                 alert('Đặt hàng thành công! Mã đơn hàng: ' + response.data.order_id);
-    //                 window.location.href = '?controller=home&action=checkout&id=' + response
-    //                     .data.order_id;
-    //             } else {
-    //                 alert('Lỗi: ' + response.message);
-    //             }
-    //         },
-    //         error: function(xhr) {
-    //             console.error("Chi tiết lỗi:", xhr.responseText);
-    //         }
-    //     });
-
-    // });
-
-    // Cập nhật tổng cộng mới
-    //     const newTotal = subtotal - discount_value;
-    //     $('#total-amount').text(newTotal.toLocaleString('vi-VN') + 'đ');
-    // } else {
-    //     $('#discount-row').hide();
-    //     $('#discount').text('');
-    //     // Reset lại tổng tiền nếu chọn lại về default
-    //     const subtotal = parseInt($('#subtotal').text().replace(/[^\d]/g, ''));
-    //     $('#total-amount').text(subtotal.toLocaleString('vi-VN') + 'đ');
-    // }
-    // });
-
-    // Xử lý khi click nút đặt hàng
     $('#checkout-btn').click(function(e) {
         e.preventDefault();
-        console.log(discount_value);
-        // Lấy thông tin từ form
+        // Xoá lỗi cũ nếu có
+        $('#address-error').text('');
         const userId = <?= $_SESSION['user']['user_id'] ?? 0 ?>;
-        // const addressId = $('#saved-address').val();
-        const addressId = 1;
+        const addressSelectValue = $('#address_id').val();
+        const addressId = (addressSelectValue === 'new') ?
+            $('#new_address_id').val() :
+            addressSelectValue;
+
+        if (!addressId) {
+            $('#address-error').text('Vui lòng chọn địa chỉ giao hàng');
+            return; // Dừng lại nếu không có địa chỉ
+        }
+
         const voucherCode = $('#voucher').val();
         const discountValue = $('#voucher option:selected').data('value') || 0;
-
         const totalAmount = parseInt($('#total-amount').text().replace(/[^\d]/g, ''));
-        const subTotal = discount_value - totalAmount;
+        const subTotal = discountValue - totalAmount;
 
-        // Kiểm tra dữ liệu trước khi gửi
-        console.log("Dữ liệu chuẩn bị gửi:", {
-            user_id: userId,
-            address_id: addressId,
-            voucher_code: voucherCode,
-            discount_value: discountValue,
-            total_amount: totalAmount,
-            subTotal: subTotal
-        });
-
-        // Chuẩn bị danh sách sản phẩm
         const orderItems = [];
         <?php if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])): ?>
         <?php foreach($_SESSION['order_list'] as $product): ?>
@@ -339,13 +324,12 @@ $(document).ready(function() {
         <?php endforeach; ?>
         <?php endif; ?>
 
-        // Gửi dữ liệu dưới dạng JSON
         $.ajax({
             url: '?controller=home&action=add_orders',
             method: 'POST',
-            contentType: 'application/json', // Thêm header này
+            contentType: 'application/json',
             dataType: 'json',
-            data: JSON.stringify({ // Chuyển thành chuỗi JSON
+            data: JSON.stringify({
                 user_id: userId,
                 address_id: addressId,
                 voucher_id: voucherCode,
@@ -366,12 +350,26 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr) {
-                showToast(response.message);
+                showToast(xhr.message);
                 console.error("Chi tiết lỗi:", xhr.responseText);
             }
         });
     });
     $('#order-zalopay').click(() => {
+        const userId = <?= $_SESSION['user']['user_id'] ?? 0 ?>;
+        const addressId = 1;
+        const voucherCode = $('#voucher').val();
+        const orderItems = [];
+        <?php if(isset($_SESSION['order_list']) && !empty($_SESSION['order_list'])): ?>
+        <?php foreach($_SESSION['order_list'] as $product): ?>
+        orderItems.push({
+            variant_id: <?= $product['variant_id'] ?>,
+            product_id: <?= $product['product_id'] ?>,
+            price: <?= $product['price'] ?? 0 ?>,
+            quantity: <?= $product['quantity'] ?? 0 ?>
+        });
+        <?php endforeach; ?>
+        <?php endif; ?>
         $.ajax({
             url: '?controller=home&action=payment',
             method: 'POST',
@@ -379,12 +377,11 @@ $(document).ready(function() {
             dataType: 'json',
             data: JSON.stringify({
                 total_amount: parseInt($('#total-amount').text().replace(/[^\d]/g,
-                '')), // Lưu ý: bạn đang lấy từ `<strong>` -> không có `.val()`, phải dùng `.text()` hoặc truyền số thật
-                items: [{
-                    variant_id: 21,
-                    price: 200,
-                    quantity: 2
-                }]
+                    '')),
+                user_id: userId,
+                address_id: addressId,
+                voucher_id: voucherCode,
+                items: orderItems
             }),
             success: (res) => {
                 console.log("Phản hồi từ server:", res);

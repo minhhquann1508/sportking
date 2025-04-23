@@ -8,11 +8,6 @@
         }
         public function index() {
             echo '<div>Đây là trang danh sách địa chỉ</div>';
-
-            // $content = '../app/views/pages/user/order.php';
-            // $header = '../app/views/layouts/_header.php';
-            // $footer = '../app/views/layouts/_footer.php';
-            // include_once "../app/views/layouts/default2.php";
         }
 
         public function add_order() {
@@ -20,7 +15,14 @@
             $total_amount = $_POST['total_amount'];
             $items = $_SESSION['order_list'];
             $user_id = $_SESSION['user']['user_id'];
-            $response = $this->orderModel->add_order($total_amount, $user_id, $address_id, $items);
+            $email = $_SESSION['user']['email'];
+            $response = $this->orderModel->add_order(
+                $total_amount, 
+                $user_id,
+                $email,
+                $address_id,
+                $items
+            );
             if($response['success'] == true) {
                 $_SESSION['order_list'] = [];
                 echo json_encode($response);
@@ -31,5 +33,11 @@
             }
         }
 
+        public function get_detail_order() {
+            $order_id = $_GET['order_id'];
+            $response = $this->orderModel->get_order_by_id($order_id);
+            echo json_encode($response);
+            exit;
+        }
     }
 ?>
