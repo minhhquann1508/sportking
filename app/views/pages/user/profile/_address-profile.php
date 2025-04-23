@@ -18,7 +18,7 @@ $missing = array_filter($address, function($value) {
     </div>
     <?php } ?>
     <div class="form-address">
-        <h2 class="mb-4">Dia Chi</h2>
+        <h3 class="mb-4">Địa Chỉ</h3>
         <form method="POST" id="form-address">
             <div class="form-group row">
                 <label for="city" class="col-sm-2 col-form-label">Tỉnh/Thành phố</label>

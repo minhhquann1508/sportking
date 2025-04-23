@@ -7,6 +7,7 @@ class Home extends Database
     private $tableBrand = "brands";
     private $tableUser = "users";
     private $tableComment = "comments";
+    private $tableOrder = "orders";
 
     public function getUserByEmail($email)
     {
@@ -126,12 +127,45 @@ class Home extends Database
     }
     public function get_filtered_products($category, $brand, $price)
     {
-        $sql = "SELECT p.*, pv.*, c.category_name, b.brand_name 
-                    FROM $this->tableProduct p 
-                    LEFT JOIN product_variant pv ON pv.product_id = p.product_id
-                    INNER JOIN category c ON c.category_id = p.category_id
-                    INNER JOIN brands b ON b.brand_id = p.brand_id
-                    WHERE 1=1";
+        $sql = "SELECT 
+                    v.variant_id,
+                    v.price,
+                    v.stock,
+                    p.product_name,
+                    p.product_id,
+                    c.category_id,
+                    c.category_name,
+                    b.brand_id,
+                    b.brand_name,
+                    co.color_name,
+                    co.color_hex,
+                    s.size_name,
+                    i.image_url
+                FROM product_variant v
+                INNER JOIN (
+                    SELECT product_id, MIN(variant_id) AS first_variant_id
+                    FROM product_variant
+                    GROUP BY product_id
+                ) first_variants ON v.variant_id = first_variants.first_variant_id
+
+                -- Join thông tin sản phẩm
+                INNER JOIN product p ON p.product_id = v.product_id
+                INNER JOIN category c ON c.category_id = p.category_id
+                INNER JOIN brands b ON b.brand_id = p.brand_id
+                INNER JOIN color co ON co.color_id = v.color_id
+                INNER JOIN size s ON s.size_id = v.size_id
+
+                LEFT JOIN (
+                    SELECT vi1.variant_id, vi1.image_url
+                    FROM variant_image vi1
+                    INNER JOIN (
+                        SELECT variant_id, MIN(image_id) AS min_image_id
+                        FROM variant_image
+                        GROUP BY variant_id
+                    ) vi2 ON vi1.variant_id = vi2.variant_id AND vi1.image_id = vi2.min_image_id
+                ) i ON i.variant_id = v.variant_id
+                
+                WHERE 1=1";
 
         if ($category) {
             $sql .= " AND p.category_id = $category";
@@ -181,4 +215,34 @@ class Home extends Database
             return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
         }
     }
+    public function total_money_by_user_id($user_id)
+    {
+        $sql = "SELECT SUM(total_amount) as total_money FROM $this->tableOrder WHERE user_id = ? AND status = 'Đã giao'";
+        $result = $this->select($sql, [$user_id]);
+        if ($result) {
+            return ['success' => true, 'message' => 'Lấy tổng tiền đơn hàng đã giao thành công', 'data' => $result];
+        } else {
+            return ['success' => false, 'message' => 'Lấy tổng tiền đơn hàng đã giao thất bại', 'data' => null];
+        }
+    }
+    public function get_all_comment_by_order_id($user_id)
+    {$sql = "SELECT pv.variant_id, o.order_id, p.*, cmt.content, cmt.rating, cmt.create_at
+        FROM orders o 
+        JOIN order_items oi ON oi.order_id = o.order_id
+        JOIN product_variant pv ON pv.variant_id = oi.variant_id 
+        JOIN product p ON p.product_id = pv.product_id
+        JOIN $this->tableComment cmt ON cmt.product_id = p.product_id
+        WHERE o.user_id = ? 
+        GROUP BY o.order_id, p.product_id";
+
+        
+        $result = $this->select($sql, [$user_id]);
+        
+        if ($result) {
+            return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
+        } else {
+            return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
+        }
+    }
+
 }
