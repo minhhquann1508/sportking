@@ -22,5 +22,15 @@
                 return ['success' => false, 'message' => 'Thêm mới thất bại', 'data' => null];
             }
         }
+
+        public function delete_banner($banner_id) {
+            $sql = "DELETE FROM $this->table WHERE banner_id = ?";
+            $result = $this->execute($sql, [$banner_id]);
+            if($result) {
+                return ['success' => true, 'message' => 'Xoá thành công', 'data' => null];
+            } else {
+                return ['success' => false, 'message' => 'Xoá thất bại', 'data' => null];
+            }
+        }
     }
 ?>

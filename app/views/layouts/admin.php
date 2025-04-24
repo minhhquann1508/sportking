@@ -1,31 +1,57 @@
 <?php
-if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 1) {
-    header('Location: ?controller=home');
-}
-$items = [
-    [
-        'label' => 'Thống kê',
-        'url' => '',
-        'children' => [
-            ['label' => 'Doanh thu', 'url' => ''],
-            ['label' => 'Sản phẩm bán chạy', 'url' => '#']
-        ]
-    ],
-    [
-        'label' => 'Quản lý danh mục',
-        'url' => '?controller=category',
-    ],
-    [
-        'label' => 'Quản lý thương hiệu',
-        'url' => '?controller=brand',
-    ],
-    [
-        'label' => 'Quản lý sản phẩm',
-        'url' => '?controller=product',
-        'children' => [
-            ['label' => 'Danh sách sản phẩm', 'url' => '?controller=product'],
-            ['label' => 'Quản lý size', 'url' => '?controller=size'],
-            ['label' => 'Quản lý màu sắc', 'url' => '?controller=color'],
+    if(!isset($_SESSION['user']) || $_SESSION['user']['role'] != 1) {
+        header('Location: ?controller=home');
+    }
+    $items = [
+        [
+            'label' => 'Thống kê',
+            'url' => '?controller=dashboard',
+        ],
+        [
+            'label' => 'Quản lý danh mục',
+            'url' => '?controller=category',
+        ],
+        [
+            'label' => 'Quản lý thương hiệu',
+            'url' => '?controller=brand',
+        ],
+        [
+            'label' => 'Quản lý sản phẩm',
+            'url' => '?controller=product',
+            'children' => [
+                ['label' => 'Danh sách sản phẩm', 'url' => '?controller=product'],
+                ['label' => 'Quản lý size', 'url' => '?controller=size'],
+                ['label' => 'Quản lý màu sắc', 'url' => '?controller=color'],
+            ]
+        ],
+        [
+            'label' => 'Quản lý người dùng',
+            'url' => '?controller=user',
+        ],
+        [
+            'label' => 'Quản lý đơn hàng',
+            'url' => '',
+            'children' => [
+                ['label' => 'Danh sách đơn hàng', 'url' => '?controller=order'],
+                ['label' => 'Thống kê đơn hàng', 'url' => '?controller=order&action=test']
+            ]
+        ],
+        [
+            'label' => 'Quản lý bài viết',
+            'url' => '?controller=blog',
+        ],
+        [
+            'label' => 'Quản lý bình luận',
+            'url' => '?controller=comment',
+        ],
+        [
+            'label' => 'Quản lý banner',
+            'url' => '?controller=banner',
+            
+        ],
+        [
+            'label' => 'Quản lý voucher',
+            'url' => '?controller=voucher',
         ]
     ],
     [

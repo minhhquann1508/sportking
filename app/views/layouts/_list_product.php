@@ -14,7 +14,9 @@ function render_list_product($data)
 ?>
 <div class="product-card">
     <div class="">
-        <img style="object-fit: contain;" src="<?= $image ?>" alt="<?= $productName ?>">
+        <div class="d-flex jusity-content-center">
+            <img style="object-fit: contain;" src="<?= $image ?>" alt="<?= $productName ?>">
+        </div>
         <div class="product-actions">
             <ul class="product-icons">
                 <li>
@@ -22,17 +24,17 @@ function render_list_product($data)
                         href="?controller=home&action=product_detail&product_id=<?= $productId ?>&variant_id=<?= $variantId ?>"><i
                             class="fa-solid fa-cart-shopping"></i></a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="#" class="quick-view-btn" data-product-id="<?= $productId ?>" data-bs-toggle="modal"
                         data-bs-target="#quickViewModal">
                         <i class="fa-regular fa-eye"></i>
                     </a>
-                </li>
-                <li>
+                </li> -->
+                <!-- <li>
                     <a
                         href="?controller=home&action=product_detail&product_id=<?= $productId ?>&variant_id=<?= $variantId ?>"><i
                             class="fa-regular fa-heart"></i></a>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>
