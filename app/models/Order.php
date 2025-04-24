@@ -1,9 +1,77 @@
 <?php
 require_once '../app/configs/Database.php';
 
-class Order extends Database {
-    private $table = "orders"; 
+class Order extends Database
+{
+    private $table = "orders";
     private $table_item = "order_items";
+    public function orders_list()
+    {
+        $sql = "SELECT * FROM orders";
+        $response = $this->select($sql);
+        if ($response) {
+            return ['success' => true, 'message' => 'Lấy thành công', 'data' => $response];
+        } else {
+            return ['success' => false, 'message' => 'Lấy không thành công', 'data' => null];
+        }
+    }
+
+    public function get_all_orders($page = 1, $limit = 10)
+    {
+        $offset = ($page - 1) * $limit;
+        $countSql = "SELECT COUNT(*) as total FROM $this->table";
+        $countResult = $this->select($countSql);
+        $total = $countResult ? (int)$countResult[0]['total'] : 0;
+
+        $sql = "SELECT o.*, i.* 
+                    FROM order_items i
+                    INNER JOIN orders o ON o.order_id = i.order_id
+                    WHERE 1
+                    ORDER BY o.order_id ASC
+                    LIMIT $limit OFFSET $offset";
+        $result = $this->select($sql);
+
+        if ($result) {
+            return [
+                'success' => true,
+                'message' => 'Lấy danh sách thành công',
+                'data' => $result,
+                'pagination' => [
+                    'current_page' => (int) $page,
+                    'limit' => $limit,
+                    'total' => $total,
+                    'total_pages' => ceil($total / $limit)
+                ]
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Lấy danh sách thất bại',
+                'data' => null,
+                'pagination' => [
+                    'current_page' => (int)$page,
+                    'limit' => $limit,
+                    'total' => 0,
+                    'total_pages' => 0
+                ]
+            ];
+        }
+    }
+
+    public function orders_items_list()
+    {
+        $sql = "  SELECT o.*, i.* 
+                    FROM order_items i
+                    INNER JOIN orders o ON o.order_id = i.order_id
+                    WHERE 1
+                    ORDER BY o.order_id ASC";
+        $response = $this->select($sql);
+        if ($response) {
+            return ['success' => true, 'message' => 'Lấy thành công', 'data' => $response];
+        } else {
+            return ['success' => false, 'message' => 'Lấy không thành công', 'data' => null];
+        }
+    }
     public function add_order($total_amount, $user_id, $email, $address_id, $items, $voucher_id = 1) {
         //Check email
         $check_email_sql = "SELECT * FROM users WHERE email = ?";
@@ -18,21 +86,21 @@ class Order extends Database {
         $sql = "INSERT INTO {$this->table} (user_id, address_id, voucher_id, total_amount, status)
                 VALUES (?, ?, ?, ?, 0)";
         $response = $this->execute($sql, [$user_id, $address_id, $voucher_id, $total_amount]);
-    
+
         if ($response) {
             $order_id = $this->lastInsertId();
-            
+
             // Duyệt qua các sản phẩm và thêm vào bảng order_items
             foreach ($items as $item) {
                 $sql_item = "INSERT INTO order_items (order_id, quantity, price, variant_id) 
                              VALUES (?, ?, ?, ?)";
                 $item_response = $this->execute($sql_item, [
-                    $order_id, 
-                    $item['quantity'], 
+                    $order_id,
+                    $item['quantity'],
                     $item['price'],
                     $item['variant_id']
                 ]);
-    
+
                 if (!$item_response) {
                     return [
                         'success' => false,
@@ -40,16 +108,16 @@ class Order extends Database {
                         'data' => null
                     ];
                 }
-    
+
                 // Giảm số lượng stock của variant
                 $update_stock_sql = "UPDATE product_variant 
                                      SET stock = stock - ? 
                                      WHERE variant_id = ?";
                 $update_stock_response = $this->execute($update_stock_sql, [
-                    $item['quantity'], 
+                    $item['quantity'],
                     $item['variant_id']
                 ]);
-    
+
                 if (!$update_stock_response) {
                     return [
                         'success' => false,
@@ -58,9 +126,9 @@ class Order extends Database {
                     ];
                 }
             }
-    
+
             // Xử lý giảm cart và gửi email thông báo như bình thường
-    
+
             // Truy vấn order data, bao gồm thông tin người dùng, voucher và địa chỉ
             $order_sql = "SELECT o.*, 
                             u.*, 
@@ -72,7 +140,7 @@ class Order extends Database {
                         LEFT JOIN address a ON o.address_id = a.address_id
                         WHERE o.order_id = ?";
             $order = $this->select($order_sql, [$order_id]);
-    
+
             // Kiểm tra xem order có dữ liệu không
             if (isset($order[0]) && isset($order[0]['order_id'])) {
                 $order = $order[0]; // Lấy bản ghi đầu tiên nếu query trả về 1 dòng kết quả
@@ -83,29 +151,29 @@ class Order extends Database {
                     'data' => null
                 ];
             }
-    
+
             // Gửi email thông báo
-            require_once "PHPMailer-master/src/PHPMailer.php"; 
-            require_once "PHPMailer-master/src/SMTP.php"; 
-            require_once "PHPMailer-master/src/Exception.php";   
+            require_once "PHPMailer-master/src/PHPMailer.php";
+            require_once "PHPMailer-master/src/SMTP.php";
+            require_once "PHPMailer-master/src/Exception.php";
             $mail = new PHPMailer\PHPMailer\PHPMailer(true);
             try {
                 $mail->SMTPDebug = 0;
-                $mail->isSMTP();  
+                $mail->isSMTP();
                 $mail->CharSet  = "UTF-8";
-                $mail->Host = 'smtp.gmail.com'; 
-                $mail->SMTPAuth = true; 
-                $mail->Username = 'vanduyho717@gmail.com';  
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'vanduyho717@gmail.com';
                 $mail->Password = 'xvgu ydcc dtzr gsap';
-                $mail->SMTPSecure = 'ssl';    
+                $mail->SMTPSecure = 'ssl';
                 $mail->Port = 465;
-    
-                $mail->setFrom('vanduyho717@gmail.com', 'SPORTKING'); 
+
+                $mail->setFrom('vanduyho717@gmail.com', 'SPORTKING');
                 $mail->addAddress($email);
-                $mail->isHTML(true);  
+                $mail->isHTML(true);
                 $mail->Subject = 'Thông tin đơn hàng của bạn';
                 $mail->Body = '...'; // Nội dung email như đã có
-    
+
                 $mail->smtpConnect([
                     "ssl" => [
                         "verify_peer" => false,
@@ -114,7 +182,7 @@ class Order extends Database {
                     ]
                 ]);
                 $mail->send();
-    
+
                 return [
                     'success' => true,
                     'message' => 'Thêm đơn hàng và sản phẩm thành công',
@@ -122,8 +190,8 @@ class Order extends Database {
                 ];
             } catch (Exception $e) {
                 return [
-                    'success' => false, 
-                    'message' => 'Gửi thông tin đơn hàng thất bại: ' . $mail->ErrorInfo, 
+                    'success' => false,
+                    'message' => 'Gửi thông tin đơn hàng thất bại: ' . $mail->ErrorInfo,
                     'data' => null
                 ];
             }
@@ -136,7 +204,8 @@ class Order extends Database {
         }
     }
 
-    public function get_order_by_id($order_id) {
+    public function get_order_by_id($order_id)
+    {
         $sql = "SELECT 
             o.*, 
             u.fullname AS fullname, u.email,
@@ -160,7 +229,7 @@ class Order extends Database {
                 WHERE oi.order_id = ?
             ";
             $items = $this->select($sql_items, [$order_id]);
-        
+
             return [
                 'success' => true,
                 'message' => 'Lấy đơn hàng thành công',
@@ -181,7 +250,7 @@ class Order extends Database {
     public function get_total()
     {
         $sql = "SELECT SUM(total_amount) AS total FROM orders WHERE status = 4";
-        $result = $this->select($sql); 
+        $result = $this->select($sql);
         return $result[0]['total'] ?? 0;
     }
 
@@ -225,4 +294,3 @@ class Order extends Database {
         return $this->select($sql);
     }
 }
-?>

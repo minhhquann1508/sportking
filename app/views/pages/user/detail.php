@@ -443,10 +443,10 @@ $data['comments'] = $commentModel->get_comment_by_product_id($product_detail['da
                             </div>
                             <p class="text-m" style="color:#7a7e7f">(<?php echo $total_comments; ?> reviews)</p>
                         </div>
-                        <div class="rating-breakdown mt-2" style="width: 350px;">
+                        <div class="rating-breakdown mt-2" style="width: 400px;">
                             <?php for ($i = 5; $i >= 1; $i--): ?>
-                                <div class="d-flex align-items-center gap-2 mt-1">
-                                    <span style="font-size: 14px;"><?php echo $i; ?> sao</span>
+                                <div class="d-flex align-items-center gap-4 mt-1">
+                                    <span style="font-size: 14px;" style=""><?php echo $i; ?> sao</span>
                                     <div class="rating-bar" style="width:250px">
                                         <div class="bar flex-grow-1 rounded" style="height: 5px; background-color: #f2f4f5;position: relative;">
                                             <div class="fill rounded" style="height: 100%; background-color: #F6A500; width: <?php echo ($total_comments > 0) ? ($rating_count[$i] / $total_comments) * 100 : 0; ?>%;"></div>
@@ -549,7 +549,7 @@ $data['comments'] = $commentModel->get_comment_by_product_id($product_detail['da
                                             ?>
                                         </p>
                                         <p class="mt-2" style="font-size:14px">
-                                            <?= nl2br(htmlspecialchars($value['content'])) ?>
+                                            <?= (htmlspecialchars($value['content'])) ?>
                                         </p>
                                     </div>
                                 </div>

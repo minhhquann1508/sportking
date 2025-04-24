@@ -1,8 +1,4 @@
 <style>
-    .container {
-        max-width: 1250px;
-    }
-
     .zoom-img {
         transition: transform 0.5s ease;
         height: 600px;
