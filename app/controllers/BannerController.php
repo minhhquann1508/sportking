@@ -27,5 +27,12 @@
             echo json_encode($response);
             exit;
         }
+
+        public function delete() {
+            $banner_id = $_POST['banner_id'];
+            $response = $this->bannerModel->delete_banner($banner_id);
+            echo json_encode($response);
+            exit;
+;        }
     }
 ?>

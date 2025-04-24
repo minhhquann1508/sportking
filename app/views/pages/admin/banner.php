@@ -95,6 +95,27 @@ imageFile.addEventListener("change", (event) => {
     }
 });
 
+const deleteBanner = (id) => {
+    const isConfirm = confirm('Bạn có chắc muốn xoá banner này?');
+    if (isConfirm) {
+        $.ajax({
+            url: '?controller=banner&action=delete',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                banner_id: id
+            },
+            success: (res) => {
+                showToast(res.message);
+                fetchListBanners();
+            },
+            error: (err) => {
+                showToast('Có lỗi xảy ra');
+            }
+        })
+    }
+};
+
 const renderListBanners = (banners) => {
     const html = banners.map((banner, key) => {
         return `
@@ -108,7 +129,7 @@ const renderListBanners = (banners) => {
                 </td>
                 <td><a target="_blank" href="${banner.url}">Link</a></td>
                 <td>
-                    <button class="btn btn-danger">Xóa</button>
+                    <button class="btn btn-danger" onclick="deleteBanner(${banner.banner_id})">Xóa</button>
                     <button class="btn btn-primary">Sửa</button>
                 </td>
             </tr>
@@ -137,7 +158,6 @@ $(document).ready(() => {
 
 $('#btn').click(async (e) => {
     e.preventDefault();
-
     const url = $('#url').val().trim();
     const urlOption = $('#urlOption').prop('checked');
     const imageUrlVal = $('#imageUrl').val().trim();
