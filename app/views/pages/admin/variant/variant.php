@@ -534,8 +534,8 @@ $('#search_btn').click((e) => {
             stock,
             price,
             size_id,
-            color_id
-            product_id: <?php ?>
+            color_id,
+            product_id: <?php echo $product['product_id']; ?>
         },
         success: (res) => {
             console.log(res);
