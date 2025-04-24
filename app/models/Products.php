@@ -188,11 +188,17 @@ class Products extends Database
 
     public function get_product_by_id($id)
     {
+        // Tăng lượt xem lên 1
+        $update_sql = "UPDATE $this->table SET views = views + 1 WHERE product_id = ?";
+        $this->execute($update_sql, [$id]);
+
+        // Sau đó lấy thông tin sản phẩm
         $sql = "SELECT p.*, c.category_name, b.brand_name FROM $this->table p 
-                    INNER JOIN category c ON c.category_id = p.category_id
-                    INNER JOIN brands b ON b.brand_id = p.brand_id
-                    WHERE product_id = ?";
+                INNER JOIN category c ON c.category_id = p.category_id
+                INNER JOIN brands b ON b.brand_id = p.brand_id
+                WHERE product_id = ?";
         $result = $this->select($sql, [$id]);
+
         if ($result) {
             return ['success' => true, 'message' => 'Lấy sản phẩm thành công', 'data' => $result];
         } else {
@@ -234,38 +240,7 @@ class Products extends Database
             return ['success' => false, 'message' => 'Xoá sản phẩm thất bại', 'data' => null];
         }
     }
-// <<<<<<< quoc
-//     public function search_product($search_params, $page = 1, $limit = 10)
-//     {
-//         $product_name = $search_params['product_name'] ?? '';
-//         $brand_id = $search_params['brand_id'] ?? '';
-//         $category_id = $search_params['category_id'] ?? '';
 
-//         $where = [];
-
-//         if (!empty($product_name)) {
-//             $product_name = preg_replace('/[^a-zA-Z0-9\s]/', '', $product_name);
-//             $where[] = "p.product_name LIKE '%$product_name%'";
-//         }
-
-//         if (!empty($brand_id)) {
-//             $where[] = "p.brand_id = " . (int)$brand_id;
-//         }
-
-//         if (!empty($category_id)) {
-//             $where[] = "p.category_id = " . (int)$category_id;
-//         }
-
-//         $where_sql = '';
-//         if (!empty($where)) {
-//             $where_sql = 'WHERE ' . implode(' AND ', $where);
-//         }
-
-//         $offset = ($page - 1) * $limit;
-
-//         // Truy vấn dữ liệu
-//         $sql = "SELECT p.*, c.category_name, b.brand_name 
-// =======
         public function search_product($search_params, $page = 1, $limit = 10) {
             $product_name = $search_params['product_name'] ?? '';
             $brand_id = $search_params['brand_id'] ?? '';
@@ -339,5 +314,32 @@ class Products extends Database
                 ]
             ];
         }
+    }
+
+    public function total_products() {
+        $sql = "SELECT COUNT(*) AS total
+                FROM $this->table";
+        $response = $this->select($sql);
+        return $response[0]['total'] ?? 0;
+    }
+
+    public function top_5() {
+        $sql = "SELECT 
+                p.product_name,
+                p.solds,
+                SUM(oi.quantity * oi.price) AS total_revenue
+            FROM 
+                product p
+            JOIN 
+                product_variant pv ON p.product_id = pv.product_id
+            JOIN 
+                order_items oi ON oi.variant_id = pv.variant_id
+            GROUP BY 
+                p.product_id, p.product_name, p.solds
+            ORDER BY 
+                total_revenue DESC
+            LIMIT 5";
+        $response = $this->select($sql);
+        return $response;
     }
 }
