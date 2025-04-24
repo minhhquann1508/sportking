@@ -69,9 +69,14 @@ $(document).ready(function() {
                 if (response.success) {
                     $("#email").val('');
                     $("#password").val('');
+                    let location = '?controller=home';
+                    console.log(response);
+                    if (response.data.role == 1) {
+                        location = '?controller=dashboard'
+                    }
                     showToast(response.message);
                     setTimeout(() => {
-                        window.location.href = "?controller=home";
+                        window.location.href = location;
                     }, 1000);
                 } else {
                     showToast(response.message);

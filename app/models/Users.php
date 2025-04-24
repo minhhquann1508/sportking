@@ -167,6 +167,12 @@
                     'success' => false,'message' => 'Gửi mật khẩu mới thất bại: ' . $mail->ErrorInfo,'data' => null];
             }
         }        
-        
+        public function total_users() {
+            $sql = "SELECT COUNT(*) AS total
+                    FROM $this->table
+                    WHERE role = 0";
+            $response = $this->select($sql);
+            return $response[0]['total'] ?? 0;
+        }
     }
 ?>
