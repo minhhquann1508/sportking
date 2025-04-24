@@ -130,7 +130,6 @@ const renderListBanners = (banners) => {
                 <td><a target="_blank" href="${banner.url}">Link</a></td>
                 <td>
                     <button class="btn btn-danger" onclick="deleteBanner(${banner.banner_id})">Xóa</button>
-                    <button class="btn btn-primary">Sửa</button>
                 </td>
             </tr>
         `;

@@ -14,7 +14,9 @@ function render_list_product($data)
 ?>
 <div class="product-card">
     <div class="">
-        <img style="object-fit: contain;" src="<?= $image ?>" alt="<?= $productName ?>">
+        <div class="d-flex jusity-content-center">
+            <img style="object-fit: contain;" src="<?= $image ?>" alt="<?= $productName ?>">
+        </div>
         <div class="product-actions">
             <ul class="product-icons">
                 <li>

@@ -5,11 +5,7 @@
     $items = [
         [
             'label' => 'Thống kê',
-            'url' => '',
-            'children' => [
-                ['label' => 'Doanh thu', 'url' => ''],
-                ['label' => 'Sản phẩm bán chạy', 'url' => '#']
-            ]
+            'url' => '?controller=dashboard',
         ],
         [
             'label' => 'Quản lý danh mục',

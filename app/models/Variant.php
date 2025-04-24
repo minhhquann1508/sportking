@@ -374,4 +374,78 @@ class Variant extends Database
             return ['success' => false, 'message' => 'Cập nhật thất bại', 'data' => null];
         }
     }
+
+    public function search_variant($search, $category_id, $brand_id, $price_filter = null, $price_range_code = null)
+    {
+        // Subquery lấy variant đầu tiên theo product
+        $sql = "SELECT 
+                    v.variant_id,
+                    v.product_id,
+                    v.color_id,
+                    v.price,
+                    p.product_name,
+                    vi.image_url,
+                    b.brand_id,
+                    b.brand_name,
+                    c.category_id,
+                    c.category_name,
+                    co.color_name
+                FROM product_variant v
+                JOIN (
+                    SELECT MIN(variant_id) as first_variant_id
+                    FROM product_variant
+                    GROUP BY product_id
+                ) fv ON fv.first_variant_id = v.variant_id
+                JOIN product p ON p.product_id = v.product_id
+                JOIN brands b ON b.brand_id = p.brand_id
+                JOIN category c ON c.category_id = p.category_id
+                JOIN color co ON co.color_id = v.color_id
+                LEFT JOIN (
+                    SELECT variant_id, MIN(image_url) as image_url
+                    FROM variant_image
+                    GROUP BY variant_id
+                ) vi ON vi.variant_id = v.variant_id
+                WHERE 1";
+
+        $params = [];
+
+        if (!empty($search)) {
+            $sql .= " AND p.product_name LIKE ?";
+            $params[] = '%' . $search . '%';
+        }
+
+        if (!empty($category_id)) {
+            $sql .= " AND p.category_id = ?";
+            $params[] = $category_id;
+        }
+
+        if (!empty($brand_id)) {
+            $sql .= " AND p.brand_id = ?";
+            $params[] = $brand_id;
+        }
+
+        if (!empty($price_filter) && is_array($price_filter)) {
+            $sql .= " AND v.price BETWEEN ? AND ?";
+            $params[] = $price_filter[0];
+            $params[] = $price_filter[1];
+        }
+
+        if ($price_range_code === '1') {
+            $sql .= " ORDER BY v.price ASC";
+        } elseif ($price_range_code === '2') {
+            $sql .= " ORDER BY v.price DESC";
+        }
+
+        $result = $this->select($sql, $params);
+
+        return $result ? [
+            'success' => true,
+            'message' => 'Tìm thấy ' . count($result) . ' kết quả.',
+            'data' => $result
+        ] : [
+            'success' => false,
+            'message' => 'Không tìm thấy kết quả phù hợp.',
+            'data' => null
+        ];
+    }
 }

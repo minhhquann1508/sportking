@@ -1,7 +1,4 @@
 <?php
-    // // Tổng số sản phẩm
-    // print_r($total_products);
-    // print_r($top_5_products);
 ?>
 <style>
 body {
@@ -40,10 +37,33 @@ body {
 </style>
 <div class="container py-2">
     <h2 class="text-center mb-5">Thống kê tổng quan</h2>
-    <div class="row g-4 justify-content-center">
+    <div class="row my-3">
+        <div class="col-4">
+            <div class="stats-box">
+                <div class="stats-icon"><i class="bi bi-calendar-day"></i></div>
+                <div class="stats-number"><?= number_format($total_revenue[0]['revenue'], 0, ',', '.') ?>₫</div>
+                <div class="stats-label">Doanh thu hôm nay</div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="stats-box">
+                <div class="stats-icon"><i class="bi bi-calendar-day"></i></div>
+                <div class="stats-number"><?= number_format($total_revenue_weekly[0]['revenue'], 0, ',', '.') ?>₫</div>
+                <div class="stats-label">Doanh thu theo tuần</div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="stats-box">
+                <div class="stats-icon"><i class="bi bi-calendar-day"></i></div>
+                <div class="stats-number"><?= number_format($total_revenue_monthly[0]['revenue'], 0, ',', '.') ?>₫</div>
+                <div class="stats-label">Doanh thu tháng này</div>
+            </div>
+        </div>
+    </div>
 
+    <div class="row g-4 justify-content-center">
         <!-- Tổng sản phẩm -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="stats-box">
                 <div class="stats-icon"><i class="bi bi-box-seam"></i></div>
                 <div class="stats-number"><?= $total_products ?></div>
@@ -52,7 +72,7 @@ body {
         </div>
 
         <!-- Tổng người dùng -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="stats-box">
                 <div class="stats-icon"><i class="bi bi-people-fill"></i></div>
                 <div class="stats-number"><?= $total_users ?></div>
@@ -60,8 +80,17 @@ body {
             </div>
         </div>
 
+        <!-- Tổng người dùng -->
+        <div class="col-md-3">
+            <div class="stats-box">
+                <div class="stats-icon"><i class="bi bi-people-fill"></i></div>
+                <div class="stats-number"><?= $total_orders ?></div>
+                <div class="stats-label">Đơn hàng</div>
+            </div>
+        </div>
+
         <!-- Doanh thu -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="stats-box">
                 <div class="stats-icon"><i class="bi bi-cash-stack"></i></div>
                 <div class="stats-number"><?= number_format($total_amount, 0, ',', '.') ?>₫</div>
@@ -70,11 +99,33 @@ body {
         </div>
 
     </div>
+
     <div class="row mt-5">
         <div class="col-7">
             <div class="chart-container">
-                <h3 style="text-align: center;">Sản phẩm bán chạy</h3>
+                <h5 style="text-align: center;">Sản phẩm bán chạy</h5>
                 <canvas id="productChart" height="150"></canvas>
+            </div>
+        </div>
+        <div class="col-5">
+            <div class="chart-container">
+                <h5 style="text-align: center;">Người mua theo thành phố</h5>
+                <table class="table table-bordered text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Thành phố</th>
+                            <th>Số người mua</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($order_city as $item): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($item['city']) ?></td>
+                            <td><?= $item['user_count'] ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

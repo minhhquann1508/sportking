@@ -169,14 +169,12 @@ class HomeController
 
     public function product()
     {
-        $category = isset($_POST['category']) ? $_POST['category'] : '';
-        $brand = isset($_POST['brand']) ? $_POST['brand'] : '';
-        $price = isset($_POST['price']) ? $_POST['price'] : '';
-
-        $productList = $this->homeModel->get_filtered_products($category, $brand, $price);
+        $category_id = $_GET['category_id'] ?? '';
+        $brand_id = $_GET['brand_id'] ?? '';
+        $category_id = $_GET['category_id'] ?? '';
+        $productList = $this->homeModel->get_filtered_products($category_id, $brand_id);
         $categories = $this->homeModel->get_all_categorys();
         $brands = $this->homeModel->get_all_brands();
-
         $content = '../app/views/pages/user/product.php';
         $header = '../app/views/layouts/_header.php';
         $footer = '../app/views/layouts/_footer.php';

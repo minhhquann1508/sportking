@@ -167,8 +167,9 @@ class Home extends Database
             return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
         }
     }
-    public function get_filtered_products($category, $brand, $price)
+    public function get_filtered_products($category, $brand)
     {
+        // Khởi tạo câu lệnh SQL với điều kiện cơ bản
         $sql = "SELECT 
                     v.variant_id,
                     v.price,
@@ -189,14 +190,14 @@ class Home extends Database
                     FROM product_variant
                     GROUP BY product_id
                 ) first_variants ON v.variant_id = first_variants.first_variant_id
-
+    
                 -- Join thông tin sản phẩm
                 INNER JOIN product p ON p.product_id = v.product_id
                 INNER JOIN category c ON c.category_id = p.category_id
                 INNER JOIN brands b ON b.brand_id = p.brand_id
                 INNER JOIN color co ON co.color_id = v.color_id
                 INNER JOIN size s ON s.size_id = v.size_id
-
+    
                 LEFT JOIN (
                     SELECT vi1.variant_id, vi1.image_url
                     FROM variant_image vi1
@@ -206,34 +207,26 @@ class Home extends Database
                         GROUP BY variant_id
                     ) vi2 ON vi1.variant_id = vi2.variant_id AND vi1.image_id = vi2.min_image_id
                 ) i ON i.variant_id = v.variant_id
-                
-                WHERE 1=1";
-
-        if ($category) {
+                WHERE 1=1"; // Điều kiện cơ bản
+    
+        // Thêm điều kiện cho category_id nếu có
+        if ($category && $category != '') {
             $sql .= " AND p.category_id = $category";
         }
-
-        if ($brand) {
+    
+        // Thêm điều kiện cho brand_id nếu có
+        if ($brand && $brand != '') {
             $sql .= " AND p.brand_id = $brand";
         }
-
-        if ($price) {
-            if ($price == '1') {
-                $sql .= " AND pv.price < 1000000";
-            } elseif ($price == '2') {
-                $sql .= " AND pv.price BETWEEN 1000000 AND 5000000";
-            } elseif ($price == '3') {
-                $sql .= " AND pv.price BETWEEN 5000000 AND 10000000";
-            } elseif ($price == '4') {
-                $sql .= " AND pv.price > 10000000";
-            }
-        }
-
+    
+        // Thực hiện truy vấn
         $result = $this->select($sql);
-        if ($result) {
+    
+        // Kiểm tra và trả về kết quả
+        if (!empty($result)) {
             return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
         } else {
-            return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
+            return ['success' => false, 'message' => 'Không tìm thấy sản phẩm phù hợp', 'data' => []];
         }
     }
 
@@ -244,7 +237,7 @@ class Home extends Database
         if ($result) {
             return ['success' => true, 'message' => 'Lấy danh sách thành công', 'data' => $result];
         } else {
-            return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => null];
+            return ['success' => false, 'message' => 'Lấy danh sách thất bại', 'data' => $result];
         }
     }
     public function get_all_brands()
