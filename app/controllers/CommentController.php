@@ -14,7 +14,6 @@ class CommentController {
     
     public function get_comments() {
         $comments = $this->commentModel->get_all_comments();
-        header('Content-Type: application/json');
         echo json_encode($comments);
         exit;
     }
@@ -36,11 +35,23 @@ class CommentController {
     }
 
     public function toggle_status() {
-        $comment_id = $_POST['comment_id'];
-        $new_status = $_POST['new_status'];
-        $result = $this->commentModel->update_comment_status($comment_id, $new_status);
-        echo json_encode($result);
-        exit;
+        $comment_id = $_POST['comment_id'] ?? null;
+        $new_status = $_POST['new_status'] ?? null;
+    
+        if ($comment_id === null || $new_status === null) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Thiếu dữ liệu.'
+            ]);
+            return;
+        }
+    
+        $result = $this->commentModel->updateStatus($comment_id, $new_status);
+    
+        echo json_encode([
+            'success' => $result,
+            'message' => $result ? 'Trạng thái bình luận đã được cập nhật.' : 'Cập nhật thất bại.'
+        ]);
     }
 }
 ?>

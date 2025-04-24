@@ -36,7 +36,7 @@ $('#forgot-password-form').on('submit', function(e) {
                 showToast(response.message);
                 setTimeout(() => {
                     window.location.href =
-                        "?controller=auth";
+                        "?controller=home&action=logout";
                 }, 1000);
             } else {
                 showToast(response.message);

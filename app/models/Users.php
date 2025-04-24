@@ -132,7 +132,7 @@
                 $mail->addAddress($emailSend);
         
                 $mail->isHTML(true);  
-                $mail->Subject = 'Mật khẩu mới của bạn';
+                $mail->Subject = 'SPORTKING gửi mật khẩu mới';
                 $mail->Body = '
                         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 8px; padding: 20px; background-color: #f9f9f9;">
                             <div style="text-align: center;">

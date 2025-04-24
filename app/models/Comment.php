@@ -1,4 +1,3 @@
-<!-- Models -->
 <?php
     require_once '../app/configs/Database.php';
     class Comment extends Database{
@@ -9,7 +8,10 @@
 
         // lấy tất cả các comment 
         public function get_all_comments(){
-            $query = "SELECT * FROM $this->table ORDER BY comment_id DESC";
+            $query = "SELECT cmt.*, u.fullname, u.user_id, p.* FROM $this->table cmt
+            JOIN users u ON cmt.user_id = u.user_id
+            JOIN product p ON cmt.product_id = p.product_id
+            ORDER BY cmt.comment_id DESC";
             $result = $this->select($query);
             if($result){
                 return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => $result];
@@ -41,7 +43,7 @@
         // Xoá bình luận
         public function delete_comment($comment_id){
             $query = "DELETE $this->table WHERE comment_id = :comment_id";
-            $result = &this->execute($query,['comment_id' => $comment_id]);
+            $result = $this->execute($query,['comment_id' => $comment_id]);
             if($result){
                 return ['success' => true, 'message' => 'Thêm thương hiệu thành công', 'data' => null];
             }else{
@@ -62,9 +64,12 @@
                 ];
             }
         }
-       
-
-
+        public function updateStatus($comment_id, $new_status) {
+            $sql = "UPDATE comments SET status = ? WHERE comment_id = ?";
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute([$new_status, $comment_id]);
+        }
+        
         public function filter_comments($user_id = null, $product_id = null) {
             $query = "SELECT c.*, u.username FROM $this->table c
                       JOIN users u ON c.user_id = u.user_id WHERE 1=1";
@@ -83,6 +88,4 @@
             return $this->select($query, $params);
         }
     }
-
-
 ?>
