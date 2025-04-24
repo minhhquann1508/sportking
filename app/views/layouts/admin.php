@@ -119,7 +119,7 @@ $sidebar .= '</ul>';
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Style.css -->
     <link rel="stylesheet" href="./css/style.css">
-    <title>Document</title>
+    <title>Trang quản trị</title>
 </head>
 <style>
 .modal-dialog {
