@@ -11,6 +11,7 @@ require_once '../app/models/Color.php';
 require_once '../app/models/Variant.php';
 require_once '../app/models/Address.php';
 require_once '../app/models/Voucher.php';
+require_once '../app/models/Banner.php';
 class HomeController
 {
     private $productModel;
@@ -25,6 +26,7 @@ class HomeController
     private $variantModel;
     private $addressModel;
     private $voucherModel;
+    private $bannerModel;
     public function __construct()
     {
         $this->homeModel = new Home();
@@ -40,13 +42,14 @@ class HomeController
         $this->colorModel = new Color();
         $this->addressModel = new Address();
         $this->voucherModel = new Voucher();
+        $this->bannerModel = new Banner();
     }
     public function index()
     {
         $categories = $this->homeModel->get_all_categorys();
         $brands = $this->homeModel->get_all_brands();
         $variant_list = $this->variantModel->get_variant_list();
-
+        $banners = $this->bannerModel->get_all_banners();
 
         $header = '../app/views/layouts/_header.php';
         $content = '../app/views/pages/user/home2.php';
@@ -95,7 +98,12 @@ class HomeController
             $content = trim($_POST['content'] ?? '');
             $user_id = $_SESSION['user']['user_id'] ?? null;
 
-            if (!$product_id || !$rating || !$content || !$user_id) {
+            if (!$user_id) {
+                header('Location: /page/login.php');
+                exit;
+            }
+
+            if (!$product_id || !$rating || !$content) {
                 echo json_encode([
                     'success' => false,
                     'message' => 'Thiếu thông tin đánh giá'
@@ -103,7 +111,6 @@ class HomeController
                 exit;
             }
 
-            // Gọi model để thêm bình luận
             $response = $this->homeModel->add_comment(
                 $product_id,
                 $user_id,
@@ -115,6 +122,7 @@ class HomeController
             exit;
         }
     }
+
 
 
 
@@ -231,26 +239,27 @@ class HomeController
         include_once "../app/views/layouts/default2.php";
     }
 
-    public function detailOrder(){
+    public function detailOrder()
+    {
         $order_id = $_GET['order_id'];
         $result = $this->homeModel->get_order_by_user_id($order_id);
-    
+
         if ($result['success']) {
             $data = $result['data'];
-            
+
             $orderDetails = [
                 'order_id' => $data[0]['order_id'],
                 'status' => $data[0]['status'],
                 'order_date' => $data[0]['order_date'],
                 'customer_name' => $data[0]['fullname'],
-                'customer_address' => $data[0]['street'] . ', ' . 
-                                     $data[0]['ward'] . ', ' . 
-                                     $data[0]['district'] . ', ' . 
-                                     $data[0]['city'],
+                'customer_address' => $data[0]['street'] . ', ' .
+                    $data[0]['ward'] . ', ' .
+                    $data[0]['district'] . ', ' .
+                    $data[0]['city'],
                 'customer_phone' => $data[0]['phone'],
                 'products' => []
             ];
-    
+
             foreach ($data as $item) {
                 $orderDetails['products'][] = [
                     'variant_id' => $item['variant_id'],
@@ -271,7 +280,7 @@ class HomeController
             echo "Không tìm thấy đơn hàng.";
         }
     }
-    
+
     public function feedback()
     {
         $user_id = $_SESSION['user']['user_id'];
@@ -419,7 +428,8 @@ class HomeController
         exit;
     }
 
-    public function payment_by_zalo_pay($total_amount,$items, $user_id,$address_id,$voucher_id) {
+    public function payment_by_zalo_pay($total_amount, $items, $user_id, $address_id, $voucher_id)
+    {
         try {
             $config = [
                 "app_id" => 2553,
@@ -463,7 +473,7 @@ class HomeController
             $resp = file_get_contents($config["endpoint"], false, $context);
             $result = json_decode($resp, true);
             if ($result['return_code'] == 1) {
-//                 $this->add_orders();
+                //                 $this->add_orders();
                 $result['success'] = true;
                 return $result;
             }
@@ -485,8 +495,8 @@ class HomeController
         $voucher_id = $postData['voucher_id'];
         $items = $postData['items'];
         $_SESSION['orderItems'] = $_SESSION['order_list'];
-        $result = $this->payment_by_zalo_pay($total_amount,$items,$user_id,$address_id,$voucher_id);
-        if(isset($result['success']) && $result['success'] === true) {
+        $result = $this->payment_by_zalo_pay($total_amount, $items, $user_id, $address_id, $voucher_id);
+        if (isset($result['success']) && $result['success'] === true) {
             $response = [
                 'status' => 'success',
                 'redirect_url' => $result['order_url']

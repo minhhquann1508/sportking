@@ -23,53 +23,51 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
-        #loading {
-            height: 100vh;
-            width: 100%;
-            background-color: white;
-            z-index: 10000;
+        .cursor-dot {
             position: fixed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            top: 0;
-            left: 0;
+            width: 5px;
+            height: 5px;
+            background: #b57a43;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%) scale(1);
+            transition: transform 0.4s ease, background 0.4s ease;
         }
 
-        #loading img {
-            width: 200px;
-            height: auto;
-            margin-bottom: 20px;
+        a {
+            transition: 0.2s ease-in-out;
+
         }
 
-        #loading-text {
-            font-size: 48px;
-            font-weight: bold;
-            font-family: 'Playfair Display', serif;
+        a:hover {
+            color: #bd844c;
         }
 
-        #progress-bar {
-            width: 300px;
-            height: 4px;
-            background-color: #eee;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 20px;
+        .cursor-ring {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 1px solid #b57a43;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
         }
 
-        #progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background-color: #b57a43;
-            transition: width 0.3s ease;
+        body.hovered .cursor-dot {
+            transform: translate(-50%, -50%) scale(13);
+            background: rgba(185, 123, 66, 0.2);
+        }
+
+        body.hovered .cursor-ring {
+            opacity: 0;
         }
     </style>
 </head>
 
 
 <body>
-    <!-- <div id="loading" style="display: none;"></div> -->
 
     <div id="toast" class="toast bg-white" style="position: fixed; top: 32px; right: 20px; z-index: 50;" role="alert"
         aria-live="assertive" aria-atomic="true">
@@ -105,52 +103,46 @@
 
     <script src=" ./js/main.js"></script>
     <script>
-        function showLoading(duration) {
-            const loading = document.getElementById('loading');
-            loading.style.display = 'flex';
+        function myCursor() {
+            const dot = document.querySelector('.cursor-dot');
+            const ring = document.querySelector('.cursor-ring');
 
-            loading.innerHTML = `
-            <div>
-                <img src="./img/loading.gif" alt="Loading">
-                <div id="loading-text">Loading</div>
-            </div>
-            <div id="progress-bar">
-                <div id="progress-bar-fill"></div>
-            </div>
-        `;
+            let mouseX = 0,
+                mouseY = 0;
+            let ringX = 0,
+                ringY = 0;
 
-            const loadingText = loading.querySelector('#loading-text');
-            const fill = loading.querySelector('#progress-bar-fill');
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                dot.style.left = `${mouseX}px`;
+                dot.style.top = `${mouseY}px`;
+            });
 
-            let dot = 0;
-            let progress = 0;
-            const totalSteps = Math.floor(duration / 100);
+            function animate() {
+                ringX += (mouseX - ringX) * 0.3;
+                ringY += (mouseY - ringY) * 0.3;
+                ring.style.left = `${ringX}px`;
+                ring.style.top = `${ringY}px`;
+                requestAnimationFrame(animate);
+            }
 
-            const dotInterval = setInterval(() => {
-                dot = (dot + 1) % 4;
-                loadingText.textContent = 'Loading' + '.'.repeat(dot);
-            }, 500);
+            const hoverElements = document.querySelectorAll('a, button, img');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    document.body.classList.add('hovered');
+                });
+                el.addEventListener('mouseleave', () => {
+                    document.body.classList.remove('hovered');
+                });
+            });
 
-            const progressInterval = setInterval(() => {
-                progress++;
-                fill.style.width = (progress / totalSteps * 100) + '%';
-            }, 100);
-
-            setTimeout(() => {
-                clearInterval(dotInterval);
-                clearInterval(progressInterval);
-
-                loading.classList.add('fade-out');
-
-                setTimeout(() => {
-                    loading.style.display = 'none';
-                    loading.classList.remove('fade-out');
-                }, 500);
-            }, duration);
+            animate();
         }
 
-        document.addEventListener('DOMContentLoaded', () => showLoading(500));
+        document.addEventListener('DOMContentLoaded', myCursor);
     </script>
+
 </body>
 
 </html>

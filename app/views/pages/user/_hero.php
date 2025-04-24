@@ -1,52 +1,35 @@
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const carousel = document.getElementById('heroCarousel');
+<style>
+    .hero_section {
+        height: 400px;
+        overflow: hidden;
+    }
 
-        function fadeIn() {
-            const items = carousel.querySelectorAll('.carousel-item');
-            items.forEach(item => {
-                const content = item.querySelector('.hero-content-wrapper');
-                if (content) {
-                    content.classList.remove('active');
-                }
-            });
+    .hero_section .carousel-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+</style>
 
-            const activeItem = carousel.querySelector('.carousel-item.active');
-            const content = activeItem.querySelector('.hero-content-wrapper');
-            if (content) {
-                setTimeout(() => {
-                    content.classList.add('active');
-                }, 100);
-            }
-        }
-
-        fadeIn();
-        carousel.addEventListener('slid.bs.carousel', function() {
-            fadeIn();
-        });
-    });
-
-    const carouselItems = document.querySelectorAll('.carousel-item');
-
-    carouselItems.forEach((item) => {
-        const dodgeImage = item.querySelector('.dodgeImage');
-
-        item.addEventListener('mousemove', (e) => {
-            const rect = item.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const offsetX = (centerX - mouseX) / 15;
-            const offsetY = (centerY - mouseY) / 15;
-
-            dodgeImage.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-        });
-
-        item.addEventListener('mouseleave', () => {
-            dodgeImage.style.transform = `translate(0, 0)`;
-        });
-    });
-</script>
+<section class="hero_section container mt-4" style="height: 400px;">
+    <div id="heroCarousel" class="carousel slide h-100" data-bs-ride="carousel">
+        <div class="carousel-inner h-100">
+            <?php foreach ($banners['data'] as $index => $banner): ?>
+                <div class="carousel-item h-100 <?= $index === 0 ? 'active' : '' ?>">
+                    <img src="<?= $banner['img_url'] ?>" class="d-block w-100 h-100" alt="Banner <?= $index + 1 ?>" style="object-fit: contain;">
+                </div>
+            <?php endforeach; ?>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        </button>
+        <div class="carousel-indicators">
+            <?php foreach ($banners['data'] as $index => $banner): ?>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="<?= $index ?>" <?= $index === 0 ? 'class="active" aria-current="true"' : '' ?> aria-label="Slide <?= $index + 1 ?>"></button>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</section>
