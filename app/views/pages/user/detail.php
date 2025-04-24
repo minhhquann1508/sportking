@@ -92,6 +92,10 @@ $data['comments'] = $commentModel->get_comment_by_product_id($product_detail['da
         .comment_container {
             display: none !important;
         }
+
+        .detail_mobile {
+            display: none !important;
+        }
     }
 </style>
 
@@ -155,7 +159,7 @@ $data['comments'] = $commentModel->get_comment_by_product_id($product_detail['da
                             endforeach; ?>
                         </div>
                     </div>
-                    <div class="mt-4">
+                    <div class="detail_mobile mt-4">
                         <p class="fw-bold" style="font-size: 16px;">Chính sách ưu đãi của Sportking</p>
                         <div class="d-flex align-items-center justify-content-between mt-3">
                             <div class="d-flex align-items-center gap-2">

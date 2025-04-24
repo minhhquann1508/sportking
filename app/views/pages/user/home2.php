@@ -163,26 +163,7 @@ $blog = [
     </div>
 </div>
 
-<div class="container my-5 text-center">
-    <p>Tìm kiếm trang phục mơ ước cho bé yêu từ nhiều danh mục khác nhau</p>
-    <p>
-        Từ áo sơ mi, áo khoác, quần dài, váy, áo hoodie, giày dép và cả những phụ kiện dễ thương đi kèm.
-    </p>
 
-    <div class="row justify-content-center">
-        <?php foreach ($category as $item): ?>
-            <div class="col-md-4 col-lg-2 mb-3">
-                <div class="card p-3 text-center">
-                    <img src="<?= $item['image'] ?>" class="img-fluid" alt="<?= $item['name'] ?>">
-                    <h5 class="mt-2"><?= $item['name'] ?></h5>
-                    <p><?= $item['products'] ?>+ Products</p>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-
-    <button class="btn btn-outline-primary mt-3">Xem thêm danh mục</button>
-</div>
 
 <div class="container py-5">
     <p class="text-center mb-4" style="font-size: 2rem; font-weight: bold;">Tin tức</p>
@@ -196,7 +177,7 @@ $blog = [
                             <img src="' . $blog['thumbnail'] . '" class="card-img-top" alt="' . $blog['title'] . '">
                             <div class="card-body">
                                 <p class="text-muted" style="font-size: 0.9rem;">' . $blog['fullname'] . '</p>
-                                <a class="card-title" href="?controller=home&action=blogdetail&id='.$blog['blog_id'].'">' . $blog['title'] . '</a>
+                                <a class="card-title" href="?controller=home&action=blogdetail&id=' . $blog['blog_id'] . '">' . $blog['title'] . '</a>
                                 <p class="card-text" style="color: #555;">' . $blog['content'] . '</p>
                                 <p class="text-muted" style="font-size: 0.9rem;">' . $blog['created_at'] . '</p>
                             </div>
