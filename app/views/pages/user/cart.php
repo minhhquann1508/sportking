@@ -166,7 +166,6 @@ const renderCart = (cart) => {
                                     </span>
                                 </div>
                                 <div class="mt-auto d-flex justify-content-between align-items-end">
-                                    <button class="btn btn-sm border">Yêu thích<i class="ms-1 fa-regular fa-heart"></i></button>
                                     <button class="btn btn-sm border">
                                         <i class="fa-regular fa-trash-can" onclick="deleteItem('${variant_id}', '${productId}')"></i>
                                     </button>

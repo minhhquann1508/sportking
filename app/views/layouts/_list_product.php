@@ -24,17 +24,17 @@ function render_list_product($data)
                         href="?controller=home&action=product_detail&product_id=<?= $productId ?>&variant_id=<?= $variantId ?>"><i
                             class="fa-solid fa-cart-shopping"></i></a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="#" class="quick-view-btn" data-product-id="<?= $productId ?>" data-bs-toggle="modal"
                         data-bs-target="#quickViewModal">
                         <i class="fa-regular fa-eye"></i>
                     </a>
-                </li>
-                <li>
+                </li> -->
+                <!-- <li>
                     <a
                         href="?controller=home&action=product_detail&product_id=<?= $productId ?>&variant_id=<?= $variantId ?>"><i
                             class="fa-regular fa-heart"></i></a>
-                </li>
+                </li> -->
             </ul>
         </div>
     </div>
