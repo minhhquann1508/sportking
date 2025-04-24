@@ -1,15 +1,11 @@
 <?php
-    if(!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 1) {
+    if(!isset($_SESSION['user']) || $_SESSION['user']['role'] != 1) {
         header('Location: ?controller=home');
     }
     $items = [
         [
             'label' => 'Thống kê',
-            'url' => '',
-            'children' => [
-                ['label' => 'Doanh thu', 'url' => ''],
-                ['label' => 'Sản phẩm bán chạy', 'url' => '#']
-            ]
+            'url' => '?controller=dashboard',
         ],
         [
             'label' => 'Quản lý danh mục',

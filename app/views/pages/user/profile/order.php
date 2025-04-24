@@ -117,29 +117,29 @@ $total_price = 0;
                                     class="text-muted"><?php echo number_format($total_price, 0, ',', '.') . 'đ'; ?></small>
                             </li>
                             <?php endforeach; ?> -->
-                        </ul> 
+                        </ul>
                         <div class="mb-3">
-                                <select class="form-select">
-                                    <option value="">-- Mã giảm giá áp dụng :--</option>
-                                        <?php foreach ($voucher as $voucher): ?>
-                                                <div class="col-md-4 mb-3">
-                                                    <div class="card voucher-card p-3 border rounded">
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <span class="fw-bold text-danger"><?= $voucher['voucher_code'] ?></span>
-                                                            <button class="btn btn-sm btn-outline-primary">Áp dụng</button>
-                                                        </div>
-                                                        <small class="text-muted mt-1 d-block">
-                                                            Giảm <?= number_format($voucher['discount_value'], 0, ',', '.') ?>đ
-                                                        </small>
-                                                        <small class="text-muted">
-                                                            HSD: <?= date('d/m/Y', strtotime($voucher['expire_date'])) ?>
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                        <?php endforeach; ?>
-                                </select>
-                            </div>
-                                    
+                            <select class="form-select">
+                                <option value="">-- Mã giảm giá áp dụng :--</option>
+                                <?php foreach ($voucher as $voucher): ?>
+                                <div class="col-md-4 mb-3">
+                                    <div class="card voucher-card p-3 border rounded">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="fw-bold text-danger"><?= $voucher['voucher_code'] ?></span>
+                                            <button class="btn btn-sm btn-outline-primary">Áp dụng</button>
+                                        </div>
+                                        <small class="text-muted mt-1 d-block">
+                                            Giảm <?= number_format($voucher['discount_value'], 0, ',', '.') ?>đ
+                                        </small>
+                                        <small class="text-muted">
+                                            HSD: <?= date('d/m/Y', strtotime($voucher['expire_date'])) ?>
+                                        </small>
+                                    </div>
+                                </div>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
                         <!-- Subtotal -->
                         <div class="d-flex justify-content-between">
                             <span>Tạm tính:</span>
@@ -213,7 +213,7 @@ const renderOrder = (cart) => {
         Object.keys(cart).forEach(product => {
             // $total_price = product['price'] * product['quantity'];
             // $subtotal += $total_price;
-            
+
             html += `
                     <li class="list-group-item d-flex justify-content-between align-items-start">
                         <div class="d-flex gap-3">
@@ -229,7 +229,7 @@ const renderOrder = (cart) => {
                         <small class="text-muted">${$totalPrice.toLocaleString('vi-VN')}đ</small>
                     </li>
                 `;
-            });
+        });
     }
 
     document.getElementById('order-cart').innerHTML = html;
@@ -240,15 +240,13 @@ $(document).ready(() => {
     renderOrder(cart);
 });
 
-  
+
 
 document.querySelectorAll('.voucher-card button').forEach(button => {
     button.addEventListener('click', function() {
         const voucherCode = this.closest('.voucher-card').querySelector('span').textContent;
         alert(`Đã áp dụng voucher: ${voucherCode}`);
-        
-});
 
-
-
+    });
+})
 </script>
