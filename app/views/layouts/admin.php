@@ -1,57 +1,28 @@
 <?php
-    if(!isset($_SESSION['user']) || $_SESSION['user']['role'] != 1) {
-        header('Location: ?controller=home');
-    }
-    $items = [
-        [
-            'label' => 'Thống kê',
-            'url' => '?controller=dashboard',
-        ],
-        [
-            'label' => 'Quản lý danh mục',
-            'url' => '?controller=category',
-        ],
-        [
-            'label' => 'Quản lý thương hiệu',
-            'url' => '?controller=brand',
-        ],
-        [
-            'label' => 'Quản lý sản phẩm',
-            'url' => '?controller=product',
-            'children' => [
-                ['label' => 'Danh sách sản phẩm', 'url' => '?controller=product'],
-                ['label' => 'Quản lý size', 'url' => '?controller=size'],
-                ['label' => 'Quản lý màu sắc', 'url' => '?controller=color'],
-            ]
-        ],
-        [
-            'label' => 'Quản lý người dùng',
-            'url' => '?controller=user',
-        ],
-        [
-            'label' => 'Quản lý đơn hàng',
-            'url' => '',
-            'children' => [
-                ['label' => 'Danh sách đơn hàng', 'url' => '?controller=order'],
-                ['label' => 'Thống kê đơn hàng', 'url' => '?controller=order&action=test']
-            ]
-        ],
-        [
-            'label' => 'Quản lý bài viết',
-            'url' => '?controller=blog',
-        ],
-        [
-            'label' => 'Quản lý bình luận',
-            'url' => '?controller=comment',
-        ],
-        [
-            'label' => 'Quản lý banner',
-            'url' => '?controller=banner',
-            
-        ],
-        [
-            'label' => 'Quản lý voucher',
-            'url' => '?controller=voucher',
+if (!isset($_SESSION['user']) || $_SESSION['user']['role'] != 1) {
+    header('Location: ?controller=home');
+}
+
+$items = [
+    [
+        'label' => 'Thống kê',
+        'url' => '?controller=dashboard',
+    ],
+    [
+        'label' => 'Quản lý danh mục',
+        'url' => '?controller=category',
+    ],
+    [
+        'label' => 'Quản lý thương hiệu',
+        'url' => '?controller=brand',
+    ],
+    [
+        'label' => 'Quản lý sản phẩm',
+        'url' => '?controller=product',
+        'children' => [
+            ['label' => 'Danh sách sản phẩm', 'url' => '?controller=product'],
+            ['label' => 'Quản lý size', 'url' => '?controller=size'],
+            ['label' => 'Quản lý màu sắc', 'url' => '?controller=color'],
         ]
     ],
     [
@@ -77,12 +48,10 @@
     [
         'label' => 'Quản lý banner',
         'url' => '?controller=banner',
-
     ],
     [
         'label' => 'Quản lý voucher',
         'url' => '?controller=voucher',
-
     ]
 ];
 
@@ -153,19 +122,19 @@ $sidebar .= '</ul>';
     <title>Document</title>
 </head>
 <style>
-    .modal-dialog {
-        max-width: 900px;
-    }
+.modal-dialog {
+    max-width: 900px;
+}
 
-    .modal-dialog .modal-content {
-        padding: 10px 20px;
-        background-color: #f2f2f2;
-    }
+.modal-dialog .modal-content {
+    padding: 10px 20px;
+    background-color: #f2f2f2;
+}
 
-    .modal-dialog .form-label {
-        color: black;
-        font-weight: 900;
-    }
+.modal-dialog .form-label {
+    color: black;
+    font-weight: 900;
+}
 </style>
 
 <body>
@@ -209,8 +178,8 @@ $sidebar .= '</ul>';
     <script src="./js/category.js"></script>
     <!-- CKEDITOR -->
     <script>
-        new FroalaEditor('#editor');
-        new FroalaEditor('#updated_editor');
+    new FroalaEditor('#editor');
+    new FroalaEditor('#updated_editor');
     </script>
     <!-- BS5 -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
