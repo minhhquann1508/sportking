@@ -18,51 +18,50 @@
     <!-- Style.css -->
 
     <link rel="stylesheet" href="./css/style.css">
-    <title>Document</title>
-    <title>Document</title>
+    <title>SportKing - Quần áo thể thao</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
 
-        .cursor-dot {
-            position: fixed;
-            width: 5px;
-            height: 5px;
-            background: #b57a43;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%) scale(1);
-            transition: transform 0.4s ease, background 0.4s ease;
-        }
+    .cursor-dot {
+        position: fixed;
+        width: 5px;
+        height: 5px;
+        background: #b57a43;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%) scale(1);
+        transition: transform 0.4s ease, background 0.4s ease;
+    }
 
-        a {
-            transition: 0.2s ease-in-out;
+    a {
+        transition: 0.2s ease-in-out;
 
-        }
+    }
 
-        a:hover {
-            color: #bd844c;
-        }
+    a:hover {
+        color: #bd844c;
+    }
 
-        .cursor-ring {
-            position: fixed;
-            width: 30px;
-            height: 30px;
-            border: 1px solid #b57a43;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-        }
+    .cursor-ring {
+        position: fixed;
+        width: 30px;
+        height: 30px;
+        border: 1px solid #b57a43;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+    }
 
-        body.hovered .cursor-dot {
-            transform: translate(-50%, -50%) scale(13);
-            background: rgba(185, 123, 66, 0.2);
-        }
+    body.hovered .cursor-dot {
+        transform: translate(-50%, -50%) scale(13);
+        background: rgba(185, 123, 66, 0.2);
+    }
 
-        body.hovered .cursor-ring {
-            opacity: 0;
-        }
+    body.hovered .cursor-ring {
+        opacity: 0;
+    }
     </style>
 </head>
 
@@ -103,44 +102,44 @@
 
     <script src=" ./js/main.js"></script>
     <script>
-        function myCursor() {
-            const dot = document.querySelector('.cursor-dot');
-            const ring = document.querySelector('.cursor-ring');
+    function myCursor() {
+        const dot = document.querySelector('.cursor-dot');
+        const ring = document.querySelector('.cursor-ring');
 
-            let mouseX = 0,
-                mouseY = 0;
-            let ringX = 0,
-                ringY = 0;
+        let mouseX = 0,
+            mouseY = 0;
+        let ringX = 0,
+            ringY = 0;
 
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                dot.style.left = `${mouseX}px`;
-                dot.style.top = `${mouseY}px`;
-            });
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            dot.style.left = `${mouseX}px`;
+            dot.style.top = `${mouseY}px`;
+        });
 
-            function animate() {
-                ringX += (mouseX - ringX) * 0.3;
-                ringY += (mouseY - ringY) * 0.3;
-                ring.style.left = `${ringX}px`;
-                ring.style.top = `${ringY}px`;
-                requestAnimationFrame(animate);
-            }
-
-            const hoverElements = document.querySelectorAll('a, button, img');
-            hoverElements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    document.body.classList.add('hovered');
-                });
-                el.addEventListener('mouseleave', () => {
-                    document.body.classList.remove('hovered');
-                });
-            });
-
-            animate();
+        function animate() {
+            ringX += (mouseX - ringX) * 0.3;
+            ringY += (mouseY - ringY) * 0.3;
+            ring.style.left = `${ringX}px`;
+            ring.style.top = `${ringY}px`;
+            requestAnimationFrame(animate);
         }
 
-        document.addEventListener('DOMContentLoaded', myCursor);
+        const hoverElements = document.querySelectorAll('a, button, img');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                document.body.classList.add('hovered');
+            });
+            el.addEventListener('mouseleave', () => {
+                document.body.classList.remove('hovered');
+            });
+        });
+
+        animate();
+    }
+
+    document.addEventListener('DOMContentLoaded', myCursor);
     </script>
 
 </body>
