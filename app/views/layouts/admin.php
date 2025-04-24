@@ -1,4 +1,7 @@
 <?php
+    if(!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 1) {
+        header('Location: ?controller=home');
+    }
     $items = [
         [
             'label' => 'Thống kê',
@@ -117,6 +120,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Chart JS-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Style.css -->
     <link rel="stylesheet" href="./css/style.css">
     <title>Document</title>
@@ -149,7 +154,7 @@
     </div>
     <div class="d-flex">
         <article class="border-end p-2" style=" width: 250px; height: 100vh">
-            <a href="" class="d-flex justify-content-center mt-3 mb-3">
+            <a href="?controller=home" class="d-flex justify-content-center mt-3 mb-3">
                 <img width="150" src="./img/logo.png" alt="">
             </a>
             <?php echo $sidebar; ?>
@@ -157,14 +162,15 @@
         <div class="flex-grow-1">
             <div class="w-100 border-bottom p-3 d-flex justify-content-end align-items-center">
                 <div class="dropdown">
-                    <span class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Minh Quân
+                    <span>
+                        Xin chào, <?= $_SESSION['user']['email'] ?>, <a href="?controller=home&action=logout">Đăng
+                            xuất</a>
                     </span>
-                    <ul class="dropdown-menu">
+                    <!-- <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Action</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
             <main class="p-3">
